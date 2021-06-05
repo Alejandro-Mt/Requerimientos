@@ -1,279 +1,75 @@
-
-<!DOCTYPE html>
-
-<html lang="es">
-
 <head>
-
-
-
-	<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
-
-	<meta charset="utf-8">
-
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<link  rel="icon"   href="3ti_logo.png" type="png" />
-
-	<title>Reporte de requerimientos</title>
-
-
-
-	<!-- Bootstrap -->
-
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-
-	<link href="css/style_nav.css" rel="stylesheet">
-
-
-
-	<style>
-
-		.content {
-
-			margin-top: 80px;
-
-		}
-
-	</style>
-
-
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords"
+        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template">
+    <meta name="description"
+        content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Indicadores</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/favicon.png")}}">
+    <!-- Custom CSS -->
+    <link href="{{asset("assets/css/style.min.css")}}" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
 <body>
-
-	<nav class="navbar navbar-default navbar-fixed-top">
-
-			<div class="container">
-
-			<div class="navbar-header">
-
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-
-					<span class="sr-only">Toggle navigation</span>
-
-					<span class="icon-bar"></span>
-
-					<span class="icon-bar"></span>
-
-					<span class="icon-bar"></span>
-
-				</button>
-
-				<a class="navbar-brand visible-xs-block visible-sm-block" href="">Inicio</a>
-
-			</div>
-
-			<div class="pull-right">
-
-				<img src="team_logo.png" width="50" height="50">
-
-			</div>
-
-			<div id="navbar" class="navbar-collapse collapse">
-
-				<ul class="nav navbar-nav ">
-
-					<li><a href="rbugs.php">Bugs</a></li>
-
-					<li class="active"><a href="rrequerimientos.php">Requerimientos</a></li>
-
-					<li><a href="rpruebas.php">Pruebas</a></li>
-
-					<li><a href="rmovil.php">Pruebas móviles</a></li>
-
-					<li><a href="rweb.php">Pruebas Web</a></li>
-
-				</ul>
-
-			</div><!--/.nav-collapse -->
-
+	<!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+	<!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+	<!-- ============================================================== -->
+	<!-- Topbar header - style you can find in pages.scss -->
+	<!-- ============================================================== -->
+     @include('layouts.app')
+	<!-- ============================================================== -->
+	<!-- End Topbar header -->
+	<!-- ============================================================== -->
+	@include('layouts.sidebar')
 	</div>
-	</nav>
-
-	<div class="container">
-
-		<div class="content">
-
-
-
-			
-		<form class="form-inline" method="get">
-
-
-
-		<h3>Reporte de requerimientos</h3>
-
-		<hr />
-
-
-
-			<div class="form-group">
-
-			
-
-			<a href="r_add.php" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo registro</a>
-
-			</div>
-
-
-
-				<div class="form-group pull-right">
-
-
-
-					<select name="filter" id="filter" class="form-control" onchange="form.submit()">
-
-						<option value="">Filtro por mes</option>
-
-						
-						
-							<option value="1">ENERO</option>
-
-
-						
-							<option value="2">FEBRERO</option>
-
-
-						
-							<option value="3">MARZO</option>
-
-
-						
-							<option value="4">ABRIL</option>
-
-
-						
-							<option value="5">MAYO</option>
-
-
-						
-							<option value="6">JUNIO</option>
-
-
-						
-							<option value="7">JULIO</option>
-
-
-						
-							<option value="8">AGOSTO</option>
-
-
-						
-							<option value="9">SEPTIEMBRE</option>
-
-
-						
-							<option value="10">OCTUBRE</option>
-
-
-						
-							<option value="11">NOVIEMBRE</option>
-
-
-						
-							<option value="12">DICIEMBRE</option>
-
-
-						
-					</select>
-
-
-
-						<a href="rrequerimientos.php?filter="" title="Actualizar" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></a>
-
-
-
-				</div>
-
-			</form>
-
-			<hr />
-
-			<div class="table-responsive">
-
-			<table class="table table-striped table-hover">
-
-                    <th>No.</th>
-
-					<th>Mes</th>
-
-					<th>Requerimiento</th>
-
-					<th>Ejecutivo</th>
-
-                    <th>Sistema</th>
-
-					<th>Cuenta</th>
-
-					<th>Prioridad</th>
-
-                    <th>Status</th>
-
-                    <th width="15%">Opciones</th>                  
-
-				</tr>
-
-				<tr><td colspan="8">No hay datos.</td></tr>
-			</table>
-
-		<center>
-
-			<div class="Zebra_Pagination"><ul class="pagination"><li class="page-item disabled"><a href="javascript:void(0)" class="page-link" rel="prev">&laquo;</a></li><li class="page-item active"><a href="/rrequerimientos.php" class="page-link">1</a></li><li class="page-item disabled"><a href="javascript:void(0)" class="page-link" rel="next">&raquo;</a></li></ul></div>
-		</center>
-
-			</div>
-
-		</div>
-
-	</div>
-
-	<center>
-
-		<form class="form-inline" method="get">
-
-			<div class="form-group">
-
-				<a href="sistema2.php" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar sistema</a>
-
-			</div>
-
-			<div class="form-group">
-
-				<a href="cuenta2.php" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar cuenta</a>
-
-			</div>
-
-			<div class="form-group">
-
-				<a href="ejecutivo.php" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar ejecutivo</a>
-
-			</div>
-
-		</form>
-
-
-
-	</center>
-
-	
-
-	<br />
-
-
-
-	<center>
-
-	<p>&copy; PIP 3TI 2021</p
-
-		</center>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-	<script src="js/bootstrap.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="{{asset("assets/libs/jquery/dist/jquery.min.js")}}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{{asset("assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}"></script>
+    <script src="{{asset("assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js")}}"></script>
+    <script src="{{asset("assets/extra-libs/sparkline/sparkline.js")}}"></script>
+    <!--Wave Effects -->
+    <script src="{{asset("assets/js/waves.js")}}"></script>
+    <!--Menu sidebar -->
+    <script src="{{asset("assets/js/sidebarmenu.js")}}"></script>
+    <!--Custom JavaScript -->
+    <script src="{{asset("assets/js/custom.min.js")}}"></script>
+    <!--This page JavaScript -->
+    <!-- <script src="{{asset("assets/js/pages/dashboards/dashboard1.js")}}"></script> -->
+    <!-- Charts js Files -->
+    <script src="{{asset("assets/libs/flot/excanvas.js")}}"></script>
+    <script src="{{asset("assets/libs/flot/jquery.flot.js")}}"></script>
+    <script src="{{asset("assets/libs/flot/jquery.flot.pie.js")}}"></script>
+    <script src="{{asset("assets/libs/flot/jquery.flot.time.js")}}"></script>
+    <script src="{{asset("assets/libs/flot/jquery.flot.stack.js")}}"></script>
+    <script src="{{asset("assets/libs/flot/jquery.flot.crosshair.js")}}"></script>
+    <script src="{{asset("assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js")}}"></script>
+    <script src="{{asset("assets/js/pages/chart/chart-page-init.js")}}"></script>
 
 </body>
 
