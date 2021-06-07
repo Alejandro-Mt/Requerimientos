@@ -11,7 +11,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-right">
     <div class="wrap-login100">   
         <div class="row justify-content-left">
             <div class="login100-pic js-tilt" data-tilt>
