@@ -34,16 +34,41 @@
 	<!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-	<!-- ============================================================== -->
-	<!-- Topbar header - style you can find in pages.scss -->
-	<!-- ============================================================== -->
-     @include('layouts.app')
-	<!-- ============================================================== -->
-	<!-- End Topbar header -->
-	<!-- ============================================================== -->
-	@include('layouts.sidebar')
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        @include('layouts.header')
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        @include('layouts.sidebar')
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <-- Container fluid  -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- footer -->
+            <!-- ============================================================== -->
+            @include('layouts.footer')
+            <!-- ============================================================== -->
+            <!-- End footer -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
 	</div>
     <!-- ============================================================== -->
     <!-- All Jquery -->
@@ -59,18 +84,6 @@
     <script src="{{asset("assets/js/sidebarmenu.js")}}"></script>
     <!--Custom JavaScript -->
     <script src="{{asset("assets/js/custom.min.js")}}"></script>
-    <!--This page JavaScript -->
-    <!-- <script src="{{asset("assets/js/pages/dashboards/dashboard1.js")}}"></script> -->
-    <!-- Charts js Files -->
-    <script src="{{asset("assets/libs/flot/excanvas.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.pie.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.time.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.stack.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.crosshair.js")}}"></script>
-    <script src="{{asset("assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js")}}"></script>
-    <script src="{{asset("assets/js/pages/chart/chart-page-init.js")}}"></script>
-
 </body>
 
 </html>
