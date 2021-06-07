@@ -83,6 +83,9 @@
     <!--Menu sidebar -->
     <script src="{{asset("assets/js/sidebarmenu.js")}}"></script>
     <!--Custom JavaScript -->
+    <script src="{{asset("assets/jquery-catidation/dist/jquery.validate.min.js")}}"></script>
+    <script src="{{asset("assets/jquery-catidation/localization/messages_es.js")}}"></script>
+    <!--Custom JavaScript -->
     <script src="{{asset("assets/js/custom.min.js")}}"></script>
 </body>
 
