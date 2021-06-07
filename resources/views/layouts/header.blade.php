@@ -78,7 +78,7 @@
                 <!-- ============================================================== -->
                 <!-- Comment -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
+                <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="mdi mdi-bell font-24"></i>
                     </a>
@@ -88,14 +88,14 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
-                </li>
+                </li>-->
                 <!-- ============================================================== -->
                 <!-- End Comment -->
                 <!-- ============================================================== -->
                 <!-- ============================================================== -->
                 <!-- Messages -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
+                <!--<li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" id="2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="font-24 mdi mdi-comment-processing"></i>
                     </a>
@@ -151,7 +151,7 @@
                             </li>
                         </ul>
                     </ul>
-                </li>
+                </li>-->
                 <!-- ============================================================== -->
                 <!-- End Messages -->
                 <!-- ============================================================== -->
@@ -166,14 +166,14 @@
                     <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user me-1 ms-1"></i>
                             {{ Auth::user()->name }}</a>
-                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet me-1 ms-1"></i>
+                        <!--<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet me-1 ms-1"></i>
                             My Balance</a>
                         <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email me-1 ms-1"></i>
                             Inbox</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="javascript:void(0)"><i
                                 class="ti-settings me-1 ms-1"></i> Account Setting</a>
-                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>-->
                         <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"><i
@@ -181,9 +181,9 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
-                        <div class="dropdown-divider"></div>
+                        <!--<div class="dropdown-divider"></div>
                         <div class="ps-4 p-10"><a href="javascript:void(0)"
-                                class="btn btn-sm btn-success btn-rounded text-white">View Profile</a></div>
+                                class="btn btn-sm btn-success btn-rounded text-white">View Profile</a></div>-->
                     </ul>
                 </li>
                 <!-- ============================================================== -->
