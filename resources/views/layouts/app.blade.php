@@ -14,7 +14,6 @@
 
     <script src="{{asset("vendor/jquery/jquery-3.2.1.min.js")}}"></script>
     <script src="{{asset("vendor/bootstrap/js/popper.js")}}"></script>
-    <script src="{{asset("vendor/bootstrap/js/bootstrap.min.js")}}"></script>
     <script src="{{asset("vendor/select2/select2.min.js")}}"></script>
     <script src="{{asset("vendor/tilt/tilt.jquery.min.js")}}"></script>
     <script >
@@ -39,7 +38,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/select2/select2.min.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("css/util.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("css/main.css")}}">
-    
 </head>
 <body>
     <div id="app">

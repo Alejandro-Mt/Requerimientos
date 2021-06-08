@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-
+<link rel="stylesheet" type="text/css" href="{{asset("vendor/bootstrap/css/bootstrap.min.css")}}">
+    
 <div class="container-right"> 
     <div class="row justify-content-left wrap-login100">
         <div class="login100-pic js-tilt" data-tilt>
@@ -72,6 +73,6 @@
     </div>
 </div>
     <script src="{{asset("vendor/tilt/tilt.jquery.min.js")}}"></script>
-    
+    <script src="{{asset("vendor/bootstrap/js/bootstrap.min.js")}}"></script>
 @endsection
 
