@@ -1,41 +1,40 @@
 <header class="topbar" data-navbarbg="skin5">
     <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-        <div class="navbar-header" data-logobg="skin5">
-            
-             <!-- ============================================================== -->
-                    <!-- Logo -->
-                    <!-- ============================================================== -->
-                    <a class="navbar-brand" href="index.html">
-                        <!-- Logo icon -->
-                        <b class="logo-icon ps-1">
-                            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                            <!-- Dark Logo icon -->
-                            <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" />
+        <div class="navbar-header" data-logobg="skin5">  
+        <!-- ============================================================== -->
+        <!-- Logo -->
+        <!-- ============================================================== -->
+        <a class="navbar-brand" href="index.html">
+            <!-- Logo icon -->
+            <b class="logo-icon ps-1">
+                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                <!-- Dark Logo icon -->
+                <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" />
 
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
-                        <span class="logo-text">
-                            <!-- dark Logo text -->
-                            <img src="{{asset("assets/images/logo-text.png")}}" alt="homepage" class="light-logo" />
+            </b>
+            <!--End Logo icon -->
+            <!-- Logo text -->
+            <span class="logo-text">
+                <!-- dark Logo text -->
+                <img src="{{asset("assets/images/logo-text.png")}}" alt="homepage" class="light-logo" />
 
-                        </span>
-                        <!-- Logo icon -->
-                        <!-- <b class="logo-icon"> -->
-                        <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                        <!-- Dark Logo icon -->
-                        <!-- <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo" /> -->
+            </span>
+            <!-- Logo icon -->
+            <!-- <b class="logo-icon"> -->
+            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+            <!-- Dark Logo icon -->
+            <!-- <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo" /> -->
 
-                        <!-- </b> -->
-                        <!--End Logo icon -->
-                    </a>
-                    <!-- ============================================================== -->
-                    <!-- End Logo -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Toggle which is visible on mobile only -->
-            <!-- ============================================================== -->
-            <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+            <!-- </b> -->
+            <!--End Logo icon -->
+        </a>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Toggle which is visible on mobile only -->
+        <!-- ============================================================== -->
+        <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
                     class="ti-menu ti-close"></i></a>
         </div>
         <!-- ============================================================== -->
@@ -169,7 +168,7 @@
                         <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="rounded-circle" width="31">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="javascript:void(0)"><i class="ti-user me-1 ms-1"></i>
+                        <a class="dropdown-item" href="{{('profile')}}"><i class="ti-user me-1 ms-1"></i>
                             {{ Auth::user()->name }}</a>
                         <!--<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet me-1 ms-1"></i>
                             My Balance</a>
@@ -183,9 +182,9 @@
                         onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();"><i
                                 class="fa fa-power-off me-1 ms-1" ></i> {{ __('Salir') }}</a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                         <!--<div class="dropdown-divider"></div>
                         <div class="ps-4 p-10"><a href="javascript:void(0)"
                                 class="btn btn-sm btn-success btn-rounded text-white">View Profile</a></div>-->
