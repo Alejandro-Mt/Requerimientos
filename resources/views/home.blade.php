@@ -13,6 +13,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/favicon.png")}}">
     <!-- Custom CSS -->
     <link href="{{asset("assets/css/style.min.css")}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="{{asset("assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")}}">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -55,6 +57,7 @@
             <!-- Container -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+                @yield('content')
             </div>
             <!-- ============================================================== -->
             <!-- End Container -->
@@ -90,6 +93,53 @@
     <script src="{{asset("assets/libs/flot/jquery.flot.crosshair.js")}}"></script>
     <script src="{{asset("assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js")}}"></script>
     <script src="{{asset("assets/js/pages/chart/chart-page-init.js")}}"></script>
+
+
+    <script src="{{asset("assets/libs/select2/dist/js/select2.full.min.js")}}"></script>
+    <script src="{{asset("assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")}}"></script>
+    <script>
+        //***********************************//
+        // For select 2
+        //***********************************//
+        $(".select2").select2();
+
+        /*colorpicker*/
+        $('.demo').each(function () {
+            //
+            // Dear reader, it's actually very easy to initialize MiniColors. For example:
+            //
+            //  $(selector).minicolors();
+            //
+            // The way I've done it below is just for the demo, so don't get confused
+            // by it. Also, data- attributes aren't supported at this time...they're
+            // only used for this demo.
+            //
+            $(this).minicolors({
+                control: $(this).attr('data-control') || 'hue',
+                position: $(this).attr('data-position') || 'bottom left',
+
+                change: function (value, opacity) {
+                    if (!value) return;
+                    if (opacity) value += ', ' + opacity;
+                    if (typeof console === 'object') {
+                        console.log(value);
+                    }
+                },
+                theme: 'bootstrap'
+            });
+
+        });
+        /*datwpicker*/
+        jQuery('.mydatepicker').datepicker();
+        jQuery('#datepicker-autoclose').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+
+    </script>
 
 </body>
 

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,23 +17,19 @@ use App\Http\Controllers\HomeController;
 */
 
 Route::get('/', function () {
-    return view('layouts.login');
+    return view('auth.login');
 });
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/profile', [HomeController::class, 'edit'])->name('profile');
 
-Auth::routes();
+Route::get('/formatos.requerimientos.new', [MenuController::class, 'create'])->name('Nuevo');
+Route::get('/menu.edit', [MenuController::class, 'edit'])->name('Editar');
+Route::get('/menu.save', [MenuController::class, 'save'])->name('Guardar');
 
-Route::get('/home', [HomeController::class, 'index']);
-
-Route::get('/profile', [HomeController::class, 'index']) -> middleware('auth')->name('cuenta');
-
-Route::group(['prefix'=> 'user','middleware' => ['auth', 'user',]],function(){
- /*Rutas*/
-    Route::get('menu', [HomeController::class, 'index'])->name('menu');
-    Route::get('menu/create', [HomeController::class, 'create'])->name('create');
-    Route::get('menu/{id}/edit', [HomeController::class, 'edit'])->name('edit');
-    Route::post('menu', [HomeController::class, 'save'])->name('menu.save');
-});
+Route::get('/', function () {
+    $sistema = DB::table('sistema')->get();
+    return view('sistema', ['sistema' => $sistema]);
+})->name('sistema');

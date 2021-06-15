@@ -26,12 +26,7 @@ class HomeController extends Controller
         return view('home');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function create()
+    public function edit()
     {
         return view('profile');
     }
