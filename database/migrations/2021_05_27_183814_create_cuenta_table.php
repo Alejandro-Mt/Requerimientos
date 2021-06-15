@@ -13,7 +13,7 @@ class CreateCuentaTable extends Migration
      */
     public function up()
     {
-        Schema::create('cuenta', function (Blueprint $table) {
+        Schema::create('cuentas', function (Blueprint $table) {
             $table->id('id_cuenta');
             $table->string('nombre_c',50);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateCuentaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cuenta');
+        Schema::dropIfExists('cuentas');
     }
 }

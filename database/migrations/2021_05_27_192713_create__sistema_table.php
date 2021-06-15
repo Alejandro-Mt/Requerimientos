@@ -13,7 +13,7 @@ class CreateSistemaTable extends Migration
      */
     public function up()
     {
-        Schema::create('sistema', function (Blueprint $table) {
+        Schema::create('sistemas', function (Blueprint $table) {
             $table->id('id_sistema');
             $table->string('nombre_s',50);
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateSistemaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sistema');
+        Schema::dropIfExists('sistemas');
     }
 }

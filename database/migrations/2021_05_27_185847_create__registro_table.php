@@ -13,7 +13,7 @@ class CreateRegistroTable extends Migration
      */
     public function up()
     {
-        Schema::create('registro', function (Blueprint $table) {
+        Schema::create('registros', function (Blueprint $table) {
             $table->id('Folio');
             $table->string('Estatus',50);
             $table->unsignedBigInteger('id_cliente')->index();
@@ -39,6 +39,6 @@ class CreateRegistroTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registro');
+        Schema::dropIfExists('registros');
     }
 }

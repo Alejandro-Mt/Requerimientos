@@ -25,6 +25,7 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
 Route::get('/profile', [HomeController::class, 'edit'])->name('profile');
 
-Route::get('/formatos.requerimientos.new', [MenuController::class, 'create'])->name('Nuevo');
+#Route::get('/formatos.requerimientos.new', [MenuController::class, 'create'])->name('Nuevo');
+Route::get('/formatos.requerimientos.new', [MenuController::class, 'index']);
 Route::get('/menu.edit', [MenuController::class, 'edit'])->name('Editar');
 Route::get('/menu.save', [MenuController::class, 'save'])->name('Guardar');

@@ -13,7 +13,7 @@ class CreateMotivoTable extends Migration
      */
     public function up()
     {
-        Schema::create('motivo', function (Blueprint $table) {
+        Schema::create('motivos', function (Blueprint $table) {
             $table->id('id_motivo');
             $table->string('descripcion');
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateMotivoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('motivo');
+        Schema::dropIfExists('motivos');
     }
 }

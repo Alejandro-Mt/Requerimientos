@@ -14,7 +14,7 @@ class CreateSolicitanteTable extends Migration
      */
     public function up()
     {
-        Schema::create('solicitante', function (Blueprint $table) {
+        Schema::create('solicitantes', function (Blueprint $table) {
             $table->id('id_solicita');
             $table->string('Nombre',100);
             $table->string('Correo',100)->unique();
@@ -29,6 +29,6 @@ class CreateSolicitanteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('solicitante');
+        Schema::dropIfExists('solicitantes');
     }
 }

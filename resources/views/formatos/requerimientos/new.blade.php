@@ -60,7 +60,11 @@
                             <div class="col-md-8">
                                 <select class="form-select shadow-none select2-hidden-accessible"   style="width: 100%; height:36px;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="0">SELECCION</option>
-                                                               
+                                    <?php                                    
+                                    foreach ($sistema as $valores):
+                                    echo '<option value="'.$valores->id_sistema.'">'.$valores->nombre_s.'</option>';
+                                    endforeach;
+                                    ?>                          
                                 </select>
                             </div>
                         </div>
