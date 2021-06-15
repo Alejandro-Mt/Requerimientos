@@ -28,8 +28,3 @@ Route::get('/profile', [HomeController::class, 'edit'])->name('profile');
 Route::get('/formatos.requerimientos.new', [MenuController::class, 'create'])->name('Nuevo');
 Route::get('/menu.edit', [MenuController::class, 'edit'])->name('Editar');
 Route::get('/menu.save', [MenuController::class, 'save'])->name('Guardar');
-
-Route::get('/', function () {
-    $sistema = DB::table('sistema')->get();
-    return view('sistema', ['sistema' => $sistema]);
-})->name('sistema');

@@ -59,23 +59,8 @@
                                 class="col-sm-2 text-end control-label col-form-label">Sistema*</label>
                             <div class="col-md-8">
                                 <select class="form-select shadow-none select2-hidden-accessible"   style="width: 100%; height:36px;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="0"><?php echo $sistema -> sistema ?></option>
-                                    <option value="1">ANÁLISIS Y MAQUETADO DE PROYECTOS</option>
-                                    <option value="2">CONTROL DE ASISTENCIA</option>
-                                    <option value="3">CONTROL DE GASTOS</option>
-                                    <option value="4">CRM</option>
-                                    <option value="5">E-LEARNING</option>
-                                    <option value="6">MANIOBRAS</option>
-                                    <option value="7">PLATAFORMA DE RECLUTAMIENTO</option>
-                                    <option value="8">PORTAL DE CAMPAÑAS</option>
-                                    <option value="9">REPARTO</option>
-                                    <option value="10">REPORTE GSP BI</option>
-                                    <option value="11">RHIN</option>
-                                    <option value="12">SMART TEAMS</option>
-                                    <option value="13">TEAM</option>
-                                    <option value="14">TEAM SUPERVISIÓN</option>
-                                    <option value="15">TRACKING</option>
-                                    <option value="16">VISOR BI</option>                               
+                                    <option data-select2-id="0">SELECCION</option>
+                                                               
                                 </select>
                             </div>
                         </div>
