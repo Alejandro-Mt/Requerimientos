@@ -57,11 +57,11 @@
                         <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{('formatos.new')}}">Bug</a></li>
-                        <li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>
+                        <!--<li><a class="dropdown-item" href="{{('formatos.new')}}">Bug</a></li>
+                        <li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>-->
                         <li><a class="dropdown-item" href="{{('formatos.requerimientos.new')}}">Requerimiento</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Seguimiento</a></li>
+                        <li><a class="dropdown-item" href="{{('formatos.requerimientos.edit')}}">Seguimiento</a></li>
                     </ul>
                 </li>
                 <!-- ============================================================== -->

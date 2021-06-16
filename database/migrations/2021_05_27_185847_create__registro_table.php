@@ -14,7 +14,7 @@ class CreateRegistroTable extends Migration
     public function up()
     {
         Schema::create('registros', function (Blueprint $table) {
-            $table->id('Folio');
+            $table->id();
             $table->string('Estatus',50);
             $table->unsignedBigInteger('id_cliente')->index();
             $table->foreign('id_cliente')->references('id_cliente')->on('cliente')->ondelete('cascade')->onupdate('restrict');

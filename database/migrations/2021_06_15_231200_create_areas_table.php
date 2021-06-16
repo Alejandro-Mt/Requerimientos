@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCuentaTable extends Migration
+class CreateAreasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateCuentaTable extends Migration
      */
     public function up()
     {
-        Schema::create('cuentas', function (Blueprint $table) {
-            $table->id('id_cuenta');
-            $table->string('nombre_c',50);
+        Schema::create('areas', function (Blueprint $table) {
+            $table->id('id_area');
+            $table->string('area',50);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateCuentaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cuentas');
+        Schema::dropIfExists('areas');
     }
 }
