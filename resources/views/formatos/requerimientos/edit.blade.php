@@ -3,51 +3,36 @@
 <body>
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title mb-0">Tasks</h5>
+            <h5 class="card-title mb-0">Registro</h5>
         </div>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Description</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">Estatus</th>
+                    <th scope="col">Accion</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Making The New Suit</td>
-                    <td class="text-success">Progress</td>
+                    <td>Registro 1</td>
+                    <td class="text-success">Cerrado</td>
                     <td>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Update">
-                            <i class="mdi mdi-check"></i>
-                        </a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Delete">
-                            <i class="mdi mdi-close"></i>
-                        </a>
+                        <button type="submit" class="btn btn-success text-white">Ver</button>
                     </td>
                 </tr>
                 <tr>
-                    <td>Luanch My New Site</td>
-                    <td class="text-warning">Pending</td>
+                    <td>Registro 2</td>
+                    <td class="text-warning">En proceso</td>
                     <td>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Update">
-                            <i class="mdi mdi-check"></i>
-                        </a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Delete">
-                            <i class="mdi mdi-close"></i>
-                        </a>
+                        <button type="submit" class="btn btn-warning text-white">Continuar</button>
                     </td>
                 </tr>
                 <tr>
-                    <td>Maruti Excellant Theme</td>
-                    <td class="text-danger">Cancled</td>
+                    <td>Registro 3 </td>
+                    <td class="text-danger">Retrasado</td>
                     <td>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Update">
-                            <i class="mdi mdi-check"></i>
-                        </a>
-                        <a href="#" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Delete">
-                            <i class="mdi mdi-close"></i>
-                        </a>
+                        <button type="submit" class="btn btn-danger text-white">Continuar</button>
                     </td>
                 </tr>
             </tbody>

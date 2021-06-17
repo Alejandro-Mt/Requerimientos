@@ -53,13 +53,13 @@
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="d-none d-md-block">Nuevo<i class="fa fa-angle-down"></i></span>
+                        <span class="d-none d-md-block">Nuevo <i class="fa fa-angle-down"></i></span>
                         <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <!--<li><a class="dropdown-item" href="{{('formatos.new')}}">Bug</a></li>
                         <li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>-->
-                        <li><a class="dropdown-item" href="{{('formatos.requerimientos.new')}}">Requerimiento</a></li>
+                        <li><a class="dropdown-item me-2" href="{{('formatos.requerimientos.new')}}">Requerimiento</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{('formatos.requerimientos.edit')}}">Seguimiento</a></li>
                     </ul>
@@ -67,7 +67,8 @@
                 <!-- ============================================================== -->
                 <!-- Search -->
                 <!-- ============================================================== -->
-                <li class="nav-item search-box"> <a class="nav-link waves-effect waves-dark"
+                <li class="nav-item search-box"> 
+                    <a class="nav-link waves-effect waves-dark"
                         href="javascript:void(0)"><i class="ti-search"></i></a>
                     <form class="app-search position-absolute">
                         <input type="text" class="form-control" placeholder="Search &amp; enter"> <a
