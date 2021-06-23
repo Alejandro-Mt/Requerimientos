@@ -8,7 +8,8 @@
         @csrf
 
         <div class="form-group row">
-            <label for="name" class="col-md-4 col-form-label text-md-left">{{ __('Nombre') }}</label>
+            <label for="name" 
+                class="col-md-4 col-form-label text-md-left">{{ __('Nombre') }}</label>
             <input id="name" type="text" class="input100 col-md-8 @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
             @error('name')

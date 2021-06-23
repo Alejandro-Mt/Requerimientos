@@ -59,9 +59,9 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <!--<li><a class="dropdown-item" href="{{('formatos.new')}}">Bug</a></li>
                         <li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>-->
-                        <li><a class="dropdown-item me-2" href="{{('formatos.requerimientos.new')}}">Requerimiento</a></li>
+                        <li><a class="dropdown-item mdi mdi-content-paste" href="{{('formatos.requerimientos.new')}}">Requerimiento</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{('formatos.requerimientos.edit')}}">Seguimiento</a></li>
+                        <li><a class="dropdown-item mdi mdi-developer-board" href="{{('formatos.requerimientos.edit')}}">Seguimiento</a></li>
                     </ul>
                 </li>
                 <!-- ============================================================== -->
