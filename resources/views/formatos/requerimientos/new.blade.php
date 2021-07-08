@@ -3,29 +3,26 @@
 
     <div class="card">
         <div class="card-body wizard-content">
-            <h4 class="card-title">Nuevo</h4>
+            <h3>Indicador</h3>
+            <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
-            <form method="POST" action="{{ ('formatos.requerimientos.new')}}" class="mt-5">
+            <form method="POST" action="{{route ('Nuevo')}}" class="mt-5">
                 {{ csrf_field() }}
                 <div>
-                    <h3>Requerimiento</h3>
                     <section>
-                        <p>(*) Campos Obligatorios</p>
                         <div class="form-group row">
                             <label for="id_registro"
                                 class="col-sm-2 text-end control-label col-form-label">ID</label>
                             <div class="col-md-3">
-                                @foreach ($idreg as $id)
                                 <input id="id_registro" type="text" class="required form-control" 
-                                    placeholder="{{$id->id_registro +'1'}}" readonly="readonly">                                  
-                                @endforeach
+                                    placeholder="{{$id->id_registro+1}}" readonly="readonly"> 
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="bitrix"
-                                    class="col-sm-2 text-end control-label col-form-label">Bitrix</label>
+                                    class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                <input type="text" class="required form-control" name="bitrix" value="PIP-{{$id->id_registro +'1'}}" readonly="readonly">
+                                <input type="text" class="required form-control" name="bitrix" value="PIP-{{$id->id_registro+1}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -43,13 +40,13 @@
                         </div>
                         <div class="form-group row">
                             <label for="ejecutivo"
-                                class="col-sm-2 text-end control-label col-form-label">Ejecutivo de Cuenta*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Analista</label>
                             <div class="col-md-8">  
-                                <select class="form-select shadow-none select2-hidden-accessible @error('id_responsable') is-invalid @enderror" 
+                                <select class="form-select @error('id_responsable') is-invalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_responsable" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($responsable as $ejecutivo):
-                                        @if ($ejecutivo ->id_area == 2)
+                                        @if ($ejecutivo ->id_area == 3)
                                             <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
                                         @endif
                                     @endforeach                     
@@ -65,7 +62,7 @@
                             <label for="Sistema"
                                 class="col-sm-2 text-end control-label col-form-label">Sistema*</label>
                             <div class="col-md-8">
-                                <select class="form-select shadow-none select2-hidden-accessible @error ('id_sistema') is-invvalid @enderror" 
+                                <select class="form-select @error ('id_sistema') is-invvalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_sistema" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($sistema as $valores):
@@ -83,7 +80,7 @@
                             <label for="Cliente"
                                 class="col-sm-2 text-end control-label col-form-label">Cliente*</label>
                             <div class="col-md-8">
-                                <select class="form-select shadow-none select2-hidden-accessible @error ('id_cliente') is-invalid @enderror" 
+                                <select class="form-select @error ('id_cliente') is-invalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($cliente as $cliente)
@@ -97,9 +94,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="Arquitecto"
-                                class="col-sm-2 text-end control-label col-form-label">Arquitecto de Soluciones*</label>
+                                class="col-sm-2 text-end control-label col-form-label">personal solicitante*</label>
                             <div class="col-md-8">
                                 <select class="form-select shadow-none select2-hidden-accessible"   style="width: 100%; height:36px;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="0">Seleccion</option>
@@ -110,21 +107,24 @@
                                     @endforeach                             
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
                             <label for="Prioridad"
                                 class="col-sm-2 text-end control-label col-form-label">Prioridad*</label>
                             <div class="col-md-8">
-                                <select class="form-select shadow-none select2-hidden-accessible"   style="width: 100%; height:36px;" id="prioridad" tabindex="-1" aria-hidden="true">
+                                <select class="form-select"   style="width: 100%; height:36px;" id="prioridad" tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="0">Seleccion</option>
-                                    <option value='1'>Baja</option>
-                                    <option value='2'>Media</option>
-                                    <option value='3'>Alta</option>
-                                    <option value='4'>Critica</option>                         
+                                    <option value='1'> Muy Baja</option>
+                                    <option value='2'>Baja</option>
+                                    <option value='3'>Media</option>
+                                    <option value='4'>Alta</option>
+                                    <option value='5'>Muy Alta</option>
+                                    <option value='6'>Critica</option> 
+                                    <option value='7'>Nula</option>                        
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="Fecha"
                             class="col-sm-2 text-end control-label col-form-label">Fecha*</label>
                             <div class= 'col-md-8'>
@@ -137,8 +137,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group row"> 
+                        </div>-->
+                        <div class="d-none"> 
                                 <input type="text" name="estatus" value="Abierto" visible="false">
                         </div>
                         <div class="card-body text-center">

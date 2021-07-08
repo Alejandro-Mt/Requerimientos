@@ -15,6 +15,9 @@
     <link href="{{asset("assets/css/style.min.css")}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
         href="{{asset("assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")}}">
+    <link rel="stylesheet" type="text/css" 
+        href="{{asset("assets/libs/select2/dist/css/select2.min.css")}}">
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

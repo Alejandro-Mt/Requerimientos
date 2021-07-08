@@ -9,6 +9,7 @@ class registro extends Model
 {
     use HasFactory;
     
+    protected $primaryKey = 'id_registro';
     protected $fillable = [
         'bitrix',
         'descripcion',

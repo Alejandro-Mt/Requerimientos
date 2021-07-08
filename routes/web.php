@@ -26,8 +26,10 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
 Route::get('/profile', [HomeController::class, 'edit'])->name('profile');
 
-Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->name('Editar');
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->name('Nuevo');
-Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Guardar');
-Route::get('/formatos.requerimientos.levantamiento', [RecordController::class, 'levantamiento'])->name('Levantamiento');
+Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
+Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->name('Editar');
+#Route::get('/formatos.requerimientos.levantamiento', [RecordController::class, 'levantamiento']);
+Route::get('/formatos/requerimientos/levantamiento/{id_registro}', [RecordController::class, 'edit'])->name('Levantamiento');
+Route::post('/formatos.requerimientos.edit', [RecordController::class, 'levantamiento'])->name('Guardar');
 #  Route::get('/menu.save', [Record::class, 'save'])->name('Guardar');
