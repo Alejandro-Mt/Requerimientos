@@ -8,7 +8,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Description</th>
+                    <th scope="col">Folio</th>
                     <th scope="col">Estatus</th>
                     <th scope="col">Accion</th>
                 </tr>
@@ -24,7 +24,7 @@
                             @else
                                 @if ($registro->estatus == 'En Construccion')
                                 <td class="text-warning">{{$registro->estatus}}</td>
-                                <td><button type="submit" class="btn btn-warning text-white"><a href="{{route('Levantamiento',$registro->id_registro)}}" style="color:white">Enviar a Cliente</a></button></td>
+                                <td><button type="submit" class="btn btn-warning text-white"><a href="{{route('Enviar')}}" style="color:white">Enviar a Cliente</a></button></td>
                                 @else
                                     @if ($registro->estatus == 'Cerrado')
                                     <td class="text-success">{{$registro->estatus}}</td>

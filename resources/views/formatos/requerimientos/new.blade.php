@@ -12,7 +12,7 @@
                     <section>
                         <div class="form-group row">
                             <label for="id_registro"
-                                class="col-sm-2 text-end control-label col-form-label">ID</label>
+                                class="col-sm-2 text-end control-label col-form-label">{{__('ID')}}</label>
                             <div class="col-md-3">
                                 <input id="id_registro" type="text" class="required form-control" 
                                     placeholder="{{$id->id_registro+1}}" readonly="readonly"> 

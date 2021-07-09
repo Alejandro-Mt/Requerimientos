@@ -6,6 +6,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RecordController;
 use Illuminate\Support\Facades\DB;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,3 +34,5 @@ Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->na
 Route::get('/formatos/requerimientos/levantamiento/{id_registro}', [RecordController::class, 'edit'])->name('Levantamiento');
 Route::post('/formatos.requerimientos.edit', [RecordController::class, 'levantamiento'])->name('Guardar');
 #  Route::get('/menu.save', [Record::class, 'save'])->name('Guardar');
+Route::get('/layouts/correo',[MenuController::class, 'send'])->name('Enviar');
+Route::post('/layouts/correo',[MenuController::class, 'sended'])->name('Enviado');
