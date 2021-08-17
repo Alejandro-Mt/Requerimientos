@@ -5,7 +5,7 @@
     <div class="card-body wizard-content">
         <h4 class="card-title">Levantamiento</h4>
         <h6 class="card-subtitle"></h6>
-        <form method="POST" action="{{route ('Actualizar')}}" class="mt-5">
+        <form method="POST" action="{{route ('Guardar')}}" class="mt-5">
             {{ csrf_field() }}
             <div>
                 <h3>Formato de Solicitud</h3>
@@ -25,10 +25,8 @@
                         <label for="solicitante"
                             class="col-sm-2 text-end control-label col-form-label">Solicitante*</label>
                         <div class="col-md-8">
-                            @foreach ($levantamientos as $valor)
-                                <input type="text" class="required form-control @error('solicitante') is-invalid @enderror" 
-                                name="solicitante" placeholder="Quien Solicita" required autofocus value={{$valor->solicitante}}>
-                            @endforeach
+                            <input type="text" class="required form-control @error('solicitante') is-invalid @enderror" 
+                                name="solicitante" placeholder="Quien Solicita" required autofocus>
                             @error('solicitante')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -42,14 +40,7 @@
                         <div class="col-md-8">  
                             <select class="form-select @error('jefe_departamento') is-invalid @enderror" 
                                 style="width: 100%; height:36px;" name="jefe_departamento" tabindex="-1" aria-hidden="true" required autofocus>
-                                @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->jefe_departamento}}>
-                                        @foreach ($responsables as $previo) 
-                                            @if ($valor->jefe_departamento == $previo->id_responsable)
-                                                {{$previo->nombre_r}}
-                                            @endif
-                                        @endforeach</option>                                        
-                                @endforeach
+                                <option value={{null}}>Seleccion</option>
                                 @foreach ($responsables as $ejecutivo):
                                     @if ($ejecutivo ->id_area == 2)
                                         <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
@@ -69,14 +60,7 @@
                         <div class="col-md-8">
                             <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
                                 style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
-                                @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->autorizacion}}>
-                                        @foreach ($responsables as $previo) 
-                                            @if ($valor->autorizacion == $previo->id_responsable)
-                                                {{$previo->nombre_r}}
-                                            @endif
-                                        @endforeach</option>                                        
-                                @endforeach
+                                <option value={{null}}>Seleccion</option>
                                 @foreach ($responsables as $autoriza):
                                     <option value={{$autoriza->id_responsable}}>{{$autoriza->nombre_r}}</option>;
                                 @endforeach;  
@@ -93,15 +77,12 @@
                             class="col-sm-2 text-end control-label col-form-label">¿Existe previo?</label>
                         <div class="col-md-8">
                         <!--<div class="form-check">-->
-                            @foreach ($levantamientos as $valor)
-                                <input type="radio" value = 1 @if($valor->previo == 1) checked @endif class="form-check-input" id="customControlValidation1" name="previo" required>
-                                <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
-                            
-                                <input type="radio" value = 0 @if($valor->previo == 0) checked @endif class="form-check-input" id="customControlValidation2" name="previo" required>
-                                <label class="form-check-label mb-0" for="customControlValidation1">No</label>
-                           
-                            @endforeach
-                            </div>
+                            <input type="radio" value="1" class="form-check-input" id="customControlValidation1" name="previo" required>
+                            <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
+                        
+                            <input type="radio"  value="0" class="form-check-input" id="customControlValidation2" name="previo" required>
+                            <label class="form-check-label mb-0" for="customControlValidation1">No</label>
+                        </div>
                         @error('previo')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -112,10 +93,8 @@
                         <label for="problema"
                             class="col-sm-2 text-end control-label col-form-label">Descripcion del Problema*</label>
                         <div class="col-md-8">
-                            @foreach ($levantamientos as $valor)
-                                <input name="problema" type="text" class="required form-control @error ('problema') is-invvalid @enderror" 
-                               value="{{$valor->problema}}" placeholder="Se detallado" required autofocus>
-                            @endforeach
+                            <input name="problema" type="text" class="required form-control @error ('problema') is-invvalid @enderror" 
+                                placeholder="Se detallado" required autofocus>
                             @error('problema')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -128,24 +107,7 @@
                             class="col-sm-2 text-end control-label col-form-label">Impacto en la Operacion*</label>
                         <div class="col-md-8">
                             <select name="impacto" class="form-select @error ('impacto') is-invvalid @enderror" style="height: 36px;width: 100%;" required autofocus>
-                                @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->impacto}}>
-                                            @if ($valor->impacto == 1)
-                                                {{('Baja')}}
-                                            @else
-                                                @if ($valor->impacto ==2)
-                                                {{('Media')}}
-                                                @else
-                                                    @if ($valor->impacto ==3)
-                                                        {{('Alta')}}
-                                                    @else
-                                                        @if ($valor->impacto ==4)
-                                                            {{('Critica')}}
-                                                        @endif
-                                                    @endif
-                                                @endif
-                                            @endif</option>                                        
-                                @endforeach
+                                <option value={{null}}>Seleccion</option>
                                 <option value='1'>Baja</option>
                                 <option value='2'>Media</option>
                                 <option value='3'>Alta</option>
@@ -162,10 +124,8 @@
                         <label for="general"
                             class="col-sm-2 text-end control-label col-form-label">Descripcion General del Requerimiento*</label>
                         <div class="col-md-8">
-                            @foreach ($levantamientos as $valor)
-                             <input name="general" type="text" class="required form-control  @error ('general') is-invvalid @enderror" 
-                                value="{{$valor->general}}" placeholder="Se breve" required autofocus>
-                            @endforeach
+                            <input name="general" type="text" class="required form-control  @error ('general') is-invvalid @enderror" 
+                                placeholder="Se breve" required autofocus>
                             @error('general')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -177,10 +137,8 @@
                         <label for="detalle"
                             class="col-sm-2 text-end control-label col-form-label">Descripcion Especifica del Requerimiento*</label>
                         <div class="col-md-8">
-                            @foreach ($levantamientos as $valor)
-                                <input name="detalle" type="text" class="required form-control @error ('detalle') is-invvalid @enderror" 
-                                value="{{$valor->detalle}}" placeholder="Se detallado" required autofocus>
-                            @endforeach
+                            <input name="detalle" type="text" class="required form-control @error ('detalle') is-invvalid @enderror" 
+                                placeholder="Se detallado" required autofocus>
                             @error('detalle')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -192,10 +150,8 @@
                         <label for="esperado"
                             class="col-sm-2 text-end control-label col-form-label">resultado Esperado*</label>
                         <div class="col-md-8">
-                            @foreach ($levantamientos as $valor)
-                                <input name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
-                                value={{$valor->esperado}} placeholder="Que es lo que se espera" required autofocus>
-                            @endforeach
+                            <input name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
+                                placeholder="Que es lo que se espera" required autofocus>
                             @error('esperado')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -207,15 +163,7 @@
                         <label for="involucrados"
                             class="col-sm-2 text-end control-label col-form-label">Personas Involucradas</label>
                         <div class="col-md-8">
-                            <select name="involucrados" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
-                                @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->involucrados}} selected>
-                                        @foreach ($responsables as $previo) 
-                                            @if ($valor->involucrados == $previo->id_responsable)
-                                                {{$previo->nombre_r}}
-                                            @endif
-                                        @endforeach</option>                                        
-                                @endforeach
+                            <select name="involucrados" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($responsables as $responsable)
                                     <option value="{{$responsable->id_responsable}}">{{$responsable->nombre_r}}</option>
                                 @endforeach
@@ -231,15 +179,7 @@
                         <label for="relaciones"
                             class="col-sm-2 text-end control-label col-form-label">Relacion con Otras Areas o Sistemas</label>
                         <div class="col-md-8">
-                            <select name="relaciones" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
-                                @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->relaciones}} selected>
-                                        @foreach ($sistemas as $previo) 
-                                            @if ($valor->relaciones == $previo->id_sistema)
-                                                {{$previo->nombre_s}}
-                                            @endif
-                                        @endforeach</option>                                        
-                                @endforeach
+                            <select name="relaciones" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($sistemas as $sistema)
                                     <option value="{{$sistema->id_sistema}}">{{$sistema->nombre_s}}</option>
                                 @endforeach

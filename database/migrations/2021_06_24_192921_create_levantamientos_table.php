@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class CreateLevantamientosTable extends Migration
 {
@@ -32,6 +33,9 @@ class CreateLevantamientosTable extends Migration
             $table->unsignedBigInteger('involucrados');
             $table->foreign('involucrados')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
+            $table->unsignedInteger("diasResp")->nullable();#FechaRegistro-FechaFormato
+            $table->string("estatus");
+            $table->unsignedInteger("diasAut")->nullable();#Fechaformato-FechaEstatus
         });
     }
 

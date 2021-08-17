@@ -22,8 +22,9 @@ class CreateRegistroTable extends Migration
             $table->string('descripcion',50);
             $table->unsignedBigInteger('id_responsable')->index();
             $table->foreign('id_responsable')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
-            $table->string('bitrix',50);
-            $table->string('estatus',50);
+            $table->string('folio',50);
+            $table->unsignedBigInteger('id_estatus');
+            $table->foreign('id_estatus')->references('id_estatus')->on('estatus')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
         });
     }

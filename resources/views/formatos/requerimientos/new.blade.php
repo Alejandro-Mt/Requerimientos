@@ -19,10 +19,10 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="bitrix"
+                            <label for="folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                <input type="text" class="required form-control" name="bitrix" value="PIP-{{$id->id_registro+1}}" readonly="readonly">
+                                <input type="text" class="required form-control" name="folio" value="PIP-{{$id->id_registro+1}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -138,8 +138,10 @@
                                 </div>
                             </div>
                         </div>-->
-                        <div class="d-none"> 
-                                <input type="text" name="estatus" value="Abierto" visible="false">
+                        <div class="d-none">
+                            @foreach ($estatus as $estatus)
+                                <input type="text" name="id_estatus" value="{{17}}" visible="false">
+                            @endforeach 
                         </div>
                         <div class="card-body text-center">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>

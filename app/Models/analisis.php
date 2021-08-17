@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class registro extends Model
+class analisis extends Model
 {
     use HasFactory;
-    
-    protected $primaryKey = 'id_registro';
+    protected $table = 'analisis';
     protected $fillable = [
         'folio',
-        'descripcion',
-        'id_responsable',
-        'id_sistema',
-        'id_cliente',
-        'id_estatus'
+        'fechaEnvAnC',
+        'retraso',
+        'motivoRet',
+        'fechaAutC'
     ];
 }

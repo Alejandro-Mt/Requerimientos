@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class levantamiento extends Model
 {
     use HasFactory;
+    
+    protected $primaryKey = 'folio';
     protected $fillable = [
         'folio',
         'solicitante',

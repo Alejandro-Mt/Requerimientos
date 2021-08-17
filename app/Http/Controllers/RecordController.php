@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\cliente;
+use App\Models\estatu;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
 use Illuminate\Http\Request;
 use App\Models\sistema;
-use GuzzleHttp\Psr7\Request as Psr7Request;
-use Illuminate\Support\Facades\Validator;
 
 class RecordController extends Controller
 {
@@ -19,7 +18,8 @@ class RecordController extends Controller
         $responsable = responsable::all();
         $cliente = cliente::orderby('id_cliente', 'asc') -> get();
         $id = registro::latest('id_registro')->first();
-        return view('formatos.requerimientos.new',compact('sistema','responsable','cliente','registros','id'));
+        $estatus = estatu::all();
+        return view('formatos.requerimientos.new',compact('sistema','responsable','cliente','registros','id','estatus'));
     }
 
     /*public function __construct()
@@ -39,21 +39,30 @@ protected function validator(array $data)
 
     protected function create(request $data){
         registro::create([
-        'bitrix' => $data['bitrix'],
+        'folio' => $data['folio'],
         'descripcion' => $data['descripcion'],
         'id_responsable' => $data['id_responsable'],
         'id_sistema' => $data['id_sistema'],
         'id_cliente' => $data['id_cliente'],
-        'estatus' => $data['estatus']
+        'id_estatus' => $data['id_estatus']
     ]);
     return redirect(route('Nuevo'));
     }
-    
+
     protected function edit($id_registro){
-        $registros = registro::select('bitrix')-> where ('id_registro', $id_registro)->get();
+        $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
         $sistemas = sistema::all();
         $responsables = responsable::all();
-        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','registros')); 
+        $levantamientos = levantamiento::findOrFail($registros);
+        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','registros','levantamientos')); 
+        //dd($levantamientos);
+        }
+    
+    protected function formato($id_registro){
+        $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
+        $sistemas = sistema::all();
+        $responsables = responsable::all();
+        return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros')); 
     }
 
     protected function levantamiento(request $data){
@@ -71,10 +80,32 @@ protected function validator(array $data)
             'esperado' => $data['esperado'],
             'involucrados'=> $data['involucrados']
         ]);
-        $test = registro::select('id_registro')-> where ('bitrix', $data->folio)->first();
-        $test->estatus = $data->input('estatus');
+        $test = registro::select()-> where ('folio', $data->folio)->first();
+        $test->id_estatus = $data->input('id_estatus');
         $test->save();  
-        return redirect('Editar');
+        return redirect(route('Editar'));
+
+    }
+
+    protected function actualiza(request $data){
+        $update = levantamiento::FindOrFail($data['folio']);
+        $update->solicitante = $data->input('solicitante');
+        $update->jefe_departamento = $data->input('jefe_departamento');
+        $update->autorizacion = $data->input('autorizacion');
+        $update->previo = $data->input('previo');
+        $update->problema = $data->input('problema');
+        $update->impacto = $data->input('impacto');
+        $update->general = $data->input('general');
+        $update->detalle = $data->input('detalle');
+        $update->relaciones = $data->input('relaciones');
+        $update->esperado = $data->input('esperado');
+        $update->involucrados = $data->input('involucrados');
+        $estatus = registro::select()-> where ('folio', $data->folio)->first();
+        $estatus->id_estatus = $data->input('id_estatus');
+        $estatus->save();
+        $update->save();  
+        //dd($update);
+        return redirect(route('Editar'));
 
     }
 }
