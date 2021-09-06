@@ -11,9 +11,13 @@ class analisis extends Model
     protected $table = 'analisis';
     protected $fillable = [
         'folio',
-        'fechaEnvAnC',
-        'retraso',
-        'motivoRet',
-        'fechaAutC'
+        'fechaCompReqC',
+        'evidencia',
+        'fechaCompReqR',
+        'desfase',
+        'motivodesfase',
+        'motivopausa',
+        'evpausa',
+        'fechareact'
     ];
 }

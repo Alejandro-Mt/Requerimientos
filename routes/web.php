@@ -31,6 +31,10 @@ Route::get('/profile', [HomeController::class, 'edit'])->name('profile');
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->name('Nuevo');
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->name('Editar');
+Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
+Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
+
+Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->name('Concluir');
 #Route::get('/formatos.requerimientos.levantamiento', [RecordController::class, 'levantamiento']);
 Route::get('/formatos/requerimientos/formato/{id_registro}', [RecordController::class, 'formato'])->name('Formato');
 Route::post('/formatos.requerimientos.formato', [RecordController::class, 'actualiza'])->name('Actualizar');
@@ -46,6 +50,10 @@ Route::post('/formatos.requerimientos.planeacion', [BuildController::class, 'pla
 Route::get('/formatos.requerimientos.analisis/{folio}',[BuildController::class, 'analisis'])->name('Analisis');
 Route::post('/formatos.requerimientos.analisis', [BuildController::class, 'Propuesta'])->name('Propuesta');
 
-Route::get('/formatos.requerimientos.construccion',[BuildController::class, 'construccion'])->name('Construccion');
+Route::get('/formatos.requerimientos.construccion/{folio}',[BuildController::class, 'construccion'])->name('Construccion');
+Route::post('/formatos.construccion',[BuildController::class, 'construir'])->name('Construir');
 
 Route::get('/formatos.requerimientos.informacion',[BuildController::class, 'informacion'])->name('Informacion');
+
+Route::get('/formatos.subproceso/{folio}',[MenuController::class, 'subproceso'])->name('Subproceso');
+Route::post('/formatos.subproceso',[MenuController::class, 'sub'])->name('Sub');

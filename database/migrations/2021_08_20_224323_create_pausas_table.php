@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePausaTable extends Migration
+class CreatePausasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreatePausaTable extends Migration
      */
     public function up()
     {
-        Schema::create('pausa', function (Blueprint $table) {
+        Schema::create('pausas', function (Blueprint $table) {
             $table->id();
-            $table->string('pausa');
+            $table->string('folio');
+            $table->boolean('pausa');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreatePausaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pausa');
+        Schema::dropIfExists('pausas');
     }
 }

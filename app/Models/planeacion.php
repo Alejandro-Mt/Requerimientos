@@ -15,8 +15,8 @@ class planeacion extends Model
         'fechaCompReqC',
         'evidencia',
         'fechaCompReqR',
-        'desface',
-        'motivodesface',
+        'desfase',
+        'motivodesfase',
         'motivopausa',
         'evpausa',
         'fechareact'

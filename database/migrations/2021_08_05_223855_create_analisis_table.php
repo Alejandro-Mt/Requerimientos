@@ -15,13 +15,17 @@ class CreateAnalisisTable extends Migration
     {
         Schema::create('analisis', function (Blueprint $table) {
             $table->id();
-            $table->string('folio')->unique;
-            $table->string('fechaEnvAnC')->nullable();
-            $table->boolean('retraso')->default(0)->nullable();
-            $table->string("motivoRet")->nullable();
-            $table->unsignedInteger("diasRet")->nullable();
-            $table->string('fechaAutC')->nullable();
-            $table->unsignedInteger("diasEsp")->nullable();
+            $table->string('folio',20)->unique();
+            $table->timestamp('fechaCompReqC');
+            $table->string("evidencia");
+            $table->timestamp('fechaCompReqR');
+            $table->unsignedInteger("difdias")->nullable();#compromisocliente-compromisoReal
+            $table->unsignedSmallInteger("desfase")->default(0)->nullable();
+            $table->string("motivodesfase")->nullable();
+            $table->string("motivopausa")->nullable();
+            $table->string("evPausa")->nullable();
+            $table->timestamp('fechaReact')->nullable();
+            $table->unsignedInteger("diaspausa")->nullable();
             $table->timestamps();
         });
     }

@@ -207,14 +207,17 @@
                         <label for="involucrados"
                             class="col-sm-2 text-end control-label col-form-label">Personas Involucradas</label>
                         <div class="col-md-8">
-                            <select name="involucrados" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="involucrados[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->involucrados}} selected>
-                                        @foreach ($responsables as $previo) 
-                                            @if ($valor->involucrados == $previo->id_responsable)
-                                                {{$previo->nombre_r}}
-                                            @endif
-                                        @endforeach</option>                                        
+                                    @for ($i = 0; $i < count($involucrados); $i++)
+                                        <option value={{$involucrados[$i]}} selected>
+                                            @foreach ($responsables as $previo) 
+                                                    @if ($involucrados[$i] == $previo->id_responsable)
+                                                        {{$previo->nombre_r}}
+                                                    @endif 
+                                            @endforeach
+                                        </option>
+                                    @endfor                                        
                                 @endforeach
                                 @foreach ($responsables as $responsable)
                                     <option value="{{$responsable->id_responsable}}">{{$responsable->nombre_r}}</option>
@@ -231,14 +234,17 @@
                         <label for="relaciones"
                             class="col-sm-2 text-end control-label col-form-label">Relacion con Otras Areas o Sistemas</label>
                         <div class="col-md-8">
-                            <select name="relaciones" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="relaciones[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->relaciones}} selected>
-                                        @foreach ($sistemas as $previo) 
-                                            @if ($valor->relaciones == $previo->id_sistema)
-                                                {{$previo->nombre_s}}
-                                            @endif
-                                        @endforeach</option>                                        
+                                    @for ($i = 0; $i < count($relaciones); $i++)
+                                        <option value={{$relaciones[$i]}} selected>
+                                            @foreach ($sistemas as $previo) 
+                                                    @if ($relaciones[$i] == $previo->id_sistema)
+                                                        {{$previo->nombre_s}}
+                                                    @endif
+                                            @endforeach
+                                        </option> 
+                                    @endfor                                       
                                 @endforeach
                                 @foreach ($sistemas as $sistema)
                                     <option value="{{$sistema->id_sistema}}">{{$sistema->nombre_s}}</option>

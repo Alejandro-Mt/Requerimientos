@@ -19,7 +19,8 @@ class RecordController extends Controller
         $cliente = cliente::orderby('id_cliente', 'asc') -> get();
         $id = registro::latest('id_registro')->first();
         $estatus = estatu::all();
-        return view('formatos.requerimientos.new',compact('sistema','responsable','cliente','registros','id','estatus'));
+        $vacio = registro:: select('*')->count();
+        return view('formatos.requerimientos.new',compact('sistema','responsable','cliente','registros','id','estatus','vacio'));
     }
 
     /*public function __construct()
@@ -54,8 +55,11 @@ protected function validator(array $data)
         $sistemas = sistema::all();
         $responsables = responsable::all();
         $levantamientos = levantamiento::findOrFail($registros);
-        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','registros','levantamientos')); 
-        //dd($levantamientos);
+        foreach($levantamientos as $valor);
+        $involucrados = explode(',',$valor->involucrados);
+        $relaciones = explode(',',$valor->relaciones);
+        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamientos','involucrados')); 
+        #dd($relaciones);
         }
     
     protected function formato($id_registro){
@@ -76,35 +80,36 @@ protected function validator(array $data)
             'impacto' => $data['impacto'],
             'general' => $data['general'],
             'detalle' => $data['detalle'],
-            'relaciones' => $data['relaciones'],
+            'relaciones' => implode(',', $data['relaciones']),
             'esperado' => $data['esperado'],
-            'involucrados'=> $data['involucrados']
+            'involucrados'=> implode(',', $data['involucrados'])
         ]);
-        $test = registro::select()-> where ('folio', $data->folio)->first();
-        $test->id_estatus = $data->input('id_estatus');
+        $test = registro::select()->where('folio', $data->folio)->first();
+        $test->id_estatus = $data['id_estatus'];
         $test->save();  
         return redirect(route('Editar'));
+        dd($data);
 
     }
 
     protected function actualiza(request $data){
         $update = levantamiento::FindOrFail($data['folio']);
-        $update->solicitante = $data->input('solicitante');
-        $update->jefe_departamento = $data->input('jefe_departamento');
-        $update->autorizacion = $data->input('autorizacion');
-        $update->previo = $data->input('previo');
-        $update->problema = $data->input('problema');
-        $update->impacto = $data->input('impacto');
-        $update->general = $data->input('general');
-        $update->detalle = $data->input('detalle');
-        $update->relaciones = $data->input('relaciones');
-        $update->esperado = $data->input('esperado');
-        $update->involucrados = $data->input('involucrados');
+        $update->solicitante = $data['solicitante'];
+        $update->jefe_departamento = $data['jefe_departamento'];
+        $update->autorizacion = $data['autorizacion'];
+        $update->previo = $data['previo'];
+        $update->problema = $data['problema'];
+        $update->impacto = $data['impacto'];
+        $update->general = $data['general'];
+        $update->detalle = $data['detalle'];
+        $update->relaciones = implode(',', $data['relaciones']);
+        $update->esperado = $data['esperado'];
+        $update->involucrados = implode(',', $data['involucrados']);
         $estatus = registro::select()-> where ('folio', $data->folio)->first();
-        $estatus->id_estatus = $data->input('id_estatus');
+        $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
         $update->save();  
-        //dd($update);
+        #dd($data);
         return redirect(route('Editar'));
 
     }

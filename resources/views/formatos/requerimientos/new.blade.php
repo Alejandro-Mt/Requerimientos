@@ -3,26 +3,35 @@
 
     <div class="card">
         <div class="card-body wizard-content">
-            <h3>Indicador</h3>
+            <h3>Requerimiento</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Nuevo')}}" class="mt-5">
                 {{ csrf_field() }}
                 <div>
                     <section>
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="id_registro"
                                 class="col-sm-2 text-end control-label col-form-label">{{__('ID')}}</label>
                             <div class="col-md-3">
-                                <input id="id_registro" type="text" class="required form-control" 
-                                    placeholder="{{$id->id_registro+1}}" readonly="readonly"> 
+                                @if ($vacio == 0)
+                                    <input id="id_registro" type="text" class="required form-control" 
+                                        placeholder="{{1}}" readonly="readonly"> 
+                                @else
+                                    <input id="id_registro" type="text" class="required form-control" 
+                                        placeholder="{{$id->id_registro+1}}" readonly="readonly">
+                                @endif
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
                             <label for="folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                <input type="text" class="required form-control" name="folio" value="PIP-{{$id->id_registro+1}}" readonly="readonly">
+                                @if ($vacio == 0)
+                                    <input type="text" class="required form-control" name="folio" value="PIP-1" readonly="readonly">
+                                @else
+                                    <input type="text" class="required form-control" name="folio" value="PIP-{{$vacio+1}}" readonly="readonly">
+                                @endif
                             </div>
                         </div>
                         <div class="form-group row">
@@ -40,13 +49,13 @@
                         </div>
                         <div class="form-group row">
                             <label for="ejecutivo"
-                                class="col-sm-2 text-end control-label col-form-label">Analista</label>
+                                class="col-sm-2 text-end control-label col-form-label">Responsable</label>
                             <div class="col-md-8">  
                                 <select class="form-select @error('id_responsable') is-invalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_responsable" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($responsable as $ejecutivo):
-                                        @if ($ejecutivo ->id_area == 3)
+                                        @if ($ejecutivo ->id_area == 2)
                                             <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
                                         @endif
                                     @endforeach                     

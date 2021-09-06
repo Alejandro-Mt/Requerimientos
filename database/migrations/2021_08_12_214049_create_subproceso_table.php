@@ -13,8 +13,11 @@ class CreateSubprocesoTable extends Migration
      */
     public function up()
     {
-        Schema::create('subproceso', function (Blueprint $table) {
+        Schema::create('subprocesos', function (Blueprint $table) {
             $table->id();
+            $table->string('folio');
+            $table->string('subproceso');
+            $table->string('estatus');
             $table->timestamp("previsto")->nullable();
             $table->timestamps();
         });
@@ -27,6 +30,6 @@ class CreateSubprocesoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subproceso');
+        Schema::dropIfExists('subprocesos');
     }
 }

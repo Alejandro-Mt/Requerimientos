@@ -28,13 +28,13 @@ class CreateLevantamientosTable extends Migration
             $table->string('general');
             $table->string('detalle');
             $table->string('esperado');
-            $table->unsignedBigInteger('relaciones');
-            $table->foreign('relaciones')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
-            $table->unsignedBigInteger('involucrados');
-            $table->foreign('involucrados')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
+            $table->string('relaciones',20);
+            $table->foreign('relaciones',20)->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
+            $table->string('involucrados',10);
+            $table->foreign('involucrados',10)->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
             $table->unsignedInteger("diasResp")->nullable();#FechaRegistro-FechaFormato
-            $table->string("estatus");
+            $table->string("estatusAut")->nullable();
             $table->unsignedInteger("diasAut")->nullable();#Fechaformato-FechaEstatus
         });
     }

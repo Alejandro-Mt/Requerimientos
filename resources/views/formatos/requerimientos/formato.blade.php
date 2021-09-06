@@ -163,7 +163,7 @@
                         <label for="involucrados"
                             class="col-sm-2 text-end control-label col-form-label">Personas Involucradas</label>
                         <div class="col-md-8">
-                            <select name="involucrados" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="involucrados[]" class="select2 form-select mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($responsables as $responsable)
                                     <option value="{{$responsable->id_responsable}}">{{$responsable->nombre_r}}</option>
                                 @endforeach
@@ -179,7 +179,7 @@
                         <label for="relaciones"
                             class="col-sm-2 text-end control-label col-form-label">Relacion con Otras Areas o Sistemas</label>
                         <div class="col-md-8">
-                            <select name="relaciones" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="relaciones[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($sistemas as $sistema)
                                     <option value="{{$sistema->id_sistema}}">{{$sistema->nombre_s}}</option>
                                 @endforeach
