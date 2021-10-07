@@ -27,11 +27,7 @@
                             <label for="folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                @if ($vacio == 0)
-                                    <input type="text" class="required form-control" name="folio" value="PIP-1" readonly="readonly">
-                                @else
-                                    <input type="text" class="required form-control" name="folio" value="PIP-{{$vacio+1}}" readonly="readonly">
-                                @endif
+                                    <input type="text" class="required form-control" name="folio" value="PIP-{{$registros+1}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -89,13 +85,13 @@
                             <label for="Cliente"
                                 class="col-sm-2 text-end control-label col-form-label">Cliente*</label>
                             <div class="col-md-8">
-                                <select class="form-select @error ('id_cliente') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
+                                <select class="form-select @error ('abreviacion') is-invalid @enderror" 
+                                    style="width: 100%; height:36px;" name="abreviacion" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($cliente as $cliente)
-                                        <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
+                                        <option value={{$cliente->abreviacion}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
-                                    @error('id_cliente')
+                                    @error('abreviacion')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -123,13 +119,11 @@
                             <div class="col-md-8">
                                 <select class="form-select"   style="width: 100%; height:36px;" id="prioridad" tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="0">Seleccion</option>
-                                    <option value='1'> Muy Baja</option>
-                                    <option value='2'>Baja</option>
-                                    <option value='3'>Media</option>
-                                    <option value='4'>Alta</option>
-                                    <option value='5'>Muy Alta</option>
-                                    <option value='6'>Critica</option> 
-                                    <option value='7'>Nula</option>                        
+                                    <option value='1'>Baja</option>
+                                    <option value='2'>Media</option>
+                                    <option value='3'>Alta</option>
+                                    <option value='4'>Critica</option> 
+                                    <option value='5'>Nula</option>                        
                                 </select>
                             </div>
                         </div>
@@ -149,8 +143,12 @@
                         </div>-->
                         <div class="d-none">
                             @foreach ($estatus as $estatus)
-                                <input type="text" name="id_estatus" value="{{17}}" visible="false">
+                                <input type="text" name="id_area" value="6" visible="false">
                             @endforeach 
+                        </div>
+                        <div class="d-none">
+                            <input type="text" name="id_estatus" value="17" visible="false">
+                            <input type="text" name="id_area" value="6" visible="false">
                         </div>
                         <div class="card-body text-center">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>

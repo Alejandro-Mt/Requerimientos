@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDesfaseTable extends Migration
+class CreateEstatusFuncionalidadTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateDesfaseTable extends Migration
      */
     public function up()
     {
-        Schema::create('desfases', function (Blueprint $table) {
-            $table->id();
-            $table->string('motivo');
+        Schema::create('estatus_funcionalidad', function (Blueprint $table) {
+            $table->id('id_estatus');
+            $table->string('titulo');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateDesfaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('desfases');
+        Schema::dropIfExists('estatus_funcionalidad');
     }
 }

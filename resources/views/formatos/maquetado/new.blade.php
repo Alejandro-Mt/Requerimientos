@@ -6,7 +6,7 @@
             <h3>Indicador</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
-            <form method="POST" action="{{route ('Nuevo')}}" class="mt-5">
+            <form method="POST" action="{{route ('NRegistro')}}" class="mt-5">
                 {{ csrf_field() }}
                 <div>
                     <section>
@@ -15,14 +15,14 @@
                                 class="col-sm-2 text-end control-label col-form-label">{{__('ID')}}</label>
                             <div class="col-md-3">
                                 <input id="id_registro" type="text" class="required form-control" 
-                                    placeholder="{{$id->id_registro+1}}" readonly="readonly"> 
+                                    placeholder="{{$registros+1}}" readonly="readonly"> 
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                <input type="text" class="required form-control" name="folio" value="PIP-{{$id->id_registro+1}}" readonly="readonly">
+                                <input id="folio" type="text" class="required form-control" name="folio" value="" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -80,11 +80,11 @@
                             <label for="Cliente"
                                 class="col-sm-2 text-end control-label col-form-label">Cliente*</label>
                             <div class="col-md-8">
-                                <select class="form-select @error ('id_cliente') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
+                                <select id="id_cliente" class="form-select @error ('id_cliente') is-invalid @enderror"
+                                    style="width: 100%; height:36px;" name="abreviacion" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($cliente as $cliente)
-                                        <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
+                                        <option value={{$cliente->abreviacion}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
                                     @error('id_cliente')
                                     <span class="invalid-feedback" role="alert">
@@ -139,9 +139,8 @@
                             </div>
                         </div>-->
                         <div class="d-none">
-                            @foreach ($estatus as $estatus)
                                 <input type="text" name="id_estatus" value="{{17}}" visible="false">
-                            @endforeach 
+                                <input type="text" name="id_area" value="11" visible="false">
                         </div>
                         <div class="card-body text-center">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
@@ -157,5 +156,30 @@
     <form class="form-horizontal" action="" method="post">
     <h5>*Campos obligatorios</h5>
 
+<script>
+    cliente = document.getElementById('id_cliente');
+    cliente.addEventListener('change', (event) => {
+    now = new Date();
+    registro= document.getElementById('id_registro');
+    folio = document.getElementById('folio');
+    if(now.getDate()<10){
+      if(now.getMonth()<10){
+        folio.value = `AA-${event.target.value}-0${now.getDate()}0${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
+      }
+      else{
+		folio.value = `AA-${event.target.value}-0${now.getDate()}${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
+      }
+	}
+	else{
+	  if(now.getMonth()<10){
+		folio.value = `AA-${event.target.value}-${now.getDate()}0${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
+	  }
+  	  else{
+		folio.value = `AA-${event.target.value}-${now.getDate()}${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
+	  }
+    }
+    });
+      </script>
 
 @endsection 
+

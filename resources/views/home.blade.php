@@ -3,15 +3,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
-        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template">
-    <meta name="description"
-        content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
     <title>Indicadores</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/favicon.png")}}">
     <!-- Custom CSS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    
+    <link rel="stylesheet" href="{{asset("/assets/libs/fullcalendar/dist/fullcalendar.min.css")}}"  />
+    <link rel="stylesheet" href="{{asset("/assets/extra-libs/calendar/calendar.css")}}" />
+    <link rel="stylesheet" href="{{asset("assets/libs/bootstrap/dist/css/bootstrap.min.css")}}">
     <link rel="stylesheet" type="text/css"
         href="{{asset("assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")}}">
     <link rel="stylesheet" type="text/css" 
@@ -97,7 +100,14 @@
     <script src="{{asset("assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js")}}"></script>
     <script src="{{asset("assets/js/pages/chart/chart-page-init.js")}}"></script>
 
-
+    
+    <script src="{{asset("assets/libs/jquery/dist/jquery.min.js")}}"></script>
+    <script src="{{asset("assets/js/jquery.ui.touch-punch-improved.js")}}"></script>
+    <script src="{{asset("assets/js/jquery-ui.min.js")}}"></script>
+    <script src="{{asset("assets/libs/moment/min/moment.min.js")}}"></script>
+    <script src="{{asset("assets/libs/fullcalendar/dist/fullcalendar.min.js")}}"></script>
+    <script src="{{asset("assets/libs/fullcalendar/dist/locale/es.js")}}"></script>
+    <script src="{{asset("assets/js/pages/calendar/cal-init.js")}}"></script>
     <script src="{{asset("assets/libs/select2/dist/js/select2.full.min.js")}}"></script>
     <script src="{{asset("assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js")}}"></script>
     <script>
@@ -138,9 +148,9 @@
             autoclose: true,
             todayHighlight: true
         });
-        var quill = new Quill('#editor', {
+        /*var quill = new Quill('#editor', {
             theme: 'snow'
-        });
+        });*/
 
     </script>
 

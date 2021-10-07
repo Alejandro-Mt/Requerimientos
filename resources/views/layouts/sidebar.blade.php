@@ -25,11 +25,11 @@
                             </ul>-->
                         </li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="charts.html" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span
-                            class="hide-menu">Requerimientos</span></a></li>
+                        href="{{route('Editar')}}" aria-expanded="false"><i class="mdi mdi-chart-bar"></i><span
+                            class="hide-menu">Analisis</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="widgets.html" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span
-                            class="hide-menu">Incidencias</span></a></li>
+                        href="{{route('Editar')}}" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span
+                            class="hide-menu">Requerimientos</span></a></li>
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="tables.html" aria-expanded="false"><i class="mdi mdi-border-inside"></i><span
                             class="hide-menu">Bugs</span></a></li>

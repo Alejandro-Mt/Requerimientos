@@ -26,12 +26,12 @@ class CreateConstruccionTable extends Migration
             $table->string("evPausa")->nullable();
             $table->timestamp('fechaReact')->nullable();
             $table->unsignedInteger("diaspausa")->nullable();
-            $table->boolean("info")->default(0);
-            $table->timestamp("solInfopip")->nullable();
-            $table->timestamp("solInfoC")->nullable();
-            $table->string("respuesta")->nullable();
-            $table->string("motivoRetrasoInfo")->nullable();
-            $table->unsignedInteger("diasresrp")->nullable();#respuesta-solinfoC
+            #$table->boolean("info")->default(0);
+            #$table->timestamp("solInfopip")->nullable();
+            #$table->timestamp("solInfoC")->nullable();
+            #$table->string("respuesta")->nullable();
+            #$table->string("motivoRetrasoInfo")->nullable();
+            #$table->unsignedInteger("diasresrp")->nullable();#respuesta-solinfoC
             $table->timestamps();
         });
     }

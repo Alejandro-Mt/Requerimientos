@@ -13,7 +13,8 @@ use App\Models\sistema;
 class RecordController extends Controller
 {
     protected function index(){
-        $registros = registro::orderby('id_registro','desc') -> limit(1) -> get();
+        
+        $registros = registro::where('folio', 'like', 'PIP%')->count();
         $sistema = sistema::all();
         $responsable = responsable::all();
         $cliente = cliente::orderby('id_cliente', 'asc') -> get();
@@ -21,6 +22,7 @@ class RecordController extends Controller
         $estatus = estatu::all();
         $vacio = registro:: select('*')->count();
         return view('formatos.requerimientos.new',compact('sistema','responsable','cliente','registros','id','estatus','vacio'));
+        #dd($registros);
     }
 
     /*public function __construct()
@@ -44,8 +46,9 @@ protected function validator(array $data)
         'descripcion' => $data['descripcion'],
         'id_responsable' => $data['id_responsable'],
         'id_sistema' => $data['id_sistema'],
-        'id_cliente' => $data['id_cliente'],
-        'id_estatus' => $data['id_estatus']
+        'abreviacion' => $data['abreviacion'],
+        'id_estatus' => $data['id_estatus'],
+        'id_area' => $data['id_area']
     ]);
     return redirect(route('Nuevo'));
     }
@@ -60,7 +63,7 @@ protected function validator(array $data)
         $relaciones = explode(',',$valor->relaciones);
         return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamientos','involucrados')); 
         #dd($relaciones);
-        }
+    }
     
     protected function formato($id_registro){
         $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
@@ -112,5 +115,17 @@ protected function validator(array $data)
         #dd($data);
         return redirect(route('Editar'));
 
+    }
+
+    protected function test($folio){
+        $registros = registro::where('folio', $folio)->get();
+        $sistemas = sistema::all();
+        $responsables = responsable::all();
+        $cliente = cliente::orderby('id_cliente', 'asc') -> get();
+        $id = registro::latest('id_registro')->first();
+        $levantamientos = levantamiento::where('folio', $folio)->get();
+        $vacio = registro:: select('*')->count();
+        return view('correos.Plantilla',compact('sistemas','responsables','cliente','registros','id','levantamientos','vacio'));
+        #dd($registros);
     }
 }

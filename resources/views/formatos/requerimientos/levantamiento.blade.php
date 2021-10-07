@@ -194,7 +194,7 @@
                         <div class="col-md-8">
                             @foreach ($levantamientos as $valor)
                                 <input name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
-                                value={{$valor->esperado}} placeholder="Que es lo que se espera" required autofocus>
+                                    value={{$valor->esperado}} placeholder="Que es lo que se espera" required autofocus>
                             @endforeach
                             @error('esperado')
                                 <span class="invalid-feedback" role="alert">

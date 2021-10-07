@@ -8,11 +8,35 @@
         @csrf
 
         <div class="form-group row">
-            <label for="name" 
+            <label for="nombre" 
                 class="col-md-4 col-form-label text-md-left">{{ __('Nombre') }}</label>
-            <input id="name" type="text" class="input100 col-md-8 @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+            <input id="nombre" type="text" class="input100 col-md-8 @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
 
-            @error('name')
+            @error('nombre')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+        <div class="form-group row">
+            <label for="apaterno" 
+                class="col-md-4 col-form-label text-md-left">{{ __('Apellido Paterno') }}</label>
+            <input id="apaterno" type="text" class="input100 col-md-8 @error('apaterno') is-invalid @enderror" name="apaterno" value="{{ old('apaterno') }}" required autocomplete="apaterno" autofocus>
+
+            @error('apaterno')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+        <div class="form-group row">
+            <label for="amaterno" 
+                class="col-md-4 col-form-label text-md-left">{{ __('Apellido Materno') }}</label>
+            <input id="amaterno" type="text" class="input100 col-md-8 @error('amaterno') is-invalid @enderror" name="amaterno" value="{{ old('amaterno') }}" required autocomplete="apaterno" autofocus>
+
+            @error('amaterno')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>

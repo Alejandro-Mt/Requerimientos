@@ -8,15 +8,21 @@
             <!-- Logo icon -->
             <b class="logo-icon ps-1">
                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                <!-- Dark Logo icon -->
-                <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" />
+                <!-- Dark Logo icon --
+                <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" />-->
+                <a href="#" class="u-image u-logo u-image-1" data-image-width="60" data-image-height="60">
+                    <img src="{{asset("assets/images/logo-icon.png")}}" class="u-logo-image u-logo-image-1">
+                </a>
 
             </b>
             <!--End Logo icon -->
             <!-- Logo text -->
             <span class="logo-text">
-                <!-- dark Logo text -->
-                <img src="{{asset("assets/images/logo-text.png")}}" alt="homepage" class="light-logo" />
+                <!-- dark Logo text --
+                <img src="{{asset("assets/images/logo-text.png")}}" alt="homepage" class="light-logo" />-->
+                <a href="#" class="u-image u-logo u-image-1">
+                    <img src="{{asset("assets/images/logo-text2.png")}}" class="u-logo-image u-logo-image-1">
+                  </a>
 
             </span>
             <!-- Logo icon -->
@@ -59,7 +65,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <!--<li><a class="dropdown-item" href="{{('formatos.new')}}">Bug</a></li>
                         <li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>-->
-                        <li><a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('Nuevo')}}">Maquetado</a></li>
+                        <li><a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('NuevaMaqueta')}}">Maquetado</a></li>
                         <li><a class="dropdown-item mdi mdi-content-paste" href="{{route('Nuevo')}}">Requerimiento</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item mdi mdi-developer-board" href="{{route('Editar')}}">Seguimiento</a></li>
@@ -167,7 +173,7 @@
                 <!-- ============================================================== -->
                 <li class="navbar-nav ml-auto">
                     <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="rounded-circle" width="31">
+                        <img src="{{asset("assets/images/users/d1.jpg")}}" alt="user" class="rounded-circle" width="31">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{('profile')}}"><i class="ti-user me-1 ms-1"></i>

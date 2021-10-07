@@ -39,7 +39,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Prevista de Entrega*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="previsto" type="text" class="form-control" id="datepicker-autoclose" placeholder="MM/DD/AAAA" data-date-format="yyyy-mm-dd">
+                                    <input name="previsto" type="text" class="form-control" id="datepicker-autoclose" placeholder="MM/DD/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>

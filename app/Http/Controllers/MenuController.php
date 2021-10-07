@@ -27,7 +27,7 @@ class MenuController extends Controller
     public function edit()
     {
         $subprocesos = subproceso::all();
-        $registros = registro::select('*')->join('estatus','estatus.id_estatus', 'registros.id_estatus')->get();
+        $registros = registro::select('*')->join('estatus','estatus.id_estatus', 'registros.id_estatus')->orderby('folio')->get();
         #$pausa = pausa::select('registros.folio','pausas.pausa')->rightjoin('registros','registros.folio', 'pausas.folio')->groupby('folio')->orderby('pausas.created_at','desc')->get();
         $pausa = pausa::select('r.folio',/*'pausas.pausa',*/pausa::raw('max(pausas.pausa) as pausa'))->rightjoin('registros as r','r.folio', 'pausas.folio')->groupby('r.folio')->get();
         foreach ($pausa as $p);# $p->folio;
@@ -35,7 +35,6 @@ class MenuController extends Controller
         return view('formatos.requerimientos.edit',compact('registros','subprocesos','pausa','vacio'));
         #dd($pausa);
     }
-
     public function pause($folio){
         pausa::create([
             'folio'=> $folio,
@@ -50,7 +49,6 @@ class MenuController extends Controller
         return redirect(route('Editar'));
         #dd($registros->all());
     }
-
     public function send($folio){
         $registros = registro::select('*')-> where ('folio', $folio)->get();
         return view('Layouts.correo',compact('registros'));
@@ -84,12 +82,14 @@ class MenuController extends Controller
         return redirect(route('Editar'));
         #dd($registros->all());
     }
-
     public function close($folioS){
         $concluir = subproceso::select('*')-> where ('subproceso', $folioS)->first();
         $concluir->estatus = 'Concluido';
         $concluir->save();
         return redirect(route('Editar'));
         #dd($concluir);
+    }
+    public function avance($folio){
+        return view('formatos.comentarios',compact('folio'));;
     }
 }

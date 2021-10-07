@@ -15,8 +15,8 @@ class CreateRegistroTable extends Migration
     {
         Schema::create('registros', function (Blueprint $table) {
             $table->id('id_registro');
-            $table->unsignedBigInteger('id_cliente')->index();
-            $table->foreign('id_cliente')->references('id_cliente')->on('clientes')->ondelete('cascade')->onupdate('restrict');
+            $table->string('abreviacion',5)->index();
+            $table->foreign('abreviacion',5)->references('id_cliente')->on('clientes')->ondelete('cascade')->onupdate('restrict');
             $table->unsignedBigInteger('id_sistema')->index();
             $table->foreign('id_sistema')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
             $table->string('descripcion',50);
@@ -25,6 +25,8 @@ class CreateRegistroTable extends Migration
             $table->string('folio',50);
             $table->unsignedBigInteger('id_estatus');
             $table->foreign('id_estatus')->references('id_estatus')->on('estatus')->ondelete('cascade')->onupdate('restrict');
+            $table->unsignedInteger('id_area');
+            $table->foreign('id_area')->references('id_area')->on('areas')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
         });
     }

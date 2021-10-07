@@ -15,7 +15,8 @@ class registro extends Model
         'descripcion',
         'id_responsable',
         'id_sistema',
-        'id_cliente',
-        'id_estatus'
+        'abreviacion',
+        'id_estatus',
+        'id_area'
     ];
 }

@@ -3,26 +3,28 @@
 
     <div class="card">
         <div class="card-body wizard-content">
-            <h3>Solicitar Informacion</h3>
+            <h3>Liberacion</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
-            <form method="POST" action="{{route ('Nuevo')}}" class="mt-5">
+            <form method="POST" action="{{route ('Liberar')}}" class="mt-5">
                 {{ csrf_field() }}
                 <div>
-                    <section>
-                       <!-- <div class="form-group row">
-                            <label for="Folio"
-                                    class="col-sm-2 text-end control-label col-form-label">Folio</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="required form-control" name="folio" value="PIP-{{$id->id_registro+1}}" readonly="readonly">
-                            </div>
-                        </div>-->
+                    <section><div class="form-group row">
+                        <label for="Folio"
+                                class="col-sm-2 text-end control-label col-form-label">Folio</label>
+                        <div class="col-sm-3">
+                            @foreach ($registros as $registro)
+                                <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
+                        
+                            @endforeach
+                        </div>
+                    </div>
                         <div class="form-group row">
-                            <label for="fechaCompReqC"
-                            class="col-sm-2 text-end control-label col-form-label">Solicitar informacion a PIP*</label>
+                            <label for="fecha_lib_a"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberacion PIP*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="fecha_lib_a" type="text" class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -32,11 +34,40 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="fechaCompReqC"
-                            class="col-sm-2 text-end control-label col-form-label">Fecha de Solicitud a Cliente*</label>
+                            <label for="fecha_lib_r"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberacion Real*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input type="text" class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="fecha_lib_r" type="text" class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Agregar candado de fecha, evitar fechas menores al Fecha entrega real-->
+                        <div class="form-group row">
+                            <label for="inicio_lib"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Inicio Pruebas PIP*</label>
+                            <div class= 'col-md-8'>
+                                <div class="input-group">
+                                    <input name="inicio_lib" type="text" class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inicio_p_r"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberacion Pruebas QA*</label>
+                            <div class= 'col-md-8'>
+                                <div class="input-group">
+                                    <input name="inicio_p_r" type="text" class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -46,41 +77,38 @@
                             </div>
                         </div>
                         <!--<div class="form-group row">
-                            <label for="evidencia"
-                                class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
+                            <label class="col-sm-2 text-end form-check-label" for="retraso">Retaraso en Informacion</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" class="form-check-input" id="retraso" name="retraso" value="1" onchange="javascript:showContent()">
+                            </div>
+                        </div>-->
+                        <div class="form-group row">
+                            <label for="t_pruebas"
+                                class="col-sm-2 text-end control-label col-form-label">Total Pruebas*</label>
                             <div class="col-md-8">
-                                <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                    name="evidencia" placeholder="evidencia" required autofocus>
-                                @error('evidencia')
+                                <input type="text" class="required form-control @error('t_pruebas') is-invalid @enderror" 
+                                    name="t_pruebas" placeholder="Pruevas Realizadas" required autofocus>
+                                @error('t_pruebas')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
-                        </div>-->
-                        <div class="form-group row">
-                            <label for="fechaCompReqR"
-                            class="col-sm-2 text-end control-label col-form-label">Fecha de Entrega de informacion*</label>
-                            <!--agregar campo para visualizar que informacion adicional de 254 caracteres se require
-                                Script para poder agregar archivo o imagen-->
-                            <div class= 'col-md-8'>
-                                <div class="input-group">
-                                    <input type="text" class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text h-100">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 text-end form-check-label" for="retraso">Retaraso en Informacion</label>
-                            <div class="col-md-6">
-                                <input type="checkbox" class="form-check-input" id="retraso" name="retraso" value="1" onchange="javascript:showContent()">
+                            <label for="evidencia_p"
+                                class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
+                            <div class="col-md-8">
+                                <input type="text" class="required form-control @error('evidencia_p') is-invalid @enderror" 
+                                    name="evidencia_p" placeholder="evidencia_p" required autofocus>
+                                @error('evidencia_p')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
-                        <div id="content" style="display: none;">
+                        <!--<div id="content" style="display: none;">
                             <div class="form-group row">
                                 <label for="motivodesfase"
                                     class="col-sm-2 text-end control-label col-form-label">Motivo de desfase*</label>
@@ -102,22 +130,17 @@
                                         <option value={{null}}>Seleccion</option>
                                         @foreach ( $desfases as  $desfase)
                                             <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
-                                        @endforeach 
-                                        <!--@error('motivodesfase')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror -->                         
+                                        @endforeach                         
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="d-none"> 
                                 <input type="text" name="estatus" value="Informacion" visible="false">
                         </div>
                         <div class="card-body text-center">
-                            <button type="submit" name="id_estatus" value="12" class="btn btn-primary text-white">Guardar Y Continuar</button>
-                            <button type="submit" class="btn btn-success text-white">Guardar</button>
+                            <button type="submit" name="id_estatus" value="2" class="btn btn-primary text-white">Guardar y Continuar</button>
+                            <button type="submit" name="id_estatus" value="8" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
                         </div>

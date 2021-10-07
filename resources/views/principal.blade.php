@@ -1,6 +1,5 @@
-@extends('layouts.app')
+@extends('home')
 @section('content')
-    
 <div class="container-fluid">
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -11,7 +10,33 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Real Time Chart</h5>
-            <div id="real-time" style="height: 400px; padding: 0px; position: relative;"><canvas class="flot-base" width="753" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 753px; height: 400px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 25px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 93px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 165px; text-align: center;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 237px; text-align: center;">30</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 309px; text-align: center;">40</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 382px; text-align: center;">50</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 454px; text-align: center;">60</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 526px; text-align: center;">70</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 598px; text-align: center;">80</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 670px; text-align: center;">90</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 368px; left: 9px; text-align: right;">70</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 306px; left: 9px; text-align: right;">75</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 245px; left: 9px; text-align: right;">80</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 184px; left: 9px; text-align: right;">85</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 123px; left: 9px; text-align: right;">90</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 62px; left: 9px; text-align: right;">95</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 2px; text-align: right;">100</div></div></div><canvas class="flot-overlay" width="753" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 753px; height: 400px;"></canvas></div>
+            <div id="real-time" style="height: 400px; padding: 0px; position: relative;">
+              <canvas class="flot-base" width="753" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 753px; height: 400px;"></canvas>
+              <div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);">
+                <div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;">
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 25px; text-align: center;">0</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 93px; text-align: center;">10</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 165px; text-align: center;">20</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 237px; text-align: center;">30</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 309px; text-align: center;">40</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 382px; text-align: center;">50</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 454px; text-align: center;">60</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 526px; text-align: center;">70</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 598px; text-align: center;">80</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 670px; text-align: center;">90</div>
+                </div>
+                <div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;">
+                  <div class="flot-tick-label tickLabel" style="position: absolute; top: 368px; left: 9px; text-align: right;">70</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; top: 306px; left: 9px; text-align: right;">75</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; top: 245px; left: 9px; text-align: right;">80</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; top: 184px; left: 9px; text-align: right;">85</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; top: 123px; left: 9px; text-align: right;">90</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; top: 62px; left: 9px; text-align: right;">95</div>
+                  <div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 2px; text-align: right;">100</div>
+                </div>
+              </div>
+              <canvas class="flot-overlay" width="753" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 753px; height: 400px;"></canvas>
+              </div>
             <p>
               Time between updates:
               <input id="updateInterval" type="text" value="" style="text-align: right; width: 5em">
@@ -23,7 +48,7 @@
     </div>
     <!-- ENd chart-1 -->
     <!-- Chart-2 -->
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
@@ -33,10 +58,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
     <!-- End Chart-2 -->
     <!-- Cards -->
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-3">
         <div class="card mt-0">
           <div class="row">
@@ -107,10 +132,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
     <!-- End cards -->
     <!-- Chart-3 -->
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
@@ -121,10 +146,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
     <!-- End chart-3 -->
     <!-- Charts -->
-    <div class="row">
+    <!--<div class="row">
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
@@ -141,17 +166,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- End Charts -->
-    <!-- ============================================================== -->
-    <!-- End PAge Content -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Right sidebar -->
-    <!-- ============================================================== -->
-    <!-- .right-sidebar -->
-    <!-- ============================================================== -->
-    <!-- End Right sidebar -->
-    <!-- ============================================================== -->
+    </div>--
 </div>
 @endsection
