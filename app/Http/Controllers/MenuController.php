@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ValidacionCliente;
-use App\Models\analisis;
-use App\Models\construccion;
+use App\Models\comentario;
 use App\Models\estatu;
+use App\Models\levantamiento;
 use App\Models\pausa;
 use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\subproceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 use Symfony\Component\VarDumper\Cloner\Data;
 
@@ -24,8 +25,7 @@ class MenuController extends Controller
     }*/
 
 
-    public function edit()
-    {
+    public function edit(){
         $subprocesos = subproceso::all();
         $registros = registro::select('*')->join('estatus','estatus.id_estatus', 'registros.id_estatus')->orderby('folio')->get();
         #$pausa = pausa::select('registros.folio','pausas.pausa')->rightjoin('registros','registros.folio', 'pausas.folio')->groupby('folio')->orderby('pausas.created_at','desc')->get();
@@ -55,8 +55,14 @@ class MenuController extends Controller
         #dd($registros);
     }
     public function sended(request $data){
-        mail::to($data->email)->send(new ValidacionCliente);
+        mail::to($data->email)
+            ->send(new ValidacionCliente($data->folio));
         $estatus = registro::select("*")-> where ('folio', $data->folio)->first();
+            $confirmacion = levantamiento::findOrFail($data->folio);
+            if($estatus->id_estatus == 16){
+            $confirmacion->fechaaut = now();
+            $confirmacion->save();
+        }
         $estatus->id_estatus = $data->input('id_estatus');
         $estatus->save();
         return redirect('formatos.requerimientos.edit');
@@ -70,10 +76,12 @@ class MenuController extends Controller
         #dd($folio);
     }
     public function sub(request $data){
+        
+        if($data['previsto']<>NULL){$previsto=date("y/m/d", strtotime($data['previsto']));}else{$previsto=NULL;}
         subproceso::create([
             'folio'=>$data['folio'],
             'subproceso'=>$data['subproceso'],
-            'previsto'=>date("y/m/d", strtotime($data['previsto'])),
+            'previsto'=>$previsto,
             'estatus' =>$data['estatus']
         ]);
         #$registros = registro::select('*')-> where ('folio', $data->folio)->first();
@@ -90,6 +98,29 @@ class MenuController extends Controller
         #dd($concluir);
     }
     public function avance($folio){
-        return view('formatos.comentarios',compact('folio'));;
+        $registros= registro::where('folio',$folio)->get();
+        $estatus = estatu::all();
+        $comentarios = comentario::select ('nombre','apaterno','folio','contenido','puesto','respuesta','comentarios.created_at')->leftjoin ('users','users.id','comentarios.usuario')->where('folio',$folio)->get();
+        return view('formatos.comentarios',compact('estatus','registros','comentarios'));
+        #dd($comentarios);
+    }
+    public function comentar(Request $data){
+        //validat datos
+        $this->validate($data, [
+            'contenido' => 'required'
+        ]);
+        //insertar 
+        comentario::create([
+            'folio'=> $data['folio'],
+            'pausa'=> '1',
+            'usuario' => auth::user()->id ,
+            'contenido' => $data['contenido'],
+            'respuesta' => $data['respuesta'],
+        ]);
+        //Redireccionar
+        #$registros= registro::where('folio',$folio)->get();
+        #$estatus = estatu::all();
+        return redirect(route('Avance',$data->folio));
+        #dd($data->all());
     }
 }

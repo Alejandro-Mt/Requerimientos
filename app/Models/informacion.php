@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class informacion extends Model
 {
     use HasFactory;
+    protected $table = 'informacion';
+    protected $fillable = [
+        'folio',
+        'solInfopip',
+        'detalle',
+        'solInfoC',
+        'respuesta',
+        'retraso',
+        'motivoRetrasoInfo'
+    ];
 }

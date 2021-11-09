@@ -5,7 +5,7 @@
     <div class="card-body wizard-content-center">
         <div class="card-title mb-0">{{ __('Enviar Informe') }}</div>
 
-        <form method="POST" action="{{ route('Enviado') }}">
+        <form method="POST" action="{{route('Enviado')}}">
             @csrf
 
             <div class="form-group row">
@@ -39,14 +39,26 @@
 
             <div class="form-group row mb-0">
                 <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-success text-white" id="alerta">
+                    <button class="btn-success text-white" id="alerta" data-toggle="modal" data-target="#confirm">
                         {{ __('Enviar Correo de Informe') }}
-                    </button>   
-                    <script>
-                    document.getElementById('alerta').onclick = function(){
-                        alert('Correo Enviado');
-                    }
-                    </script>
+                    </button>
+                </div>
+            </div>
+            <!-- Modal de Confirmacion -->
+            <div class="modal" id="confirm" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <label>¿Enviar Correo?</label>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-invert" data-dismiss="modal">Cancelar</a>
+                            <button type="submit" class="btn btn-success btn-ok">Confirmar</a></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

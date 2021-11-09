@@ -15,11 +15,12 @@ class CreateInformacionTable extends Migration
     {
         Schema::create('informacion', function (Blueprint $table) {
             $table->id();
-            $table->String("folio",10)->unique();
+            $table->String("folio",50);
             $table->timestamp("solInfopip")->nullable();
+            $table->string("detalle");
             $table->timestamp("solInfoC")->nullable();
             $table->timestamp("respuesta")->nullable();
-            $table->boolean("retraso");
+            $table->boolean("retraso")->nullable();
             $table->string("motivoRetrasoInfo")->nullable();
             $table->unsignedInteger("diasresrp")->nullable();#respuesta-solinfoC
             $table->timestamps();

@@ -1,150 +1,197 @@
 @extends('home')
 @section('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
-    <div class="container">
-        <button id="pestana1" type="button" class="btn btn-primary">Analisis</button>
-        <button id="pestana2" type="button" class="btn btn-info">Requerimientos</button>
-    
-        <div class="card">
-            <!--<div id='pestana' class="navbar navbar-expand-lg navbar-dark bg-success">
-                <div id='lista' class="navbar-item">
-                    <a id='pestana1' 
-                        class="navbar-brand" 
-                        href="javascript:cambiarPestanna('pestanas','pestana1')">Analisis
-                    </a>
-                </div>
-                <div class="navbar-item" data-navbarbg="color: plum">
-                    <a id='pestana2' 
-                        class="navbar-brand" 
-                        data-toggle="collapse"
-                        data-target="#" 
-                        href="javascript:cambiarPestanna('pestanas','pestana2')">Requerimiento
-                    </a>
-                </div>
-            </div>-->
-            <div class="card-body wizard-content">
-                <h5 class="card-title mb-0">Seguimiento</h5>
+    <div class="card">
+        <!--<div class="card-body">
+            <div class="button-group">
+            <button class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Requerimientos</button>
+            <button class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Analisis</button>
+            <button class="btn btn-light-info text-info px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+                Requerimientos
+            </button>
             </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Folio</th>
-                        <th scope="col">Estatus</th>
-                        <th scope="col">Accion</th>
-                    </tr>
-                </thead>
-                <tbody id="contenidopestanas">
-                    @foreach ($registros as $registro)
-                        <tr id="{{$registro->folio}}" class="collapse" onmousemove="lock('play{{$loop->iteration}}','btn{{$loop->iteration}}')">
-                            <td>
-                                <div class="form-group row">
-                                    <div class="col-md-13" >
-                                        <i id="{{$loop->iteration}}" 
-                                            class="fas fa-arrow-circle-down" 
-                                            onclick="arrow({{$loop->iteration}})" 
-                                            data-bs-remove="fa-arrow-circle-down" 
-                                            data-bs-toggle="collapse" 
-                                            data-bs-target="#collapseOne_{{$loop->iteration}}" 
-                                            href="#collapseOne_{{$loop->iteration}}">
-                                        </i> 
-                                        <a href="{{route('Avance',$registro->folio)}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a>
-                                    </div>
+            <div class="row">
+            <div class="col">
+                <div class="multi-collapse collapse" id="multiCollapseExample1" style="">
+                <div class="card card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                    richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes
+                    anderson cred nesciunt sapiente ea proident.
+                </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="multi-collapse collapse" id="multiCollapseExample2" style="">
+                <div class="card card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                    richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes
+                    anderson cred nesciunt sapiente ea proident.
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>-->
+        <div class="button-group">
+            <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Analisis</button>
+            <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
+        </div>
+        <!--<div id='pestana' class="navbar navbar-expand-lg navbar-dark bg-success">
+            <div id='lista' class="navbar-item">
+                <a id='pestana1' 
+                    class="navbar-brand" 
+                    href="javascript:cambiarPestanna('pestanas','pestana1')">Analisis
+                </a>
+            </div>
+            <div class="navbar-item" data-navbarbg="color: plum">
+                <a id='pestana2' 
+                    class="navbar-brand" 
+                    data-toggle="collapse"
+                    data-target="#" 
+                    href="javascript:cambiarPestanna('pestanas','pestana2')">Requerimiento
+                </a>
+            </div>
+        </div>-->
+        <div class="card-body wizard-content">
+            <h5 class="card-title mb-0">Seguimiento</h5>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Folio</th>
+                    <th scope="col">Estatus</th>
+                    <th scope="col">Accion</th>
+                </tr>
+            </thead>
+            <tbody id="contenidopestanas">
+                @foreach ($registros as $registro)
+                    <tr id="{{$registro->folio}}"class="collapse show" onmousemove="lock('play{{$loop->iteration}}','btn{{$loop->iteration}}')">
+                        <td>
+                            <div class="form-group row">
+                                <div class="col-md-13" >
+                                    <i id="{{$loop->iteration}}" 
+                                        class="fas fa-arrow-circle-down" 
+                                        onclick="arrow({{$loop->iteration}})" 
+                                        data-bs-remove="fa-arrow-circle-down" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#collapseOne_{{$loop->iteration}}" 
+                                        href="#collapseOne_{{$loop->iteration}}">
+                                    </i> 
+                                    <a href="{{route('Avance',$registro->folio)}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a>
                                 </div>
-                            </td>
-                            <td class="">{{$registro->titulo}}</td>
-                            @switch($registro->id_estatus)
-                                @case(17)
-                                    <td><button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Formato',$registro->id_registro)}}" style="color:white">Llenar Solicitud</a></button></td>
-                                    @break
-                                @case(10)
-                                    <td><button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Enviar Reporte</a></button></td>
-                                    @break
-                                @case(16)
-                                    <td>
-                                        <button type="submit" class="btn btn-warning text-white" ><a href="{{route('Levantamiento',$registro->id_registro)}}" style="color:white">Revision de Datos</a></button>
-                                        <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Confirmacion</a></button>
-                                    </td>
-                                    @break
-                                @case(11)
-                                    <td> 
-                                        <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeacion</a></button>
-                                    </td>
-                                    @break
-                                @case(9)
-                                    <td>
-                                        <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Analisis de Desarrollo</a></button>
-                                    </td>
-                                    @break
-                                @case(7)
-                                    <td>
-                                        <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Construccion',$registro->folio)}}" style="color:white">Construccion</a></button>
-                                    </td>
-                                    @break
-                                @case(8)
-                                    <td>
-                                        <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Liberacion',$registro->folio)}}" style="color:white">Liberacion</a></button>
-                                    </td>
+                            </div>
+                        </td>
+                        <td class="">{{$registro->titulo}}</td>
+                        @switch($registro->id_estatus)
+                            @case(17)
+                                <td><button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Formato',$registro->id_registro)}}" style="color:white">Llenar Solicitud</a></button></td>
                                 @break
-                                @case(2)
-                                    <td>
-                                        <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementacion</a></button>
-                                    </td>
+                            @case(10)
+                                <td><button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Enviar Reporte</a></button></td>
                                 @break
-                                @case(12)
-                                    <td>
-                                        <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementado</a></button>
-                                    </td>
+                            @case(16)
+                                <td>
+                                    <button type="submit" class="btn btn-warning text-white" ><a href="{{route('Levantamiento',$registro->id_registro)}}" style="color:white">Revision de Datos</a></button>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Confirmacion</a></button>
+                                </td>
                                 @break
-                                @default
+                            @case(11)
+                                <td> 
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeacion</a></button>
+                                </td>
+                                @break
+                            @case(9)
+                                <td>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Analisis de Desarrollo</a></button>
+                                </td>
+                                @break
+                            @case(7)
+                                <td>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Construccion',$registro->folio)}}" style="color:white">Construccion</a></button>
+                                </td>
+                                @break
+                            @case(8)
+                                <td>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Liberacion',$registro->folio)}}" style="color:white">Liberacion</a></button>
+                                </td>
+                            @break
+                            @case(2)
+                                <td>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementacion</a></button>
+                                </td>
+                            @break
+                            @case(18)
+                                <td>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementado</a></button>
+                                </td>
+                            @break
+                            @default 
+                        @endswitch
+                    <td>
+                        @if ($registro->id_estatus <> 18)
+                            <div class="form-group row">
+                                <div class="col-md-2 col-lg-1 f-icon">
+                                    <a class="fas fa-plus" href="{{route('Subproceso',$registro->folio)}}" role="button" style="color:#3e5569"></a> 
+                                </div>
+                                @foreach ($pausa as $p)
+                                    @if ($p->pausa == '1' and $p->folio==$registro->folio)
+                                        <div class="col-md-2 col-lg-2 f-icon">
+                                            <a id="play{{$loop->iteration}}" class="fas fa-play" style="color:green" href="{{route('Play',$registro->folio)}}"></a>
+                                        </div>
+                                    @elseif ($p->pausa <> '1' and $p->folio==$registro->folio)
+                                        <div class="col-md-2 col-lg-2 f-icon">
+                                            <a id="play{{$loop->iteration}}"class="fas fa-pause"  style="color:red" href="{{route('Pausa',$registro->folio)}}"></a>
+                                        </div>
                                     
-                            @endswitch
-                            <td>
-                                <div class="form-group row">
-                                    <div class="col-md-2 col-lg-1 f-icon">
-                                        <a class="fas fa-plus" href="{{route('Subproceso',$registro->folio)}}" role="button" style="color:#3e5569"></a> 
-                                    </div>
-                                    @foreach ($pausa as $p)
-                                        @if ($p->pausa == '1' and $p->folio==$registro->folio)
-                                            <div class="col-md-2 col-lg-2 f-icon">
-                                                <a id="play{{$loop->iteration}}" class="fas fa-play" style="color:green" href="{{route('Play',$registro->folio)}}"></a>
-                                            </div>
-                                        @elseif ($p->pausa <> '1' and $p->folio==$registro->folio)
-                                            <div class="col-md-2 col-lg-2 f-icon">
-                                                <a class="fas fa-pause"  style="color:red" href="{{route('Pausa',$registro->folio)}}"></a>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                    <!--<button type="submit" class="btn btn-success text-white">
-                                        <a href="{{route('Subproceso',$registro->folio)}}" style="color:white">Nuevo Subproceso</a>
-                                    </button>-->
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="{{$registro->folio}}" class="collapse"><td></td>
-                            <td id="collapseOne_{{$loop->iteration}}" class="panel-collapse collapse">
-                                @foreach ($subprocesos as $subproceso)
-                                @if ($subproceso->folio == $registro->folio && $subproceso->estatus == 'pendiente')
-                                    <div class="form-group row">
-                                        <label for="motivodesface"
-                                            class="col-sm-6 control-label col-form-label">{{$subproceso->subproceso}}</label>
-                                            @if ($subproceso->previsto >= now())
-                                                <div class="col-md-2 col-lg-1 f-icon">
-                                                    <a id class="fas fa-check" style=color:green href="{{route('Concluir',$subproceso->subproceso)}}" aria-valuetext="pausado"></a>
-                                                </div>
-                                            @else
-                                                <div class="col-md-5 col-lg-4 f-icon">
-                                                    <a class="fas fa-clock" style=color:red href="{{route('Concluir',$subproceso->subproceso)}}"><!--p class="fas fa-clock"></p--></a>
-                                                </div>
-                                            @endif
-                                    </div>
                                 @endif
                                 @endforeach
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                                <!--<button type="submit" class="btn btn-success text-white">
+                                    <a href="{{route('Subproceso',$registro->folio)}}" style="color:white">Nuevo Subproceso</a>
+                                </button>-->
+                            </div>
+                        @endif
+                    </td>
+                    </tr>
+                    <tr id="{{$registro->folio}}" class="collapse show"><td></td>
+                        <td id="collapseOne_{{$loop->iteration}}" class="panel-collapse collapse">
+                            @foreach ($subprocesos as $subproceso)
+                            @if ($subproceso->folio == $registro->folio && $subproceso->estatus == 'pendiente')
+                                <div class="form-group row">
+                                    <label for="motivodesface" class="col-sm-7 control-label col-form-label">{{$subproceso->subproceso}}</label>
+                                        @if ($subproceso->previsto >= now())
+                                            <div class="col-md-2 col-lg-2 f-icon">
+                                                <a class="fas fa-check" style=color:green data-toggle="modal" data-target="#confirm-{{$subproceso->id}}" aria-valuetext="pausado"></a>
+                                            </div>
+                                        @else
+                                            <div class="col-md-2 col-lg-2 f-icon">
+                                                <a class="fas fa-clock" style=color:red data-toggle="modal" data-target="#confirm-{{$subproceso->id}}" ><!--p class="fas fa-clock"></p--></a>
+                                            </div>
+                                        @endif
+                                </div>
+                                <!-- Modal de Confirmacion -->
+                                <div class="modal" id="confirm-{{$subproceso->id}}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Concluir Subporceso</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label>Una vez Concluido el Subproceso este desaparecera</label>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a class="btn btn-invert" data-dismiss="modal">Cancelar</a>
+                                                <button type="submit" class="btn btn-success btn-ok"><a href="{{route('Concluir',$subproceso->subproceso)}}" style="color:white">Confirmar</a></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </body>
 <script>
@@ -184,11 +231,10 @@
         estatus = document.getElementById(play)
         sub = document.getElementsByClassName('fa-plus')
         idSub = document.getElementsByClassName('fa-check')
-        //for(i=0; i<estatus.length; i++){
-            if(estatus.classList == "fas fa-play"){
-                button.disabled = true;
-                //sub.removeAttribute("href");
-                //idSub.removeAttribute("href") 
+        if(estatus.classList == "fas fa-play"){
+            button.disabled = true;
+            //sub.removeAttribute("href");
+            //idSub.removeAttribute("href") 
         }
     }
 </script>

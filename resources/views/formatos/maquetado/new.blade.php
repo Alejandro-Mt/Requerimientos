@@ -10,9 +10,7 @@
                 {{ csrf_field() }}
                 <div>
                     <section>
-                        <div class="form-group row">
-                            <label for="id_registro"
-                                class="col-sm-2 text-end control-label col-form-label">{{__('ID')}}</label>
+                        <div class="d-none">
                             <div class="col-md-3">
                                 <input id="id_registro" type="text" class="required form-control" 
                                     placeholder="{{$registros+1}}" readonly="readonly"> 
@@ -46,7 +44,7 @@
                                     style="width: 100%; height:36px;" name="id_responsable" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($responsable as $ejecutivo):
-                                        @if ($ejecutivo ->id_area == 3)
+                                        @if ($ejecutivo ->id_area == 11)
                                             <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
                                         @endif
                                     @endforeach                     
@@ -81,10 +79,10 @@
                                 class="col-sm-2 text-end control-label col-form-label">Cliente*</label>
                             <div class="col-md-8">
                                 <select id="id_cliente" class="form-select @error ('id_cliente') is-invalid @enderror"
-                                    style="width: 100%; height:36px;" name="abreviacion" tabindex="-1" aria-hidden="true" required autofocus>
+                                    style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($cliente as $cliente)
-                                        <option value={{$cliente->abreviacion}}>{{$cliente->nombre_cl}}</option>
+                                        <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
                                     @error('id_cliente')
                                     <span class="invalid-feedback" role="alert">

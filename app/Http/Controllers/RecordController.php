@@ -7,8 +7,8 @@ use App\Models\estatu;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
-use Illuminate\Http\Request;
 use App\Models\sistema;
+use Illuminate\Http\Request;
 
 class RecordController extends Controller
 {
@@ -46,11 +46,12 @@ protected function validator(array $data)
         'descripcion' => $data['descripcion'],
         'id_responsable' => $data['id_responsable'],
         'id_sistema' => $data['id_sistema'],
-        'abreviacion' => $data['abreviacion'],
+        'id_cliente' => $data['id_cliente'],
         'id_estatus' => $data['id_estatus'],
         'id_area' => $data['id_area']
     ]);
     return redirect(route('Nuevo'));
+    #return ($data);
     }
 
     protected function edit($id_registro){
@@ -87,9 +88,9 @@ protected function validator(array $data)
             'esperado' => $data['esperado'],
             'involucrados'=> implode(',', $data['involucrados'])
         ]);
-        $test = registro::select()->where('folio', $data->folio)->first();
-        $test->id_estatus = $data['id_estatus'];
-        $test->save();  
+        $estatus = registro::select()->where('folio', $data->folio)->first();
+        $estatus->id_estatus = $data['id_estatus'];
+        $estatus->save();  
         return redirect(route('Editar'));
         dd($data);
 
@@ -117,15 +118,4 @@ protected function validator(array $data)
 
     }
 
-    protected function test($folio){
-        $registros = registro::where('folio', $folio)->get();
-        $sistemas = sistema::all();
-        $responsables = responsable::all();
-        $cliente = cliente::orderby('id_cliente', 'asc') -> get();
-        $id = registro::latest('id_registro')->first();
-        $levantamientos = levantamiento::where('folio', $folio)->get();
-        $vacio = registro:: select('*')->count();
-        return view('correos.Plantilla',compact('sistemas','responsables','cliente','registros','id','levantamientos','vacio'));
-        #dd($registros);
-    }
 }

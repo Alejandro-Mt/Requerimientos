@@ -22,6 +22,7 @@ class levantamiento extends Model
         'detalle',
         'relaciones',
         'esperado',
-        'involucrados'
+        'involucrados',
+        'estatusAut'
     ];
 }

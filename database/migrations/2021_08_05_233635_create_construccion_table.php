@@ -15,12 +15,12 @@ class CreateConstruccionTable extends Migration
     {
         Schema::create('construccion', function (Blueprint $table) {
             $table->id();
-            $table->string('folio',20)->unique();
-            $table->timestamp('fechaCompReqC');
+            $table->string('folio',50)->unique();
+            $table->timestamp('fechaCompReqC')->nullable();
             $table->string("evidencia");
-            $table->timestamp('fechaCompReqR');
+            $table->timestamp('fechaCompReqR')->nullable();
             $table->unsignedInteger("difdias")->nullable();#compromisocliente-compromisoReal
-            $table->unsignedSmallInteger("desfase")->default(0)->nullable();
+            $table->boolean("desfase")->default(0)->nullable();
             $table->string("motivodesfase")->nullable();
             $table->string("motivopausa")->nullable();
             $table->string("evPausa")->nullable();

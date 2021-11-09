@@ -1,59 +1,57 @@
-<header class="topbar" data-navbarbg="skin5">
-    <nav class="navbar top-navbar navbar-expand-md navbar-dark">
-        <div class="navbar-header" data-logobg="skin5">  
-        <!-- ============================================================== -->
-        <!-- Logo -->
-        <!-- ============================================================== -->
-        <a class="navbar-brand" href="index.html">
-            <!-- Logo icon -->
-            <b class="logo-icon ps-1">
-                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                <!-- Dark Logo icon --
-                <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" />-->
-                <a href="#" class="u-image u-logo u-image-1" data-image-width="60" data-image-height="60">
-                    <img src="{{asset("assets/images/logo-icon.png")}}" class="u-logo-image u-logo-image-1">
-                </a>
-
-            </b>
-            <!--End Logo icon -->
-            <!-- Logo text -->
-            <span class="logo-text">
-                <!-- dark Logo text --
-                <img src="{{asset("assets/images/logo-text.png")}}" alt="homepage" class="light-logo" />-->
-                <a href="#" class="u-image u-logo u-image-1">
-                    <img src="{{asset("assets/images/logo-text2.png")}}" class="u-logo-image u-logo-image-1">
-                  </a>
-
-            </span>
-            <!-- Logo icon -->
-            <!-- <b class="logo-icon"> -->
-            <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-            <!-- Dark Logo icon -->
-            <!-- <img src="../assets/images/logo-text.png" alt="homepage" class="light-logo" /> -->
-
-            <!-- </b> -->
-            <!--End Logo icon -->
-        </a>
-        <!-- ============================================================== -->
-        <!-- End Logo -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Toggle which is visible on mobile only -->
-        <!-- ============================================================== -->
-        <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
-                    class="ti-menu ti-close"></i></a>
+<header class="topbar" data-navbarbg="skin6">
+    <nav class="navbar top-navbar navbar-expand-md navbar-light">
+        <div class="navbar-header" data-logobg="skin6"> 
+            <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+              <i class="ri-close-line fs-6 ri-menu-2-line"></i>
+            </a> 
+            <!-- ============================================================== -->
+            <!-- Logo -->
+            <!-- ============================================================== -->
+            <a class="navbar-brand" href="index.html">
+                <!-- Logo icon -->
+                <b class="logo-icon">
+                    <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                    <!-- Dark Logo icon -->
+                    <img src={{asset("assets/images/logo-icon.png")}} alt="homepage" class="dark-logo" width="40" height="60"/>
+                    <!-- Light Logo icon -->
+                    <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" width="40" height="40"/>
+                    <!--End Logo icon -->
+                    <!-- Logo text -->
+                </b>
+                <!--End Logo icon -->
+                <!-- Logo text -->
+                <span class="logo-text">
+                    <!-- dark Logo text -->
+                    <img src="{{asset("assets/images/logo-text2.png")}}" alt="homepage" class="dark-logo" width="110" height="70"/>
+                    <!-- Light Logo text -->
+                    <img src="{{asset("assets/images/logo-text.png")}}" class="light-logo" alt="homepage" width="110" height="70"/>
+                </span>
+                <!--End Logo icon -->
+            </a>
+            <!-- ============================================================== -->
+            <!-- End Logo -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Toggle which is visible on mobile only -->
+            <!-- ============================================================== -->
+            <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!--<i class="ri-more-line fs-6">-->
+                <i class="ti-menu ti-close"></i>
+            </a>
         </div>
         <!-- ============================================================== -->
         <!-- End Logo -->
         <!-- ============================================================== -->
-        <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin5">
+        <div class="navbar-collapse collapse" id="navbarSupportedContent">
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav float-start me-auto">
-                <li class="nav-item d-none d-lg-block"><a
-                        class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
-                        data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link sidebartoggler d-none d-md-block waves-effect waves-dark" href="javascript:void(0)">
+                        <i data-feather="menu" class="mdi mdi-menu font-24"></i>
+                    </a>
+                </li>
                 <!-- ============================================================== -->
                 <!-- create new -->
                 <!-- ============================================================== -->
@@ -74,19 +72,22 @@
                 <!-- ============================================================== -->
                 <!-- Search -->
                 <!-- ============================================================== -->
-                <li class="nav-item search-box"> 
-                    <a class="nav-link waves-effect waves-dark"
-                        href="javascript:void(0)"><i class="ti-search"></i></a>
-                    <form class="app-search position-absolute">
-                        <input type="text" class="form-control" placeholder="Search &amp; enter"> <a
-                            class="srh-btn"><i class="ti-close"></i></a>
+                <li class="nav-item d-none d-md-block search-box"> 
+                    <a class="nav-link d-none d-md-block waves-effect waves-dark" href="javascript:void(0)">
+                        <i class="ti-search"></i>
+                    </a>
+                    <form class="app-search">
+                        <input type="text" class="form-control" placeholder="Search &amp; enter"> 
+                        <a class="srh-btn">
+                            <i data-feather="x" class="ti-close"></i>
+                        </a>
                     </form>
                 </li>
             </ul>
             <!-- ============================================================== -->
             <!-- Right side toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav float-end">
+            <ul class="navbar-nav justify-content-end">
                 <!-- ============================================================== -->
                 <!-- Comment -->
                 <!-- ============================================================== -->
@@ -171,13 +172,24 @@
                 <!-- ============================================================== -->
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
-                <li class="navbar-nav ml-auto">
-                    <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{asset("assets/images/users/d1.jpg")}}" alt="user" class="rounded-circle" width="31">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{Auth::user()->avatar}}" alt="user" width="30" class="profile-pic rounded-circle">
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{('profile')}}"><i class="ti-user me-1 ms-1"></i>
-                            {{ Auth::user()->name }}</a>
+                    <div class="dropdown-menu dropdown-menu-end user-dd animated flipInY">
+                        <div class="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
+                            <div class="">
+                                <img src="{{Auth::user()->avatar}}" alt="user" class="rounded-circle" width="60"/>
+                            </div>
+                            <div class="ms-2">
+                                <h4 class="mb-0 text-white">{{Auth::user()->nombre}}</h4>
+                                <p class="mb-0">{{Auth::user()->puesto}}</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="{{route('profile',Auth::user()->id)}}">
+                            <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i>
+                            {{ Auth::user()->nombre }}
+                        </a>
                         <!--<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet me-1 ms-1"></i>
                             My Balance</a>
                         <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email me-1 ms-1"></i>
@@ -186,17 +198,17 @@
                         <a class="dropdown-item" href="javascript:void(0)"><i
                                 class="ti-settings me-1 ms-1"></i> Account Setting</a>
                         <div class="dropdown-divider"></div>-->
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();"><i
-                                class="fa fa-power-off me-1 ms-1" ></i> {{ __('Salir') }}</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fa fa-power-off me-1 ms-1" ></i>
+                            {{ __('Salir') }}
+                        </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                         <!--<div class="dropdown-divider"></div>
                         <div class="ps-4 p-10"><a href="javascript:void(0)"
                                 class="btn btn-sm btn-success btn-rounded text-white">View Profile</a></div>-->
-                    </ul>
+                    </div>
                 </li>
                 <!-- ============================================================== -->
                 <!-- User profile and search -->

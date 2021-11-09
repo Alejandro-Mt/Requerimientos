@@ -1,52 +1,328 @@
 @extends('home')
 @section('content')
     <div class="card">
+      @foreach ($registros as $avance)
         <div class="card-body wizard-content">
-            <div>
-                <p class="u-align-left u-text u-text-2">
-                    <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" readonly="readonly" value="{{$folio}}">  
-                </p>
+          <div class="form-group row">
+            <div class="col-md-6">
+              <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" readonly="readonly" value="{{$avance->folio}}"> 
             </div>
-            <div class="progress mt-3">
-                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 10%"></div>
+            <div class="col-md-6">
+              <input name="descripcion" type="text" class="required form-control" readonly="readonly" value="{{$avance->descripcion}}">  
             </div>
-            <!-- Visualizar el estatus en la seccion inf izq -->
-            <div class="u-clearfix u-sheet u-sheet-1">
-                <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-1">
-                    <div class="u-container-layout u-container-layout-1">
-                        <p class="u-align-left u-text u-text-1">% Avance</p>
-                    </div>
-                </div>
+          </div>
+          <div class="progress mt-3">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                @switch($avance->id_estatus)
+                    @case(17)
+                      style="width:10%"
+                      @break
+                    @case(10)
+                      style="width:20%"
+                      @break
+                    @case(16)
+                      style="width:30%"
+                      @break
+                    @case(11)
+                      style="width:40%"
+                      @break
+                    @case(9)
+                      style="width:50%"
+                      @break
+                    @case(7)
+                      style="width:60%"
+                      @break
+                    @case(8)
+                      style="width:70%"
+                      @break
+                    @case(2)
+                      style="width:80%"
+                      @break
+                    @case(18)
+                      style="width:100%"
+                      @break
+                    @default
+                @endswitch>
+              </div>
+          </div>
+          <div class="d-flex no-block align-items-center">
+            @switch($avance->id_estatus)
+              @case(17)
+                <span>10% Avance</span>
+                @break
+              @case(10)
+                <span>20% Avance</span>
+                @break
+              @case(16)
+                <span>30% Avance</span>
+                @break
+              @case(11)
+                <span>40% Avance</span>
+                @break
+              @case(9)
+                <span>50% Avance</span>
+                @break
+              @case(7)
+                <span>60% Avance</span>
+                @break
+              @case(8)
+                <span>70% Avance</span>
+                @break
+              @case(2)
+                <span>80% Avance</span>
+                @break
+              @case(12)
+                <span>90% Avance</span>
+                @break
+              @default
+            @endswitch
+            <div class="ms-auto">
+              @foreach ($estatus as $e)
+                @if ($e->id_estatus == $avance->id_estatus)
+                  <span>{{$e->titulo}}</span>
+                @endif
+              @endforeach
             </div>
-        </div>
+          </div>
+          <!-- Visualizar el estatus en la seccion inf izq -->
+        </div>  
+      @endforeach
     </div>
     <div class="card">
-        <div class="card-body wizard-content">
-            <section class="u-align-left u-border-3 u-border-grey-75 u-clearfix u-white u-section-1" id="carousel_4c76">
-
-                <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-2">
-                    <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-2">
-                    <p class="u-align-left u-text u-text-3">Usuario</p>
-                    <p class="u-align-left u-text u-text-4">
-                        <input type="text" class="required form-control @error('solicitante') is-invalid @enderror" 
-                            name="solicitante" placeholder="Comentarios" required autofocus>
-                        @error('solicitante')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+      <!-- Card -->
+      <!-- Start row -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title border-bottom">
+                  <span class="lstick d-inline-block align-middle"></span>Comentarios
+                </h4>
+                <form class="border-bottom" action="{{route('Comentar')}}" method="POST">
+                  {{ csrf_field() }}
+                  <div class=""width="500" height="10" style="margin-left:10;">
+                      <section class="u-align-left u-border-3 u-border-grey-75 u-clearfix u-white u-section-1" id="carousel_4c76">
+                        <input type="text" class="d-none" name="folio" value="{{$avance->folio}}">
+                        <input type="text" class="d-none" name="respuesta" value="No">
+                        <div class="row">
+                          <div class="p-1 col-1">
+                            <img src="{{Auth::user()->avatar}}" alt="user" width="50" class="rounded-circle">
+                          </div>
+                          <div class="col-9">
+                            <textarea name="contenido" placeholder="Escribe tu Comentario" class="form-control border-0" style="resize: none"></textarea>
+                          </div>
+                          <div class="col-1 text-end">
+                            <button type="submit" class="btn btn-lg">
+                              <i class="fas fa-reply"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </section>
+                  </div>
+                </form>
+              </div>
+              <div class="comment-widgets scrollable mb-2 common-widget" style="height: 450px">
+                <!-- Comment Row -->
+                @foreach ($comentarios as $comentario)
+                  @if ($comentario->respuesta == 'No')
+                    <div class="d-flex flex-row comment-row border-bottom p-3">
+                      <div class="p-2">
+                        <img src="{{auth::user()->avatar}}" alt="user" width="50" class="rounded-circle">
+                      </div>
+                      <div class="comment-text w-100">
+                        <h6 class="font-medium">{{"$comentario->nombre $comentario->apaterno"}}</h6>
+                        <span class="mb-3 d-block">{{$comentario->contenido}}</span>
+                        <div class="comment-footer d-md-flex align-items-center">
+                          <span class="badge bg-light-danger text-danger rounded-pill font-weight-medium fs-1 py-1">{{$comentario->puesto}}</span>
+                          <span class="action-icons">
+                            <a data-bs-toggle="collapse" href="#r-{{$loop->iteration}}" role="button" aria-expanded="false" aria-controls="r-{{$loop->iteration}}" class="ps-3"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3 feather-sm"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
+                          <!-- <a href="javascript:void(0)" class="ps-3"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle feather-sm"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></a>
+                            <a href="javascript:void(0)" class="ps-3"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart feather-sm"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>-->
+                          </span>
+                          <div class="text-muted ms-auto mt-2 mt-md-0">{{/*date('d-m-20y',strtotime(*/$comentario->created_at->diffForHumans()}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <form id="r-{{$loop->iteration}}" class="collapse" action="{{route('Comentar')}}" method="POST">
+                      {{ csrf_field() }}
+                      <div class="" width="500" height="10" style="margin-left:100;">
+                          <section class="u-align-left u-border-2 u-border-grey-7 u-clearfix u-white u-section-1" id="carousel_4c76">
+                            <input type="text" class="d-none" name="folio" value="{{$avance->folio}}">
+                            <input type="text" class="d-none" name="respuesta" value="SI">
+                            <div class="row">
+                              <div class="p-2 col-1">
+                                <img src="{{auth::user()->avatar}}" alt="user" width="40" class="rounded-circle">
+                              </div>
+                              <div class="col-6">
+                                <textarea name="contenido" placeholder="Escribe tu Comentario" class="form-control border-0" style="resize: none"></textarea>
+                              </div>
+                              <div class="col-2 text-end">
+                                <!--button type="button" class="btn btn-info btn-circle btn-lg"-->
+                                <button type="submit" class="btn btn-lg">
+                                  <i class="fas fa-reply"></i>
+                                </button>
+                              </div>
+                            </div>
+                              <!-- solo 5 comentarios para mostrar lo mas importante -->
+                            
+                          </section>
+                      </div>
+                    </form>
+                  @else
+                    <div class="d-flex flex-row comment-row border-bottom p-3" style="margin-left: 50">
+                      <div class="p-2">
+                        <img src="{{auth::user()->avatar}}" alt="user" width="40" class="rounded-circle">
+                      </div>
+                      <div class="comment-text w-100">
+                        <h6 class="font-medium">{{"$comentario->nombre $comentario->apaterno"}}</h6>
+                        <span class="mb-3 d-block">{{$comentario->contenido}}</span>
+                        <div class="comment-footer d-md-flex align-items-center">
+                          <span class="badge bg-light-danger text-danger rounded-pill font-weight-medium fs-1 py-1">{{$comentario->puesto}}</span>
+                          <span class="action-icons">
+                          <!-- <a href="javascript:void(0)" class="ps-3"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle feather-sm"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></a>
+                            <a href="javascript:void(0)" class="ps-3"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart feather-sm"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>-->
+                          </span>
+                          <div class="text-muted ms-auto mt-2 mt-md-0">{{/*date('d-m-20y',strtotime(*/$comentario->created_at->diffForHumans()}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  @endif
+                @endforeach
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <span class="lstick d-inline-block align-middle"></span>Respuestas
+                </h4>
+              </div>
+              <div class="comment-widgets scrollable mb-2 common-widget ps-container ps-theme-default ps-active-y" style="height: 450px" data-ps-id="01e22800-8dfc-fedb-4885-01f2248d5a6e">
+                <!-- Comment Row --
+                <div class="d-flex flex-row comment-row border-bottom p-3">
+                  <div class="p-2">
+                    <span class=""><img src="../../assets/images/users/1.jpg" class="rounded-circle" alt="user" width="50"></span>
+                  </div>
+                  <div class="comment-text w-100 p-3">
+                    <h5 class="font-weight-medium">James Anderson</h5>
+                    <p class="mb-1 fs-3 text-muted">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      type etting industry
                     </p>
+                    <div class="comment-footer d-md-flex align-items-center mt-2">
+                      <span class="
+                          badge
+                          bg-light-info
+                          text-info
+                          rounded-pill
+                          font-weight-medium
+                          fs-1
+                          py-1
+                        ">Pending</span>
+                      <span class="action-icons">
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-check-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6"></i></a>
+                      </span>
+                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
                     </div>
+                  </div>
                 </div>
-                <!-- solo 5 comentarios para mostrar lo mas importante -->
-                <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-7">
-                    <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xl u-valign-middle-xs u-container-layout-7">
-                    <p class="u-align-right u-text u-text-13"></p>
-                    <p class="u-align-left u-text u-text-14"></p>
+                -- Comment Row --
+                <div class="d-flex flex-row comment-row border-bottom active p-3">
+                  <div class="p-2">
+                    <span><img src="../../assets/images/users/2.jpg" class="rounded-circle" alt="user" width="50"></span>
+                  </div>
+                  <div class="comment-text active w-100 p-3">
+                    <h5 class="font-weight-medium">Michael Jorden</h5>
+                    <p class="mb-1 fs-3 text-muted">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      type setting industry.
+                    </p>
+                    <div class="comment-footer d-md-flex align-items-center mt-2">
+                      <span class="
+                          badge
+                          bg-light-success
+                          text-success
+                          rounded-pill
+                          font-weight-medium
+                          fs-1
+                          py-1
+                        ">Approved</span>
+                      <span class="action-icons active">
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-close-circle-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6 text-danger"></i></a>
+                      </span>
+                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
                     </div>
+                  </div>
                 </div>
+                -- Comment Row --
+                <div class="d-flex flex-row comment-row border-bottom p-3">
+                  <div class="p-2">
+                    <span><img src="../../assets/images/users/3.jpg" class="rounded-circle" alt="user" width="50"></span>
+                  </div>
+                  <div class="comment-text w-100 p-3">
+                    <h5 class="font-weight-medium">Johnathan Doeting</h5>
+                    <p class="mb-1 fs-3 text-muted">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      type setting industry.
+                    </p>
+                    <div class="comment-footer d-md-flex align-items-center mt-2">
+                      <span class="
+                          badge
+                          bg-light-danger
+                          text-danger
+                          rounded-pill
+                          font-weight-medium
+                          fs-1
+                          py-1
+                        ">Rejected</span>
+                      <span class="action-icons">
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-check-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6"></i></a>
+                      </span>
+                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
+                    </div>
+                  </div>
                 </div>
-            </section>
+                <-- Comment Row --
+                <div class="d-flex flex-row comment-row p-3">
+                  <div class="p-2">
+                    <span><img src="../../assets/images/users/4.jpg" class="rounded-circle" alt="user" width="50"></span>
+                  </div>
+                  <div class="comment-text w-100 p-3">
+                    <h5 class="font-weight-medium">James Anderson</h5>
+                    <p class="mb-1 fs-3 text-muted">
+                      Lorem Ipsum is simply dummy text of the printing and
+                      type setting industry.
+                    </p>
+                    <div class="comment-footer d-md-flex align-items-center mt-2">
+                      <span class="
+                          badge
+                          bg-light-info
+                          text-info
+                          rounded-pill
+                          font-weight-medium
+                          fs-1
+                          py-1
+                        ">Pending</span>
+                      <span class="action-icons">
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-check-line fs-6"></i></a>
+                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6"></i></a>
+                      </span>
+                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
+                    </div>
+                  </div>
+                </div>--
+              <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 450px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 293px;"></div></div></div>
+            </div>
+          </div>-->
         </div>
-    </div>
+        <!-- End row -->
+    </div>    
 @endsection

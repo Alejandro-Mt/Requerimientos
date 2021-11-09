@@ -16,22 +16,21 @@
                             <div class="col-sm-3">
                                 @foreach ($registros as $registro)
                                     <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-                            
                                 @endforeach
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="cronograma">Cronograma</label>
                             <div class="col-md-6">
-                                <input type="checkbox" class="form-check-input" id="cronograma" name="cronograma" value="1" onchange="showContent()">
+                                <input type="checkbox" class="form-check-input" id="cronograma" name="cronograma" value="1" @foreach ($previo as $ant) @if ($ant->cronograma==1) checked=true @endif @endforeach onchange="showContent()">
                             </div>
-                        <div id="content" @if($vacio <> 0) @foreach ($previo as $ant) @if ($ant->desfase == 1) style="display: block;" @else style="display: none;" @endif @endforeach @else style='display: none;' @endif>
+                        <div id="content" @if($vacio <> 0) @foreach ($previo as $ant) @if ($ant->cronograma == 1) style="display: block;" @else style="display: none;" @endif @endforeach @else style='display: none;' @endif>
                             <div class="form-group row">
                                 <label for="link_c"
                                     class="col-sm-2 text-end control-label col-form-label">Evidencia*</label>
                                 <div class="col-md-8">
                                     <input type="text" class="required form-control @error('link_c') is-invalid @enderror" 
-                                        name="link_c" placeholder="Link De Cronograma" required autofocus>
+                                        name="link_c" placeholder="Link De Cronograma" @foreach ($previo as $ant) value="{{$ant->link_c}}" @endforeach required autofocus>
                                     @error('link_c')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -45,7 +44,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha de Implementacion*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="f_implementacion" type="text" class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="f_implementacion" type="text" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->f_implementacion))}}" @endforeach class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -100,12 +99,12 @@
                                     name="comentarios" placeholder="Hasta 250 caracteres">
                             </div>
                         </div>
-                        <div class="d-none"> 
+                        <!--<div class="d-none"> 
                                 <input type="text" name="estatus" value="" visible="false">
-                        </div>
+                        </div>-->
                         <div class="card-body text-center">
-                            <button type="submit" name="id_estatus" value="12" class="btn btn-primary text-white">Guardar y Continuar</button>
-                            <button type="submit" class="btn btn-success text-white">Guardar</button>
+                            <button type="submit" name="id_estatus" value="18" class="btn btn-primary text-white">Guardar y Continuar</button>
+                            <button type="submit" name="id_estatus" value="2" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
                         </div>

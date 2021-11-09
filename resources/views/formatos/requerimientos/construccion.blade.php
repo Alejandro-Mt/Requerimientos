@@ -26,7 +26,7 @@
                                     class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega de Requerimientos*</label>
                                 <div class= 'col-md-8'>
                                     <div class="input-group">
-                                        <input name="fechaCompReqC" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" @endforeach type="text" class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                        <input name="fechaCompReqC" @foreach ($previo as $ant) @if($ant->fechaCompReqC == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" @endif @endforeach type="text" class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                         <div class="input-group-append">
                                             <span class="input-group-text h-100">
                                                 <i class="fa fa-calendar"></i>
@@ -53,7 +53,7 @@
                                     class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega de Requerimientos Real*</label>
                                 <div class= 'col-md-8'>
                                     <div class="input-group">
-                                        <input name = "fechaCompReqR" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->fechaCompReqR))}}" @endforeach type="text" class="form-control mydatepicker" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                        <input name = "fechaCompReqR" @foreach ($previo as $ant) @if($ant->fechaCompReqR == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaCompReqR))}}" @endif @endforeach type="text" class="form-control mydatepicker" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                         <!--<input type="text" class="form-control mydatepicker" placeholder="dd/mm/yyyy">-->
                                         <div class="input-group-append">
                                             <span class="input-group-text h-100">
@@ -106,7 +106,7 @@
                                             class="col-sm-2 text-end control-label col-form-label">Motivo de Pausa</label>
                                         <div class="col-md-8">
                                             <input type="text" class="required form-control @error('motivopausa') is-invalid @enderror" 
-                                                name="motivopausa" @foreach ($previo as $ant) value={{$ant->motivopausa}} @endforeach placeholder="Motivo" autofocus>
+                                                name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Motivo" autofocus>
                                             <!--@error('motivopausa')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -127,20 +127,6 @@
                                             @enderror-->
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="fechareact"
-                                        class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivacion</label>
-                                        <div class= 'col-md-8'>
-                                            <div class="input-group">
-                                                <input name="fechareact" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->fechaReact))}}" @endforeach type="text" class="form-control mydatepicker"  placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text h-100">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div id="other" @if($vacio <> 0) @foreach ($previo as $ant) @if($ant->motivodesfase <> 7) style="display: none;" @endif @endforeach @else style='display: none;' @endif>
                                     <div class="form-group row">
@@ -157,10 +143,25 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="fechareact"
+                                    class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivacion</label>
+                                    <div class= 'col-md-8'>
+                                        <div class="input-group">
+                                            <input name="fechareact" @foreach ($previo as $ant) @if($ant->fechaReact == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaReact))}}" @endif @endforeach type="text" class="form-control mydatepicker"  placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text h-100">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         <div class="card-body text-center">
                             <div class="card-body text-center">
-                                <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a><p>Solicitar Informacion</p>
+                                <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
+                                <a style='text-align: center'>Solicitar Informacion</a>
                             </div>
                             <button type="submit" name="id_estatus" value="8" class="btn btn-primary text-white">Guardar y Continuar</button>
                             <button type="submit" name="id_estatus" value="7" class="btn btn-success text-white">Guardar</button>

@@ -17,25 +17,26 @@ class CreateLevantamientosTable extends Migration
         Schema::create('levantamientos', function (Blueprint $table) {
             $table->id();
             $table->string('folio',50)->unique();
-            $table->string('solicitante');
-            $table->unsignedBigInteger('jefe_departamento');
-            $table->foreign('jefe_departamento')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
-            $table->unsignedBigInteger('autorizacion');
-            $table->foreign('autorizacion')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
+            $table->string('solicitante')->lenght(50);
+            $table->Integer('jefe_departamento')->lenght(50)->unsigned();
+            #$table->foreign('jefe_departamento')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
+            $table->Integer('autorizacion')->lenght(50)->unsigned();
+            #$table->foreign('autorizacion')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->boolean('previo');
-            $table->string('problema');
-            $table->string('impacto');
-            $table->string('general');
-            $table->string('detalle');
-            $table->string('esperado');
-            $table->string('relaciones',20);
-            $table->foreign('relaciones',20)->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
-            $table->string('involucrados',10);
-            $table->foreign('involucrados',10)->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
+            $table->string('problema')->lenght(50);
+            $table->string('impacto')->lenght(50);
+            $table->string('general')->lenght(50);
+            $table->string('detalle')->lenght(50);
+            $table->string('esperado')->lenght(50);
+            $table->string('relaciones')->lenght(50);
+            #$table->foreign('relaciones')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
+            $table->string('involucrados')->lenght(50);
+            #$table->foreign('involucrados',10)->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
-            $table->unsignedInteger("diasResp")->nullable();#FechaRegistro-FechaFormato
-            $table->string("estatusAut")->nullable();
-            $table->unsignedInteger("diasAut")->nullable();#Fechaformato-FechaEstatus
+           # $table->unsignedInteger("diasResp")->nullable();#FechaRegistro-FechaFormato
+            $table->timestamp('fechaaut')->nullable();
+            $table->timestamp('fechades')->nullable();
+           # $table->unsignedInteger("diasAut")->nullable();#Fechaformato-FechaEstatus
         });
     }
 

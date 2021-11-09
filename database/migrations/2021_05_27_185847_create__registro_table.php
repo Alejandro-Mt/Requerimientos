@@ -14,19 +14,21 @@ class CreateRegistroTable extends Migration
     public function up()
     {
         Schema::create('registros', function (Blueprint $table) {
-            $table->id('id_registro');
-            $table->string('abreviacion',5)->index();
-            $table->foreign('abreviacion',5)->references('id_cliente')->on('clientes')->ondelete('cascade')->onupdate('restrict');
-            $table->unsignedBigInteger('id_sistema')->index();
-            $table->foreign('id_sistema')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
-            $table->string('descripcion',50);
-            $table->unsignedBigInteger('id_responsable')->index();
-            $table->foreign('id_responsable')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
-            $table->string('folio',50);
-            $table->unsignedBigInteger('id_estatus');
-            $table->foreign('id_estatus')->references('id_estatus')->on('estatus')->ondelete('cascade')->onupdate('restrict');
-            $table->unsignedInteger('id_area');
-            $table->foreign('id_area')->references('id_area')->on('areas')->ondelete('cascade')->onupdate('restrict');
+            $table->id('id_registro')->length(10);
+            $table->integer('id_cliente')->length(10)->unsigned()->index();
+            #$table->foreign('id_cliente',5)->references('id_cliente')->on('clientes')->ondelete('cascade')->onupdate('restrict');
+            $table->Integer('id_sistema')->length(10)->unsigned()->index();
+            #$table->foreign('id_sistema')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
+            $table->string('descripcion')->length(50);
+            $table->Integer('id_responsable')->length(10)->unsigned()->index();
+            #$table->foreign('id_responsable')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
+            $table->string('folio')->length(50)->unique();
+            $table->Integer('id_estatus')->length(10)->unsigned();
+            #$table->foreign('id_estatus')->references('id_estatus')->on('estatus')->ondelete('cascade')->onupdate('restrict');
+            $table->Integer('id_area')->length(10)->unsigned();
+            #$table->foreign('id_area')->references('id_area')->on('areas')->ondelete('cascade')->onupdate('restrict');
+            $table->integer('id_arquitecto_d')->length(10)->nullable()->unsigned();
+            #$table->foreign('id_puesto')->references('id_puesto')->on('puestos')->ondelete('cascade')->onUpdate('restrict');
             $table->timestamps();
         });
     }

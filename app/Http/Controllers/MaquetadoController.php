@@ -32,7 +32,7 @@ class MaquetadoController extends Controller
         'descripcion' => $data['descripcion'],
         'id_responsable' => $data['id_responsable'],
         'id_sistema' => $data['id_sistema'],
-        'abreviacion' => $data['abreviacion'],
+        'id_cliente' => $data['id_cliente'],
         'id_estatus' => $data['id_estatus'],
         'id_area' => $data['id_area']
     ]);

@@ -6,20 +6,17 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Indicadores</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/favicon.png")}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/topicon.png")}}">
     <!-- Custom CSS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-    
-    <link rel="stylesheet" href="{{asset("/assets/libs/fullcalendar/dist/fullcalendar.min.css")}}"  />
-    <link rel="stylesheet" href="{{asset("/assets/extra-libs/calendar/calendar.css")}}" />
+    <link rel="stylesheet" href="{{asset("assets/extra-libs/datatables/css/dataTables.bootstrap4.css")}}"/>
+    <link rel="stylesheet" href="{{asset("assets/libs/fullcalendar/dist/fullcalendar.min.css")}}"  />
+    <link rel="stylesheet" href="{{asset("assets/extra-libs/calendar/calendar.css")}}" />
     <link rel="stylesheet" href="{{asset("assets/libs/bootstrap/dist/css/bootstrap.min.css")}}">
-    <link rel="stylesheet" type="text/css"
-        href="{{asset("assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")}}">
-    <link rel="stylesheet" type="text/css" 
-        href="{{asset("assets/libs/select2/dist/css/select2.min.css")}}">
-    <link href="{{asset("assets/css/style.min.css")}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset("assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css")}}">
+    <link rel="stylesheet" href="{{asset("assets/libs/select2/dist/css/select2.min.css")}}">
+    <link href="{{asset("assets/libs/jquery-steps/jquery.steps.css")}}"/>
+    <link rel="stylesheet" href="{{asset("assets/libs/jquery-steps/steps.css")}}"/>
+    <link rel="stylesheet" href="{{asset("assets/css/style.min.css")}}">
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -80,6 +77,11 @@
     <script src="{{asset("assets/libs/jquery/dist/jquery.min.js")}}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{asset("assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}"></script>
+    <!-- apps --
+    <script src="{{asset("assets/js/app.min.js")}}"></script>
+    <script src="{{asset("assets/js/app.init.js")}}"></script>
+    <script src="{{asset("assets/js/app-style-switcher.js")}}"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{asset("assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js")}}"></script>
     <script src="{{asset("assets/extra-libs/sparkline/sparkline.js")}}"></script>
     <!--Wave Effects -->
@@ -87,9 +89,15 @@
     <!--Menu sidebar -->
     <script src="{{asset("assets/js/sidebarmenu.js")}}"></script>
     <!--Custom JavaScript -->
+    <script src="{{asset("assets/js/feather.min.js")}}"></script>
     <script src="{{asset("assets/js/custom.min.js")}}"></script>
+    <script src="{{asset("assets/libs/jquery-steps/build/jquery.steps.min.js")}}"></script>
+    <script src="{{asset("assets/libs/jquery-validation/dist/jquery.validate.min.js")}}"></script>
+    <!-- Custom JavaScript -
+    <script src="{{asset("assets/libs/apexcharts/dist/apexcharts.min.js")}}"></script>
     <!--This page JavaScript -->
-    <!-- <script src="{{asset("assets/js/pages/dashboards/dashboard1.js")}}"></script> -->
+    <!-- <script src="{{asset("assets/js/pages/dashboards/dashboard1.js")}}"></script> -
+    <script src="{{asset("assets/js/pages/dashboards/dashboard2.js")}}"></script>-->
     <!-- Charts js Files -->
     <script src="{{asset("assets/libs/flot/excanvas.js")}}"></script>
     <script src="{{asset("assets/libs/flot/jquery.flot.js")}}"></script>
@@ -99,9 +107,7 @@
     <script src="{{asset("assets/libs/flot/jquery.flot.crosshair.js")}}"></script>
     <script src="{{asset("assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js")}}"></script>
     <script src="{{asset("assets/js/pages/chart/chart-page-init.js")}}"></script>
-
     
-    <script src="{{asset("assets/libs/jquery/dist/jquery.min.js")}}"></script>
     <script src="{{asset("assets/js/jquery.ui.touch-punch-improved.js")}}"></script>
     <script src="{{asset("assets/js/jquery-ui.min.js")}}"></script>
     <script src="{{asset("assets/libs/moment/min/moment.min.js")}}"></script>
@@ -152,6 +158,26 @@
             theme: 'snow'
         });*/
 
+    </script>
+    <script src="{{asset("assets/extra-libs/datatables/js/jquery.dataTables.min.js")}}"></script>
+    <!-- start - This is for export functionality only -->
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+    <script src="{{asset("assets/js/pages/datatable/datatable-advanced.init.js")}}"></script>
+    <script>  
+        var form = $("#example-advanced-form").show();
+        //Custom design form example
+        $(".tab-wizard").steps({
+          headerTag: "h6",
+          bodyTag: "section",
+          transitionEffect: "fade",
+          titleTemplate: '<span class="step">#index#</span> #title#'
+        });
     </script>
 
 </body>

@@ -1,12 +1,19 @@
 <?php
 
 use App\Http\Controllers\BuildController;
+use App\Http\Controllers\CorreoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MaquetadoController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\PlaneacionController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecordController;
+use App\Models\planeacion;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 /*
@@ -25,10 +32,12 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+auth::routes(['verify'=>true]);
 
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+Route::get('/home', [HomeController::class, 'index'])->middleware('verified')->name('home');
 Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth')->name('principal');
-#Route::get('/profile', [HomeController::class, 'edit'])->name('profile');
+Route::get('/profile/{id}', [ProfileController::class, 'edit'])->name('profile');
+Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');
 
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
@@ -42,12 +51,15 @@ Route::get('/formatos/requerimientos/formato/{id_registro}', [RecordController::
 Route::post('/formatos.requerimientos.formato', [RecordController::class, 'actualiza'])->name('Actualizar');
 Route::get('/formatos/requerimientos/levantamiento/{id_registro}', [RecordController::class, 'edit'])->middleware('auth')->name('Levantamiento');
 Route::post('/formatos.requerimientos.edit', [RecordController::class, 'levantamiento'])->name('Guardar');
-Route::get('/correos.Plantilla/{folio}', [RecordController::class, 'test'])->name('Test');
+##  metodos para correo ##
+Route::get('/correos.Plantilla/{folio}', [CorreoController::class, 'test'])->name('Test');
 Route::get('/layouts/correo/{folio}',[MenuController::class, 'send'])->name('Enviar');
 Route::post('/layouts/correo',[MenuController::class, 'sended'])->name('Enviado');
 
-Route::get('/formatos.requerimientos.planeacion/{folio}',[BuildController::class, 'planeacion'])->middleware('auth')->name('Planeacion');
-Route::post('/formatos.requerimientos.planeacion', [BuildController::class, 'plan'])->name('Plan');
+# controladores de Levantamiento 
+Route::get('/formatos.requerimientos.planeacion/{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
+Route::get('/show',[PlaneacionController::class, 'show'])->name('Datos');
+Route::post('/formatos.requerimientos.planeacion', [PlaneacionController::class, 'create'])->name('Plan');
 
 Route::get('/formatos.requerimientos.analisis/{folio}',[BuildController::class, 'analisis'])->middleware('auth')->name('Analisis');
 Route::post('/formatos.requerimientos.analisis', [BuildController::class, 'Propuesta'])->name('Propuesta');
@@ -61,7 +73,8 @@ Route::post('/formatos.requerimientos.liberacion',[BuildController::class, 'libe
 Route::get('/formatos.requerimientos.implementacion/{folio}',[BuildController::class, 'implementacion'])->name('Implementacion');
 Route::post('/formatos.requerimientos.implementacion',[BuildController::class, 'implementar'])->name('Implementar');
 
-Route::get('/formatos.requerimientos.informacion/{folio}',[BuildController::class, 'informacion'])->name('Informacion');
+Route::get('/formatos.requerimientos.informacion/{folio}',[BuildController::class, 'informacion'])->middleware('auth')->name('Informacion');
+Route::post('/formatos.requerimientos.informacion',[BuildController::class, 'SolInfo'])->name('Solicitud');
 
 Route::get('/formatos.subproceso/{folio}',[MenuController::class, 'subproceso'])->middleware('auth')->name('Subproceso');
 Route::post('/formatos.subproceso',[MenuController::class, 'sub'])->name('Sub');
@@ -71,3 +84,6 @@ route::get('formatos.maquetado.new',[MaquetadoController::class, 'index'])->midd
 route::post('formatos.maquetado.new',[MaquetadoController::class, 'create'])->name('NRegistro');
 
 route::get('formatos.comentarios/{folio}',[MenuController::class, 'avance'])->middleware('auth')->name('Avance');
+route::post('formatos.comentarios',[MenuController::class, 'comentar'])->name('Comentar');
+
+route::get('formatos.ajustes',[PermissionsController::class, 'ajustes'])->middleware('auth')->name('Ajustes');

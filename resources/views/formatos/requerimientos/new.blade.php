@@ -85,13 +85,13 @@
                             <label for="Cliente"
                                 class="col-sm-2 text-end control-label col-form-label">Cliente*</label>
                             <div class="col-md-8">
-                                <select class="form-select @error ('abreviacion') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="abreviacion" tabindex="-1" aria-hidden="true" required autofocus>
+                                <select class="form-select @error ('id_cliente') is-invalid @enderror" 
+                                    style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Seleccion</option>
                                     @foreach ($cliente as $cliente)
-                                        <option value={{$cliente->abreviacion}}>{{$cliente->nombre_cl}}</option>
+                                        <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
-                                    @error('abreviacion')
+                                    @error('id_cliente')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -106,7 +106,7 @@
                                 <select class="form-select shadow-none select2-hidden-accessible"   style="width: 100%; height:36px;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="0">Seleccion</option>
                                     @foreach ($responsable as $arqutecto)
-                                        @if ($arqutecto ->id_area == 1)
+                                        @if ($arqutecto ->id_area == 12)
                                             <option value = {{ $arqutecto->id_responsable }}>{{$arqutecto->nombre_r}}</option>;
                                         @endif    
                                     @endforeach                             

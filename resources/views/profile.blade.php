@@ -1,157 +1,2166 @@
-@extends('layouts.app')
+@extends('home')
 @section('content')
-    
-<div class="container-fluid">
-    <!-- ============================================================== -->
-    <!-- Start Page Content -->
-    <!-- ============================================================== -->
-    <!-- Chart-1 -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Real Time Chart</h5>
-            <div id="real-time" style="height: 400px; padding: 0px; position: relative;"><canvas class="flot-base" width="753" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 753px; height: 400px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 25px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 93px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 165px; text-align: center;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 237px; text-align: center;">30</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 309px; text-align: center;">40</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 382px; text-align: center;">50</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 454px; text-align: center;">60</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 526px; text-align: center;">70</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 598px; text-align: center;">80</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 670px; text-align: center;">90</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 368px; left: 9px; text-align: right;">70</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 306px; left: 9px; text-align: right;">75</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 245px; left: 9px; text-align: right;">80</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 184px; left: 9px; text-align: right;">85</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 123px; left: 9px; text-align: right;">90</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 62px; left: 9px; text-align: right;">95</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 2px; text-align: right;">100</div></div></div><canvas class="flot-overlay" width="753" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 753px; height: 400px;"></canvas></div>
-            <p>
-              Time between updates:
-              <input id="updateInterval" type="text" value="" style="text-align: right; width: 5em">
-              milliseconds
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ENd chart-1 -->
-    <!-- Chart-2 -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Turning-series chart</h5>
-            <div id="placeholder" style="height: 400px; padding: 0px; position: relative;"><canvas class="flot-base" width="1019" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1019px; height: 400px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 33px; text-align: center;">1988</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 140px; text-align: center;">1990</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 246px; text-align: center;">1992</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 353px; text-align: center;">1994</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 460px; text-align: center;">1996</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 566px; text-align: center;">1998</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 673px; text-align: center;">2000</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 780px; text-align: center;">2002</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 886px; text-align: center;">2004</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 101px; top: 381px; left: 993px; text-align: center;">2006</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 368px; left: 34px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 306px; left: 2px; text-align: right;">100000</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 245px; left: 2px; text-align: right;">200000</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 184px; left: 2px; text-align: right;">300000</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 123px; left: 2px; text-align: right;">400000</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 62px; left: 2px; text-align: right;">500000</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 2px; text-align: right;">600000</div></div></div><canvas class="flot-overlay" width="1019" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1019px; height: 400px;"></canvas><div class="legend"><div style="position: absolute; width: 65.9531px; height: 133px; top: 14px; right: 18px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:14px;right:18px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(72,140,19);overflow:hidden"></div></div></td><td class="legendLabel">USA</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(27,85,192);overflow:hidden"></div></div></td><td class="legendLabel">Russia</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(218,75,15);overflow:hidden"></div></div></td><td class="legendLabel">UK</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(233,177,4);overflow:hidden"></div></div></td><td class="legendLabel">Germany</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(174,60,12);overflow:hidden"></div></div></td><td class="legendLabel">Denmark</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(57,112,15);overflow:hidden"></div></div></td><td class="legendLabel">Sweden</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(21,68,153);overflow:hidden"></div></div></td><td class="legendLabel">Norway</td></tr></tbody></table></div></div>
-            <p id="choices" class="mt-3"><input type="checkbox" name="usa" checked="checked" id="idusa"><label for="idusa">USA</label><input type="checkbox" name="russia" checked="checked" id="idrussia"><label for="idrussia">Russia</label><input type="checkbox" name="uk" checked="checked" id="iduk"><label for="iduk">UK</label><input type="checkbox" name="germany" checked="checked" id="idgermany"><label for="idgermany">Germany</label><input type="checkbox" name="denmark" checked="checked" id="iddenmark"><label for="iddenmark">Denmark</label><input type="checkbox" name="sweden" checked="checked" id="idsweden"><label for="idsweden">Sweden</label><input type="checkbox" name="norway" checked="checked" id="idnorway"><label for="idnorway">Norway</label></p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Chart-2 -->
-    <!-- Cards -->
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card mt-0">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="peity_line_neutral left text-center mt-2">
-                <span><span style="display: none;"><span style="display: none;"><span style="display: none"><span style="display: none;">10,15,8,14,13,10,10</span><canvas width="50" height="24"></canvas></span>
-                  <canvas width="50" height="24"></canvas>
-                </span><canvas width="50" height="24"></canvas></span><canvas width="50" height="24"></canvas></span>
-                <h6>10%</h6>
+    <div class="container-fluid">
+      <!-- Start Row -->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body little-profile text-center">
+              <div class="my-3">
+                <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
+              </div>
+              <h3 class="mb-0">{{Auth::user()->nombre}}</h3>
+              <h6 class="text-muted">{{Auth::user()->puesto}}</h6>
+              <ul class="list-inline social-icons mt-4">
+                <li class="list-inline-item">
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event">
+                    <i class="ri-user-settings-line"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="javascript:void(0)">
+                    <i class="ri-settings-5-line"></i>
+                  </a>
+                </li>
+                <!--<li class="list-inline-item">
+                  <a href="javascript:void(0)">
+                    <i class="ri-google-fill"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="javascript:void(0)">
+                    <i class="ri-youtube-fill"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="javascript:void(0)">
+                    <i class="ri-instagram-line"></i>
+                  </a>
+                </li>-->
+              </ul>
+              <!-- BEGIN MODAL -->
+              <div class="modal" id="add-new-event">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex align-items-center">
+                          <h4 class="modal-title"><strong>Cambiar Imagen de Perfil</strong></h4>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="{{route('Actualiza')}}" method="post" enctype="multipart/form-data">
+                          {{csrf_field()}}
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="card">
+                                <div class="card-body little-profile text-center">
+                                  <div class="my-3">
+                                    <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
+                                  </div>
+                                </div>
+                              <input class="@error('contenido') is-invalid @enderror" type="file" name="avatar" accept="image/*">
+                              </div>
+                              @error('avatar')
+                                <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                                </span>
+                              @enderror
+                            </div>
+                          </div>
+                          <button type="submit" class="btn btn-success waves-effect waves-light text-white"> Guardar</button>
+                          <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <!-- End Modal -->
+            </div>
+            <div class="text-center bg-extra-light">
+              <div class="row">
+                <div class="col-6 p-3 border-right">
+                  <h4 class="mb-0 font-weight-medium">1099</h4>
+                  <small>Followers</small>
+                </div>
+                <div class="col-6 p-3">
+                  <h4 class="mb-0 font-weight-medium">603</h4>
+                  <small>Following</small>
+                </div>
               </div>
             </div>
-            <div class="col-md-6 border-left text-center pt-2">
-              <h3 class="mb-0 fw-bold">150</h3>
-              <span class="text-muted">New Users</span>
+            <div class="card-body text-center">
+              <a
+                href="javascript:void(0)"
+                class="
+                  mt-2
+                  mb-3
+                  waves-effect waves-dark
+                  btn btn-success btn-md btn-rounded
+                "
+                >Follow me</a
+              >
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card mt-0">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="peity_bar_bad left text-center mt-2">
-                <span><span style="display: none;"><span style="display: none;"><span style="display: none"><span style="display: none;">3,5,6,16,8,10,6</span><canvas width="50" height="24"></canvas></span>
-                  <canvas width="50" height="24"></canvas>
-                </span><canvas width="50" height="24"></canvas></span><canvas width="50" height="24"></canvas></span>
-                <h6>-40%</h6>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-md-flex">
+                <div>
+                  <h4 class="card-title">
+                    <span class="lstick d-inline-block align-middle"></span
+                    >Proyectos del Bimestre
+                  </h4>
+                </div>
+                <div class="ms-auto">
+                  <select class="form-select">
+                    <option selected="">Enero/Febrero</option>
+                    <option value="1">Marzo/Abril</option>
+                    <option value="2">Mayo/Junio</option>
+                    <option value="3">Julio/Agosto</option>
+                  </select>
+                </div>
+              </div>
+              <div class="table-responsive mt-3">
+                <table class="table v-middle no-wrap mb-0">
+                  <thead>
+                    <tr>
+                      <th class="border-0" colspan="2">Ejecutivo</th>
+                      <th class="border-0">Nombre</th>
+                      <th class="border-0">Prioridad</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="width: 50px">
+                        <span
+                          ><img
+                            src="../../assets/images/users/1.jpg"
+                            alt="user"
+                            width="50"
+                            class="rounded-circle"
+                        /></span>
+                      </td>
+                      <td>
+                        <h6 class="mb-0 font-weight-medium">Sunil Joshi</h6>
+                        <small class="text-muted">EJECUTIVO TI</small>
+                      </td>
+                      <td>EJEMPLO 1</td>
+                      <td>
+                        <span class="badge bg-success rounded-pill"
+                          >Baja</span
+                        >
+                      </td>
+                    </tr>
+                    <tr class="active">
+                      <td>
+                        <span
+                          ><img
+                            src="../../assets/images/users/2.jpg"
+                            alt="user"
+                            width="50"
+                            class="rounded-circle"
+                        /></span>
+                      </td>
+                      <td>
+                        <h6 class="mb-0 font-weight-medium">Andrew</h6>
+                        <small class="text-muted">AUXILIAR TI</small>
+                      </td>
+                      <td>EJEMPLO 2</td>
+                      <td>
+                        <span class="badge bg-info rounded-pill"
+                          >Media</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span
+                          ><img
+                            src="../../assets/images/users/3.jpg"
+                            alt="user"
+                            width="50"
+                            class="rounded-circle"
+                        /></span>
+                      </td>
+                      <td>
+                        <h6 class="mb-0 font-weight-medium">
+                          Bhavesh patel
+                        </h6>
+                        <small class="text-muted">DESARROLLO</small>
+                      </td>
+                      <td>EJEMPLO 3</td>
+                      <td>
+                        <span class="badge bg-primary rounded-pill"
+                          >Alta</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span
+                          ><img
+                            src="../../assets/images/users/4.jpg"
+                            alt="user"
+                            width="50"
+                            class="rounded-circle"
+                        /></span>
+                      </td>
+                      <td>
+                        <h6 class="mb-0 font-weight-medium">Nirav Joshi</h6>
+                        <small class="text-muted">ANALISTA</small>
+                      </td>
+                      <td>EJEMPLO 5</td>
+                      <td>
+                        <span class="badge bg-danger rounded-pill"
+                          >Critico</span
+                        >
+                      </td>
+                    </tr>
+                    <!--<tr>
+                      <td>
+                        <span
+                          ><img
+                            src="../../assets/images/users/5.jpg"
+                            alt="user"
+                            width="50"
+                            class="rounded-circle"
+                        /></span>
+                      </td>
+                      <td>
+                        <h6 class="mb-0 font-weight-medium">Micheal Doe</h6>
+                        <small class="text-muted">Content Writer</small>
+                      </td>
+                      <td>Helping Hands</td>
+                      <td>
+                        <span class="badge bg-success rounded-pill"
+                          >High</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span
+                          ><img
+                            src="../../assets/images/users/6.jpg"
+                            alt="user"
+                            width="50"
+                            class="rounded-circle"
+                        /></span>
+                      </td>
+                      <td>
+                        <h6 class="mb-0 font-weight-medium">Johnathan</h6>
+                        <small class="text-muted">Graphic</small>
+                      </td>
+                      <td>Digital Agency</td>
+                      <td>
+                        <span class="badge bg-info rounded-pill">High</span>
+                      </td>
+                    </tr>-->
+                  </tbody>
+                </table>
               </div>
             </div>
-            <div class="col-md-6 border-left text-center pt-2">
-              <h3 class="mb-0 fw-bold">4560</h3>
-              <span class="text-muted">Orders</span>
-            </div>
           </div>
         </div>
+        <!-- -------------------------------------------------------------- -->
+        <!-- Activity widget find scss into widget folder-->
+        <!-- -------------------------------------------------------------- -->
       </div>
-      <div class="col-md-3">
-        <div class="card mt-0">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="peity_line_good left text-center mt-2">
-                <span><span style="display: none;"><span style="display: none;"><span style="display: none"><span style="display: none;">12,6,9,23,14,10,17</span><canvas width="50" height="24"></canvas></span>
-                  <canvas width="50" height="24"></canvas>
-                </span><canvas width="50" height="24"></canvas></span><canvas width="50" height="24"></canvas></span>
-                <h6>+60%</h6>
+      <!-- End Row -->
+      <!-- Start row -->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">
+                  <span class="lstick d-inline-block align-middle"></span>To
+                  Do list
+                </h4>
+                <div class="ms-auto">
+                  <button
+                    class="btn btn-circle btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#myModal"
+                  >
+                    <i data-feather="plus" class="feather-sm"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- -------------------------------------------------------------- -->
+              <!-- To do list widgets -->
+              <!-- -------------------------------------------------------------- -->
+              <div
+                class="to-do-widget mt-3 common-widget scrollable"
+                style="height: 410px"
+              >
+                <!-- .modal for add task -->
+                <div
+                  class="modal fade"
+                  id="myModal"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header d-flex">
+                        <h4 class="modal-title">Add Task</h4>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <form>
+                          <div class="mb-3">
+                            <label>Task name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              placeholder="Enter Task Name"
+                            />
+                          </div>
+                          <div class="mb-3">
+                            <label>Assign to</label>
+                            <select class="form-select form-control">
+                              <option selected="">Sachin</option>
+                              <option value="1">Sehwag</option>
+                            </select>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-success"
+                          data-bs-dismiss="modal"
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+                <ul
+                  class="list-task todo-list list-group mb-0"
+                  data-role="tasklist"
+                >
+                  <li
+                    class="list-group-item border-0 mb-0 py-3 pe-3 ps-0"
+                    data-role="task"
+                  >
+                    <div class="form-check form-check-inline w-100">
+                      <input
+                        type="checkbox"
+                        class="form-check-input danger check-light-danger"
+                        id="inputSchedule"
+                        name="inputCheckboxesSchedule"
+                      />
+                      <label
+                        for="inputSchedule"
+                        class="form-check-label font-weight-medium"
+                      >
+                        <span>Schedule meeting with</span
+                        ><span class="badge bg-danger badge-pill ms-1"
+                          >Today</span
+                        >
+                      </label>
+                    </div>
+                    <ul
+                      class="assignedto list-style-none m-0 ps-4 ms-1 mt-1"
+                    >
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/1.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Steave"
+                          class="rounded-circle"
+                        />
+                      </li>
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/2.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Jessica"
+                          class="rounded-circle"
+                        />
+                      </li>
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/3.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Priyanka"
+                          class="rounded-circle"
+                        />
+                      </li>
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/4.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Selina"
+                          class="rounded-circle"
+                        />
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="list-group-item border-0 mb-0 py-3 pe-3 ps-0"
+                    data-role="task"
+                  >
+                    <div class="form-check form-check-inline w-100">
+                      <input
+                        type="checkbox"
+                        id="inputCall"
+                        class="form-check-input info check-light-info"
+                        name="inputCheckboxesCall"
+                      />
+                      <label
+                        for="inputCall"
+                        class="form-check-label font-weight-medium"
+                      >
+                        <span>Give Purchase report to</span>
+                        <span class="badge bg-info badge-pill ms-1"
+                          >Yesterday</span
+                        >
+                      </label>
+                    </div>
+                    <ul class="assignedto m-0 ps-4 ms-1 mt-1">
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/3.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Priyanka"
+                          class="rounded-circle"
+                        />
+                      </li>
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/4.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Selina"
+                          class="rounded-circle"
+                        />
+                      </li>
+                    </ul>
+                  </li>
+                  <li
+                    class="list-group-item border-0 mb-0 py-3 pe-3 ps-0"
+                    data-role="task"
+                  >
+                    <div class="form-check form-check-inline w-100">
+                      <input
+                        type="checkbox"
+                        id="inputBook"
+                        class="form-check-input primary check-light-primary"
+                        name="inputCheckboxesBook"
+                      />
+                      <label
+                        for="inputBook"
+                        class="form-check-label font-weight-medium"
+                      >
+                        <span>Book flight for holiday</span
+                        ><span class="badge bg-primary badge-pill ms-1"
+                          >1 week</span
+                        >
+                      </label>
+                    </div>
+                    <div class="fs-2 ps-3 d-inline-block ms-2">
+                      26 jun 2021
+                    </div>
+                  </li>
+                  <li
+                    class="list-group-item border-0 mb-0 py-3 pe-3 ps-0"
+                    data-role="task"
+                  >
+                    <div class="form-check form-check-inline w-100">
+                      <input
+                        type="checkbox"
+                        id="inputForward"
+                        class="form-check-input warning check-light-warning"
+                        name="inputCheckboxesForward"
+                      />
+                      <label
+                        for="inputForward"
+                        class="form-check-label font-weight-medium"
+                      >
+                        <span>Forward all tasks</span>
+                        <span class="badge bg-warning badge-pill ms-1"
+                          >2 weeks</span
+                        >
+                      </label>
+                    </div>
+                    <div class="fs-2 ps-3 d-inline-block ms-2">
+                      26 jun 2021
+                    </div>
+                  </li>
+                  <li
+                    class="list-group-item border-0 mb-0 py-3 pe-3 ps-0"
+                    data-role="task"
+                  >
+                    <div class="form-check form-check-inline w-100">
+                      <input
+                        type="checkbox"
+                        id="inputRecieve"
+                        class="form-check-input success check-light-success"
+                        name="inputCheckboxesRecieve"
+                      />
+                      <label
+                        for="inputRecieve"
+                        class="form-check-label font-weight-medium"
+                      >
+                        <span>Recieve shipment</span
+                        ><span class="badge bg-success badge-pill ms-1"
+                          >2 weeks</span
+                        >
+                      </label>
+                    </div>
+                    <ul
+                      class="assignedto list-style-none m-0 ps-4 ms-1 mt-1"
+                    >
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/1.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Steave"
+                          class="rounded-circle"
+                        />
+                      </li>
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/2.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Jessica"
+                          class="rounded-circle"
+                        />
+                      </li>
+                      <li class="d-inline-block border-0 me-1">
+                        <img
+                          src="../../assets/images/users/3.jpg"
+                          alt="user"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title=""
+                          data-original-title="Priyanka"
+                          class="rounded-circle"
+                        />
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="col-md-6 border-left text-center pt-2">
-              <h3 class="mb-0">5672</h3>
-              <span class="text-muted">Active Users</span>
-            </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card mt-0">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="peity_bar_good left text-center mt-2">
-                <span><span style="display: none;">12,6,9,23,14,10,13</span><canvas width="50" height="24"></canvas></span>
-                <h6>+30%</h6>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">
+                  <span class="lstick d-inline-block align-middle"></span
+                  >Activity
+                </h4>
+                <div class="dropdown ms-auto">
+                  <a
+                    href="#"
+                    class="icon-options-vertical link"
+                    id="dropdownMenuLink"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  ></a>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuLink"
+                  >
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li>
+                      <a class="dropdown-item" href="#">Another action</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        >Something else here</a
+                      >
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div class="col-md-6 border-left text-center pt-2">
-              <h3 class="mb-0 fw-bold">2560</h3>
-              <span class="text-muted">Register</span>
+            <div
+              class="activity-box table-responsive scrollable"
+              style="height: 514px"
+            >
+              <div class="card-body">
+                <!-- Activity item-->
+                <div class="activity-item mb-4 d-flex">
+                  <div class="me-3">
+                    <img
+                      src="../../assets/images/users/2.jpg"
+                      alt="user"
+                      width="50"
+                      class="rounded-circle"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <h5 class="mb-0 font-weight-medium">
+                      Mark Freeman
+                      <span class="text-muted fs-3 ms-2"
+                        >| &nbsp; 6:30 PM</span
+                      >
+                    </h5>
+                    <h6 class="text-muted">uploaded this file</h6>
+                    <div class="row">
+                      <div class="col-4">
+                        
+                      </div>
+                      <div class="col-8 d-flex align-items-center">
+                        <div>
+                          <h5 class="mb-0 font-weight-medium">
+                            Homepage.zip
+                          </h5>
+                          <h6>54 MB</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Activity item-->
+                <!-- Activity item-->
+                <div class="activity-item mb-4 d-flex">
+                  <div class="me-3">
+                    <img
+                      src="../../assets/images/users/3.jpg"
+                      alt="user"
+                      width="50"
+                      class="rounded-circle"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <h5 class="mb-1 font-weight-medium">
+                      Emma Smith
+                      <span class="text-muted fs-3 ms-2"
+                        >| &nbsp; 6:30 PM</span
+                      >
+                    </h5>
+                    <h6 class="text-muted">
+                      joined projectname, and invited
+                      <a href="javascript:void(0)"
+                        >@maxcage, @maxcage, @maxcage,<br />
+                        @maxcage, @maxcage,+3</a
+                      >
+                    </h6>
+                    <span class="image-list mt-2">
+                      <a
+                        href="javascript:void(0)"
+                        class="align-middle position-relative"
+                      >
+                        <img
+                          src="../../assets/images/users/1.jpg"
+                          class="rounded-circle"
+                          alt="user"
+                          width="40"
+                        />
+                      </a>
+                      <a
+                        href="javascript:void(0)"
+                        class="align-middle position-relative"
+                      >
+                        <img
+                          src="../../assets/images/users/4.jpg"
+                          class="rounded-circle"
+                          alt="user"
+                          width="40"
+                        />
+                      </a>
+                      <a
+                        href="javascript:void(0)"
+                        class="align-middle position-relative"
+                      >
+                        <span
+                          class="
+                            round
+                            rounded-circle
+                            text-white
+                            d-inline-block
+                            text-center
+                            bg-warning
+                          "
+                          style="height: 40px; width: 40px"
+                          >C</span
+                        >
+                      </a>
+                      <a
+                        href="javascript:void(0)"
+                        class="align-middle position-relative"
+                      >
+                        <span
+                          class="
+                            round
+                            rounded-circle
+                            text-white
+                            d-inline-block
+                            text-center
+                            bg-danger
+                          "
+                          style="height: 40px; width: 40px"
+                          >S</span
+                        >
+                      </a>
+                      <a
+                        href="javascript:void(0)"
+                        class="align-middle position-relative"
+                        >+3</a
+                      >
+                    </span>
+                  </div>
+                </div>
+                <!-- Activity item-->
+                <!-- Activity item-->
+                <div class="activity-item mb-4 d-flex">
+                  <div class="me-3">
+                    <img
+                      src="../../assets/images/users/4.jpg"
+                      alt="user"
+                      width="50"
+                      class="rounded-circle"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <h5 class="mb-0 font-weight-medium">
+                      David R. Jones
+                      <span class="text-muted fs-3 ms-2"
+                        >| &nbsp; 6:30 PM</span
+                      >
+                    </h5>
+                    <h6 class="text-muted">uploaded this file</h6>
+                    <span>
+                      <a href="javascript:void(0)" class="me-2"
+                        ><img
+                          src="../../assets/images/big/img1.jpg"
+                          alt="user"
+                          width="60"
+                      /></a>
+                      <a href="javascript:void(0)" class="me-2"
+                        ><img
+                          src="../../assets/images/big/img2.jpg"
+                          alt="user"
+                          width="60"
+                      /></a>
+                    </span>
+                  </div>
+                </div>
+                <!-- Activity item-->
+                <!-- Activity item-->
+                <div class="activity-item d-flex mb-2">
+                  <div class="me-3">
+                    <img
+                      src="../../assets/images/users/6.jpg"
+                      alt="user"
+                      width="50"
+                      class="rounded-circle"
+                    />
+                  </div>
+                  <div class="mt-2">
+                    <h5 class="mb-1 font-weight-medium">
+                      David R. Jones
+                      <span class="text-muted fs-3 ms-2"
+                        >| &nbsp; 6:30 PM</span
+                      >
+                    </h5>
+                    <h6 class="text-muted">
+                      Commented on<a href="javascript:void(0)"
+                        >Test Project</a
+                      >
+                    </h6>
+                    <p class="mb-0">
+                      It has survived not only five centuries, but also the
+                      leap into
+                    </p>
+                  </div>
+                </div>
+                <!-- Activity item-->
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- End cards -->
-    <!-- Chart-3 -->
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Bar Chart</h5>
-            <div class="flot-chart">
-              <div class="flot-chart-content" id="flot-line-chart" style="padding: 0px; position: relative;"><canvas class="flot-base" width="1019" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1019px; height: 300px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 23px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 105px; text-align: center;">1</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 187px; text-align: center;">2</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 269px; text-align: center;">3</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 351px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 433px; text-align: center;">5</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 515px; text-align: center;">6</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 597px; text-align: center;">7</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 679px; text-align: center;">8</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 762px; text-align: center;">9</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 840px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 78px; top: 283px; left: 923px; text-align: center;">11</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 247px; left: 0px; text-align: right;">-1.0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 191px; left: 0px; text-align: right;">-0.5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 135px; left: 4px; text-align: right;">0.0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 79px; left: 4px; text-align: right;">0.5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 23px; left: 4px; text-align: right;">1.0</div></div></div><canvas class="flot-overlay" width="1019" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1019px; height: 300px;"></canvas><div class="legend"><div style="position: absolute; width: 49.75px; height: 38px; top: 14px; right: 13px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:14px;right:13px;;font-size:smaller;color:#AFAFAF"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(238,121,81);overflow:hidden"></div></div></td><td class="legendLabel">sin(x)</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(79,185,240);overflow:hidden"></div></div></td><td class="legendLabel">cos(x)</td></tr></tbody></table></div></div>
+      <!-- End row -->
+      <!-- Start row -->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex">
+                <h4 class="card-title">
+                  <span class="lstick d-inline-block align-middle"></span>My
+                  Contact
+                </h4>
+                <div class="dropdown ms-auto">
+                  <a
+                    href="#"
+                    class="icon-options-vertical link"
+                    id="dropdownMenuLink"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  ></a>
+                  <ul
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuLink"
+                  >
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li>
+                      <a class="dropdown-item" href="#">Another action</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"
+                        >Something else here</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="mailbox">
+                <div
+                  class="
+                    message-center
+                    contact-widget
+                    message-body
+                    position-relative
+                  "
+                  style="height: 450px"
+                >
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      p-3
+                    "
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/1.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle online"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-3">
+                      <h5
+                        class="message-title mb-0 mt-1 font-weight-medium"
+                      >
+                        Pavan kumar
+                      </h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate text-bodycolor
+                        "
+                        >info@wrappixel.com</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      p-3
+                    "
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/2.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle busy"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-3">
+                      <h5
+                        class="message-title mb-0 mt-1 font-weight-medium"
+                      >
+                        Sonu Nigam
+                      </h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate text-bodycolor
+                        "
+                        >pamela1987@gmail.com</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      p-3
+                    "
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/3.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle away"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-3">
+                      <h5
+                        class="message-title mb-0 mt-1 font-weight-medium"
+                      >
+                        Arijit Sinh
+                      </h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate text-bodycolor
+                        "
+                        >cruise1298.fiplip@gmail.com</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      p-3
+                    "
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/4.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle offline"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-3">
+                      <h5
+                        class="message-title mb-0 mt-1 font-weight-medium"
+                      >
+                        Pavan kumar
+                      </h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate text-bodycolor
+                        "
+                        >kat@gmail.com</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      p-3
+                    "
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/2.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle busy"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-3">
+                      <h5
+                        class="message-title mb-0 mt-1 font-weight-medium"
+                      >
+                        Sonu Nigam
+                      </h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate text-bodycolor
+                        "
+                        >pamela1987@gmail.com</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="message-item d-flex align-items-center p-3"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/1.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle online"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-3">
+                      <h5
+                        class="message-title mb-0 mt-1 font-weight-medium"
+                      >
+                        Pavan kumar
+                      </h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          time
+                          text-truncate text-bodycolor
+                        "
+                        >info@wrappixel.com</span
+                      >
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Feeds</h4>
+            </div>
+            <ul class="feeds ps-0">
+              <div class="feed-item mb-2 py-2 ps-4 pe-3">
+                <div
+                  class="
+                    border-start border-2 border-info
+                    d-md-flex
+                    align-items-center
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="
+                        ms-3
+                        btn btn-light-info
+                        text-info
+                        btn-circle
+                        fs-5
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        flex-shrink-0
+                      "
+                      ><i data-feather="bell" class="feather-sm"></i
+                    ></a>
+                    <div class="ms-3 text-truncate">
+                      <span class="text-dark font-weight-medium"
+                        >You have 4 pending tasks.</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      justify-content-end
+                      text-truncate
+                      ms-5 ms-md-auto
+                      ps-4 ps-md-0
+                    "
+                  >
+                    <span class="fs-2 text-muted">Just Now</span>
+                  </div>
+                </div>
+              </div>
+              <div class="feed-item mb-2 py-2 ps-4 pe-3">
+                <div
+                  class="
+                    border-start border-2 border-success
+                    d-md-flex
+                    align-items-center
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="
+                        ms-3
+                        btn btn-light-success
+                        text-success
+                        btn-circle
+                        fs-5
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        flex-shrink-0
+                      "
+                      ><i data-feather="database" class="feather-sm"></i
+                    ></a>
+                    <div class="ms-3 text-truncate">
+                      <span class="text-dark font-weight-medium"
+                        >Server #1 overloaded</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      justify-content-end
+                      text-truncate
+                      ms-5 ms-md-auto
+                      ps-4 ps-md-0
+                    "
+                  >
+                    <span class="fs-2 text-muted">2 Hours ago</span>
+                  </div>
+                </div>
+              </div>
+              <div class="feed-item mb-2 py-2 ps-4 pe-3">
+                <div
+                  class="
+                    border-start border-2 border-warning
+                    d-md-flex
+                    align-items-center
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="
+                        ms-3
+                        btn btn-light-warning
+                        text-warning
+                        btn-circle
+                        fs-5
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        flex-shrink-0
+                      "
+                      ><i
+                        data-feather="shopping-cart"
+                        class="feather-sm"
+                      ></i
+                    ></a>
+                    <div class="ms-3 text-truncate">
+                      <span class="text-dark font-weight-medium"
+                        >New order received.</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      justify-content-end
+                      text-truncate
+                      ms-5 ms-md-auto
+                      ps-4 ps-md-0
+                    "
+                  >
+                    <span class="fs-2 text-muted">31 May</span>
+                  </div>
+                </div>
+              </div>
+              <div class="feed-item mb-2 py-2 ps-4 pe-3">
+                <div
+                  class="
+                    border-start border-2 border-danger
+                    d-md-flex
+                    align-items-center
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="
+                        ms-3
+                        btn btn-light-danger
+                        text-danger
+                        btn-circle
+                        fs-5
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        flex-shrink-0
+                      "
+                      ><i data-feather="users" class="feather-sm"></i
+                    ></a>
+                    <div class="ms-3 text-truncate">
+                      <span class="text-dark font-weight-medium"
+                        >New user registered.</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      justify-content-end
+                      text-truncate
+                      ms-5 ms-md-auto
+                      ps-4 ps-md-0
+                    "
+                  >
+                    <span class="fs-2 text-muted">30 May</span>
+                  </div>
+                </div>
+              </div>
+              <div class="feed-item mb-2 py-2 ps-4 pe-3">
+                <div
+                  class="
+                    border-start border-2 border-primary
+                    d-md-flex
+                    align-items-center
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="
+                        ms-3
+                        btn btn-light-primary
+                        text-primary
+                        btn-circle
+                        fs-5
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        flex-shrink-0
+                      "
+                    >
+                      <i data-feather="users" class="feather-sm"></i>
+                    </a>
+                    <div class="ms-3 text-truncate">
+                      <span class="text-dark font-weight-medium"
+                        >New Version just arrived.</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      justify-content-end
+                      text-truncate
+                      ms-5 ms-md-auto
+                      ps-4 ps-md-0
+                    "
+                  >
+                    <span class="fs-2 text-muted">27 May</span>
+                  </div>
+                </div>
+              </div>
+              <div class="feed-item mb-2 py-2 ps-4 pe-3">
+                <div
+                  class="
+                    border-start border-2 border-info
+                    d-md-flex
+                    align-items-center
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="
+                        ms-3
+                        btn btn-light-info
+                        text-info
+                        btn-circle
+                        fs-5
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        flex-shrink-0
+                      "
+                    >
+                      <i data-feather="bell" class="feather-sm"></i>
+                    </a>
+                    <div class="ms-3 text-truncate">
+                      <span class="text-dark font-weight-medium"
+                        >You have 4 pending tasks.</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      justify-content-end
+                      text-truncate
+                      ms-5 ms-md-auto
+                      ps-4 ps-md-0
+                    "
+                  >
+                    <span class="fs-2 text-muted">30 May</span>
+                  </div>
+                </div>
+              </div>
+              <div class="feed-item mb-2 py-2 ps-4 pe-3">
+                <div
+                  class="
+                    border-start border-2 border-primary
+                    d-md-flex
+                    align-items-center
+                  "
+                >
+                  <div class="d-flex align-items-center">
+                    <a
+                      href="javascript:void(0)"
+                      class="
+                        ms-3
+                        btn btn-light-primary
+                        text-primary
+                        btn-circle
+                        fs-5
+                        d-flex
+                        align-items-center
+                        justify-content-center
+                        flex-shrink-0
+                      "
+                    >
+                      <i data-feather="users" class="feather-sm"></i>
+                    </a>
+                    <div class="ms-3 text-truncate">
+                      <span class="text-dark font-weight-medium"
+                        >New Version just arrived.</span
+                      >
+                    </div>
+                  </div>
+                  <div
+                    class="
+                      justify-content-end
+                      text-truncate
+                      ms-5 ms-md-auto
+                      ps-4 ps-md-0
+                    "
+                  >
+                    <span class="fs-2 text-muted">27 May</span>
+                  </div>
+                </div>
+              </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End row -->
+      <!-- Start row -->
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card bg-info text-white">
+            <div class="card-body">
+              <div class="d-flex">
+                <div class="stats">
+                  <h1 class="text-white">3257+</h1>
+                  <h6 class="text-white">Twitter Followers</h6>
+                  <button
+                    class="btn btn-rounded btn-outline btn-light mt-2 fs-3"
+                  >
+                    Check list
+                  </button>
+                </div>
+                <div class="stats-icon text-end ms-auto">
+                  <i class="ri-twitter-fill display-5 op-3 text-dark"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card bg-primary text-white">
+            <div class="card-body">
+              <div class="d-flex">
+                <div class="stats">
+                  <h1 class="text-white">6509+</h1>
+                  <h6 class="text-white">Facebook Likes</h6>
+                  <button
+                    class="btn btn-rounded btn-outline btn-light mt-2 fs-3"
+                  >
+                    Check list
+                  </button>
+                </div>
+                <div class="stats-icon text-end ms-auto">
+                  <i class="ri-facebook-fill display-5 op-3 text-dark"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card bg-success text-white">
+            <div class="card-body">
+              <div class="d-flex">
+                <div class="stats">
+                  <h1 class="text-white">9062+</h1>
+                  <h6 class="text-white">Subscribe</h6>
+                  <button
+                    class="btn btn-rounded btn-outline btn-light mt-2 fs-3"
+                  >
+                    Check list
+                  </button>
+                </div>
+                <div class="stats-icon text-end ms-auto">
+                  <i class="ri-mail-line display-5 op-3 text-dark"></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- End Row -->
     </div>
-    <!-- End chart-3 -->
-    <!-- Charts -->
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Pie Chart</h5>
-            <div class="pie" style="height: 400px; padding: 0px; position: relative;"><canvas class="flot-base" width="479" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 479.5px; height: 400px;"></canvas><canvas class="flot-overlay" width="479" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 479.5px; height: 400px;"></canvas><div class="legend"><div style="position: absolute; width: 57.5469px; height: 95px; top: 5px; right: 5px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:5px;right:5px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(72,140,19);overflow:hidden"></div></div></td><td class="legendLabel">Series1</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(27,85,192);overflow:hidden"></div></div></td><td class="legendLabel">Series2</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(218,75,15);overflow:hidden"></div></div></td><td class="legendLabel">Series3</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(233,177,4);overflow:hidden"></div></div></td><td class="legendLabel">Series4</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(174,60,12);overflow:hidden"></div></div></td><td class="legendLabel">Series5</td></tr></tbody></table></div><div class="pieLabelBackground" style="position: absolute; width: 40.1563px; height: 36px; top: 66px; left: 285.648px; background-color: rgb(0, 0, 0); opacity: 0.5;"> </div><span class="pieLabel" id="pieLabel0" style="position: absolute; top: 66px; left: 285.648px;"><div style="font-size:8pt;text-align:center;padding:2px;color:white;">Series1<br>22%</div></span><div class="pieLabelBackground" style="position: absolute; width: 40.1563px; height: 36px; top: 299px; left: 284.648px; background-color: rgb(0, 0, 0); opacity: 0.5;"> </div><span class="pieLabel" id="pieLabel1" style="position: absolute; top: 299px; left: 284.648px;"><div style="font-size:8pt;text-align:center;padding:2px;color:white;">Series2<br>35%</div></span><div class="pieLabelBackground" style="position: absolute; width: 40.1563px; height: 36px; top: 303px; left: 101.648px; background-color: rgb(0, 0, 0); opacity: 0.5;"> </div><span class="pieLabel" id="pieLabel2" style="position: absolute; top: 303px; left: 101.648px;"><div style="font-size:8pt;text-align:center;padding:2px;color:white;">Series3<br>7%</div></span><div class="pieLabelBackground" style="position: absolute; width: 40.1563px; height: 36px; top: 232px; left: 49.6484px; background-color: rgb(0, 0, 0); opacity: 0.5;"> </div><span class="pieLabel" id="pieLabel3" style="position: absolute; top: 232px; left: 49.6484px;"><div style="font-size:8pt;text-align:center;padding:2px;color:white;">Series4<br>12%</div></span><div class="pieLabelBackground" style="position: absolute; width: 40.1563px; height: 36px; top: 74px; left: 86.6484px; background-color: rgb(0, 0, 0); opacity: 0.5;"> </div><span class="pieLabel" id="pieLabel4" style="position: absolute; top: 74px; left: 86.6484px;"><div style="font-size:8pt;text-align:center;padding:2px;color:white;">Series5<br>24%</div></span></div>
+    <!-- -------------------------------------------------------------- -->
+    <!-- End Container fluid  -->
+    <!-- -------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------- -->
+    <!-- customizer Panel -->
+    <!-- -------------------------------------------------------------- -->
+    <aside class="customizer">
+      <a href="javascript:void(0)" class="service-panel-toggle">
+        <i data-feather="settings" class="feather-sm fa fa-spin"></i>
+      </a>
+      <div class="customizer-body">
+        <ul class="nav customizer-tab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+              <i class="ri-tools-fill fs-6"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#chat" role="tab" aria-controls="chat" aria-selected="false">
+              <i class="ri-message-3-line fs-6"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="ri-timer-line fs-6"></i>
+            </a>
+          </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+          <!-- Tab 1 -->
+          <div
+            class="tab-pane fade show active"
+            id="pills-home"
+            role="tabpanel"
+            aria-labelledby="pills-home-tab"
+          >
+            <div class="p-3 border-bottom">
+              <!-- Sidebar -->
+              <h5 class="font-weight-medium mb-2 mt-2">Layout Settings</h5>
+              <div class="form-check mt-3">
+                <input
+                  type="checkbox"
+                  name="theme-view"
+                  class="form-check-input"
+                  id="theme-view"
+                />
+                <label class="form-check-label" for="theme-view">
+                  <span>Dark Theme</span>
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  type="checkbox"
+                  class="sidebartoggler form-check-input"
+                  name="collapssidebar"
+                  id="collapssidebar"
+                />
+                <label class="form-check-label" for="collapssidebar">
+                  <span>Collapse Sidebar</span>
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  type="checkbox"
+                  name="sidebar-position"
+                  class="form-check-input"
+                  id="sidebar-position"
+                />
+                <label class="form-check-label" for="sidebar-position">
+                  <span>Fixed Sidebar</span>
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  type="checkbox"
+                  name="header-position"
+                  class="form-check-input"
+                  id="header-position"
+                />
+                <label class="form-check-label" for="header-position">
+                  <span>Fixed Header</span>
+                </label>
+              </div>
+              <div class="form-check mt-2">
+                <input
+                  type="checkbox"
+                  name="boxed-layout"
+                  class="form-check-input"
+                  id="boxed-layout"
+                />
+                <label class="form-check-label" for="boxed-layout">
+                  <span>Boxed Layout</span>
+                </label>
+              </div>
+            </div>
+            <div class="p-3 border-bottom">
+              <!-- Logo BG -->
+              <h5 class="font-weight-medium mb-2 mt-2">Logo Backgrounds</h5>
+              <ul class="theme-color m-0 p-0">
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-logobg="skin1"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-logobg="skin2"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-logobg="skin3"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-logobg="skin4"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-logobg="skin5"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-logobg="skin6"
+                  ></a>
+                </li>
+              </ul>
+              <!-- Logo BG -->
+            </div>
+            <div class="p-3 border-bottom">
+              <!-- Navbar BG -->
+              <h5 class="font-weight-medium mb-2 mt-2">Navbar Backgrounds</h5>
+              <ul class="theme-color m-0 p-0">
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-navbarbg="skin1"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-navbarbg="skin2"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-navbarbg="skin3"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-navbarbg="skin4"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-navbarbg="skin5"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-navbarbg="skin6"
+                  ></a>
+                </li>
+              </ul>
+              <!-- Navbar BG -->
+            </div>
+            <div class="p-3 border-bottom">
+              <!-- Logo BG -->
+              <h5 class="font-weight-medium mb-2 mt-2">Sidebar Backgrounds</h5>
+              <ul class="theme-color m-0 p-0">
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-sidebarbg="skin1"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-sidebarbg="skin2"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-sidebarbg="skin3"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-sidebarbg="skin4"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-sidebarbg="skin5"
+                  ></a>
+                </li>
+                <li class="theme-item list-inline-item me-1">
+                  <a
+                    href="javascript:void(0)"
+                    class="theme-link rounded-circle d-block"
+                    data-sidebarbg="skin6"
+                  ></a>
+                </li>
+              </ul>
+              <!-- Logo BG -->
+            </div>
           </div>
+          <!-- End Tab 1 -->
+          <!-- Tab 2 -->
+          <div
+            class="tab-pane fade"
+            id="chat"
+            role="tabpanel"
+            aria-labelledby="pills-profile-tab"
+          >
+            <ul class="mailbox list-style-none mt-3">
+              <li>
+                <div class="message-center chat-scroll position-relative">
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_1"
+                    data-user-id="1"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/1.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span class="profile-status rounded-circle online"></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Pavan kumar</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >Just see the my admin!</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:30 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_2"
+                    data-user-id="2"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/2.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span class="profile-status rounded-circle busy"></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Sonu Nigam</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >I've sung a song! See you at</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:10 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_3"
+                    data-user-id="3"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/3.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span class="profile-status rounded-circle away"></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Arijit Sinh</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >I am a singer!</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:08 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_4"
+                    data-user-id="4"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/4.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle offline"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Nirav Joshi</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >Just see the my admin!</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:02 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_5"
+                    data-user-id="5"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/5.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle offline"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Sunil Joshi</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >Just see the my admin!</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:02 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_6"
+                    data-user-id="6"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/6.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle offline"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Akshay Kumar</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >Just see the my admin!</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:02 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_7"
+                    data-user-id="7"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/7.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle offline"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Pavan kumar</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >Just see the my admin!</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:02 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                  <!-- Message -->
+                  <a
+                    href="javascript:void(0)"
+                    class="
+                      message-item
+                      d-flex
+                      align-items-center
+                      border-bottom
+                      px-3
+                      py-2
+                    "
+                    id="chat_user_8"
+                    data-user-id="8"
+                  >
+                    <span class="user-img position-relative d-inline-block">
+                      <img
+                        src="../../assets/images/users/8.jpg"
+                        alt="user"
+                        class="rounded-circle w-100"
+                      />
+                      <span
+                        class="profile-status rounded-circle offline"
+                      ></span>
+                    </span>
+                    <div class="w-75 d-inline-block v-middle ps-2">
+                      <h5 class="message-title mb-0 mt-1">Varun Dhavan</h5>
+                      <span
+                        class="
+                          fs-2
+                          text-nowrap
+                          d-block
+                          text-muted text-truncate
+                        "
+                        >Just see the my admin!</span
+                      >
+                      <span class="fs-2 text-nowrap d-block text-muted"
+                        >9:02 AM</span
+                      >
+                    </div>
+                  </a>
+                  <!-- Message -->
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- End Tab 2 -->
+          <!-- Tab 3 -->
+          <div
+            class="tab-pane fade p-3"
+            id="pills-contact"
+            role="tabpanel"
+            aria-labelledby="pills-contact-tab"
+          >
+            <h6 class="mt-3 mb-3">Activity Timeline</h6>
+            <div class="steamline">
+              <div class="sl-item">
+                <div class="sl-left bg-success">
+                  <i data-feather="user" class="feather-sm fill-white"></i>
+                </div>
+                <div class="sl-right">
+                  <div class="font-weight-medium">
+                    Meeting today <span class="sl-date"> 5pm</span>
+                  </div>
+                  <div class="desc">you can write anything</div>
+                </div>
+              </div>
+              <div class="sl-item">
+                <div class="sl-left bg-info"><i class="fas fa-image"></i></div>
+                <div class="sl-right">
+                  <div class="font-weight-medium">Send documents to Clark</div>
+                  <div class="desc">Lorem Ipsum is simply</div>
+                </div>
+              </div>
+              <div class="sl-item">
+                <div class="sl-left">
+                  <img
+                    class="rounded-circle"
+                    alt="user"
+                    src="../../assets/images/users/2.jpg"
+                  />
+                </div>
+                <div class="sl-right">
+                  <div class="font-weight-medium">
+                    Go to the Doctor <span class="sl-date">5 minutes ago</span>
+                  </div>
+                  <div class="desc">Contrary to popular belief</div>
+                </div>
+              </div>
+              <div class="sl-item">
+                <div class="sl-left">
+                  <img
+                    class="rounded-circle"
+                    alt="user"
+                    src="../../assets/images/users/1.jpg"
+                  />
+                </div>
+                <div class="sl-right">
+                  <div>
+                    <a href="javascript:void(0)">Stephen</a>
+                    <span class="sl-date">5 minutes ago</span>
+                  </div>
+                  <div class="desc">Approve meeting with tiger</div>
+                </div>
+              </div>
+              <div class="sl-item">
+                <div class="sl-left bg-primary">
+                  <i data-feather="user" class="feather-sm fill-white"></i>
+                </div>
+                <div class="sl-right">
+                  <div class="font-weight-medium">
+                    Meeting today <span class="sl-date"> 5pm</span>
+                  </div>
+                  <div class="desc">you can write anything</div>
+                </div>
+              </div>
+              <div class="sl-item">
+                <div class="sl-left bg-info"><i class="fas fa-image"></i></div>
+                <div class="sl-right">
+                  <div class="font-weight-medium">Send documents to Clark</div>
+                  <div class="desc">Lorem Ipsum is simply</div>
+                </div>
+              </div>
+              <div class="sl-item">
+                <div class="sl-left">
+                  <img
+                    class="rounded-circle"
+                    alt="user"
+                    src="../../assets/images/users/4.jpg"
+                  />
+                </div>
+                <div class="sl-right">
+                  <div class="font-weight-medium">
+                    Go to the Doctor <span class="sl-date">5 minutes ago</span>
+                  </div>
+                  <div class="desc">Contrary to popular belief</div>
+                </div>
+              </div>
+              <div class="sl-item">
+                <div class="sl-left">
+                  <img
+                    class="rounded-circle"
+                    alt="user"
+                    src="../../assets/images/users/6.jpg"
+                  />
+                </div>
+                <div class="sl-right">
+                  <div>
+                    <a href="javascript:void(0)">Stephen</a>
+                    <span class="sl-date">5 minutes ago</span>
+                  </div>
+                  <div class="desc">Approve meeting with tiger</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Tab 3 -->
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Line Chart</h5>
-            <div class="bars" style="height: 400px; padding: 0px; position: relative;"><canvas class="flot-base" width="479" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 479.5px; height: 400px;"></canvas><div class="flot-text" style="position: absolute; inset: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 17px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 104px; text-align: center;">2</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 190px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 277px; text-align: center;">6</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 364px; text-align: center;">8</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 68px; top: 381px; left: 448px; text-align: center;">10</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 368px; left: 8px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 306px; left: 8px; text-align: right;">5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 245px; left: 2px; text-align: right;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 184px; left: 2px; text-align: right;">15</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 123px; left: 2px; text-align: right;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 62px; left: 2px; text-align: right;">25</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 1px; left: 2px; text-align: right;">30</div></div></div><canvas class="flot-overlay" width="479" height="400" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 479.5px; height: 400px;"></canvas></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End Charts -->
-    <!-- ============================================================== -->
-    <!-- End PAge Content -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Right sidebar -->
-    <!-- ============================================================== -->
-    <!-- .right-sidebar -->
-    <!-- ============================================================== -->
-    <!-- End Right sidebar -->
-    <!-- ============================================================== -->
-</div>
+    </aside>
+    <div class="chat-windows"></div>
 @endsection

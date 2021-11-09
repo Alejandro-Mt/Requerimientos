@@ -1,411 +1,238 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+  <head>
+    <title>Formato</title>
+  </head>
+  <body class="u-body" align="center">
+    @foreach ($formato as $dato)
+      <table align="center">
+        <tr>
+          <th style="vertical-align: top">
+          <img style="margin: 0px 10px 1Opx 0px;" src="https://lh4.googleusercontent.com/3haG1VwCVHP357XcwOgIx33SUCu3NwSvBUEc4-ZW7X_rNgXb3LooPD3KgmjqNhibFel2X-fGUK1GUG89kEk56KIwO3VohRtxZUJvxuZ_g_tIXCyYIo__u9vpWhRSfpakMQ=w1280" width="160" height="80"/>
+          </th>
+          <th width="350"><h2> Solicitud de Requerimientos</h2></th>
+          <td width="150" style="vertical-align: bottom; text-align: right;">Fecha de Solicitud: {{date('d-m-20y',strtotime($dato->fsol))}}</tr>
+        </tr>
+      </table>
+      <!-- Seccion 1 -->
+      <table align="center" style="border: 2px solid;">
+        <tr>
+          <th align="right">Área:</th>
+          <td align="left">{{$dato->area}}</td>
+          <th align="right">Nombre de solicitante:</th>
+          <td align="left">{{$dato->solicitante}}</td>
+          </tr>
+        <tr>
+          <th align="right">Departamento:</th>
+          <td align="left">{{'example'}}</td>
+          <th align="right">Jefe de departamento:</th>
+          <td align="left">{{$dato->j_dep}}</td>
+        </tr>
+        <tr>
+          <th align="right">Sistema o aplicación:</th>
+          <td align="left">{{$dato->nombre_s}}</td>
+          <th align="right">Cliente:</th>
+          <td align="left">{{$dato->nombre_cl}}</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <th align="right">Quién autoriza:</th>
+          <td align="left">{{$dato->autorizo}}</td>
+        </tr>
+      </table>
+      <!-- seccion 2 -->
+      <table width="660px" align="center">
+        <tr>
+        <th width="250" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">¿Existe desarrollo previo?:</th>
+        @if ($dato->previo == 1)
+          <td>SI</td>
+          <td align="center">☑</td>
+          <td>NO</td>
+          <td align="center">⬜</td>
+        @else
+          <td>SI</td>
+          <td align="center">⬜</td>
+          <td>NO</td>
+          <td align="center">☑</td>
+          <td width="300"></td>
+        @endif
+        </tr>
+      </table>
 
-@extends('home')
-@section('content')
-  <body>
-    <div class="card">
-        <div class="card-body wizard-content">
-            <form method="GET" action="#" class="mt-5">
-                <div>
-                  @foreach ($levantamientos as $valor)
-                    <header class="u-clearfix u-header u-header" id="sec-3a12">
-                      <div class="u-clearfix u-sheet u-sheet-1">
-                        <a href="#" class="u-image u-logo u-image-1" data-image-width="250" data-image-height="144">
-                          <img src="{{asset("assets/images/new_logo_3ti.png")}}" class="u-logo-image u-logo-image-1">
-                        </a>
-                        <h1 class="u-align-center u-text u-text-default u-title u-text-1">Solicitud de Requerimientos</h1>
-                        <p class="u-align-left u-text u-text-2">Fecha de Solicitud:</p>
-                        <div class="u-align-right u-border-1 u-border-grey-dark-1 u-line u-line-horizontal u-line-1"></div>
-                      </div>
-                    </header>
-                    <section class="u-align-left u-border-3 u-border-grey-75 u-clearfix u-white u-section-1" id="carousel_4c76">
-                      <div class="u-clearfix u-sheet u-sheet-1">
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-1">
-                          <div class="u-container-layout u-container-layout-1">
-                            <p class="u-align-left u-text u-text-1">Area:</p>
-                            <p class="u-align-left u-text u-text-2">
-                                @foreach ($registros as $registro)
-                                    <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" 
-                                        value={{$registro->folio}} readonly="readonly">                                  
-                                @endforeach
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-2">
-                          <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-2">
-                            <p class="u-align-left u-text u-text-3">Nombre de Solicitante:</p>
-                            <p class="u-align-left u-text u-text-4">
-                                    <input type="text" class="required form-control @error('solicitante') is-invalid @enderror" 
-                                    name="solicitante" placeholder="Quien Solicita" required autofocus value={{$valor->solicitante}}>
-                                @error('solicitante')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-3">
-                          <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-3">
-                            <p class="u-align-left u-text u-text-5">Quien Autoriza:</p>
-                            <p class="u-align-left u-text u-text-6">
-                                <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
-                                    style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
-                                        <option value={{$valor->autorizacion}}>
-                                            @foreach ($responsables as $previo) 
-                                                @if ($valor->autorizacion == $previo->id_responsable)
-                                                    {{$previo->nombre_r}}
-                                                @endif
-                                            @endforeach</option>  
-                                    @foreach ($responsables as $autoriza):
-                                        <option value={{$autoriza->id_responsable}}>{{$autoriza->nombre_r}}</option>;
-                                    @endforeach;  
-                                    @error('autorizacion')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror                        
-                                </select>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-4">
-                          <div class="u-container-layout u-container-layout-4">
-                            <p class="u-align-left u-text u-text-7">Departamento:</p>
-                            <p class="u-align-left u-text u-text-8">
-                              <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
-                                style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
-                                <option value={{$valor->autorizacion}}>
-                                    @foreach ($responsables as $previo) 
-                                        @if ($valor->autorizacion == $previo->id_responsable)
-                                            {{$previo->nombre_r}}
-                                        @endif
-                                    @endforeach
-                                </option>  
-                                @foreach ($responsables as $autoriza):
-                                    <option value={{$autoriza->id_responsable}}>{{$autoriza->nombre_r}}</option>;
-                                @endforeach;  
-                                @error('autorizacion')
-                                  <span class="invalid-feedback" role="alert">
-                                      <strong>{{ $message }}</strong>
-                                  </span>
-                                @enderror                        
-                              </select>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-5">
-                          <div class="u-container-layout u-valign-middle u-container-layout-5">
-                            <p class="u-align-left u-text u-text-9">Jefe Departamental:</p>
-                            <p class="u-align-left u-text u-text-10">
-                                <select class="form-select @error('jefe_departamento') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="jefe_departamento" tabindex="-1" aria-hidden="true" required autofocus>
-                                        <option value={{$valor->jefe_departamento}}>
-                                            @foreach ($responsables as $previo) 
-                                                @if ($valor->jefe_departamento == $previo->id_responsable)
-                                                    {{$previo->nombre_r}}
-                                                @endif
-                                            @endforeach</option>  
-                                    @foreach ($responsables as $ejecutivo):
-                                        @if ($ejecutivo ->id_area == 2)
-                                            <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
-                                        @endif
-                                    @endforeach                     
-                                </select>
-                                @error('jefe_departamento')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-6">
-                          <div class="u-container-layout u-container-layout-6">
-                            <p class="u-align-left u-text u-text-default u-text-11">Sistema / Aplicacion:</p>
-                            <p class="u-align-left u-text u-text-12">
-                              <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
-                                style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
-                                @foreach ($registros as $reg)
-                                  <option value={{$valor->id_sistema}}>
-                                      @foreach ($sistemas as $previo) 
-                                          @if ($valor->id_sistema == $previo->id_sistema)
-                                              {{$previo->nombre_s}}
-                                          @endif
-                                      @endforeach
-                                  </option>
-                                @endforeach  
-                                @foreach ($sistemas as $autoriza):
-                                    <option value={{$autoriza->id_sistema}}>{{$autoriza->nombre_s}}</option>;
-                                @endforeach;  
-                                @error('autorizacion')
-                                  <span class="invalid-feedback" role="alert">
-                                      <strong>{{ $message }}</strong>
-                                  </span>
-                                @enderror                        
-                              </select>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-7">
-                          <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xl u-valign-middle-xs u-container-layout-7">
-                            <p class="u-align-left u-text u-text-13">Cliente</p>
-                            <p class="u-align-left u-text u-text-14">Requerimiento</p>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                    <section class="u-clearfix u-section-2" id="sec-1559">
-                      <div class="u-clearfix u-sheet u-sheet-1">
-                        <div class="u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-1">
-                          <div class="u-container-layout u-valign-middle u-container-layout-1">
-                            <p class="u-text u-text-default u-text-1">¿Existe desarrollo Previo?</p>
-                          </div>
-                        </div>
-                        <p class="u-align-left u-text u-text-4">
-                                <input type="radio" value = 1 @if($valor->previo == 1) checked @endif class="form-check-input" id="customControlValidation1" name="previo" required>
-                                <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
-                        </p>
-                        <p class="u-align-left u-text u-text-5">  
-                                <input type="radio" value = 0 @if($valor->previo == 0) checked @endif class="form-check-input" id="customControlValidation2" name="previo" required>
-                                <label class="form-check-label mb-0" for="customControlValidation2">No</label>
-                        </p>
-                        <div class="u-align-left u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-2">
-                          <div class="u-container-layout u-valign-middle u-container-layout-2">
-                            <p class="u-text u-text-6">Descripcion del Problema:</p>
-                          </div>
-                        </div>
-                        <div class="u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-3">
-                          <div class="u-container-layout u-valign-middle u-container-layout-3">
-                            <p class="u-text u-text-default u-text-7">Impacto En la Operacion</p>
-                          </div>
-                        </div>
-                        <!--<h5 class="u-align-left u-text u-text-8">☑&nbsp;&nbsp;</h5>
-                        <h5 class="u-align-left u-text u-text-9">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-10">Alta</p>
-                        <p class="u-align-left u-text u-text-11">Media</p>
-                        <h5 class="u-align-left u-text u-text-12">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-13">Baja</p>-->
-                        <div class="u-border-1 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-4">
-                          <div class="u-container-layout u-container-layout-4">
-                            <p class="u-text u-text-14">
-                                    <input name="problema" type="text" class="u-border-0 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round required form-control @error ('problema') is-invvalid @enderror" 
-                                  value="{{$valor->problema}}" placeholder="Se detallado" required autofocus>
-                                @error('problema')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </p>
-                          </div>
-                        </div>
-                        <!--<h5 class="u-align-left u-text u-text-15">☑&nbsp;&nbsp;</h5>
-                        <h5 class="u-align-left u-text u-text-16">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-17">Alta</p>
-                        <p class="u-align-left u-text u-text-18">Media</p>
-                        <h5 class="u-align-left u-text u-text-19">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-20">Baja</p>-->
-                        <div class="u-align-left u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-2">
-                            <div class="u-container-layout u-valign-middle u-container-layout-2">
-                              <p class="u-text u-text-6">Descripcion del Requerimiento:</p>
-                            </div>
-                          </div>
-                        <div class="u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-6">
-                          <div class="u-container-layout u-container-layout-6">
-                            <p class="u-text u-text-default u-text-22">Prioridad</p>
-                          </div>
-                        </div>
-                        <!--<h5 class="u-align-left u-text u-text-8">☑&nbsp;&nbsp;</h5>
-                        <h5 class="u-align-left u-text u-text-9">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-10">Alta</p>
-                        <p class="u-align-left u-text u-text-11">Media</p>
-                        <h5 class="u-align-left u-text u-text-12">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-13">Baja</p>-->
-                        <div class="u-border-1 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-7">
-                          <div class="u-container-layout u-container-layout-7">
-                            <p class="u-text u-text-23">
-                                <input name="general" type="text" class="u-border-0 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round required form-control  @error ('general') is-invvalid @enderror" 
-                                    value="{{$valor->general}}" placeholder="Se breve" required autofocus>
-                                @error('general')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-align-left u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-8">
-                          <div class="u-container-layout u-container-layout-8">
-                            <p class="u-text u-text-default u-text-24">Descripcion Especifica del Requerimiento</p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-9">
-                          <div class="u-container-layout u-container-layout-9">
-                            <p class="u-text u-text-25">
-                                    <input name="detalle" type="text" class="u-border-0 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round required form-control  @error ('general') is-invvalid @enderror" 
-                                    value="{{$valor->detalle}}" placeholder="Se detallado" required autofocus>
-                                @error('detalle')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-align-left u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-10">
-                          <div class="u-container-layout u-container-layout-10">
-                            <p class="u-text u-text-default u-text-26">Resultado Esperado</p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-11">
-                          <div class="u-container-layout u-valign-middle u-container-layout-11">
-                            <p class="u-text u-text-27">
-                                    <input name="esperado" type="text" class="u-border-0 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round required form-control  @error ('general') is-invvalid @enderror"
-                                    value={{$valor->esperado}} placeholder="Que es lo que se espera" required autofocus>
-                                @error('esperado')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-align-left u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-12">
-                          <div class="u-container-layout u-valign-middle u-container-layout-12">
-                            <p class="u-text u-text-default u-text-28">Areas o Sistemas Relacionados</p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-13">
-                          <div class="u-container-layout u-container-layout-13">
-                            <p class="u-text u-text-29">
-                                <select name="relaciones" class="select2 u-border-0 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
-                                        <option value={{$valor->relaciones}} selected>
-                                            @foreach ($sistemas as $previo) 
-                                                @if ($valor->relaciones == $previo->id_sistema)
-                                                    {{$previo->nombre_s}}
-                                                @endif
-                                            @endforeach</option>   
-                                    @foreach ($sistemas as $sistema)
-                                        <option value="{{$sistema->id_sistema}}">{{$sistema->nombre_s}}</option>
-                                    @endforeach
-                                    @error('relaciones')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </select>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-14">
-                          <div class="u-container-layout u-valign-middle u-container-layout-14">
-                            <p class="u-text u-text-default u-text-30">Responsables del Proceso Actual y Usuario Funcional:</p>
-                          </div>
-                        </div>
-                        <div class="u-border-1 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-15">
-                          <div class="u-container-layout u-container-layout-15">
-                            <p class="u-text u-text-31">
-                                <select name="involucrados" class="select2 u-border-0 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
-                                        <option value={{$valor->involucrados}} selected>
-                                            @foreach ($responsables as $previo) 
-                                                @if ($valor->involucrados == $previo->id_responsable)
-                                                    {{$previo->nombre_r}}
-                                                @endif
-                                            @endforeach</option>   
-                                    @foreach ($responsables as $responsable)
-                                        <option value="{{$responsable->id_responsable}}">{{$responsable->nombre_r}}</option>
-                                    @endforeach
-                                    @error('involucrados')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </select>
-                                @error('jefe_departamento')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                    <section class="u-align-left u-border-2 u-border-grey-75 u-clearfix u-white u-section-3" id="carousel_34a0">
-                      <div class="u-clearfix u-sheet u-sheet-1">
-                        <p class="u-align-left u-text u-text-1">Espacio Exclusivo Para Desarrollo</p>
-                        <div class="u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-1">
-                          <div class="u-container-layout u-valign-middle u-container-layout-1">
-                            <p class="u-align-left u-text u-text-2">Observaciones:</p>
-                          </div>
-                        </div>
-                        <div class="u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-2">
-                          <div class="u-container-layout u-valign-middle u-container-layout-2">
-                            <p class="u-align-right u-text u-text-3">Impacto en Desarrollos:</p>
-                          </div>
-                        </div>
-                        <!--<h5 class="u-align-left u-text u-text-4">☑&nbsp;&nbsp;</h5>
-                        <h5 class="u-align-left u-text u-text-5">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-6">Alta</p>
-                        <p class="u-align-left u-text u-text-7">Media</p>
-                        <h5 class="u-align-left u-text u-text-8">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-9">Baja</p>-->
-                        <div class="u-border-1 u-border-black u-container-style u-expanded-width u-group u-palette-2-light-3 u-radius-50 u-shape-round u-group-3">
-                          <div class="u-container-layout u-container-layout-3">
-                            <p class="u-text u-text-10">Blanco</p>
-                          </div>
-                        </div>
-                        <div class="u-border-2 u-border-grey-75 u-container-style u-grey-25 u-group u-group-4">
-                          <div class="u-container-layout u-container-layout-4">
-                            <p class="u-text u-text-default u-text-11">Prioridad</p>
-                          </div>
-                        </div>
-                        <!--<h5 class="u-align-left u-text u-text-12">☑&nbsp;&nbsp;</h5>
-                        <h5 class="u-align-left u-text u-text-13">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-14">Alta</p>
-                        <p class="u-align-left u-text u-text-15">Media</p>
-                        <h5 class="u-align-left u-text u-text-16">☑&nbsp;&nbsp;</h5>
-                        <p class="u-align-left u-text u-text-17">Baja</p>-->
-                        <div class="u-border-1 u-border-black u-container-style u-group u-radius-50 u-shape-round u-group-5">
-                          <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-5">
-                            <p class="u-align-left u-text u-text-18">Quien Autoriza:</p>
-                            <div class="u-border-1 u-border-grey-dark-1 u-line u-line-horizontal u-line-1"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                    <section class="u-border-5 u-border-grey-75 u-clearfix u-section-4" id="sec-2ab0">
-                      <div class="u-clearfix u-sheet u-sheet-1">
-                        <div class="u-container-style u-group u-shape-rectangle u-group-1">
-                          <div class="u-container-layout u-valign-middle-md u-valign-middle-sm u-valign-middle-xs u-container-layout-1">
-                            <div class="u-border-1 u-border-grey-dark-1 u-line u-line-horizontal u-line-1"></div>
-                            <p class="u-align-center u-text u-text-1">Nombre y Firma de quien Autoriza</p>
-                          </div>
-                        </div>
-                        <div class="u-align-center u-container-style u-group u-shape-rectangle u-group-2">
-                          <div class="u-container-layout u-valign-middle u-container-layout-2">
-                            <div class="u-border-1 u-border-grey-dark-1 u-line u-line-horizontal u-line-2"></div>
-                            <p class="u-text u-text-2">Fecha de Recepcion por IT</p>
-                          </div>
-                        </div>
-                        <div class="u-align-center u-container-style u-group u-shape-rectangle u-group-3">
-                          <div class="u-container-layout u-valign-middle u-container-layout-3">
-                            <p class="u-align-center u-text u-text-3">Vo. Bo. IT</p>
-                            <div class="u-border-1 u-border-grey-dark-1 u-line u-line-horizontal u-line-3"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
-                  @endforeach
-                </div>
-            </form>
-        </div>
-    </div>
+      <table align="center">
+        <thead>
+          <tr>
+            <th width="250" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Descripción del problema:</th>
+            <th width="240" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Impacto en la operación:</th>
+            @switch($dato->impacto)
+              @case(1)
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Alta</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Media</td>
+                <td width="5" align="right">☑</td>
+                <td width="" align="left">Baja</td>
+                @break
+              @case(2)
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Alta</td>
+                <td width="5" align="right">☑</td>
+                <td width="" align="left">Media</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Baja</td>
+                @break
+              @case(3)
+                <td width="5" align="right">☑</td>
+                <td width="" align="left">Alta</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Media</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Baja</td>
+                @break
+              @default
+            @endswitch
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td width="660px" colspan="8" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->problema}}</td>
+          </tr>
+        </tbody>
+      </table>
 
+      <table align="center">
+        <thead>
+          <tr>
+            <th width="350" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Descripción general del requerimiento:</th>
+            <th width="140" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Prioridad:</th>
+            @switch($dato->impacto)
+              @case(1)
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Alta</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Media</td>
+                <td width="5" align="right">☑</td>
+                <td width="" align="left">Baja</td>
+                @break
+              @case(2)
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Alta</td>
+                <td width="5" align="right">☑</td>
+                <td width="" align="left">Media</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Baja</td>
+                @break
+              @case(3)
+                <td width="5" align="right">☑</td>
+                <td width="" align="left">Alta</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Media</td>
+                <td width="5" align="right">⬜</td>
+                <td width="" align="left">Baja</td>
+                @break
+              @default
+            @endswitch
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td width="660px" colspan="8"  style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->general}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table align="center">
+        <tr>
+          <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Descripción específica del requerimiento</th>
+        </tr>
+        <tr>
+          <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->detalle}}</td>
+        </tr>
+
+        <tr>
+          <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Resultado esperado</th>
+        </tr>
+        <tr>
+          <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->esperado}}</td>
+        </tr>
+
+        <tr>
+        <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Áreas o sistemas relacionados</th>
+        </tr>
+        @for ($i = 0; $i < count($relaciones); $i++)  
+          @foreach ($sistemas as $sistema)
+            @if ($relaciones[$i] == $sistema->id_sistema)
+              <tr width="660px" style="background-color: #ecfbfb;border: 1px solid;border-radius: 50px;">
+                <td style="text-align: justify;padding-right: 10px;padding-left: 10px">{{$sistema->nombre_s}}</td>
+              </tr>
+            @endif 
+          @endforeach
+        @endfor 
+
+        <tr>
+          <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Responsables del proceso actual y usuario funcional:</th>
+        </tr>
+        @for ($i = 0; $i < count($involucrados); $i++)  
+          @foreach ($responsables as $responsable)
+            @if ($involucrados[$i] == $responsable->id_responsable)
+              <tr width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">
+                <td>{{$responsable->nombre_r}}</td>
+              </tr>
+            @endif 
+          @endforeach
+        @endfor
+      </table>
+      <!-- seccion 3 -->
+      <h5 style="border-top: 5px solid">Espacio exclusivo para desarrollo</h5>
+      <table align="center" >
+        <thead>
+          <tr>
+          <th style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Observaciones:</th>
+          <th width="200" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Impacto en desarrollos:</th>
+          <td width="5" align="right">⬜</td>
+          <td>Alta</td>
+          <td width="5" align="right">⬜</td>
+          <td>Media</td>
+          <td width="5" align="right">⬜</td>
+          <td>Baja</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          <td width="660px" colspan="8" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">Texto de ejemplo.</td>
+          </tr>
+          </tbody>
+        <tfoot>
+          <tr>
+          <td></td>
+          <th style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Prioridad</th>
+          <td width="5" align="right">⬜</td>
+          <td>Alta</td>
+          <td width="5" align="right">⬜</td>
+          <td>Media</td>
+          <td width="5" align="right">⬜</td>
+          <td>Baja</td>
+          </tr>
+        </tfoot>
+      </table>
+      <h1 style="border-top: 5px solid"></h1>
+      <h5>Quién autoriza:_____________________________________</h5>
+      <h1 height="50"></h1>
+      <!-- seccion final -->
+      <table width="600" align="center" style="vertical-align: bottom;">
+        <tr>
+          <td width="150" align="center"></td>
+          <td width="200" align="center" style="border-top: 1px solid;">Nombre y firma de quién Autoriza</td>
+          <td width="150" align="center"></td>
+        </tr>
+        <tr>
+          <td width="150" align="center" style="border-top: 1px solid;">Fecha de recepción por IT</td>
+          <td width="200" align="center"></td>
+          <td width="150" align="center" style="border-top: 1px solid;">Vo. Bo. IT</td>
+        </tr>
+        </table>
+      <table>
+    @endforeach
   </body>
-   
-  <link rel="stylesheet" href="{{asset("assets/css/nicepage.css")}}" media="screen">
-  <link rel="stylesheet" href="{{asset("assets/css/Formato.css")}}" media="screen">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/new_logo_3ti.png")}}">
-  <script class="u-script" type="text/javascript" src="{{asset("assets/js/jquery.js")}}" defer=""></script>
-  <script class="u-script" type="text/javascript" src="{{asset("assets/js/nicepage.js")}}" defer=""></script>
-@endsection 
+</html>

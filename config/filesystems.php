@@ -30,6 +30,13 @@ return [
 
     'disks' => [
 
+        'avatar' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/avatar'),
+            'url' => env('APP_URL').'/avatar',
+            'visibility' => 'public',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -67,6 +74,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('avatar') => storage_path('app/public/avatar'),
     ],
 
 ];
