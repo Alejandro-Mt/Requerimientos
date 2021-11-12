@@ -1,5 +1,8 @@
 @extends('home')
 @section('content')
+
+<link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="card">
         <section>
             <div class="row">
@@ -313,7 +316,11 @@
                             <a style='text-align: center'>Solicitar Informacion</a>
                         </div>
                         <div class="card-body text-center">
-                            <button type="submit" name="id_estatus" value="9" class="btn btn-primary text-white">Guardar y Continuar</button>
+                            @if ($solinf == 0)
+                                <button type="submit" name="id_estatus" value="9" class="btn btn-primary text-white">Guardar y Continuar</button>
+                            @else
+                                <button type="button" id="slide-toast" class="btn btn-primary text-white">Guardar y Continuar</button>
+                            @endif
                             <button type="submit" name="id_estatus" value="11" class="btn btn-success text-white">Guardar</button>
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
                         </div>
@@ -323,6 +330,8 @@
         </div>
     </div>
 
+    <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+    <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
     <script type="text/javascript">
         function showContent() {
             element = document.getElementById("content");
@@ -334,8 +343,6 @@
                 element.style.display='none'
             }
         }
-    </script>
-    <script type="text/javascript">
         function showPause() {
             element = document.getElementById("pause");
             otro = document.getElementById('other')

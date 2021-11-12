@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\AnalisisController;
 use App\Http\Controllers\BuildController;
+use App\Http\Controllers\ConstruccionController;
 use App\Http\Controllers\CorreoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImplementacionController;
+use App\Http\Controllers\InfoController;
+use App\Http\Controllers\LiberacionController;
 use App\Http\Controllers\MaquetadoController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionsController;
@@ -56,25 +61,24 @@ Route::get('/correos.Plantilla/{folio}', [CorreoController::class, 'test'])->nam
 Route::get('/layouts/correo/{folio}',[MenuController::class, 'send'])->name('Enviar');
 Route::post('/layouts/correo',[MenuController::class, 'sended'])->name('Enviado');
 
-# controladores de Levantamiento 
 Route::get('/formatos.requerimientos.planeacion/{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
-Route::get('/show',[PlaneacionController::class, 'show'])->name('Datos');
+Route::get('/show',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
 Route::post('/formatos.requerimientos.planeacion', [PlaneacionController::class, 'create'])->name('Plan');
 
-Route::get('/formatos.requerimientos.analisis/{folio}',[BuildController::class, 'analisis'])->middleware('auth')->name('Analisis');
-Route::post('/formatos.requerimientos.analisis', [BuildController::class, 'Propuesta'])->name('Propuesta');
+Route::get('/formatos.requerimientos.analisis/{folio}',[AnalisisController::class, 'index'])->middleware('auth')->name('Analisis');
+Route::post('/formatos.requerimientos.analisis', [AnalisisController::class, 'create'])->name('Propuesta');
 
-Route::get('/formatos.requerimientos.construccion/{folio}',[BuildController::class, 'construccion'])->middleware('auth')->name('Construccion');
-Route::post('/formatos.construccion',[BuildController::class, 'construir'])->name('Construir');
+Route::get('/formatos.requerimientos.construccion/{folio}',[ConstruccionController::class, 'index'])->middleware('auth')->name('Construccion');
+Route::post('/formatos.construccion',[ConstruccionController::class, 'create'])->name('create');
 
-Route::get('/formatos.requerimientos.liberacion/{folio}',[BuildController::class, 'liberacion'])->name('Liberacion');
-Route::post('/formatos.requerimientos.liberacion',[BuildController::class, 'liberar'])->name('Liberar');
+Route::get('/formatos.requerimientos.liberacion/{folio}',[LiberacionController::class, 'index'])->name('Liberacion');
+Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');
 
-Route::get('/formatos.requerimientos.implementacion/{folio}',[BuildController::class, 'implementacion'])->name('Implementacion');
-Route::post('/formatos.requerimientos.implementacion',[BuildController::class, 'implementar'])->name('Implementar');
+Route::get('/formatos.requerimientos.implementacion/{folio}',[ImplementacionController::class, 'index'])->name('Implementacion');
+Route::post('/formatos.requerimientos.implementacion',[ImplementacionController::class, 'create'])->name('Implementar');
 
-Route::get('/formatos.requerimientos.informacion/{folio}',[BuildController::class, 'informacion'])->middleware('auth')->name('Informacion');
-Route::post('/formatos.requerimientos.informacion',[BuildController::class, 'SolInfo'])->name('Solicitud');
+Route::get('/formatos.requerimientos.informacion/{folio}',[InfoController::class, 'index'])->middleware('auth')->name('Informacion');
+Route::post('/formatos.requerimientos.informacion',[InfoController::class, 'create'])->name('Solicitud');
 
 Route::get('/formatos.subproceso/{folio}',[MenuController::class, 'subproceso'])->middleware('auth')->name('Subproceso');
 Route::post('/formatos.subproceso',[MenuController::class, 'sub'])->name('Sub');

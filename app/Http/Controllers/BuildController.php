@@ -7,66 +7,11 @@ use App\Models\analisis;
 use App\Models\construccion;
 use App\Models\desfase;
 use App\Models\implementacion;
-use App\Models\informacion;
 use App\Models\liberacion;
 use App\Models\registro;
 
 class BuildController extends Controller
 {
-    protected function planeacion($folio){
-    }
-    protected function plan(request $data){
-    }
-
-    protected function analisis($folio){
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
-        $id = registro::latest('id_registro')->first();
-        $desfases = desfase::all();
-        $previo = analisis::select('*')->where('folio',$folio)->get();
-        $vacio = analisis:: select('*')->where('folio',$folio)->count();
-        return view('formatos.requerimientos.analisis',compact('registros','id','desfases','previo','vacio'));
-        #dd($previo);
-    }
-    protected function propuesta(request $data){
-        $verificar = analisis::where('folio',$data['folio'])->count();
-        if($data['fechaCompReqC']<>NULL){$fechaCompReqC=date("y/m/d", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
-        if($data['fechaCompReqR']<>NULL){$fechaCompReqR=date("y/m/d", strtotime($data['fechaCompReqR']));}else{$fechaCompReqR=NULL;}
-        if($data['fechareact']<>NULL){$fechareact=date("y/m/d", strtotime($data['fechareact']));}else{$fechareact=NULL;}
-        if($verificar == 0){
-            analisis::create([
-            'folio' => $data['folio'],
-            'fechaCompReqC' =>$fechaCompReqC,
-            'evidencia' => $data['evidencia'],
-            'fechaCompReqR' => $fechaCompReqR,
-            'desfase' => $data['desfase'],
-            'motivodesfase' => $data['motivodesfase'],
-            'motivopausa' => $data['motivopausa'],
-            'evpausa' => $data['evpausa'],
-            'fechareact' => $fechareact,
-            ]);
-        }
-        else{
-            $update = analisis::select('*')->where('folio',$data['folio'])->first();
-            $update->fechaCompReqC = $fechaCompReqC;
-            $update->evidencia = $data['evidencia'];
-            $update->fechaCompReqR = $fechaCompReqR;
-            $update->desfase = $data['desfase'];
-            $update->motivodesfase = $data['motivodesfase'];
-            $update->motivopausa = $data['motivopausa'];
-            $update->evpausa = $data['evpausa'];
-            $update->fechareact = $fechareact;
-            $estatus = registro::select()-> where ('folio', $data->folio)->first();
-            $estatus->id_estatus = $data['id_estatus'];
-            $estatus->save();
-            $update->save(); 
-        }
-        $update = registro::select()-> where ('folio', $data->folio)->first();
-        $update->id_estatus = $data->input('id_estatus');
-        $update->save();
-        return redirect(route('Editar'));
-        #dd($fechareact);
-
-    }
 
     protected function construccion($folio){
         $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
@@ -209,56 +154,4 @@ class BuildController extends Controller
 
     }
 
-    protected function informacion($folio){
-        $desfases = desfase::all();
-        $id = registro::latest('id_registro')->first();
-        $previo = informacion::select('*')->where('folio',$folio)->get();
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
-        $vacio = informacion:: select('*')->where('folio',$folio)->count();
-        #$info = informacion::raw('select');
-        return view('formatos.requerimientos.informacion',compact('desfases','id','previo','registros','vacio'));
-        #dd($id);
-    }
-
-    protected function SolInfo(request $data){
-        $verificar = informacion::where('folio',$data['folio'])->count();
-        if($verificar == 0){
-            if($data['solInfopip']<>NULL){$solInfopip=date("y/m/d", strtotime($data['solInfopip']));}else{$solInfopip=NULL;}
-            if($data['solInfoC']<>NULL){date("y/m/d", strtotime($data['solInfoC']));}else{$solInfoC=NULL;}
-            if($data['respuesta']<>NULL){$respuesta=date("y/m/d", strtotime($data['respuesta']));}else{$respuesta=NULL;}
-            if($data['retraso']==NULL){$retraso = 0;}else{$retraso=$data['retraso'];}
-            informacion::create([
-            'folio' => $data['folio'],
-            'solInfopip' =>  $solInfopip,
-            'detalle' => $data['detalle'],
-            'evidencia' => $data['evidencia'],
-            'solInfoC' => $solInfoC,
-            'retraso' => $retraso,
-            'motivoRetrasoInfo' => $data['motivoRetrasoInfo'],
-            'respuesta' => $respuesta,
-            ]);
-        }
-        else{
-            $update = informacion::select('*')->where('folio',$data['folio'])->first();
-            if($data['solInfopip'] == null){$update->solInfopip = $data['solInfopip'];}
-            else{$update->solInfopip = date("y/m/d", strtotime($data['solInfopip']));}
-            #$update->evidencia = $data['evidencia'];
-            if($data['solInfoC'] == null){$update->solInfoC = $data['solInfoC'];}
-            else{$update->solInfoC = date("y/m/d", strtotime($data['solInfoC']));}
-            if($data['retraso'] == null){$update->retraso = '0';}
-            else{$update->retraso = $data['retraso'];}
-            $update->motivoRetrasoInfo = $data['motivoRetrasoInfo'];
-            if($data['respuesta'] == null){$update->respuesta = $data['respuesta'];}
-            else{$update->respuesta = date("y/m/d", strtotime($data['respuesta']));}
-            #$estatus = registro::select()-> where ('folio', $data->folio)->first();
-            #$estatus->id_estatus = $data['id_estatus'];
-            #$estatus->save();
-            $update->save(); 
-        }
-        #$update = registro::select()-> where ('folio', $data->folio)->first();
-        #$update->id_estatus = $data->input('id_estatus');
-        #$update->save();
-        return redirect(route('Planeacion',$data->folio));
-        #dd($data);
-    }
 }
