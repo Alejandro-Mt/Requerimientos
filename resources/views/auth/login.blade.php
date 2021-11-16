@@ -10,7 +10,7 @@
         </div>
         <div class="login100-form validate-form">
             <span class="login100-form-title">
-                {{ __('Iniciar Secion') }}</span>
+                {{ __('Iniciar Sesión') }}</span>
 
             <div class="wrap-input100 validate-input">
                 <form method="POST" action="{{ route('login') }}">
@@ -57,12 +57,12 @@
                     <div class="container-login100-form-btn">
                         <div class="">
                             <button type="submit" class="login100-form-btn">
-                                {{ __('Iniciar Secion') }}
+                                {{ __('Iniciar Sesión') }}
                             </button>
 
                             @if (Route::has('password.request'))
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Olvide mi Contraseña') }}
+                                    {{ __('Olvidé mi Contraseña') }}
                                 </a>
                             @endif
                         </div>   

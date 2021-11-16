@@ -35,7 +35,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Descripción*</label>
                             <div class="col-md-8">
                                 <input type="text" class="required form-control @error('descripcion') is-invalid @enderror" 
-                                    name="descripcion" placeholder="Descripcion" required autofocus>
+                                    name="descripcion" placeholder="Descripción" required autofocus>
                                 @error('descripcion')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
                             <div class="col-md-8">  
                                 <select class="form-select @error('id_responsable') is-invalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_responsable" tabindex="-1" aria-hidden="true" required autofocus>
-                                    <option value={{null}}>Seleccion</option>
+                                    <option value={{null}}>Selección</option>
                                     @foreach ($responsable as $ejecutivo):
                                         @if ($ejecutivo ->id_area == 2)
                                             <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
@@ -69,7 +69,7 @@
                             <div class="col-md-8">
                                 <select class="form-select @error ('id_sistema') is-invvalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_sistema" tabindex="-1" aria-hidden="true" required autofocus>
-                                    <option value={{null}}>Seleccion</option>
+                                    <option value={{null}}>Selección</option>
                                     @foreach ($sistema as $valores):
                                         <option value={{$valores->id_sistema}}>{{$valores->nombre_s}}</option>;
                                     @endforeach;  
@@ -87,7 +87,7 @@
                             <div class="col-md-8">
                                 <select class="form-select @error ('id_cliente') is-invalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
-                                    <option value={{null}}>Seleccion</option>
+                                    <option value={{null}}>Selección</option>
                                     @foreach ($cliente as $cliente)
                                         <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
@@ -104,7 +104,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">personal solicitante*</label>
                             <div class="col-md-8">
                                 <select class="form-select shadow-none select2-hidden-accessible"   style="width: 100%; height:36px;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="0">Seleccion</option>
+                                    <option data-select2-id="0">Selección</option>
                                     @foreach ($responsable as $arqutecto)
                                         @if ($arqutecto ->id_area == 12)
                                             <option value = {{ $arqutecto->id_responsable }}>{{$arqutecto->nombre_r}}</option>;
@@ -118,7 +118,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Prioridad*</label>
                             <div class="col-md-8">
                                 <select class="form-select"   style="width: 100%; height:36px;" id="prioridad" tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="0">Seleccion</option>
+                                    <option data-select2-id="0">Selección</option>
                                     <option value='1'>Baja</option>
                                     <option value='2'>Media</option>
                                     <option value='3'>Alta</option>

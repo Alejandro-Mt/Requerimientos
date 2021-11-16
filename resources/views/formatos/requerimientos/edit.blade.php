@@ -6,7 +6,7 @@
         <!--<div class="card-body">
             <div class="button-group">
             <button class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Requerimientos</button>
-            <button class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Analisis</button>
+            <button class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Análisis</button>
             <button class="btn btn-light-info text-info px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
                 Requerimientos
             </button>
@@ -33,14 +33,14 @@
             </div>
         </div>-->
         <div class="button-group">
-            <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Analisis</button>
+            <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
             <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
         </div>
         <!--<div id='pestana' class="navbar navbar-expand-lg navbar-dark bg-success">
             <div id='lista' class="navbar-item">
                 <a id='pestana1' 
                     class="navbar-brand" 
-                    href="javascript:cambiarPestanna('pestanas','pestana1')">Analisis
+                    href="javascript:cambiarPestanna('pestanas','pestana1')">Análisis
                 </a>
             </div>
             <div class="navbar-item" data-navbarbg="color: plum">
@@ -60,7 +60,7 @@
                 <tr>
                     <th scope="col">Folio</th>
                     <th scope="col">Estatus</th>
-                    <th scope="col">Accion</th>
+                    <th scope="col">Acción</th>
                 </tr>
             </thead>
             <tbody id="contenidopestanas">
@@ -91,33 +91,33 @@
                                 @break
                             @case(16)
                                 <td>
-                                    <button type="submit" class="btn btn-warning text-white" ><a href="{{route('Levantamiento',$registro->id_registro)}}" style="color:white">Revision de Datos</a></button>
-                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Confirmacion</a></button>
+                                    <button type="submit" class="btn btn-warning text-white" ><a href="{{route('Levantamiento',$registro->id_registro)}}" style="color:white">Revisión de Datos</a></button>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Confirmación</a></button>
                                 </td>
                                 @break
                             @case(11)
                                 <td> 
-                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeacion</a></button>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeación</a></button>
                                 </td>
                                 @break
                             @case(9)
                                 <td>
-                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Analisis de Desarrollo</a></button>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Análisis de Desarrollo</a></button>
                                 </td>
                                 @break
                             @case(7)
                                 <td>
-                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Construccion',$registro->folio)}}" style="color:white">Construccion</a></button>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Construccion',$registro->folio)}}" style="color:white">Construcción</a></button>
                                 </td>
                                 @break
                             @case(8)
                                 <td>
-                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Liberacion',$registro->folio)}}" style="color:white">Liberacion</a></button>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Liberacion',$registro->folio)}}" style="color:white">Liberación</a></button>
                                 </td>
                             @break
                             @case(2)
                                 <td>
-                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementacion</a></button>
+                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementación</a></button>
                                 </td>
                             @break
                             @case(18)
@@ -168,7 +168,7 @@
                                             </div>
                                         @endif
                                 </div>
-                                <!-- Modal de Confirmacion -->
+                                <!-- Modal de Confirmación -->
                                 <div class="modal" id="confirm-{{$subproceso->id}}" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
