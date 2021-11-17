@@ -17,7 +17,6 @@ class CreateResponsablesTable extends Migration
             $table->id('id_responsable');
             $table->string('nombre_r',50);
             $table->unsignedBigInteger('id_area');
-            $table->foreign('id_area')->references('id_area')->on('areas')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
         });
     }
