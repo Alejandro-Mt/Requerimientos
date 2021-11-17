@@ -7,7 +7,7 @@
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('NRegistro')}}" class="mt-5">
-                {{ csrf_field() }}
+                {{ csrf_token() }}
                 <div>
                     <section>
                         <div class="d-none">
