@@ -20,7 +20,7 @@ class MaquetadoController extends Controller
         $estatus = estatu::all();
         $vacio = registro:: select('*')->count();
         
-        return view('formatos.Maquetado.new',compact('sistema','responsable','cliente','registros','estatus','vacio'));
+        return view('formatos.Maquetado.new',compact('sistema','responsable','registros','estatus','vacio'));
         #dd($registros);
         
     }
