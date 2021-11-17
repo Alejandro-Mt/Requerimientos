@@ -22,7 +22,6 @@ class CreateIncidenciasTable extends Migration
             $table->string('Seccion',50);
             $table->string('idContexto',50);
             $table->unsignedBigInteger('id_area')->index();
-            $table->foreign('id_area')->references('id_area')->on('area')->ondelete('cascade')->onupdate('restrict');
             $table->boolean('Desarrollo')->default(0);
             $table->timestamp('Informe_D');
             $table->string('Evidencia',100)->nullable();
@@ -31,7 +30,6 @@ class CreateIncidenciasTable extends Migration
             $table->string('Comentarios',255)->nullable();
             $table->boolean('Retraso')->default(0);
             $table->unsignedBigInteger('id_motivo')->index()->nullable();
-            $table->foreign('id_motivo')->references('id_motivo')->on('motivo')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
         });
     }
