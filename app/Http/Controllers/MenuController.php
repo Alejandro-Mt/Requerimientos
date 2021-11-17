@@ -51,7 +51,7 @@ class MenuController extends Controller
     }
     public function send($folio){
         $registros = registro::select('*')-> where ('folio', $folio)->get();
-        return view('Layouts.correo',compact('registros'));
+        return view('layouts.correo',compact('registros'));
         #dd($registros);
     }
     public function sended(request $data){
