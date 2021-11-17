@@ -17,7 +17,7 @@ class MaquetadoController extends Controller
         $registros = registro::where('folio', 'like', 'AA%')->count();
         $sistema = sistema::all();
         $responsable = responsable::all();
-        $cliente = cliente::select('*')-> get();
+        $cliente = cliente::ALL();
         $estatus = estatu::all();
         $vacio = registro:: select('*')->count();
         
