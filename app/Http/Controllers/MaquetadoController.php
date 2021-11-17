@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\cliente;
 use App\Models\estatu;
-use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
 use Illuminate\Http\Request;
