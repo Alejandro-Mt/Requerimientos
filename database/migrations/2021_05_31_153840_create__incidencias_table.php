@@ -15,7 +15,7 @@ class CreateIncidenciasTable extends Migration
     {
         Schema::create('incidencias', function (Blueprint $table) {
             $table->id('id_incidencia');
-            $table->string('Correo',50);
+            /*$table->string('Correo',50);
             $table->string('Plataforma',50);
             $table->string('Version',50);
             $table->string('Modulo',50);
@@ -29,7 +29,7 @@ class CreateIncidenciasTable extends Migration
             $table->string('Adicion',100)->nullable();
             $table->string('Comentarios',255)->nullable();
             $table->boolean('Retraso')->default(0);
-            $table->unsignedBigInteger('id_motivo')->index()->nullable();
+            $table->unsignedBigInteger('id_motivo')->index()->nullable();*/
             $table->timestamps();
         });
     }
