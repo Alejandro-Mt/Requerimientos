@@ -12,14 +12,14 @@ class MaquetadoController extends Controller
 {
     //
     protected function index(){
-        $cliente = cliente::all();
+        $clientes = cliente::all();
         $estatus = estatu::all();
         $registros = registro::where('folio', 'like', 'AA%')->count();
         $responsable = responsable::all();
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         
-        return view('formatos.maquetado.new',compact('sistema','responsable','registros','estatus','vacio','cliente'));
+        return view('formatos.maquetado.new',compact('sistema','responsable','registros','estatus','vacio','clientes'));
         #dd($registros);
         
     }

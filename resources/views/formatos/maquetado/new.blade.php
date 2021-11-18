@@ -81,7 +81,7 @@
                                 <select id="id_cliente" class="form-select @error ('id_cliente') is-invalid @enderror"
                                     style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
                                     <option value={{null}}>Selección</option>
-                                    @foreach ($cliente as $cliente)
+                                    @foreach ($clientes as $cliente)
                                         <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
                                     @error('id_cliente')
