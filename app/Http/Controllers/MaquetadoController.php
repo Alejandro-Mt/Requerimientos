@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use app\Models\cliente;
+#use app\Models\cliente;
 use App\Models\estatu;
 use App\Models\registro;
 use App\Models\responsable;
@@ -12,7 +12,7 @@ class MaquetadoController extends Controller
 {
     //
     protected function index(){
-        $clientes = cliente::all();
+        $clientes = \app\Models\cliente::all();
         $estatus = estatu::all();
         $registros = registro::where('folio', 'like', 'AA%')->count();
         $responsable = responsable::all();
