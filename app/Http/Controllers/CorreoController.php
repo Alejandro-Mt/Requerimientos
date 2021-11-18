@@ -2,18 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ValidacionCliente;
+use App\Models\levantamiento;
+use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use \PDF;
 use Illuminate\Http\Request;
 
 class CorreoController extends Controller
 {
     //
-    protected function test($folio){
-        #set_time_limit(180);
+    
+    public function send($folio){
+        $registros = registro::select('*')-> where ('folio', $folio)->get();
+        return view('layouts.correo',compact('registros'));
+        #dd($registros);
+    }
+    public function sended(request $data){
+        mail::to($data->email)
+            ->send(new ValidacionCliente($data->folio));
+        $estatus = registro::select("*")-> where ('folio', $data->folio)->first();
         
+        $estatus->id_estatus = $data->input('id_estatus');
+        $estatus->save();
+        return redirect('formatos.requerimientos.edit');
+        #dd($estatus);
+    }
+    protected function PDF($folio){
         $formato = db::table('registros as r')
                           ->select('l.created_at as fsol',
                                     'a.area',
@@ -46,5 +64,11 @@ class CorreoController extends Controller
         return $pdf -> stream ('documento.pdf');
         #return view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
         }
+    }
+
+    protected function respuesta($folio){
+            $estado = levantamiento::findOrFail($folio);
+            $estado -> fechaaut = now();
+            $estado -> save();        
     }
 }

@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ValidacionCliente;
 use App\Models\comentario;
 use App\Models\estatu;
-use App\Models\levantamiento;
 use App\Models\pausa;
-use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\subproceso;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
-use PHPUnit\TextUI\XmlConfiguration\Group;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 class MenuController extends Controller
 {
@@ -48,25 +42,6 @@ class MenuController extends Controller
         $reaunudar->save();  
         return redirect(route('Editar'));
         #dd($registros->all());
-    }
-    public function send($folio){
-        $registros = registro::select('*')-> where ('folio', $folio)->get();
-        return view('layouts.correo',compact('registros'));
-        #dd($registros);
-    }
-    public function sended(request $data){
-        mail::to($data->email)
-            ->send(new ValidacionCliente($data->folio));
-        $estatus = registro::select("*")-> where ('folio', $data->folio)->first();
-            $confirmacion = levantamiento::findOrFail($data->folio);
-            if($estatus->id_estatus == 16){
-            $confirmacion->fechaaut = now();
-            $confirmacion->save();
-        }
-        $estatus->id_estatus = $data->input('id_estatus');
-        $estatus->save();
-        return redirect('formatos.requerimientos.edit');
-        #dd($estatus);
     }
     public function subproceso($folio){
         $registros = registro::select('*')-> where ('folio', $folio)->get();

@@ -231,10 +231,10 @@ _____________________________________________________
 </tr>
 </table>
 <table>
-<tr align="right">@component('mail::button', ['url' => route('Test',$dato->folio)])Ver PDF @endcomponent</tr>
+<tr align="right">@component('mail::button', ['url' => route('PDF',$dato->folio)])Ver PDF @endcomponent</tr>
 <tr>
-<td>@component('mail::button', ['url' => route('Test',$dato->folio)])Rechazar @endcomponent</td>
-<td>@component('mail::button', ['url' => route('Test',$dato->folio)])Autorizar @endcomponent</td> 
+<td>@component('mail::button', ['url' => route('',$dato->folio)])Rechazar @endcomponent</td>
+<td>@component('mail::button', ['url' => route('Respuesta',$dato->folio)])Autorizar @endcomponent</td> 
 </tr>
 </table>
 @endforeach
