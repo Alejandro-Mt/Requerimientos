@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\cliente;
+use app\Models\cliente;
 use App\Models\estatu;
 use App\Models\registro;
 use App\Models\responsable;
