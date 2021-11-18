@@ -32,6 +32,7 @@ class ValidacionCliente extends Mailable
         //
         $this->formato = db::table('registros as r')
                           ->select('r.folio',
+                                    'l.titulo',
                                     'l.created_at as fsol',
                                     'a.area',
                                     'l.solicitante',
