@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 2525),
+            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+            'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME','postmaster@sandboxf997ce3a208c4107ab6dc35ec59f1637.mailgun.org'),
-            'password' => env('MAIL_PASSWORD','7bd8b9b2cde5d349137ca5f18bf9028e-adf6de59-88115cbb'),
+            'username' => env('MAIL_USERNAME','alexgarzia9@gmail.com'),
+            'password' => env('MAIL_PASSWORD','21062705a'),
             'timeout' => 5,
             'auth_mode' => null,
         ],
