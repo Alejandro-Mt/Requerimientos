@@ -1,7 +1,7 @@
 @component('mail::message')
 <!-- Encabezado de correo -->
 @foreach($formato as $dato)
-<h2 align="center">{{$dato->folio}} {{$dato->descripcion}}</h2>
+<h2 align="center" width="300">{{$dato->folio}} {{$dato->descripcion}}</h2>
 <table>
 <tr>
 <img style="margin: 0px 10px 1Opx 0px;" src="{{asset("assets/images/new_logo_3ti.png")}}" alt="logo" width="150" height="60"/>
