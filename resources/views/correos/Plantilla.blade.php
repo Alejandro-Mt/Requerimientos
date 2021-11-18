@@ -8,7 +8,7 @@
       <table align="center">
         <tr>
           <th style="vertical-align: top">
-          <img style="margin: 0px 10px 1Opx 0px;" src="https://lh4.googleusercontent.com/3haG1VwCVHP357XcwOgIx33SUCu3NwSvBUEc4-ZW7X_rNgXb3LooPD3KgmjqNhibFel2X-fGUK1GUG89kEk56KIwO3VohRtxZUJvxuZ_g_tIXCyYIo__u9vpWhRSfpakMQ=w1280" width="160" height="80"/>
+          <img style="margin: 0px 10px 1Opx 0px;" src="{{asset("assets/images/new_logo_3ti.png")}}" width="160" height="80"/>
           </th>
           <th width="350"><h2> Solicitud de Requerimientos</h2></th>
           <td width="150" style="vertical-align: bottom; text-align: right;">Fecha de Solicitud: {{date('d-m-20y',strtotime($dato->fsol))}}</tr>
