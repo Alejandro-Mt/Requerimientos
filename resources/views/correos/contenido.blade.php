@@ -231,9 +231,9 @@ _____________________________________________________
 </tr>
 </table>
 <table>
-<tr align="right">@component('mail::button', ['url' => route('test',$dato->folio)])Ver PDF @endcomponent</tr>
+<tr align="right">@component('mail::button', ['url' => route('PDF',$dato->folio)])Ver PDF @endcomponent</tr>
 <tr>
-<td>@component('mail::button', ['url' => route('test',$dato->folio)])Rechazar @endcomponent</td>
+<td>@component('mail::button', ['url' => route('PDF',$dato->folio)])Rechazar @endcomponent</td>
 <td>@component('mail::button', ['url' => route('Respuesta',$dato->folio)])Autorizar @endcomponent</td> 
 </tr>
 </table>
