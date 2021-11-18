@@ -3,7 +3,7 @@
 @foreach($formato as $dato)
 <table>
 <tr>
-<img style="margin: 0px 10px 1Opx 0px;" src="https://lh4.googleusercontent.com/3haG1VwCVHP357XcwOgIx33SUCu3NwSvBUEc4-ZW7X_rNgXb3LooPD3KgmjqNhibFel2X-fGUK1GUG89kEk56KIwO3VohRtxZUJvxuZ_g_tIXCyYIo__u9vpWhRSfpakMQ=w1280" alt="logo" width="150" height="60"/>
+<img style="margin: 0px 10px 1Opx 0px;" src="{{asset("assets/images/new_logo_3ti.png")}}" alt="logo" width="150" height="60"/>
 <th width="300">Solicitud de requerimientos</th>
 <td width="50">Fecha de solicitud:{{$dato->fsol}}</tr>
 <div></div>
