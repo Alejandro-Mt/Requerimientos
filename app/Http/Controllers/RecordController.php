@@ -9,6 +9,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RecordController extends Controller
 {
@@ -17,7 +18,7 @@ class RecordController extends Controller
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $sistema = sistema::all();
         $responsable = responsable::all();
-        $cliente = cliente::orderby('id_cliente', 'asc')->get();
+        $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
         $id = registro::latest('id_registro')->first();
         $estatus = estatu::all();
         $vacio = registro:: select('*')->count();

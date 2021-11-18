@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-#use app\Models\cliente;
 use App\Models\estatu;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MaquetadoController extends Controller
 {
