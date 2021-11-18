@@ -6,21 +6,21 @@ use App\Models\cliente;
 use App\Models\estatu;
 use App\Models\registro;
 use App\Models\responsable;
-use Illuminate\Http\Request;
 use App\Models\sistema;
+use Illuminate\Http\Request;
 
 class MaquetadoController extends Controller
 {
     //
     protected function index(){
-        $registros = registro::where('folio', 'like', 'AA%')->count();
-        $sistema = sistema::all();
-        $responsable = responsable::all();
         $cliente = cliente::all();
         $estatus = estatu::all();
+        $registros = registro::where('folio', 'like', 'AA%')->count();
+        $responsable = responsable::all();
+        $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         
-        return view('formatos.maquetado.new',compact('sistema','responsable','registros','estatus','vacio'));
+        return view('formatos.maquetado.new',compact('sistema','responsable','registros','estatus','vacio','cliente'));
         #dd($registros);
         
     }
