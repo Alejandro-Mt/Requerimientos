@@ -58,8 +58,8 @@ Route::post('/formatos.requerimientos.formato', [RecordController::class, 'actua
 Route::get('/formatos.requerimientos.levantamiento.{id_registro}', [RecordController::class, 'edit'])->middleware('auth')->name('Levantamiento');
 Route::post('/formatos.requerimientos.edit', [RecordController::class, 'levantamiento'])->name('Guardar');
 ##  metodos para correo ##
-Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('PDF');
-Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
+Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
+Route::get('/correos.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
 Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->name('Enviar');
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 
