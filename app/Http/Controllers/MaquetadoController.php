@@ -6,13 +6,14 @@ use App\Models\estatu;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class MaquetadoController extends Controller
 {
     //
     protected function index(){
-        $clientes = \app\Models\cliente::all();
+        $clientes = db::table('clientes')->all();
         $estatus = estatu::all();
         $registros = registro::where('folio', 'like', 'AA%')->count();
         $responsable = responsable::all();
