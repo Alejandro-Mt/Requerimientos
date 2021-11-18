@@ -37,7 +37,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-auth::routes(['verify'=>false]);
+auth::routes(['verify'=>true]);
 
 Route::get('/home', [HomeController::class, 'index'])->middleware('verified')->name('home');
 Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth')->name('principal');
@@ -45,7 +45,7 @@ Route::get('/profile/{id}', [ProfileController::class, 'edit'])->name('profile')
 Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');
 
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
-#Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
+Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->middleware('auth')->name('Editar');
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
