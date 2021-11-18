@@ -13,7 +13,7 @@ class MaquetadoController extends Controller
 {
     //
     protected function index(){
-        $clientes = db::table('clientes')->all();
+        $clientes = db::table('clientes')->orderby('id_cliente', 'asc')->get();
         $estatus = estatu::all();
         $registros = registro::where('folio', 'like', 'AA%')->count();
         $responsable = responsable::all();
