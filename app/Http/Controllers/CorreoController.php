@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ValidacionCliente;
+use App\Mail\ValidacionRequerimiento;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use \PDF;
+use PDF;
 use Illuminate\Http\Request;
 
 class CorreoController extends Controller
@@ -67,8 +68,18 @@ class CorreoController extends Controller
     }
 
     protected function respuesta($folio){
-            $estado = levantamiento::findOrFail($folio);
-            $estado -> fechaaut = now();
-            $estado -> save();        
+            $hora = levantamiento::findOrFail($folio);
+            $hora -> fechaaut = now();
+            $hora -> save();    
+            
+        return redirect('https://mail.google.com/');    
+    }
+
+    public function rechazo($folio){
+        $fol= registro::where('folio',$folio)->get();
+        mail::to("alejandro.martinez@3ti.mx")
+            ->send(new ValidacionRequerimiento($folio));
+        return redirect('https://mail.google.com/');
+        #dd($estatus);
     }
 }

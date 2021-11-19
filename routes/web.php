@@ -60,6 +60,7 @@ Route::post('/formatos.requerimientos.edit', [RecordController::class, 'levantam
 ##  metodos para correo ##
 Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
 Route::get('/correos.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
+Route::get('/correos.rechazo.{folio}',[CorreoController::class, 'rechazo'])->name('Rechazo');
 Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->name('Enviar');
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 

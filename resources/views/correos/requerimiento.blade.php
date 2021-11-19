@@ -1,7 +1,7 @@
 @component('mail::message')
 # Introduction
 
-The body of your message.
+Test de respuesta cliente
 
 @component('mail::button', ['url' => ''])
 Button Text
