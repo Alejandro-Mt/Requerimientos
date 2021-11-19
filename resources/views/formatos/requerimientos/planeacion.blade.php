@@ -23,7 +23,7 @@
                                                 <i class="fa fa-circle text-info me-2"></i>Definición de requerimientos
                                             </div>
                                             <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-success"><i
-                                                    class="fa fa-circle text-success me-2"></i>Analisis de requerimientos
+                                                    class="fa fa-circle text-success me-2"></i>Análisis de requerimientos
                                             </div>
                                             <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-danger"><i
                                                     class="fa fa-circle text-danger me-2"></i>Construcción
@@ -36,7 +36,7 @@
                                         <div class="form-check">
                                             <input type="checkbox" class="form-check-input"
                                                 id="drop-remove">
-                                            <label class="form-check-label" for="drop-remove">Uso Unico</label>
+                                            <label class="form-check-label" for="drop-remove">Uso Único</label>
                                         </div>
                                         <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event" 
                                             class="btn mt-3 btn-info w-100 waves-effect waves-light d-flex justify-content-center align-items-center">
@@ -118,7 +118,7 @@
         <div class="card-body wizard-content">
             <div class="row mb-3">
                 <div class="col-lg-10">
-                  <h3 class="u-align-right u-text u-text-default u-title u-text-1">Planeacion</h3>
+                  <h3 class="u-align-right u-text u-text-default u-title u-text-1">Planeación</h3>
                 </div>
             </div>   
             <p class="u-align-left u-text u-text-2">(*) Campos Obligatorios</p>
@@ -194,7 +194,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 text-end form-check-label" for="desfase">Se Genero desfase</label>
+                            <label class="col-sm-2 text-end form-check-label" for="desfase">Se Generó desfase</label>
                             <div class="col-md-8">
                                 <input type="checkbox" class="form-check-input" id="desfase" name="desfase" value="1" @foreach ($previo as $ant) @if ($ant->desfase==1) checked=true @endif @endforeach onchange="javascript:showContent()">
                             </div>
@@ -313,7 +313,7 @@
                                          type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
                         <div class="card-body text-center">
                             <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
-                            <a style='text-align: center'>Solicitar Informacion</a>
+                            <a style='text-align: center'>Solicitar Información</a>
                         </div>
                         <div class="card-body text-center">
                             @if ($solinf == 0)

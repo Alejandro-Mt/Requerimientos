@@ -377,8 +377,8 @@
                     <th>FECHA DE ENVÍO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE</th>
                     <th>MOTIVO DE RETRASO EN ENVÍO DE ANÁLISIS</th>
                     <th>*DÍAS (REAL DE ENTREGA DE DEFINICIÓN DE REQUERIMIENTO - ENVÍO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE)</th>
-                    <th>FECHA DE AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICAR CONSTRUCCIÓN</th>
-                    <th>*DÍAS (ENVIO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE - AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICAR CONSTRUCCIÓN)</th>
+                    <th>FECHA DE AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICIAR CONSTRUCCIÓN</th>
+                    <th>*DÍAS (ENVÍO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE - AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICIAR CONSTRUCCIÓN)</th>
                     <th>FECHA DE INICIO CONSTRUCCIÓN DESARROLLO</th>
                     <th>MOTIVOS DE DESFASE EN CONSTRUCCIÓN</th>
                     <th>FECHA DE SOLICITUD DE INFORMACIÓN A PIP</th>
@@ -395,7 +395,7 @@
                     <th>*DÍAS (INICIO DE PRUEBAS (AMBIENTE PIP) - LIBERACIÓN A PRUEBAS QA)</th>
                     <th>TOTAL DE PRUEBAS REALIZADAS</th>
                     <th>EVIDENCIA DE PRUEBAS</th>
-                    <th>CRONOGRAMA DE IMPLEMENTACION</th>
+                    <th>CRONOGRAMA DE IMPLEMENTACIÓN</th>
                     <th>LINK CRONOGRAMA</th>
                     <th>FECHA DE IMPLEMENTACIÓN</th>
                     <th>*ESTATUS GENERAL</th>
@@ -501,8 +501,8 @@
                     <th>FECHA DE ENVÍO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE</th>
                     <th>MOTIVO DE RETRASO EN ENVÍO DE ANÁLISIS</th>
                     <th>*DÍAS (REAL DE ENTREGA DE DEFINICIÓN DE REQUERIMIENTO - ENVÍO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE)</th>
-                    <th>FECHA DE AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICAR CONSTRUCCIÓN</th>
-                    <th>*DÍAS (ENVIO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE - AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICAR CONSTRUCCIÓN)</th>
+                    <th>FECHA DE AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICIAR CONSTRUCCIÓN</th>
+                    <th>*DÍAS (ENVÍO DE ANÁLISIS DE DEFINICION DE PIP A CLIENTE - AUTORIZACIÓN CLIENTE DE ANÁLISIS PARA INICIAR CONSTRUCCIÓN)</th>
                     <th>FECHA DE INICIO CONSTRUCCIÓN DESARROLLO</th>
                     <th>MOTIVOS DE DESFASE EN CONSTRUCCIÓN</th>
                     <th>FECHA DE SOLICITUD DE INFORMACIÓN A PIP</th>
@@ -519,7 +519,7 @@
                     <th>*DÍAS (INICIO DE PRUEBAS (AMBIENTE PIP) - LIBERACIÓN A PRUEBAS QA)</th>
                     <th>TOTAL DE PRUEBAS REALIZADAS</th>
                     <th>EVIDENCIA DE PRUEBAS</th>
-                    <th>CRONOGRAMA DE IMPLEMENTACION</th>
+                    <th>CRONOGRAMA DE IMPLEMENTACIÓN</th>
                     <th>LINK CRONOGRAMA</th>
                     <th>FECHA DE IMPLEMENTACIÓN</th>
                     <th>*ESTATUS GENERAL</th>

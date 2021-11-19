@@ -27,7 +27,7 @@
                     @auth
                         <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Principal</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Iniciar secion</a>
+                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Iniciar sesión</a>
 
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Registrar</a>

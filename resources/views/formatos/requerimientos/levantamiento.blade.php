@@ -66,7 +66,7 @@
                     <div class="form-group row">
                         <!-- ID Autoriza -->
                         <label for="autorizacion"
-                            class="col-sm-2 text-end control-label col-form-label">Autorizo</label>
+                            class="col-sm-2 text-end control-label col-form-label">Autorizó</label>
                         <div class="col-md-8">
                             <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
                                 style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="problema"
-                            class="col-sm-2 text-end control-label col-form-label">Descripcion del Problema*</label>
+                            class="col-sm-2 text-end control-label col-form-label">Descripción del Problema*</label>
                         <div class="col-md-8">
                             @foreach ($levantamientos as $valor)
                                 <input name="problema" type="text" class="required form-control @error ('problema') is-invvalid @enderror" 
@@ -128,7 +128,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="impacto"
-                            class="col-sm-2 text-end control-label col-form-label">Impacto en la Operacion*</label>
+                            class="col-sm-2 text-end control-label col-form-label">Impacto en la Operación*</label>
                         <div class="col-md-8">
                             <select name="impacto" class="form-select @error ('impacto') is-invvalid @enderror" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($levantamientos as $valor)
@@ -163,7 +163,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="general"
-                            class="col-sm-2 text-end control-label col-form-label">Descripcion General del Requerimiento*</label>
+                            class="col-sm-2 text-end control-label col-form-label">Descripción General del Requerimiento*</label>
                         <div class="col-md-8">
                             @foreach ($levantamientos as $valor)
                              <input name="general" type="text" class="required form-control  @error ('general') is-invvalid @enderror" 
@@ -178,7 +178,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="detalle"
-                            class="col-sm-2 text-end control-label col-form-label">Descripcion Especifica del Requerimiento*</label>
+                            class="col-sm-2 text-end control-label col-form-label">Descripción Específica del Requerimiento*</label>
                         <div class="col-md-8">
                             @foreach ($levantamientos as $valor)
                                 <input name="detalle" type="text" class="required form-control @error ('detalle') is-invvalid @enderror" 
@@ -193,7 +193,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="esperado"
-                            class="col-sm-2 text-end control-label col-form-label">resultado Esperado*</label>
+                            class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
                         <div class="col-md-8">
                             @foreach ($levantamientos as $valor)
                                 <input name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
@@ -235,7 +235,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="relaciones"
-                            class="col-sm-2 text-end control-label col-form-label">Relacion con Otras Areas o Sistemas</label>
+                            class="col-sm-2 text-end control-label col-form-label">Relación con Otras Áreas o Sistemas</label>
                         <div class="col-md-8">
                             <select name="relaciones[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($levantamientos as $valor)

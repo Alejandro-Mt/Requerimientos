@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-body wizard-content">
-            <h3>Solicitar Informacion</h3>
+            <h3>Solicitar Información</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Solicitud')}}" class="mt-5">

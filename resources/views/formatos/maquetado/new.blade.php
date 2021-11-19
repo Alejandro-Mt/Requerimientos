@@ -117,7 +117,7 @@
                                     <option value='3'>Media</option>
                                     <option value='4'>Alta</option>
                                     <option value='5'>Muy Alta</option>
-                                    <option value='6'>Critica</option> 
+                                    <option value='6'>Crítica</option> 
                                     <option value='7'>Nula</option>                        
                                 </select>
                             </div>

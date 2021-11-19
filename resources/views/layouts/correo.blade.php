@@ -9,7 +9,7 @@
             @csrf
 
             <div class="form-group row">
-                <label for="email" class="col-sm-2 text-end control-label col-form-label">{{ __('Dereccion de Correo') }}</label>
+                <label for="email" class="col-sm-2 text-end control-label col-form-label">{{ __('Dirección de Correo') }}</label>
 
                 <div class="col-md-6">
                        <!-- <i class="fa fa-envelope"></i>-->

@@ -61,7 +61,7 @@
         CalendarApp.prototype.onEventClick = function(calEvent, jsEvent, view) {
             var $this = this;
             var form = $("<form></form>");
-            form.append("<label>Cambiar Titulo</label>");
+            form.append("<label>Cambiar Título</label>");
             form.append("<div class='input-group'><input class='form-control' type=text value='" + calEvent.title + "' /><span class='input-group-btn'><button type='submit' class='btn btn-success waves-effect waves-light' style='Color: white'><i class='fa fa-check'></i> Guardar</button></span></div>");
             $this.$modal.show();
              $('.bckdrop').addClass('show');

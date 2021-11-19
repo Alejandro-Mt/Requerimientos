@@ -122,7 +122,7 @@
                                     <option value='1'>Baja</option>
                                     <option value='2'>Media</option>
                                     <option value='3'>Alta</option>
-                                    <option value='4'>Critica</option> 
+                                    <option value='4'>Crítica</option> 
                                     <option value='5'>Nula</option>                        
                                 </select>
                             </div>
