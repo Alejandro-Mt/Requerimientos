@@ -218,7 +218,7 @@
                                             @endif
                                         @endforeach
                                         
-                                        <option value={{null}}>Seleccion</option>
+                                        <option value={{null}}>Selección</option>
                                         @foreach ( $desfases as  $desfase)
                                             <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
                                         @endforeach 
@@ -275,7 +275,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="fechareact"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivacion</label>
+                                class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivación</label>
                                 <div class= 'col-md-8'>
                                     <div class="input-group">
                                         <input name="fechareact" 
