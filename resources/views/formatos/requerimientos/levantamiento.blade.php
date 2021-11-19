@@ -98,7 +98,7 @@
                         <!--<div class="form-check">-->
                             @foreach ($levantamientos as $valor)
                                 <input type="radio" value = 1 @if($valor->previo == 1) checked @endif class="form-check-input" id="customControlValidation1" name="previo" required>
-                                <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
+                                <label class="form-check-label mb-0" for="customControlValidation1">Sí</label>
                             
                                 <input type="radio" value = 0 @if($valor->previo == 0) checked @endif class="form-check-input" id="customControlValidation2" name="previo" required>
                                 <label class="form-check-label mb-0" for="customControlValidation1">No</label>

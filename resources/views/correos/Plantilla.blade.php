@@ -46,12 +46,12 @@
         <tr>
         <th width="250" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">¿Existe desarrollo previo?:</th>
         @if ($dato->previo == 1)
-          <td>SI</td>
+          <td>SÍ</td>
           <td align="center">☑</td>
           <td>NO</td>
           <td align="center">⬜</td>
         @else
-          <td>SI</td>
+          <td>SÍ</td>
           <td align="center">⬜</td>
           <td>NO</td>
           <td align="center">☑</td>
