@@ -72,7 +72,7 @@ Route::get('/formatos.requerimientos.analisis.{folio}',[AnalisisController::clas
 Route::post('/formatos.requerimientos.analisis', [AnalisisController::class, 'create'])->name('Propuesta');
 
 Route::get('/formatos.requerimientos.construccion.{folio}',[ConstruccionController::class, 'index'])->middleware('auth')->name('Construccion');
-Route::post('/formatos.construccion',[ConstruccionController::class, 'create'])->name('create')->name('Construir');
+Route::post('/formatos.requerimientos.construccion',[ConstruccionController::class, 'create'])->name('Construir');
 
 Route::get('/formatos.requerimientos.liberacion.{folio}',[LiberacionController::class, 'index'])->name('Liberacion');
 Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');
