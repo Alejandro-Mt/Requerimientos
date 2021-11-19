@@ -31,6 +31,7 @@ class ImplementacionController extends Controller
     public function create(request $data){
         $verificar = implementacion::where('folio',$data['folio'])->count();
         if($data['f_implementacion']<>NULL){$f_implementacion=date("y/m/d", strtotime($data['f_implementacion']));}else{$f_implementacion=NULL;}
+        if($data['cronograma']==NULL){$data['cronograma']= 0;}
         if($verificar == 0){
             implementacion::create([
                 'folio' => $data['folio'],

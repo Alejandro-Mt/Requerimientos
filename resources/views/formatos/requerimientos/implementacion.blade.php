@@ -30,12 +30,12 @@
                                     class="col-sm-2 text-end control-label col-form-label">Evidencia*</label>
                                 <div class="col-md-8">
                                     <input type="text" class="required form-control @error('link_c') is-invalid @enderror" 
-                                        name="link_c" placeholder="Link De Cronograma" @foreach ($previo as $ant) value="{{$ant->link_c}}" @endforeach required autofocus>
-                                    @error('link_c')
+                                        name="link_c" placeholder="Link De Cronograma" @foreach ($previo as $ant) value="{{$ant->link_c}}" @endforeach>
+                                    <!--@error('link_c')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror
+                                    @enderror-->
                                 </div>
                             </div>
                         </div>
