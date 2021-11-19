@@ -25,7 +25,7 @@
         <tr>
           <th align="right">Departamento:</th>
           <td align="left">{{'example'}}</td>
-          <th align="right">Jefe de departamento:</th>
+          <th align="right">Jefe del departamento:</th>
           <td align="left">{{$dato->j_dep}}</td>
         </tr>
         <tr>
@@ -184,12 +184,12 @@
         @endfor
       </table>
       <!-- seccion 3 -->
-      <h5 style="border-top: 5px solid">Espacio exclusivo para desarrollo</h5>
+      <h5 style="border-top: 5px solid">Espacio exclusivo para Desarrollo</h5>
       <table align="center" >
         <thead>
           <tr>
           <th style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Observaciones:</th>
-          <th width="200" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Impacto en desarrollos:</th>
+          <th width="200" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Impacto en desarrollo:</th>
           <td width="5" align="right">⬜</td>
           <td>Alta</td>
           <td width="5" align="right">⬜</td>
@@ -200,7 +200,7 @@
         </thead>
         <tbody>
           <tr>
-          <td width="660px" colspan="8" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">Texto de ejemplo.</td>
+          <td width="660px" colspan="8" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"></td>
           </tr>
           </tbody>
         <tfoot>
