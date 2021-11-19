@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-body wizard-content">
-            <h3>Implementacion</h3>
+            <h3>Implementación</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Implementar')}}" class="mt-5">
@@ -41,7 +41,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="f_implementacion"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha de Implementacion*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Fecha de Implementación*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="f_implementacion" type="text" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->f_implementacion))}}" @endforeach class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
@@ -71,7 +71,7 @@
                                         @endif
                                     @endforeach
                                     
-                                    <option value={{null}}>Seleccion</option>
+                                    <option value={{null}}>Selección</option>
                                     @foreach ( $desfases as  $desfase)
                                         <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
                                     @endforeach 

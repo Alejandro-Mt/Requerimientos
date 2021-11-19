@@ -3,7 +3,7 @@
 
     <div class="card">
         <div class="card-body wizard-content">
-            <h3>Liberacion</h3>
+            <h3>Liberación</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Liberar')}}" class="mt-5">
@@ -21,7 +21,7 @@
                     </div>
                         <div class="form-group row">
                             <label for="fecha_lib_a"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberacion PIP*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberación PIP*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="fecha_lib_a" type="text" class="form-control" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->fecha_lib_a))}}" @endforeach id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="fecha_lib_r"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberacion Real*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberación Real*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="fecha_lib_r" type="text" class="form-control mydatepicker" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->fecha_lib_r))}}" @endforeach placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
@@ -64,7 +64,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="inicio_p_r"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberacion Pruebas QA*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberación Pruebas QA*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="inicio_p_r" type="text" class="form-control mydatepicker" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->inicio_p_r))}}" @endforeach placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <!--<div class="form-group row">
-                            <label class="col-sm-2 text-end form-check-label" for="retraso">Retaraso en Informacion</label>
+                            <label class="col-sm-2 text-end form-check-label" for="retraso">Retaraso en Información</label>
                             <div class="col-md-6">
                                 <input type="checkbox" class="form-check-input" id="retraso" name="retraso" value="1" onchange="javascript:showContent()">
                             </div>
@@ -87,7 +87,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Total Pruebas*</label>
                             <div class="col-md-8">
                                 <input type="text" class="required form-control @error('t_pruebas') is-invalid @enderror" 
-                                    name="t_pruebas" @foreach ($previo as $ant) value="{{$ant->t_pruebas}}" @endforeach placeholder="Pruevas Realizadas" required autofocus>
+                                    name="t_pruebas" @foreach ($previo as $ant) value="{{$ant->t_pruebas}}" @endforeach placeholder="Pruebas Realizadas" required autofocus>
                                 @error('t_pruebas')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -127,7 +127,7 @@
                                             @endif
                                         @endforeach
                                         
-                                        <option value={{null}}>Seleccion</option>
+                                        <option value={{null}}>Selección</option>
                                         @foreach ( $desfases as  $desfase)
                                             <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
                                         @endforeach                         
@@ -136,7 +136,7 @@
                             </div>
                         </div>-->
                         <div class="d-none"> 
-                                <input type="text" name="estatus" value="Informacion" visible="false">
+                                <input type="text" name="estatus" value="Información" visible="false">
                         </div>
                         <div class="card-body text-center">
                             <button type="submit" name="id_estatus" value="2" class="btn btn-primary text-white">Guardar y Continuar</button>
