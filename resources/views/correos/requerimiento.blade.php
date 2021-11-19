@@ -1,12 +1,12 @@
 @component('mail::message')
-# Introduction
+@foreach ($datos as $dato)
+# {{$dato->folio}} {{$dato->descripcion}}
 
-Test de respuesta cliente
+El cliente ha rechazado la propuesta de requerimiento, se recomienda contactar para mayor información.
+    
+@endforeach
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
 
-Thanks,<br>
+<br>
 {{ config('app.name') }}
 @endcomponent
