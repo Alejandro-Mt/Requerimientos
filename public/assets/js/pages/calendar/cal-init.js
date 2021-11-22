@@ -185,7 +185,7 @@
                       url: '/show.'+document.getElementsByName('folio')[0].value,
                       type: 'get',
                       error: function() {
-                        alert('¡Hubo un error al recuperar eventos!');
+                        alert('¡Ha ocurrido un error al recuperar eventos!');
                         console.log('/show{'+document.getElementsByName('folio')[0].value+'}');
                       },
                       allDay:true,
