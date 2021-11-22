@@ -41,7 +41,7 @@ auth::routes(['verify'=>true]);
 
 Route::get('/home', [HomeController::class, 'index'])->middleware('verified')->name('home');
 Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth')->name('principal');
-Route::get('/profile/{id}', [ProfileController::class, 'edit'])->name('profile');
+Route::get('/profile/{id}', [ProfileController::class, 'edit'])->middleware('auth')->name('profile');
 Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');
 
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
@@ -61,7 +61,7 @@ Route::post('/formatos.requerimientos.edit', [RecordController::class, 'levantam
 Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
 Route::get('/correos.contenido.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
 Route::get('/correos.{folio}',[CorreoController::class, 'rechazo'])->name('Rechazo');
-Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->name('Enviar');
+Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->middleware('auth')->name('Enviar');
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 
 Route::get('/formatos.requerimientos.planeacion.{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
