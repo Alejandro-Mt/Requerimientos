@@ -8,10 +8,10 @@ use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use PDF;
-use Illuminate\Http\Request;
 
 class CorreoController extends Controller
 {
@@ -68,18 +68,21 @@ class CorreoController extends Controller
     }
 
     protected function respuesta($folio){
-            $hora = levantamiento::findOrFail($folio);
+        $hora = levantamiento::findOrFail($folio);
+        if($hora->fechaaut == NULL){ 
             $hora -> fechaaut = now();
-            $hora -> save();    
-            
-        return redirect('https://mail.google.com/');    
+            $hora -> save();
+        return redirect('Se ha autorizado satisfactoriamente');        
+        } else{
+            return ('Ya ha sido autorizado');
+        }
     }
 
     public function rechazo($folio){
         $fol= registro::where('folio',$folio)->get();
         mail::to("alejandro.martinez@3ti.mx")
             ->send(new ValidacionRequerimiento($folio));
-        return redirect('https://mail.google.com/');
+        return redirect('Se ha enviado la respuesta, gracias.');
         #dd($estatus);
     }
 }
