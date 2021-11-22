@@ -1,3 +1,5 @@
+const { get } = require("jquery");
+
 ! function($) {
     "use strict";
 
@@ -182,10 +184,10 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 events: {
-                      url: '/show',
+                      url: '/show.' + document.getElementsByName('folio')[0].value,
                       type: 'get',
                       error: function() {
-                        alert('there was an error while fetching events!');
+                        alert('¡Ha ocurrido un error en la carga de fechas!');
                       },
                       allDay:true,
                     },
