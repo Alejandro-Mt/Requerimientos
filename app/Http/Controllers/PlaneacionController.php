@@ -184,9 +184,9 @@ class PlaneacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($folio)
     {
-        $data['eventos'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->get();
+        $data['eventos'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->where('folio',$folio)->get();
         return response()->json($data['eventos']);
     }
 

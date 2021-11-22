@@ -65,7 +65,7 @@ Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->middlew
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 
 Route::get('/formatos.requerimientos.planeacion.{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
-Route::get('/show',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
+Route::get('/show,{folio}',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
 Route::post('/formatos.requerimientos.planeacion', [PlaneacionController::class, 'create'])->name('Plan');
 
 Route::get('/formatos.requerimientos.analisis.{folio}',[AnalisisController::class, 'index'])->middleware('auth')->name('Analisis');

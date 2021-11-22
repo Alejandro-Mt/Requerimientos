@@ -248,7 +248,7 @@
                             break;
                     }
                     var allDay=event.allDay;
-                    console.log(allDay);
+                    console.log($('.folio'.val()));
                 },
                 eventClick: function(calEvent, jsEvent, view) {
                     $this.onEventClick(calEvent, jsEvent, view);

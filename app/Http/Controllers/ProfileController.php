@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Stmt\Return_;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -15,7 +15,7 @@ class ProfileController extends Controller
         return view('profile');
     }
     public function update(Request $data){
-        $user = \Auth::user();
+        $user = Auth::user();
         $avatar = str_replace('storage','public',$user->avatar);
         Storage::delete($avatar);
         $data->validate(['avatar'=>'required|image|max:2048']);
