@@ -182,10 +182,11 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 events: {
-                      url: '/show',
+                      url: '/show.'+document.getElementsByName('folio')[0].value,
                       type: 'get',
                       error: function() {
-                        alert('there was an error while fetching events!');
+                        alert('Hubo un error al recuperar eventos!');
+                        console.log('/show{'+document.getElementsByName('folio')[0].value+'}');
                       },
                       allDay:true,
                     },
@@ -248,7 +249,7 @@
                             break;
                     }
                     var allDay=event.allDay;
-                    console.log($('.folio'.val()));
+                    console.log(document.getElementsByName('folio')[0].value);
                 },
                 eventClick: function(calEvent, jsEvent, view) {
                     $this.onEventClick(calEvent, jsEvent, view);
