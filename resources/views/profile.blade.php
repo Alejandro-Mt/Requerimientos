@@ -7,7 +7,7 @@
           <div class="card">
             <div class="card-body little-profile text-center">
               <div class="my-3">
-                <img src="{{Auth::user()->avatar}}" alt="user" width="128" class="rounded-circle shadow"/>
+                <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
               </div>
               <h3 class="mb-0">{{Auth::user()->nombre}}</h3>
               <h6 class="text-muted">{{Auth::user()->puesto}}</h6>
