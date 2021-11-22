@@ -174,12 +174,12 @@
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{{Auth::user()->avatar}}" alt="user" width="30" class="profile-pic rounded-circle">
+                        <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="30" class="profile-pic rounded-circle">
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-dd animated flipInY">
                         <div class="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
                             <div class="">
-                                <img src="{{Auth::user()->avatar}}" alt="user" class="rounded-circle" width="60"/>
+                                <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="rounded-circle" width="60"/>
                             </div>
                             <div class="ms-2">
                                 <h4 class="mb-0 text-white">{{Auth::user()->nombre}}</h4>
