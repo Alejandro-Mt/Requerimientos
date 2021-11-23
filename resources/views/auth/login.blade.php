@@ -2,7 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{asset("vendor/bootstrap/css/bootstrap.min.css")}}">
-<div class="card">
+<div class="row">
     <section>    
         <div class="container-right"> 
             <div class="row justify-content-left wrap-login100">
