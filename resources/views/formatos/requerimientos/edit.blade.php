@@ -56,7 +56,7 @@
             <div class="card-body wizard-content">
                 <h5 class="card-title mb-0">Seguimiento</h5>
             </div>
-            <div class="col-lg-12">
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
