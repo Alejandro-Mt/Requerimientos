@@ -30,9 +30,9 @@
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{route('Editar')}}" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span
                             class="hide-menu">Requerimientos</span></a></li>
-                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                <!--<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="tables.html" aria-expanded="false"><i class="mdi mdi-border-inside"></i><span
-                            class="hide-menu">Bugs</span></a></li>
+                            class="hide-menu">Bugs</span></a></li>-->
                 <!--<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="grid.html" aria-expanded="false"><i class="mdi mdi-blur-linear"></i><span
                             class="hide-menu">pendiente</span></a></li>
