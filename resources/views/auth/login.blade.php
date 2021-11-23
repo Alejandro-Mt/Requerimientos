@@ -5,15 +5,17 @@
     
     <div class="row content-center" style="background-color: white">
         <div class="card-center">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="login100-pic js-tilt" data-tilt>
                     <img src="images/img-01.png" alt="IMG">
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="login100-form validate-form">
                     <span class="login100-form-title">
-                        {{ __('Iniciar Sesión') }}</span>
+                        <br>
+                        {{ __('Iniciar Sesión') }}
+                    </span>
 
                     <div class="wrap-input100 validate-input">
                         <form method="POST" action="{{ route('login') }}">
