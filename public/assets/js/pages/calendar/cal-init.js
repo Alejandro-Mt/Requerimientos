@@ -186,7 +186,6 @@
                       type: 'get',
                       error: function() {
                         alert('¡Ha ocurrido un error al recuperar eventos!');
-                        console.log('/show{'+document.getElementsByName('folio')[0].value+'}');
                       },
                       allDay:true,
                     },
