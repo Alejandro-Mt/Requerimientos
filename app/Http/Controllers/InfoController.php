@@ -35,7 +35,6 @@ class InfoController extends Controller
      */
     public function create(request $data)
     {
-        /*
         $verificar = informacion::where('folio',$data['folio'])->count();
         if($verificar == 0){
             if($data['solInfopip']<>NULL){$solInfopip=date("y/m/d", strtotime($data['solInfopip']));}else{$solInfopip=NULL;}
@@ -69,7 +68,7 @@ class InfoController extends Controller
             #$estatus->id_estatus = $data['id_estatus'];
             #$estatus->save();
             $update->save(); 
-        }*/
+        }
         #$update = registro::select()-> where ('folio', $data->folio)->first();
         #$update->id_estatus = $data->input('id_estatus');
         #$update->save();
