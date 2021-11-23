@@ -72,7 +72,7 @@ class CorreoController extends Controller
         if($hora->fechaaut == NULL){ 
             $hora -> fechaaut = now();
             $hora -> save();
-        return redirect('Se ha autorizado satisfactoriamente');        
+        return 'Se ha autorizado satisfactoriamente';        
         } else{
             return ('Ya ha sido autorizado');
         }
@@ -82,7 +82,7 @@ class CorreoController extends Controller
         $fol= registro::where('folio',$folio)->get();
         mail::to("alejandro.martinez@3ti.mx")
             ->send(new ValidacionRequerimiento($folio));
-        return redirect('Se ha enviado la respuesta, gracias.');
+        return 'Se ha enviado la respuesta, gracias.';
         #dd($estatus);
     }
 }
