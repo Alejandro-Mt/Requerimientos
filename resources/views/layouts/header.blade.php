@@ -64,16 +64,10 @@
               </span>
             </a>
             <div class="dropdown-menu dropdown-menu-animate-up" aria-labelledby="navbarDropdown">
-              <li>
-                <a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('NuevaMaqueta')}}">Maquetado</a>
-              </li>
-              <li>
-                <a class="dropdown-item mdi mdi-content-paste" href="{{route('Nuevo')}}">Requerimiento</a>
-              </li>
+              <a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('NuevaMaqueta')}}">Maquetado</a>
+              <a class="dropdown-item mdi mdi-content-paste" href="{{route('Nuevo')}}">Requerimiento</a>
               <div class="dropdown-divider"></div>
-              <li>
-                <a class="dropdown-item mdi mdi-developer-board" href="{{route('Editar')}}">Seguimiento</a>
-              </li>
+              <a class="dropdown-item mdi mdi-developer-board" href="{{route('Editar')}}">Seguimiento</a>
             </div>
           </li>
           <!-- -------------------------------------------------------------- -->
