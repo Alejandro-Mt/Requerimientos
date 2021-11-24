@@ -15,7 +15,6 @@ $("#scroll_ver").DataTable({
 $(
   ".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel"
 ).addClass("btn btn-primary mr-1");
-console.log($(".buttons-copy"))
 //==================================================//
 //  Show / hide columns dynamically                 //
 //==================================================//
