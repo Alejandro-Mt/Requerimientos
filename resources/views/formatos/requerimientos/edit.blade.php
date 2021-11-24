@@ -124,7 +124,7 @@
                                     @break
                                     @case(18)
                                         <td>
-                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementado</a></button>
+                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white" ><a href="#" style="color:white">Implementado</a></button>
                                         </td>
                                     @break
                                     @default 
