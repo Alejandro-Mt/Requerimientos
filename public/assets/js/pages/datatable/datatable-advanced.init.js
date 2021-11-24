@@ -8,14 +8,14 @@
 //=============================================//
 //    File export                              //
 //=============================================//
-$("#file_export").DataTable({
+$("#scroll_ver").DataTable({
   dom: "Bfrtip",
   buttons: ["copy", "csv", "excel", "pdf", "print"],
 });
 $(
   ".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel"
 ).addClass("btn btn-primary mr-1");
-
+console.log($(".buttons-copy"))
 //==================================================//
 //  Show / hide columns dynamically                 //
 //==================================================//
