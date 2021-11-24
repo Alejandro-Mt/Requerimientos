@@ -63,8 +63,8 @@
                                         @if ($ant->estatus_f <> null)
                                             <option value={{$ant->estatus_f}}>
                                                 @foreach ($desfases as $desfase)
-                                                    @if($desfase->id == $ant->estatus_f)
-                                                        {{$desfase->motivo}}
+                                                    @if($desfase->id_estatus == $ant->estatus_f)
+                                                        {{$desfase->titulo}}
                                                     @endif
                                                 @endforeach
                                             </option>
@@ -73,7 +73,7 @@
                                     
                                     <option value={{null}}>Selección</option>
                                     @foreach ( $desfases as  $desfase)
-                                        <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
+                                        <option value={{ $desfase->id_estatus}}>{{ $desfase->titulo}}</option>
                                     @endforeach 
                                     <!--@error('motivodesfase')
                                         <span class="invalid-feedback" role="alert">

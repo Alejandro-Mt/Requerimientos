@@ -6,6 +6,7 @@ use App\Models\desfase;
 use App\Models\implementacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ImplementacionController extends Controller
 {
@@ -15,7 +16,7 @@ class ImplementacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($folio){
-        $desfases = desfase::all();
+        $desfases = db::table('estatus_funcionalidad')->select('*')->get();
         $id = registro::latest('id_registro')->first();
         $previo = implementacion::select('*')->where('folio',$folio)->get();
         $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
