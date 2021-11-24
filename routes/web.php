@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImplementacionController;
 use App\Http\Controllers\InfoController;
+use App\Http\Controllers\LevantamientosController;
 use App\Http\Controllers\LiberacionController;
 use App\Http\Controllers\MaquetadoController;
 use App\Http\Controllers\MenuController;
@@ -53,10 +54,11 @@ Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->
 
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
 #Route::get('/formatos.requerimientos.levantamiento', [RecordController::class, 'levantamiento']);
-Route::get('/formatos.requerimientos.formato.{id_registro}', [RecordController::class, 'formato'])->middleware('auth')->name('Formato');
-Route::post('/formatos.requerimientos.formato', [RecordController::class, 'actualiza'])->name('Actualizar');
-Route::get('/formatos.requerimientos.levantamiento.{id_registro}', [RecordController::class, 'edit'])->middleware('auth')->name('Levantamiento');
-Route::post('/formatos.requerimientos.edit', [RecordController::class, 'levantamiento'])->name('Guardar');
+
+Route::get('/formatos.requerimientos.formato.{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');
+Route::post('/formatos.requerimientos.formato', [LevantamientosController::class, 'actualiza'])->name('Actualizar');
+Route::get('/formatos.requerimientos.levantamiento.{id_registro}', [LevantamientosController::class, 'edit'])->middleware('auth')->name('Levantamiento');
+Route::post('/formatos.requerimientos.edit', [LevantamientosController::class, 'levantamiento'])->name('Guardar');
 ##  metodos para correo ##
 Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
 Route::get('/correos.contenido.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');

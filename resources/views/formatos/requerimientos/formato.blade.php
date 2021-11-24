@@ -79,11 +79,11 @@
                             <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
                                 style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
                                 <option value={{null}}>Seleccion</option>
-                                @if ($ejecutivo->id_area == 6)
-                                    @foreach ($responsables as $autoriza):
+                                @foreach ($responsables as $autoriza)
+                                    @if ($autoriza->id_area == 6)
                                         <option value={{$autoriza->id_responsable}}>{{$autoriza->nombre_r}}</option>;
-                                    @endforeach; 
-                                @endif
+                                    @endif
+                                @endforeach; 
                                 @error('autorizacion')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
