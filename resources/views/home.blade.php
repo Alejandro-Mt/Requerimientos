@@ -159,7 +159,7 @@
         });*/
 
     </script>
-    <script src="{{asset("assets/extra-libs/datatables/js/jquery.dataTables.min.js")}}"></script>
+    <script src="{{asset("assets/extra-libs/Datatables/js/jquery.dataTables.min.js")}}"></script>
     <!-- start - This is for export functionality only -->
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
