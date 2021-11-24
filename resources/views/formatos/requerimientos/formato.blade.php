@@ -35,6 +35,24 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label for="departamento"
+                            class="col-sm-2 text-end control-label col-form-label">Departamento</label>
+                        <div class="col-md-8">  
+                            <select class="form-select @error('departamento') is-invalid @enderror" 
+                                style="width: 100%; height:36px;" name="departamento" tabindex="-1" aria-hidden="true" required autofocus>
+                                <option value={{null}}>Seleccion</option>
+                                @foreach ($departamentos as $departamento):
+                                    <option value = {{ $departamento->id }}>{{$departamento->departamento}}</option>;
+                                @endforeach                     
+                            </select>
+                            @error('departamento')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="jefe_departamento"
                             class="col-sm-2 text-end control-label col-form-label">Jefe de Departamento</label>
                         <div class="col-md-8">  
@@ -61,9 +79,11 @@
                             <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
                                 style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
                                 <option value={{null}}>Seleccion</option>
-                                @foreach ($responsables as $autoriza):
-                                    <option value={{$autoriza->id_responsable}}>{{$autoriza->nombre_r}}</option>;
-                                @endforeach;  
+                                @if ($ejecutivo->id_area == 6)
+                                    @foreach ($responsables as $autoriza):
+                                        <option value={{$autoriza->id_responsable}}>{{$autoriza->nombre_r}}</option>;
+                                    @endforeach; 
+                                @endif
                                 @error('autorizacion')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

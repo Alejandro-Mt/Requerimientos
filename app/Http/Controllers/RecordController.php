@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\cliente;
+use App\Models\departamento;
 use App\Models\estatu;
 use App\Models\levantamiento;
 use App\Models\registro;
@@ -71,7 +71,8 @@ protected function validator(array $data)
         $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
         $sistemas = sistema::all();
         $responsables = responsable::all();
-        return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros')); 
+        $departamentos = departamento::all();
+        return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros','departamentos')); 
     }
 
     protected function levantamiento(request $data){
