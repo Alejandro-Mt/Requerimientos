@@ -24,7 +24,13 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Liberación PIP*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="fecha_lib_a" type="text" class="form-control" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->fecha_lib_a))}}" @endforeach id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="fecha_lib_a" type="text" class="form-control"
+                                      @foreach ($previo as $ant) 
+                                        @if($ant->fecha_lib_a == null) value="{{null}}" 
+                                        @else value="{{date('d-m-20y',strtotime($ant->fecha_lib_a))}}" 
+                                        @endif 
+                                      @endforeach
+                                      id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -38,7 +44,13 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Liberación Real*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="fecha_lib_r" type="text" class="form-control mydatepicker" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->fecha_lib_r))}}" @endforeach placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="fecha_lib_r" type="text" class="form-control mydatepicker"
+                                      @foreach ($previo as $ant) 
+                                        @if($ant->fecha_lib_r == null) value="{{null}}" 
+                                        @else value="{{date('d-m-20y',strtotime($ant->fecha_lib_r))}}" 
+                                        @endif 
+                                      @endforeach
+                                      placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -53,7 +65,13 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Inicio Pruebas PIP*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="inicio_lib" type="text" class="form-control mydatepicker" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->inicio_lib))}}" @endforeach placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="inicio_lib" type="text" class="form-control mydatepicker" 
+                                      @foreach ($previo as $ant)
+                                        @if($ant->inicio_lib == null) value="{{null}}" 
+                                        @else value="{{date('d-m-20y',strtotime($ant->inicio_lib))}}"
+                                        @endif
+                                      @endforeach
+                                      placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -67,7 +85,13 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Liberación Pruebas QA*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="inicio_p_r" type="text" class="form-control mydatepicker" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->inicio_p_r))}}" @endforeach placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="inicio_p_r" type="text" class="form-control mydatepicker"
+                                      @foreach ($previo as $ant)
+                                        @if($ant->inicio_p_r == null) value="{{null}}" 
+                                        @else value="{{date('d-m-20y',strtotime($ant->inicio_p_r))}}" 
+                                        @endif
+                                      @endforeach 
+                                      placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -86,8 +110,10 @@
                             <label for="t_pruebas"
                                 class="col-sm-2 text-end control-label col-form-label">Total Pruebas*</label>
                             <div class="col-md-8">
-                                <input type="text" class="required form-control @error('t_pruebas') is-invalid @enderror" 
-                                    name="t_pruebas" @foreach ($previo as $ant) value="{{$ant->t_pruebas}}" @endforeach placeholder="Pruebas Realizadas" required autofocus>
+                                <input type="text" name="t_pruebas" 
+                                  class="required form-control @error('t_pruebas') is-invalid @enderror"
+                                  @foreach ($previo as $ant) value="{{$ant->t_pruebas}}" @endforeach 
+                                  placeholder="Pruebas Realizadas" required autofocus>
                                 @error('t_pruebas')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -100,7 +126,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
                             <div class="col-md-8">
                                 <input type="text" class="required form-control @error('evidencia_p') is-invalid @enderror" 
-                                    name="evidencia_p" @foreach ($previo as $ant) value="{{$ant->evidencia_p}}" @endforeach placeholder="evidencia_p" required autofocus>
+                                    name="evidencia_p" @foreach ($previo as $ant) @if($ant->evidencia_p == 'null') value="{{NULL}}" @else value="{{$ant->evidencia_p}}" @endif @endforeach placeholder="evidencia_p" required autofocus>
                                 @error('evidencia_p')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

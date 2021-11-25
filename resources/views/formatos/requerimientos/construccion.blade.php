@@ -42,7 +42,7 @@
                                     class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
                                 <div class="col-md-8">
                                     <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                        name="evidencia" @foreach ($previo as $ant) value="{{$ant->evidencia}}" @endforeach placeholder="evidencia" required autofocus>
+                                        name="evidencia" @foreach ($previo as $ant) @if($ant->evidencia == 'null') value="{{NULL}}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
                                     @error('evidencia')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

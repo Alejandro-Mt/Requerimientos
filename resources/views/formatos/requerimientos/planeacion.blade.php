@@ -118,7 +118,7 @@
         <div class="card-body wizard-content">
             <div class="row mb-3">
                 <div class="col-lg-10">
-                  <h3 class="u-align-right u-text u-text-default u-title u-text-1">Planeación</h3>
+                  <h3 class="u-align-right u-text u-text-default u-title u-text-1">Definición de requerimientos</h3>
                 </div>
             </div>   
             <p class="u-align-left u-text u-text-2">(*) Campos Obligatorios</p>
@@ -295,22 +295,12 @@
                                 </div>
                             </div>
                         </div>                        
-                                    <input class="d-none" name="fechaEnvAn"  value="{{null}}"
-                                             type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="fechaAutAn"
-                                                value="{{null}}"
-                                            type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="fechaInConP"
-                                                value="{{null}}"
-                                             type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="fechaInConR"                                            
-                                            value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
-                                    <input class="d-none" name="FechaLibP"                                            
-                                                value="{{null}}"
-                                            type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="FechaLibR"
-                                            value="{{null}}"
-                                         type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
+                                    <input class="d-none" name="fechaEnvAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                                    <input class="d-none" name="fechaAutAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                                    <input class="d-none" name="fechaInConP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                                    <input class="d-none" name="fechaInConR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
+                                    <input class="d-none" name="FechaLibP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                                    <input class="d-none" name="FechaLibR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
                         <div class="card-body text-center">
                             <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
                             <a style='text-align: center'>Solicitar Información</a>

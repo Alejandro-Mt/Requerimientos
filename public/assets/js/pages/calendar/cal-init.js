@@ -36,19 +36,19 @@
             switch(titulo){
                 case 'Definición de requerimientos':
                     document.getElementsByName('fechaCompReqC')[0].value=inicio;
-                    //document.getElementsByName('fechaCompReqR')[0].value=inicio;
+                    document.getElementsByName('fechaCompReqR')[0].value=inicio;
                     break;
-                case 'Analisis de requerimientos':
+                case 'Análisis de requerimientos':
                     document.getElementsByName('fechaEnvAn')[0].value=inicio;
-                    //document.getElementsByName('fechaAutAn')[0].value=inicio;
+                    document.getElementsByName('fechaAutAn')[0].value=inicio;
                     break;
                 case 'Construcción':
                     document.getElementsByName('fechaInConP')[0].value=inicio;
-                    //document.getElementsByName('fechaInConR')[0].value=inicio;
+                    document.getElementsByName('fechaInConR')[0].value=inicio;
                     break;
                 case 'Liberación':
                     document.getElementsByName('FechaLibP')[0].value=inicio;
-                    //document.getElementsByName('FechaLibR')[0].value=inicio;
+                    document.getElementsByName('FechaLibR')[0].value=inicio;
                     break;
             }
             // is the "remove after drop" checkbox checked?
@@ -210,7 +210,7 @@
                         case 'Definición de requerimientos':
                             document.getElementsByName('fechaCompReqR')[0].value=fin;
                             break;
-                        case 'Analisis de requerimientos':
+                        case 'Análisis de requerimientos':
                             document.getElementsByName('fechaAutAn')[0].value=fin;
                             break;
                         case 'Construcción':
@@ -234,7 +234,7 @@
                             document.getElementsByName('fechaCompReqC')[0].value=inicio;
                             document.getElementsByName('fechaCompReqR')[0].value=fin;
                             break;
-                        case 'Analisis de requerimientos':
+                        case 'Análisis de requerimientos':
                             document.getElementsByName('fechaEnvAn')[0].value=inicio;
                             document.getElementsByName('fechaAutAn')[0].value=fin;
                             break;
@@ -248,7 +248,6 @@
                             break;
                     }
                     var allDay=event.allDay;
-                    console.log(document.getElementsByName('folio')[0].value);
                 },
                 eventClick: function(calEvent, jsEvent, view) {
                     $this.onEventClick(calEvent, jsEvent, view);
