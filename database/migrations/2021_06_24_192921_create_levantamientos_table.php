@@ -17,7 +17,8 @@ class CreateLevantamientosTable extends Migration
         Schema::create('levantamientos', function (Blueprint $table) {
             $table->id();
             $table->string('folio',50)->unique();
-            $table->string('solicitante')->lenght(50);
+            $table->string('solicitante')->lenght(100);
+            $table->Integer('departamento')->lenght(10)->unsigned();
             $table->Integer('jefe_departamento')->lenght(50)->unsigned();
             #$table->foreign('jefe_departamento')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->Integer('autorizacion')->lenght(50)->unsigned();

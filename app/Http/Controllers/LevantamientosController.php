@@ -36,6 +36,7 @@ class LevantamientosController extends Controller
         levantamiento::create([
             'folio' => $data['folio'],
             'solicitante' => $data['solicitante'],
+            'departamento' => $data['departamento'],
             'jefe_departamento' => $data['jefe_departamento'],
             'autorizacion' => $data['autorizacion'],
             'previo' => $data['previo'],
@@ -65,6 +66,7 @@ class LevantamientosController extends Controller
     protected function actualiza(request $data){
         $update = levantamiento::FindOrFail($data['folio']);
         $update->solicitante = $data['solicitante'];
+        $update->departamento = $data['departamento'];
         $update->jefe_departamento = $data['jefe_departamento'];
         $update->autorizacion = $data['autorizacion'];
         $update->previo = $data['previo'];
@@ -107,10 +109,11 @@ class LevantamientosController extends Controller
         $sistemas = sistema::all();
         $responsables = responsable::all();
         $levantamientos = levantamiento::findOrFail($registros);
+        $departamentos = departamento::all();
         foreach($levantamientos as $valor);
         $involucrados = explode(',',$valor->involucrados);
         $relaciones = explode(',',$valor->relaciones);
-        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamientos','involucrados')); 
+        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamientos','involucrados','departamentos'));
         #dd($relaciones);
     }
 

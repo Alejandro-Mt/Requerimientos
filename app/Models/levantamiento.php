@@ -13,6 +13,7 @@ class levantamiento extends Model
     protected $fillable = [
         'folio',
         'solicitante',
+        'departamento',
         'jefe_departamento',
         'autorizacion',
         'previo',

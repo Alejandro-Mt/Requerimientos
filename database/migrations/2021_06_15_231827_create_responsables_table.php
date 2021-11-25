@@ -15,7 +15,8 @@ class CreateResponsablesTable extends Migration
     {
         Schema::create('responsables', function (Blueprint $table) {
             $table->id('id_responsable');
-            $table->string('nombre_r',50);
+            $table->string('nombre_r')->lenght(100);
+            $table->string('email',100)->unique();
             $table->unsignedBigInteger('id_area');
             $table->timestamps();
         });

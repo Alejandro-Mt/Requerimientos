@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ValidacionCliente;
 use App\Mail\ValidacionRequerimiento;
+use App\Models\departamento;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
@@ -37,6 +38,7 @@ class CorreoController extends Controller
                           ->select('l.created_at as fsol',
                                     'a.area',
                                     'l.solicitante',
+                                    'd.departamento',
                                     'jd.nombre_r as j_dep',
                                     's.nombre_s',
                                     'c.nombre_cl',
@@ -51,6 +53,7 @@ class CorreoController extends Controller
                                     'l.involucrados')
                           ->leftjoin('levantamientos as l', 'r.folio', 'l.folio')
                           ->leftJoin('areas as a', 'r.id_area','a.id_area')
+                          ->leftJoin('departamentos as d','l.departamento','d.id')
                           ->leftJoin('responsables as jd','l.jefe_departamento','jd.id_responsable')
                           ->leftJoin('sistemas as s','r.id_sistema', 's.id_sistema')
                           ->leftJoin('clientes as c','c.id_cliente','r.id_cliente')

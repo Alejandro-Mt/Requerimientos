@@ -24,7 +24,7 @@
           </tr>
         <tr>
           <th align="right">Departamento:</th>
-          <td align="left">{{'example'}}</td>
+          <td align="left">{{$dato->departamento}}</td>
           <th align="right">Jefe del departamento:</th>
           <td align="left">{{$dato->j_dep}}</td>
         </tr>
@@ -183,41 +183,8 @@
           @endforeach
         @endfor
       </table>
-      <!-- seccion 3 -->
-      <h5 style="border-top: 5px solid">Espacio exclusivo para Desarrollo</h5>
-      <table align="center" >
-        <thead>
-          <tr>
-          <th style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Observaciones:</th>
-          <th width="200" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Impacto en desarrollo:</th>
-          <td width="5" align="right">⬜</td>
-          <td>Alta</td>
-          <td width="5" align="right">⬜</td>
-          <td>Media</td>
-          <td width="5" align="right">⬜</td>
-          <td>Baja</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          <td width="660px" colspan="8" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"></td>
-          </tr>
-          </tbody>
-        <tfoot>
-          <tr>
-          <td></td>
-          <th style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="right">Prioridad</th>
-          <td width="5" align="right">⬜</td>
-          <td>Alta</td>
-          <td width="5" align="right">⬜</td>
-          <td>Media</td>
-          <td width="5" align="right">⬜</td>
-          <td>Baja</td>
-          </tr>
-        </tfoot>
-      </table>
-      <h1 style="border-top: 5px solid"></h1>
-      <h5>Quién autoriza:_____________________________________</h5>
+      
+      <h1 style="border-top: 5px solid"></h1><br>
       <h1 height="50"></h1>
       <!-- seccion final -->
       <table width="600" align="center" style="vertical-align: bottom;">

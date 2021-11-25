@@ -37,6 +37,32 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <!-- departamento -->
+                        <label for="departamento"
+                            class="col-sm-2 text-end control-label col-form-label">Departamento</label>
+                        <div class="col-md-8">
+                            <select class="form-select @error ('departamento') is-invvalid @enderror" 
+                                style="width: 100%; height:36px;" name="departamento" tabindex="-1" aria-hidden="true" required autofocus>
+                            @foreach ($levantamientos as $valor)
+                            <option value={{$valor->departamento}}>
+                                @foreach ($departamentos as $departamento) 
+                                    @if ($valor->departamento == $departamento->id)
+                                        {{$departamento->departamento}}
+                                    @endif
+                                @endforeach</option>                                        
+                            @endforeach
+                            @foreach ($departamentos as $departamento)
+                                <option value = {{ $departamento->id }}>{{$departamento->departamento}}</option>;
+                            @endforeach  
+                                @error('departamento')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror                        
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label for="jefe_departamento"
                             class="col-sm-2 text-end control-label col-form-label">Jefe de Departamento</label>
                         <div class="col-md-8">  
@@ -50,7 +76,7 @@
                                             @endif
                                         @endforeach</option>                                        
                                 @endforeach
-                                @foreach ($responsables as $ejecutivo):
+                                @foreach ($responsables as $ejecutivo)
                                     @if ($ejecutivo ->id_area == 2)
                                         <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
                                     @endif
@@ -78,7 +104,7 @@
                                         @endif
                                     @endforeach</option>                                        
                             @endforeach
-                            @foreach ($responsables as $ejecutivo):
+                            @foreach ($responsables as $ejecutivo)
                                 @if ($ejecutivo->id_area == 6)
                                     <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
                                 @endif

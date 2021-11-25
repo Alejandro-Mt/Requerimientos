@@ -33,14 +33,12 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-});
+#Route::get('/', function () {return view('auth.login');});
 
 Auth::routes();
 auth::routes(['verify'=>true]);
 
-Route::get('/home', [HomeController::class, 'index'])->middleware('verified')->name('home');
+Route::get('/', [HomeController::class, 'index'])->middleware('verified')->name('home');
 Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth')->name('principal');
 Route::get('/profile/{id}', [ProfileController::class, 'edit'])->middleware('auth')->name('profile');
 Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');

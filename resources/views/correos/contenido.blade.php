@@ -21,7 +21,7 @@ _____________________________________________________
 </tr>
 <tr>
 <th align="left">Departamento:</th>
-<td>{{'example'}}</td>
+<td>{{$dato->departamento}}</td>
 <th align="left">Jefe de departamento:</th>
 <td>{{$dato->j_dep}}</td>
 </tr>
@@ -182,41 +182,7 @@ _____________________________________________________
 @endforeach
 @endfor
 </table>
-<!-- seccion 3 -->
-_____________________________________________________
-<p>Espacio exclusivo para desarrollo</p>
-<table width="500">
-<thead>
-<tr>
-<td>Observaciones:</td>
-<td align="right">Impacto en desarrollos:</td>
-<h5>⬜&nbsp;&nbsp;</h5>
-<td>Alta</td>
-<h5>⬜&nbsp;&nbsp;</h5>
-<td>Media</td>
-<h5>⬜&nbsp;&nbsp;</h5>
-<td>Baja</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td width="500" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">Texto de ejemplo.</td>
-</tr>
-</tbody>
-<tfoot>
-<tr>
-<td></td>
-<td align="right">Prioridad</td>
-<h5>⬜&nbsp;&nbsp;</h5>
-<td>Alta</td>
-<h5>⬜&nbsp;&nbsp;</h5>
-<td>Media</td>
-<h5>⬜&nbsp;&nbsp;</h5>
-<td>Baja</td>
-</tr>
-</tfoot>
-</table>
-<p>Quién autoriza:_________________</p>
+<br>
 <!-- seccion final -->
 <table>
 <tr>
