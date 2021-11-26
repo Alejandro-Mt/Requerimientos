@@ -154,7 +154,11 @@
           <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Resultado esperado</th>
         </tr>
         <tr>
-          <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"></td>{{$dato->esperado}}
+          <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">
+            <textarea>
+              {{$dato->esperado}}
+            </textarea>
+          </td>
         </tr>
         <tr>
         <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Áreas o sistemas relacionados</th>

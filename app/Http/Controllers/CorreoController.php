@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\ValidacionCliente;
 use App\Mail\ValidacionRequerimiento;
-use App\Models\departamento;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
