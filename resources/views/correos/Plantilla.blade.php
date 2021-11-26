@@ -3,7 +3,6 @@
   <head>
     <title>Formato</title>
     <!-- This Page CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.css"/>
   </head>
   <body class="u-body" align="center">
     @foreach ($formato as $dato)
@@ -156,10 +155,10 @@
           <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Resultado esperado</th>
         </tr>
         <tr>
-          <td>
-            <textarea width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px" class="summernote">
-              {{$dato->esperado}}
-            </textarea>
+          <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding-right: 10px;padding-left: 10px">
+              <textarea cols="70" rows="15" readonly style="resize: none; background:transparent; border:none;padding-right: 10px;padding-left: 10px">
+{{$dato->esperado}}
+              </textarea>
           </td>
         </tr>
         <tr>
@@ -206,21 +205,5 @@
         </table>
       <table>
     @endforeach
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.js"></script>
-  <script>
-      /************************************/
-      //default editor
-      /************************************/
-      $('.summernote').summernote({
-      height: 150,
-      airMode: true, // set editor height
-      //codemirror: { theme:'spacelab'}, // codemirror options
-      //minHeight: null, // set minimum height of editor
-      //maxHeight: null, // set maximum height of editor
-      //focus: false, // set focus to editable area after initializing summernote
-      });
-  </script>
   </body>
 </html>

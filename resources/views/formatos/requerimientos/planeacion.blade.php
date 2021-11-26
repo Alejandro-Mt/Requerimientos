@@ -294,13 +294,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                        
-                                    <input class="d-none" name="fechaEnvAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="fechaAutAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="fechaInConP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="fechaInConR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
-                                    <input class="d-none" name="FechaLibP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                                    <input class="d-none" name="FechaLibR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
+                        </div>
+                        <input class="d-none" name="fechaEnvAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                        <input class="d-none" name="fechaAutAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                        <input class="d-none" name="fechaInConP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                        <input class="d-none" name="fechaInConR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                        <input class="d-none" name="FechaLibP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                        <input class="d-none" name="FechaLibR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
                         <div class="card-body text-center">
                             <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
                             <a style='text-align: center'>Solicitar Información</a>

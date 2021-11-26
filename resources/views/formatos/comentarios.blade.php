@@ -1,5 +1,7 @@
 @extends('home')
 @section('content')
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="card">
       @foreach ($registros as $avance)
         <div class="card-body wizard-content">
@@ -92,7 +94,7 @@
       <!-- Card -->
       <!-- Start row -->
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-6">
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title border-bottom">
@@ -191,137 +193,27 @@
               </div>
             </div>
           </div>
-          <!--<div class="col-lg-6">
+          <div class="col-lg-6">
             <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">
-                  <span class="lstick d-inline-block align-middle"></span>Respuestas
-                </h4>
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- ---------------------
+                  start Drag & Drop Event
+                  ---------------- -->
+                    <div class="row">
+                      <div class="col-lg-12">
+                          <div class="card-body calender-sidebar">
+                            <div id="calendar"></div>
+                          </div>
+                      </div>
+                    </div>
+                  <!-- ---------------------
+                  end Drag & Drop Event
+                  ---------------- -->
+                </div>
               </div>
-              <div class="comment-widgets scrollable mb-2 common-widget ps-container ps-theme-default ps-active-y" style="height: 450px" data-ps-id="01e22800-8dfc-fedb-4885-01f2248d5a6e">
-                <!-- Comment Row --
-                <div class="d-flex flex-row comment-row border-bottom p-3">
-                  <div class="p-2">
-                    <span class=""><img src="../../assets/images/users/1.jpg" class="rounded-circle" alt="user" width="50"></span>
-                  </div>
-                  <div class="comment-text w-100 p-3">
-                    <h5 class="font-weight-medium">James Anderson</h5>
-                    <p class="mb-1 fs-3 text-muted">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      type etting industry
-                    </p>
-                    <div class="comment-footer d-md-flex align-items-center mt-2">
-                      <span class="
-                          badge
-                          bg-light-info
-                          text-info
-                          rounded-pill
-                          font-weight-medium
-                          fs-1
-                          py-1
-                        ">Pending</span>
-                      <span class="action-icons">
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-check-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6"></i></a>
-                      </span>
-                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
-                    </div>
-                  </div>
-                </div>
-                -- Comment Row --
-                <div class="d-flex flex-row comment-row border-bottom active p-3">
-                  <div class="p-2">
-                    <span><img src="../../assets/images/users/2.jpg" class="rounded-circle" alt="user" width="50"></span>
-                  </div>
-                  <div class="comment-text active w-100 p-3">
-                    <h5 class="font-weight-medium">Michael Jorden</h5>
-                    <p class="mb-1 fs-3 text-muted">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      type setting industry.
-                    </p>
-                    <div class="comment-footer d-md-flex align-items-center mt-2">
-                      <span class="
-                          badge
-                          bg-light-success
-                          text-success
-                          rounded-pill
-                          font-weight-medium
-                          fs-1
-                          py-1
-                        ">Approved</span>
-                      <span class="action-icons active">
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-close-circle-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6 text-danger"></i></a>
-                      </span>
-                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
-                    </div>
-                  </div>
-                </div>
-                -- Comment Row --
-                <div class="d-flex flex-row comment-row border-bottom p-3">
-                  <div class="p-2">
-                    <span><img src="../../assets/images/users/3.jpg" class="rounded-circle" alt="user" width="50"></span>
-                  </div>
-                  <div class="comment-text w-100 p-3">
-                    <h5 class="font-weight-medium">Johnathan Doeting</h5>
-                    <p class="mb-1 fs-3 text-muted">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      type setting industry.
-                    </p>
-                    <div class="comment-footer d-md-flex align-items-center mt-2">
-                      <span class="
-                          badge
-                          bg-light-danger
-                          text-danger
-                          rounded-pill
-                          font-weight-medium
-                          fs-1
-                          py-1
-                        ">Rejected</span>
-                      <span class="action-icons">
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-check-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6"></i></a>
-                      </span>
-                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
-                    </div>
-                  </div>
-                </div>
-                <-- Comment Row --
-                <div class="d-flex flex-row comment-row p-3">
-                  <div class="p-2">
-                    <span><img src="../../assets/images/users/4.jpg" class="rounded-circle" alt="user" width="50"></span>
-                  </div>
-                  <div class="comment-text w-100 p-3">
-                    <h5 class="font-weight-medium">James Anderson</h5>
-                    <p class="mb-1 fs-3 text-muted">
-                      Lorem Ipsum is simply dummy text of the printing and
-                      type setting industry.
-                    </p>
-                    <div class="comment-footer d-md-flex align-items-center mt-2">
-                      <span class="
-                          badge
-                          bg-light-info
-                          text-info
-                          rounded-pill
-                          font-weight-medium
-                          fs-1
-                          py-1
-                        ">Pending</span>
-                      <span class="action-icons">
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-edit-box-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-check-line fs-6"></i></a>
-                        <a href="javascript:void(0)" class="ps-3"><i class="ri-heart-line fs-6"></i></a>
-                      </span>
-                      <span class="text-muted ms-auto fw-normal fs-2">April 14, 2021</span>
-                    </div>
-                  </div>
-                </div>--
-              <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px; height: 450px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 293px;"></div></div></div>
             </div>
-          </div>-->
+          </div>
         </div>
         <!-- End row -->
     </div>    

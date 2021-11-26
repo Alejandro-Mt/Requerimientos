@@ -151,8 +151,8 @@ _____________________________________________________
 <th align="left">Resultado esperado</th>
 </tr>
 <tr>
-<td>
-<textarea width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px" class="summernote">
+<td width="660px" style="border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding-right: 10px;padding-left: 10px">
+<textarea cols="70" rows="15" readonly style="resize: none; background:transparent; border:none;padding-right: 10px;padding-left: 10px">
 {{$dato->esperado}}
 </textarea>
 </td>
