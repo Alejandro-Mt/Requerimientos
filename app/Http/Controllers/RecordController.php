@@ -40,8 +40,11 @@ protected function validator(array $data)
     }*/
 
     protected function create(request $data){
+        $registros = registro::where('folio', 'like', 'PIP%')->count();
+        $registros = $registros + 1;
+        $folio = "PIP-$registros";
         registro::create([
-            'folio' => $data['folio'],
+            'folio' => $folio,
             'descripcion' => $data['descripcion'],
             'id_responsable' => $data['id_responsable'],
             'id_sistema' => $data['id_sistema'],
@@ -50,7 +53,7 @@ protected function validator(array $data)
             'id_area' => $data['id_area']
         ]);
     return redirect(route('Nuevo'));
-    #return ($data);
+    #return ($folio);
     }
 
 

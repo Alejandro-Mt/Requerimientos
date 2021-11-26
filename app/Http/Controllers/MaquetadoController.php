@@ -25,15 +25,20 @@ class MaquetadoController extends Controller
     }
 
     protected function create(request $data){
+        $registros = registro::where('folio', 'like', 'AA%')->count();
+        $registros = $registros + 1;
+        $folio = $data['folio'];
+        $folio = "$folio-$registros";
         registro::create([
-        'folio' => $data['folio'],
-        'descripcion' => $data['descripcion'],
-        'id_responsable' => $data['id_responsable'],
-        'id_sistema' => $data['id_sistema'],
-        'id_cliente' => $data['id_cliente'],
-        'id_estatus' => $data['id_estatus'],
-        'id_area' => $data['id_area']
-    ]);
+            'folio' => $folio,
+            'descripcion' => $data['descripcion'],
+            'id_responsable' => $data['id_responsable'],
+            'id_sistema' => $data['id_sistema'],
+            'id_cliente' => $data['id_cliente'],
+            'id_estatus' => $data['id_estatus'],
+            'id_area' => $data['id_area']
+        ]);
     return redirect(route('NuevaMaqueta'));
+    #return ($folio);
     }
 }

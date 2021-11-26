@@ -157,25 +157,25 @@
 <script>
     cliente = document.getElementById('id_cliente');
     cliente.addEventListener('change', (event) => {
-    now = new Date();
-    registro= document.getElementById('id_registro');
-    folio = document.getElementById('folio');
-    if(now.getDate()<10){
-      if(now.getMonth()<10){
-        folio.value = `AA-${event.target.value}-0${now.getDate()}0${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
-      }
-      else{
-		folio.value = `AA-${event.target.value}-0${now.getDate()}${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
-      }
-	}
-	else{
-	  if(now.getMonth()<10){
-		folio.value = `AA-${event.target.value}-${now.getDate()}0${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
+      now = new Date();
+      registro= document.getElementById('id_registro');
+      folio = document.getElementById('folio');
+      if(now.getDate()<10){
+        if(now.getMonth()<10){
+          folio.value = `AA-${event.target.value}-0${now.getDate()}0${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}`; 
+        }
+        else{
+	      folio.value = `AA-${event.target.value}-0${now.getDate()}${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}`; 
+        }
 	  }
-  	  else{
-		folio.value = `AA-${event.target.value}-${now.getDate()}${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}-${registro.placeholder}`; 
-	  }
-    }
+	  else{
+	    if(now.getMonth()<10){
+		  folio.value = `AA-${event.target.value}-${now.getDate()}0${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}`; 
+	    }
+  	    else{
+		  folio.value = `AA-${event.target.value}-${now.getDate()}${now.getMonth()+1}${now.getFullYear().toString().slice(-2)}`; 
+	    }
+      }
     });
       </script>
 
