@@ -28,7 +28,7 @@ class CreateLevantamientosTable extends Migration
             $table->string('impacto')->lenght(50);
             $table->string('general')->lenght(50);
             $table->string('detalle')->lenght(50);
-            $table->string('esperado')->lenght(50);
+            $table->text('esperado');
             $table->string('relaciones')->lenght(50);
             #$table->foreign('relaciones')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
             $table->string('involucrados')->lenght(50);
