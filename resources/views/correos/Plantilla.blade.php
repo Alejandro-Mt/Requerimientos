@@ -204,5 +204,27 @@
         </table>
       <table>
     @endforeach
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- This Page CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/blackboard.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/monokai.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{("assets/extra-libs/summernote/summernote-lite.min.css")}}"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+    <script src="{{("assets/extra-libs/summernote/summernote-lite.min.js")}}"></script>
+    <script>
+        /************************************/
+        //default editor
+        /************************************/
+        $('.summernote').summernote({
+        height: 150, // set editor height
+        //codemirror: { theme:'spacelab'}, // codemirror options
+        //minHeight: null, // set minimum height of editor
+        //maxHeight: null, // set maximum height of editor
+        //focus: false, // set focus to editable area after initializing summernote
+        });
+    </script>
   </body>
 </html>
