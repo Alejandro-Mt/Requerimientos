@@ -151,7 +151,7 @@ _____________________________________________________
 <th align="left">Resultado esperado</th>
 </tr>
 <tr>
-<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->esperado}}</td>
+<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"></td>{{$dato->esperado}}
 </tr>
 
 <tr>
