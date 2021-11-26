@@ -225,9 +225,10 @@
                             <label for="esperado" class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
                             <div class="card-body">
                                 @foreach ($levantamientos as $valor)
-                                    <textarea name="esperado" aria-placeholder="Que es lo que se espera" required autofocus
-                                        class=" required form-control @error ('esperado') is-invvalid @enderror">
-                                    {{$valor->esperado}} </textarea>
+                                    <textarea name="esperado" aria-placeholder="Que es lo que se espera" required autofocus rows="5"
+                                        class="required form-control @error ('esperado') is-invvalid @enderror">
+{{$valor->esperado}}
+                                    </textarea>
                                 @endforeach
                                 @error('esperado')
                                     <span class="invalid-feedback" role="alert">
