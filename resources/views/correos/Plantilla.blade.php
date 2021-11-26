@@ -2,13 +2,15 @@
 <html style="font-size: 16px;">
   <head>
     <title>Formato</title>
+    <!-- This Page CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.css"/>
   </head>
   <body class="u-body" align="center">
     @foreach ($formato as $dato)
       <table align="center">
         <tr>
           <th style="vertical-align: top">
-          <img style="margin: 0px 10px 1Opx 0px;" src="{{asset("assets/images/new_logo_3ti.png")}}" width="160" height="80"/>
+            <img style="margin: 0px 10px 1Opx 0px;" src="{{asset("assets/images/new_logo_3ti.png")}}" width="160" height="80"/>
           </th>
           <th width="350"><h2> Solicitud de Requerimientos</h2></th>
           <td width="150" style="vertical-align: bottom; text-align: right;">Fecha de Solicitud: {{date('d-m-20y',strtotime($dato->fsol))}}</tr>
@@ -204,27 +206,21 @@
         </table>
       <table>
     @endforeach
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- This Page CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/blackboard.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/monokai.min.css"/>
-    <link rel="stylesheet" type="text/css" href="{{("assets/extra-libs/summernote/summernote-lite.min.css")}}"/>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
-    <script src="{{("assets/extra-libs/summernote/summernote-lite.min.js")}}"></script>
-    <script>
-        /************************************/
-        //default editor
-        /************************************/
-        $('.summernote').summernote({
-        height: 150, // set editor height
-        //codemirror: { theme:'spacelab'}, // codemirror options
-        //minHeight: null, // set minimum height of editor
-        //maxHeight: null, // set maximum height of editor
-        //focus: false, // set focus to editable area after initializing summernote
-        });
-    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.js"></script>
+  <script>
+      /************************************/
+      //default editor
+      /************************************/
+      $('.summernote').summernote({
+      height: 150,
+      airMode: true, // set editor height
+      //codemirror: { theme:'spacelab'}, // codemirror options
+      //minHeight: null, // set minimum height of editor
+      //maxHeight: null, // set maximum height of editor
+      //focus: false, // set focus to editable area after initializing summernote
+      });
+  </script>
   </body>
 </html>

@@ -7,6 +7,8 @@
 <meta name="supported-color-schemes" content="light">
 <link rel="stylesheet" href="nicepage.css" media="screen">
 <link rel="stylesheet" href="Formato.css" media="screen">
+<!-- This Page CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.css"/>
 <style>
 @media only screen and (max-width: 600px) {
 .inner-body {
@@ -54,5 +56,21 @@ width: 100% !important;
 </td>
 </tr>
 </table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.js"></script>
+<script>
+    /************************************/
+    //default editor
+    /************************************/
+    $('.summernote').summernote({
+    height: 150,
+    airMode: true, // set editor height
+    //codemirror: { theme:'spacelab'}, // codemirror options
+    //minHeight: null, // set minimum height of editor
+    //maxHeight: null, // set maximum height of editor
+    //focus: false, // set focus to editable area after initializing summernote
+    });
+</script>
 </body>
 </html>

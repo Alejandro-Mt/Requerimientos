@@ -218,29 +218,27 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            
 
-                        <!-- ---------------------
-                            start Default Summernote Editor
-                        ---------------- -->
-                        <label for="esperado" class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
-                        <div class="card-body">
-                            @foreach ($levantamientos as $valor)
-                                <textarea name="esperado" aria-placeholder="Que es lo que se espera"
-                                    required autofocus rows="10" cols="80"
-                                    class="summernote required form-control @error ('esperado') is-invvalid @enderror">
-                                {{$valor->esperado}} </textarea>
-                            @endforeach
-                            @error('esperado')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        
-                        <!-- ---------------------
-                            end Default Summernote Editor
-                        ---------------- -->
+                            <!-- ---------------------
+                                start Default Summernote Editor
+                            ---------------- -->
+                            <label for="esperado" class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
+                            <div class="card-body">
+                                @foreach ($levantamientos as $valor)
+                                    <textarea name="esperado" aria-placeholder="Que es lo que se espera" required autofocus
+                                        class="summernote required form-control @error ('esperado') is-invvalid @enderror">
+                                    {{$valor->esperado}} </textarea>
+                                @endforeach
+                                @error('esperado')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            
+                            <!-- ---------------------
+                                end Default Summernote Editor
+                            ---------------- -->
 
                         </div>
                         <div class="form-group row">
@@ -318,14 +316,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- This Page CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/blackboard.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/theme/monokai.min.css"/>
-<link rel="stylesheet" type="text/css" href="{{("assets/extra-libs/summernote/summernote-lite.min.css")}}"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/codemirror.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.41.0/mode/xml/xml.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
-<script src="{{("assets/extra-libs/summernote/summernote-lite.min.js")}}"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.css"/>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.17/summernote-lite.min.js"></script>
 <script>
     /************************************/
     //default editor
@@ -339,17 +332,3 @@
     });
 </script>
 @endsection 
-
-<head>
-    <!-- include summernote css/js-->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.css" rel="stylesheet">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.js"></script>
-</head>
-<body>
-    
-<script>
-$(document).ready(function() {
-$('.summernote').summernote();
-});
-</script>
-</body>
