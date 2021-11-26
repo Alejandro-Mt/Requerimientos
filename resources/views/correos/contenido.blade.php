@@ -151,9 +151,9 @@ _____________________________________________________
 <th align="left">Resultado esperado</th>
 </tr>
 <tr>
-<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"></td>{{$dato->esperado}}
+<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"></td>
 </tr>
-
+{{$dato->esperado}}
 <tr>
 <th align="left">Áreas o sistemas relacionados</th>
 </tr>
