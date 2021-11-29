@@ -8,7 +8,7 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/topicon.png")}}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{asset("assets/extra-libs/datatables/css/dataTables.bootstrap4.css")}}"/>
+    <link rel="stylesheet" href="{{asset("assets/extra-libs/DataTables/css/dataTables.bootstrap4.css")}}"/>
     <link rel="stylesheet" href="{{asset("assets/libs/fullcalendar/dist/fullcalendar.min.css")}}"  />
     <link rel="stylesheet" href="{{asset("assets/extra-libs/calendar/calendar.css")}}" />
     <link rel="stylesheet" href="{{asset("assets/libs/bootstrap/dist/css/bootstrap.min.css")}}">
