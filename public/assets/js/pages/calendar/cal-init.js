@@ -199,7 +199,6 @@
                     };
                 },
                 drop: function(date) { 
-                    console.log(date.getDate() + "/" + (date.getMonth() +1) + "/" + date.getFullYear())
                     $this.onDrop($(this), date);
                  },
                 select: function(start, end, allDay) { 
