@@ -170,8 +170,8 @@
                         <label for="esperado"
                             class="col-sm-2 text-end control-label col-form-label">resultado Esperado*</label>
                         <div class="col-md-8">
-                            <input name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
-                                placeholder="Que es lo que se espera" required autofocus>
+                            <textarea name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
+                                placeholder="Que es lo que se espera" required autofocus></textarea>
                             @error('esperado')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
