@@ -22,11 +22,11 @@
                                         placeholder="{{$id->id_registro+1}}" readonly="readonly">
                                 @endif
                             </div>
-                        </div>-->
+                        </div>--
                         <div class="form-group row">
                             <label for="folio"
-                                    class="col-sm-2 text-end control-label col-form-label">Folio</label>
-                            <div class="col-sm-3">
+                                    class="col-sm-2 text-end control-label col-form-label">Folio</label>-->
+                            <div class="d-none col-sm-3">
                                     <input type="text" class="required form-control" name="folio" value="PIP-{{$registros+1}}" readonly="readonly">
                             </div>
                         </div>
