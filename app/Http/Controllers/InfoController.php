@@ -38,7 +38,7 @@ class InfoController extends Controller
         $verificar = informacion::where('folio',$data['folio'])->count();
         if($verificar == 0){
             if($data['solInfopip']<>NULL){$solInfopip=date("y/m/d", strtotime($data['solInfopip']));}else{$solInfopip=NULL;}
-            if($data['solInfoC']<>NULL){date("y/m/d", strtotime($data['solInfoC']));}else{$solInfoC=NULL;}
+            if($data['solInfoC']<>NULL){$solInfoC=date("y/m/d", strtotime($data['solInfoC']));}else{$solInfoC=NULL;}
             if($data['respuesta']<>NULL){$respuesta=date("y/m/d", strtotime($data['respuesta']));}else{$respuesta=NULL;}
             if($data['retraso']==NULL){$retraso = 0;}else{$retraso=$data['retraso'];}
             informacion::create([
