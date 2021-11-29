@@ -99,14 +99,6 @@
     <!-- <script src="{{asset("assets/js/pages/dashboards/dashboard1.js")}}"></script> -
     <script src="{{asset("assets/js/pages/dashboards/dashboard2.js")}}"></script>-->
     <!-- Charts js Files -->
-    <script src="{{asset("assets/libs/flot/excanvas.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.pie.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.time.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.stack.js")}}"></script>
-    <script src="{{asset("assets/libs/flot/jquery.flot.crosshair.js")}}"></script>
-    <script src="{{asset("assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js")}}"></script>
-    <script src="{{asset("assets/js/pages/chart/chart-page-init.js")}}"></script>
     
     <script src="{{asset("assets/js/jquery.ui.touch-punch-improved.js")}}"></script>
     <script src="{{asset("assets/js/jquery-ui.min.js")}}"></script>
@@ -149,12 +141,14 @@
 
         });
         /*datwpicker*/
-        jQuery('.mydatepicker').datepicker();
-        jQuery('#datepicker-autoclose').datepicker({
+        jQuery('.mydatepicker').datepicker({
+            autoclose: true,
+            todayHighlight: true});
+        /*jQuery('#datepicker-autoclose').datepicker({
             autoclose: true,
             todayHighlight: true
         });
-        /*var quill = new Quill('#editor', {
+        var quill = new Quill('#editor', {
             theme: 'snow'
         });*/
 

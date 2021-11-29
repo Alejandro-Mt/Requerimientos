@@ -193,7 +193,13 @@
                 droppable: true, // this allows things to be dropped onto the calendar !!!
                 eventLimit: true, // allow "more" link when too many events
                 selectable: true,
+                validRange: function(nowDate) {
+                    return {
+                      start: nowDate,
+                    };
+                },
                 drop: function(date) { 
+                    console.log(date.getDate() + "/" + (date.getMonth() +1) + "/" + date.getFullYear())
                     $this.onDrop($(this), date);
                  },
                 select: function(start, end, allDay) { 

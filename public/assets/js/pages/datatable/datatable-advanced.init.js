@@ -8,9 +8,11 @@
 //=============================================//
 //    File export                              //
 //=============================================//
-$("#scroll_ver").DataTable({
+$("#file_export").DataTable({
   dom: "Bfrtip",
   buttons: ["copy", "csv", "excel", "pdf", "print"],
+  scrollY: "200px",
+  paging: false,
 });
 $(
   ".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel"

@@ -343,7 +343,7 @@
             </h6>-->
             <div class="table-responsive">
               
-              <table id="scroll_ver" class="table table-striped table-bordered display text-nowrap" style="width: 100%">
+              <table id="file_export" class="table table-striped table-bordered display text-nowrap" style="width: 100%">
                 <thead>
                   <tr>
                     <th class="header">*ID REQUERIMIENTO</th>
