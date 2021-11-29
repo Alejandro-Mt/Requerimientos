@@ -149,7 +149,7 @@
                                             @else
                                                 value="{{null}}"
                                             @endif 
-                                        @endforeach type="text" class="form-control" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
+                                        @endforeach type="text" class="form-control mydatepicker" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>

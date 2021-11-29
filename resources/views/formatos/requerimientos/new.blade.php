@@ -132,7 +132,7 @@
                             class="col-sm-2 text-end control-label col-form-label">Fecha*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker-autoclose" placeholder="MM/DD/AAAA">
+                                    <input type="text" class="form-control mydatepicker" placeholder="MM/DD/AAAA">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>

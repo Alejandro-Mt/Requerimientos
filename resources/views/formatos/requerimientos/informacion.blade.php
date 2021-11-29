@@ -24,7 +24,7 @@
                             class="col-sm-2 text-end control-label col-form-label">Solicitar informacion a PIP*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="solInfopip" type="text" class="form-control" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"
+                                    <input name="solInfopip" type="text" class="form-control mydatepicker" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"
                                         @foreach ($previo as $ant) 
                                             @if ($ant->solInfopip <> NULL)
                                                 value="{{date('d-m-20y',strtotime($ant->solInfopip))}}"

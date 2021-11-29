@@ -28,7 +28,7 @@
                                     class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega de Requerimientos*</label>
                                 <div class= 'col-md-8'>
                                     <div class="input-group">
-                                        <input name="fechaCompReqC" @foreach ($previo as $ant) @if($ant->fechaCompReqC == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" @endif @endforeach type="text" class="form-control" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                        <input name="fechaCompReqC" @foreach ($previo as $ant) @if($ant->fechaCompReqC == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" @endif @endforeach type="text" class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                         <div class="input-group-append">
                                             <span class="input-group-text h-100">
                                                 <i class="fa fa-calendar"></i>
