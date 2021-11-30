@@ -1,5 +1,19 @@
 @extends('home')
 @section('content')
+<link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @if (session('alert'))
+        <input class="d-none" id="folioM" value={{ session('alert') }}>
+        <script>
+            $(document).ready(function(){
+                toastr.success(
+                    "N° folio: " + $("#folioM").val(),
+                    "¡Guardado!",
+                    { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+                );
+            });
+        </script>
+    @endif
 
     <div class="card">
         <div class="card-body wizard-content">
@@ -153,6 +167,8 @@
 
     <form class="form-horizontal" action="" method="post">
     <h5>*Campos obligatorios</h5>
+    <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+    <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
 
 <script>
     cliente = document.getElementById('id_cliente');

@@ -8,6 +8,7 @@
         "php": "^7.3|^8.0",
         "barryvdh/laravel-dompdf": "^0.9.0",
         "carlos-meneses/laravel-mpdf": "^2.1",
+        "fakerphp/faker": "^1.9.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -15,7 +16,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laraveles/spanish": "^1.5",
-        "fakerphp/faker": "^1.9.1"
+        "mckenziearts/laravel-notify": "^2.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

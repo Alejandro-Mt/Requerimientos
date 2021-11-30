@@ -52,8 +52,10 @@ protected function validator(array $data)
             'id_estatus' => $data['id_estatus'],
             'id_area' => $data['id_area']
         ]);
-    return redirect(route('Nuevo'));
-    #return ($folio);
+        
+    #return redirect(route('Nuevo'));
+    return redirect(route('Nuevo'))->with('alert', $folio);
+    
     }
 
 

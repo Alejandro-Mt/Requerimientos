@@ -1,5 +1,20 @@
 @extends('home')
 @section('content')
+<link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+@if (session('alert'))
+    <input class="d-none" id="folio" value={{ session('alert') }}>
+    <script>
+        $(document).ready(function(){
+            toastr.success(
+                "N° folio: " + $("#folio").val(),
+                "¡Guardado!",
+                { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+            );
+        });
+    </script>
+@endif
 
     <div class="card">
         <div class="card-body wizard-content">
@@ -27,7 +42,7 @@
                             <label for="folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>-->
                             <div class="d-none col-sm-3">
-                                    <input type="text" class="required form-control" name="folio" value="PIP-{{$registros+1}}" readonly="readonly">
+                                    <input  type="text" class="required form-control" name="folio" value={{$registros+1}} readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -163,6 +178,8 @@
 
     <form class="form-horizontal" action="" method="post">
     <h5>*Campos obligatorios</h5>
+    <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+    <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
 
 
 @endsection 

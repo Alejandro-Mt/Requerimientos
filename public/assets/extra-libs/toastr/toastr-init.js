@@ -148,9 +148,17 @@ $(function () {
   $("#slide-toast").on("click", function () {
     toastr.error(
       "Aun no se ha recibido la informacion solicitada",
-      "Error!",
+      "¡Error!",
       { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
     );
+  });
+  $("#slide-folio-pip").on("load", function () {
+    toastr.success(
+      "N° folio: PIP-" + $("#folio").val(),
+      "¡Guardado!",
+      { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+    );
+    console.log($("#folio").val());
   });
 
   // Fade In / Fade Out

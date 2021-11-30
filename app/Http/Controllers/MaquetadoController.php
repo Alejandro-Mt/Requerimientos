@@ -38,7 +38,7 @@ class MaquetadoController extends Controller
             'id_estatus' => $data['id_estatus'],
             'id_area' => $data['id_area']
         ]);
-    return redirect(route('NuevaMaqueta'));
+    return redirect(route('NuevaMaqueta'))->with('alert', $folio);
     #return ($folio);
     }
 }
