@@ -182,7 +182,7 @@
                           </div>
                           <div class="ms-2">
                               <h4 class="mb-0 text-white">{{Auth::user()->nombre}}</h4>
-                              <p class="mb-0">{{Auth::user()->puesto}}</p>
+                              <p class="mb-0">{{Auth::user()->email}}</p>
                           </div>
                       </div>
                       <a class="dropdown-item" href="{{route('profile',Auth::user()->id)}}">

@@ -5,76 +5,78 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="card">
-            <div class="card-body little-profile text-center">
-              <div class="my-3">
-                <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
-              </div>
-              <h3 class="mb-0">{{Auth::user()->nombre}}</h3>
-              <h6 class="text-muted">{{Auth::user()->puesto}}</h6>
-              <ul class="list-inline social-icons mt-4">
-                <li class="list-inline-item">
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event">
-                    <i class="ri-user-settings-line"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item">
-                  <a href="javascript:void(0)">
-                    <i class="ri-settings-5-line"></i>
-                  </a>
-                </li>
-                <!--<li class="list-inline-item">
-                  <a href="javascript:void(0)">
-                    <i class="ri-google-fill"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item">
-                  <a href="javascript:void(0)">
-                    <i class="ri-youtube-fill"></i>
-                  </a>
-                </li>
-                <li class="list-inline-item">
-                  <a href="javascript:void(0)">
-                    <i class="ri-instagram-line"></i>
-                  </a>
-                </li>-->
-              </ul>
-              <!-- BEGIN MODAL -->
-              <div class="modal" id="add-new-event">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header d-flex align-items-center">
-                          <h4 class="modal-title"><strong>Cambiar Imagen de Perfil</strong></h4>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        <form action="{{route('Actualiza')}}" method="post" enctype="multipart/form-data">
-                          {{csrf_field()}}
-                          <div class="row">
-                            <div class="col-md-12">
-                              <div class="card">
-                                <div class="card-body little-profile text-center">
-                                  <div class="my-3">
-                                    <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
-                                  </div>
-                                </div>
-                              <input class="@error('contenido') is-invalid @enderror" type="file" name="avatar" accept="image/*">
-                              </div>
-                              @error('avatar')
-                                <span class="invalid-feedback" role="alert">
-                                  <strong>{{ $message }}</strong>
-                                </span>
-                              @enderror
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-success waves-effect waves-light text-white"> Guardar</button>
-                          <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
-                        </form>
-                        </div>
-                    </div>
+            @foreach ($data as $dato)
+              <div class="card-body little-profile text-center">
+                <div class="my-3">
+                  <img src="{{asset($dato->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
                 </div>
+                <h3 class="mb-0">{{$dato->nombre}}</h3>
+                <h6 class="text-muted">{{$dato->puesto}}</h6>
+                <ul class="list-inline social-icons mt-4">
+                  <li class="list-inline-item">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event">
+                      <i class="ri-user-settings-line"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void(0)">
+                      <i class="ri-settings-5-line"></i>
+                    </a>
+                  </li>
+                  <!--<li class="list-inline-item">
+                    <a href="javascript:void(0)">
+                      <i class="ri-google-fill"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void(0)">
+                      <i class="ri-youtube-fill"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="javascript:void(0)">
+                      <i class="ri-instagram-line"></i>
+                    </a>
+                  </li>-->
+                </ul>
+                <!-- BEGIN MODAL -->
+                <div class="modal" id="add-new-event">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header d-flex align-items-center">
+                            <h4 class="modal-title"><strong>Cambiar Imagen de Perfil</strong></h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                          <form class="dropzone" action="{{route('Actualiza')}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
+                            {{csrf_field()}}
+                            <!--<div class="row">
+                              <div class="col-md-12">
+                                <div class="card">
+                                  <div class="card-body little-profile text-center">
+                                    <div class="my-3">
+                                      <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
+                                    </div>
+                                  </div>
+                                <input class="@error('contenido') is-invalid @enderror" type="file" id="avatar" name="avatar" accept="image/*">
+                                </div>
+                                @error('avatar')
+                                  <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                  </span>
+                                @enderror
+                              </div>
+                            </div>-->
+                            <button type="submit" class="btn btn-success waves-effect waves-light text-white"> Guardar</button>
+                            <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
+                          </form>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                <!-- End Modal -->
               </div>
-              <!-- End Modal -->
-            </div>
+            @endforeach
             <div class="text-center bg-extra-light">
               <div class="row">
                 <div class="col-6 p-3 border-right">
@@ -1473,6 +1475,9 @@
       </div>
       <!-- End Row -->
     </div>
+    
+    <link rel="stylesheet" type="text/css" href="../../assets/libs/dropzone/dist/min/dropzone.min.css"/>
+    <script src="../../assets/libs/dropzone/dist/min/dropzone.min.js"></script>
     <!-- -------------------------------------------------------------- -->
     <!-- End Container fluid  -->
     <!-- -------------------------------------------------------------- -->
@@ -2163,4 +2168,11 @@
       </div>
     </aside>
     <div class="chat-windows"></div>
+    <script>
+    Dropzone.options.myAwesomeDropzone = {
+      paramName: "avatar", // Las imágenes se van a usar bajo este nombre de parámetro
+      maxFilesize: 3 // Tamaño máximo en MB
+    };
+
+    </script>
 @endsection

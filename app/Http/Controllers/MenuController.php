@@ -75,7 +75,16 @@ class MenuController extends Controller
     public function avance($folio){
         $registros= registro::where('folio',$folio)->get();
         $estatus = estatu::all();
-        $comentarios = comentario::select ('nombre','apaterno','folio','contenido','puesto','respuesta','comentarios.created_at')->leftjoin ('users','users.id','comentarios.usuario')->where('folio',$folio)->get();
+        $comentarios = comentario::select ('nombre',
+                                            'apaterno',
+                                            'folio',
+                                            'contenido',
+                                            'p.puesto',
+                                            'respuesta',
+                                            'comentarios.created_at')
+                                    ->leftjoin ('users as u','u.id','comentarios.usuario')
+                                    ->leftjoin ('puestos as p', 'u.puesto','p.id_puesto')
+                                    ->where('folio',$folio)->get();
         return view('formatos.comentarios',compact('estatus','registros','comentarios'));
         #dd($comentarios);
     }
