@@ -5,8 +5,8 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="card">
-            @foreach ($data as $dato)
-              <div class="card-body little-profile text-center">
+            <div class="card-body little-profile text-center">
+              @foreach ($data as $dato)
                 <div class="my-3">
                   <img src="{{asset($dato->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
                 </div>
@@ -75,8 +75,8 @@
                   </div>
                 </div>
                 <!-- End Modal -->
-              </div>
-            @endforeach
+              @endforeach
+            </div>
             <div class="text-center bg-extra-light">
               <div class="row">
                 <div class="col-6 p-3 border-right">

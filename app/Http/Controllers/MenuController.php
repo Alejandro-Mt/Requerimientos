@@ -21,7 +21,7 @@ class MenuController extends Controller
 
     public function edit(){
         $subprocesos = subproceso::all();
-        $registros = registro::select('*')->join('estatus','estatus.id_estatus', 'registros.id_estatus')->orderby('folio')->get();
+        $registros = registro::select('registros.*','e.*','l.fechaaut')->join('estatus as e','e.id_estatus', 'registros.id_estatus')->leftjoin('levantamientos as l','l.folio', 'registros.folio')->orderby('l.folio')->get();
         #$pausa = pausa::select('registros.folio','pausas.pausa')->rightjoin('registros','registros.folio', 'pausas.folio')->groupby('folio')->orderby('pausas.created_at','desc')->get();
         $pausa = pausa::select('r.folio',/*'pausas.pausa',*/pausa::raw('max(pausas.pausa) as pausa'))->rightjoin('registros as r','r.folio', 'pausas.folio')->groupby('r.folio')->get();
         foreach ($pausa as $p);# $p->folio;
