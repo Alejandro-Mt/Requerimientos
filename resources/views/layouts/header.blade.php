@@ -14,7 +14,7 @@
                   <!-- Dark Logo icon -->
                   <img src={{asset("assets/images/logo-icon.png")}} alt="homepage" class="dark-logo" width="40" height="60"/>
                   <!-- Light Logo icon -->
-                  <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" width="40" height="60"/>
+                  <img src={{asset("assets/images/icon.png")}} alt="homepage" class="light-logo" width="40" height="50"/>
                   <!--End Logo icon -->
                   <!-- Logo text -->
               </b>
