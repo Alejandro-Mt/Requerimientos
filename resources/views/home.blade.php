@@ -39,8 +39,7 @@
 	<!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+    <div id="main-wrapper">
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
@@ -69,6 +68,7 @@
         <!-- ============================================================== -->
         <!-- End Page wrapper -->
         <!-- ============================================================== -->
+        @include('layouts.rightbar')
         @include('layouts.footer')
 	</div>
     <!-- ============================================================== -->
@@ -77,7 +77,7 @@
     <script src="{{asset("assets/libs/jquery/dist/jquery.min.js")}}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{asset("assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}"></script>
-    <!-- apps --
+    <!-- apps -->
     <script src="{{asset("assets/js/app.min.js")}}"></script>
     <script src="{{asset("assets/js/app.init.js")}}"></script>
     <script src="{{asset("assets/js/app-style-switcher.js")}}"></script>

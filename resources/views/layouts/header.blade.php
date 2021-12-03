@@ -1,6 +1,6 @@
-<header class="topbar" data-navbarbg="skin6">
-  <nav class="navbar top-navbar navbar-expand-md navbar-light">
-      <div class="navbar-header" data-logobg="skin6"> 
+<header class="topbar">
+  <nav class="navbar top-navbar navbar-expand-md">
+      <div class="navbar-header"> 
           <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
             <i class="ri-close-line fs-6 ri-menu-2-line"></i>
           </a> 
@@ -14,7 +14,7 @@
                   <!-- Dark Logo icon -->
                   <img src={{asset("assets/images/logo-icon.png")}} alt="homepage" class="dark-logo" width="40" height="60"/>
                   <!-- Light Logo icon -->
-                  <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" width="40" height="40"/>
+                  <img src="{{asset("assets/images/logo-icon.png")}}" alt="homepage" class="light-logo" width="40" height="60"/>
                   <!--End Logo icon -->
                   <!-- Logo text -->
               </b>
@@ -182,7 +182,7 @@
                           </div>
                           <div class="ms-2">
                               <h4 class="mb-0 text-white">{{Auth::user()->nombre}}</h4>
-                              <p class="mb-0">{{Auth::user()->email}}</p>
+                              <p class="mb-0">{{Auth::user()->puesto}}</p>
                           </div>
                       </div>
                       <a class="dropdown-item" href="{{route('profile',Auth::user()->id)}}">
