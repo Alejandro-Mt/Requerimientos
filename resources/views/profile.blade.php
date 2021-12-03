@@ -10,6 +10,7 @@
                 <div class="my-3">
                   <img src="{{asset($dato->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
                 </div>
+              @endforeach
                 <h3 class="mb-0">{{$dato->nombre}}</h3>
                 <h6 class="text-muted">{{$dato->puesto}}</h6>
                 <ul class="list-inline social-icons mt-4">
@@ -75,7 +76,6 @@
                   </div>
                 </div>
                 <!-- End Modal -->
-              @endforeach
             </div>
             <div class="text-center bg-extra-light">
               <div class="row">
