@@ -173,16 +173,24 @@
               <!-- ============================================================== -->
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="30" class="profile-pic rounded-circle">
+                    @if (asset(Auth::user()->avatar) == NULL)
+                      <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="profile-pic rounded-circle" width="30"/> 
+                    @else
+                      <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="profile-pic rounded-circle" width="30"/>    
+                    @endif
                   </a>
                   <div class="dropdown-menu dropdown-menu-end user-dd animated flipInY">
                       <div class="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
                           <div class="">
-                              <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="rounded-circle" width="60"/>
+                            @if (asset(Auth::user()->avatar) == NULL)
+                              <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="rounded-circle" width="60"/> 
+                            @else
+                              <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="rounded-circle" width="60"/>    
+                            @endif
                           </div>
                           <div class="ms-2">
                               <h4 class="mb-0 text-white">{{Auth::user()->nombre}}</h4>
-                              <p class="mb-0">{{Auth::user()->puesto}}</p>
+                              <p class="mb-0">{{Auth::user()->email}}</p>
                           </div>
                       </div>
                       <a class="dropdown-item" href="{{route('profile',Auth::user()->id)}}">

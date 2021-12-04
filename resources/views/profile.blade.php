@@ -15,12 +15,17 @@
                 <ul class="list-inline social-icons mt-4">
                   <li class="list-inline-item">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event">
-                      <i class="ri-user-settings-line"></i>
+                      <i class="ri-edit-2-fill"></i>
                     </a>
                   </li>
-                  <li class="list-inline-item">
+                  <!--<li class="list-inline-item">
                     <a href="javascript:void(0)">
                       <i class="ri-settings-5-line"></i>
+                    </a>
+                  </li>-->
+                  <li class="list-inline-item">
+                    <a href="{{route('Ajustes')}}">
+                      <i class="ri-user-settings-line"></i>
                     </a>
                   </li>
                   <!--<li class="list-inline-item">

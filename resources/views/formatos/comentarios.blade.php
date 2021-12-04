@@ -108,7 +108,11 @@
                         <input type="text" class="d-none" name="respuesta" value="No">
                         <div class="row">
                           <div class="p-1 col-1">
-                            <img src="{{Auth::user()->avatar}}" alt="user" width="50" class="rounded-circle">
+                            @if (asset(Auth::user()->avatar) == NULL)
+                              <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="50" class="rounded-circle"/> 
+                            @else
+                              <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="50" class="rounded-circle"/>    
+                            @endif
                           </div>
                           <div class="col-9">
                             <textarea name="contenido" placeholder="Escribe tu Comentario" class="form-control border-0" style="resize: none"></textarea>
@@ -129,7 +133,11 @@
                   @if ($comentario->respuesta == 'No')
                     <div class="d-flex flex-row comment-row border-bottom p-3">
                       <div class="p-2">
-                        <img src="{{auth::user()->avatar}}" alt="user" width="50" class="rounded-circle">
+                        @if (asset(Auth::user()->avatar) == NULL)
+                          <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="50" class="rounded-circle"/> 
+                        @else
+                          <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="50" class="rounded-circle"/>    
+                        @endif
                       </div>
                       <div class="comment-text w-100">
                         <h6 class="font-medium">{{"$comentario->nombre $comentario->apaterno"}}</h6>
@@ -153,7 +161,11 @@
                             <input type="text" class="d-none" name="respuesta" value="SI">
                             <div class="row">
                               <div class="p-2 col-1">
-                                <img src="{{auth::user()->avatar}}" alt="user" width="40" class="rounded-circle">
+                                @if (asset(Auth::user()->avatar) == NULL)
+                                  <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="40" class="rounded-circle"/> 
+                                @else
+                                  <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="40" class="rounded-circle"/>    
+                                @endif
                               </div>
                               <div class="col-6">
                                 <textarea name="contenido" placeholder="Escribe tu Comentario" class="form-control border-0" style="resize: none"></textarea>
@@ -173,7 +185,11 @@
                   @else
                     <div class="d-flex flex-row comment-row border-bottom p-3" style="margin-left: 50">
                       <div class="p-2">
-                        <img src="{{auth::user()->avatar}}" alt="user" width="40" class="rounded-circle">
+                        @if (asset(Auth::user()->avatar) == NULL)
+                          <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="40" class="rounded-circle"/> 
+                        @else
+                          <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="40" class="rounded-circle"/>    
+                        @endif
                       </div>
                       <div class="comment-text w-100">
                         <h6 class="font-medium">{{"$comentario->nombre $comentario->apaterno"}}</h6>
