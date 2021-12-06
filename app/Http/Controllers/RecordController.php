@@ -15,7 +15,7 @@ class RecordController extends Controller
         
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $sistema = sistema::all();
-        $responsable = responsable::all();
+        $responsable = responsable::orderby('apellidos', 'asc')->get();
         $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
         $id = registro::latest('id_registro')->first();
         $estatus = estatu::all();

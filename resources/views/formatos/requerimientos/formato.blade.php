@@ -61,7 +61,7 @@
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($responsables as $ejecutivo):
                                     @if ($ejecutivo ->id_area == 2)
-                                        <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
+                                        <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->apellidos}} {{$ejecutivo->nombre_r}}</option>;
                                     @endif
                                 @endforeach                     
                             </select>
@@ -81,7 +81,7 @@
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($responsables as $autoriza)
                                     @if ($autoriza->id_area == 6)
-                                        <option value={{$autoriza->id_responsable}}>{{$autoriza->nombre_r}}</option>;
+                                        <option value={{$autoriza->id_responsable}}>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>;
                                     @endif
                                 @endforeach; 
                                 @error('autorizacion')
@@ -185,7 +185,7 @@
                         <div class="col-md-8">
                             <select name="involucrados[]" class="select2 form-select mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($responsables as $responsable)
-                                    <option value="{{$responsable->id_responsable}}">{{$responsable->nombre_r}}</option>
+                                    <option value="{{$responsable->id_responsable}}">{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
                                 @endforeach
                                 @error('involucrados')
                                     <span class="invalid-feedback" role="alert">

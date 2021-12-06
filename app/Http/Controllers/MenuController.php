@@ -83,7 +83,7 @@ class MenuController extends Controller
                                             'respuesta',
                                             'comentarios.created_at')
                                     ->leftjoin ('users as u','u.id','comentarios.usuario')
-                                    ->leftjoin ('puestos as p', 'u.puesto','p.id_puesto')
+                                    ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
                                     ->where('folio',$folio)->get();
         return view('formatos.comentarios',compact('estatus','registros','comentarios'));
         #dd($comentarios);

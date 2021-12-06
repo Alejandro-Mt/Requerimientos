@@ -72,7 +72,7 @@
                                         <option value={{$valor->jefe_departamento}}>
                                             @foreach ($responsables as $previo) 
                                                 @if ($valor->jefe_departamento == $previo->id_responsable)
-                                                    {{$previo->nombre_r}}
+                                                    {{$previo->apellidos}} {{$previo->nombre_r}}
                                                 @endif
                                             @endforeach</option>                                        
                                     @endforeach

@@ -67,7 +67,7 @@
                                     <option value={{null}}>Selección</option>
                                     @foreach ($responsable as $ejecutivo):
                                         @if ($ejecutivo ->id_area == 2)
-                                            <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
+                                            <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->apellidos}} {{$ejecutivo->nombre_r}}</option>;
                                         @endif
                                     @endforeach                     
                                 </select>

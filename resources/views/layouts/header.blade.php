@@ -173,7 +173,7 @@
               <!-- ============================================================== -->
               <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @if (asset(Auth::user()->avatar) == NULL)
+                    @if (Auth::user()->avatar == NULL)
                       <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="profile-pic rounded-circle" width="30"/> 
                     @else
                       <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="profile-pic rounded-circle" width="30"/>    
@@ -182,7 +182,7 @@
                   <div class="dropdown-menu dropdown-menu-end user-dd animated flipInY">
                       <div class="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
                           <div class="">
-                            @if (asset(Auth::user()->avatar) == NULL)
+                            @if (Auth::user()->avatar == NULL)
                               <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="rounded-circle" width="60"/> 
                             @else
                               <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="rounded-circle" width="60"/>    

@@ -108,7 +108,7 @@
                         <input type="text" class="d-none" name="respuesta" value="No">
                         <div class="row">
                           <div class="p-1 col-1">
-                            @if (asset(Auth::user()->avatar) == NULL)
+                            @if (Auth::user()->avatar == NULL)
                               <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="50" class="rounded-circle"/> 
                             @else
                               <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="50" class="rounded-circle"/>    
@@ -133,7 +133,7 @@
                   @if ($comentario->respuesta == 'No')
                     <div class="d-flex flex-row comment-row border-bottom p-3">
                       <div class="p-2">
-                        @if (asset(Auth::user()->avatar) == NULL)
+                        @if (Auth::user()->avatar == NULL)
                           <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="50" class="rounded-circle"/> 
                         @else
                           <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="50" class="rounded-circle"/>    
@@ -161,7 +161,7 @@
                             <input type="text" class="d-none" name="respuesta" value="SI">
                             <div class="row">
                               <div class="p-2 col-1">
-                                @if (asset(Auth::user()->avatar) == NULL)
+                                @if (Auth::user()->avatar == NULL)
                                   <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="40" class="rounded-circle"/> 
                                 @else
                                   <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="40" class="rounded-circle"/>    
@@ -185,7 +185,7 @@
                   @else
                     <div class="d-flex flex-row comment-row border-bottom p-3" style="margin-left: 50">
                       <div class="p-2">
-                        @if (asset(Auth::user()->avatar) == NULL)
+                        @if (Auth::user()->avatar == NULL)
                           <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="40" class="rounded-circle"/> 
                         @else
                           <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="40" class="rounded-circle"/>    

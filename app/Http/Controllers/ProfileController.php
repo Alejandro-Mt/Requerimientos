@@ -12,7 +12,7 @@ class ProfileController extends Controller
     //
     public function edit()
     {
-        $data = user::join('puestos','users.puesto','id_puesto')->where('id', auth::user()->id)->get();
+        $data = user::select('nombre','avatar','p.puesto')->join('puestos as p','users.id_puesto','p.id_puesto')->where('id', auth::user()->id)->get();
         return view('profile',compact('data'));
         #return $data;
     }
@@ -20,11 +20,11 @@ class ProfileController extends Controller
     public function update(Request $data){
         $user = Auth::user();
         $avatar = str_replace('storage','public',$user->avatar);
-        #Storage::delete($avatar);
-        #$data->validate(['avatar'=>'required|image|max:2048']);
-        #$update = User::findOrFail($user->id);
-        #$update->avatar =storage::url($data->file('avatar')->store('public/avatar'));
-        #$update->save(); 
+        Storage::delete($avatar);
+        $data->validate(['avatar'=>'required|image|max:2048']);
+        $update = User::findOrFail($user->id);
+        $update->avatar =storage::url($data->file('avatar')->store('public/avatar'));
+        $update->save(); 
         #return redirect(route('profile',$user->id));
         return $data;
     }

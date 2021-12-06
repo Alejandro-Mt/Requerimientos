@@ -15,7 +15,7 @@ class MaquetadoController extends Controller
         $clientes = db::table('clientes')->orderby('id_cliente', 'asc')->get();
         $estatus = estatu::all();
         $registros = registro::where('folio', 'like', 'AA%')->count();
-        $responsable = responsable::all();
+        $responsable = responsable::orderby('apellidos', 'asc')->get();
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         

@@ -20,7 +20,7 @@ class LevantamientosController extends Controller
     protected function formato($id_registro){
         $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
         $sistemas = sistema::all();
-        $responsables = responsable::all();
+        $responsables = responsable::orderby('apellidos', 'asc')->get();
         $departamentos = departamento::all();
         return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros','departamentos')); 
     }
@@ -107,7 +107,7 @@ class LevantamientosController extends Controller
     protected function edit($id_registro){
         $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
         $sistemas = sistema::all();
-        $responsables = responsable::all();
+        $responsables = responsable::orderby('apellidos', 'asc')->get();
         $levantamientos = levantamiento::findOrFail($registros);
         $departamentos = departamento::all();
         foreach($levantamientos as $valor);

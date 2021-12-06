@@ -8,7 +8,11 @@
             <div class="card-body little-profile text-center">
               @foreach ($data as $dato)
                 <div class="my-3">
-                  <img src="{{asset($dato->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
+                  @if ($dato->avatar == NULL)
+                    <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="128" class="rounded-circle shadow"/>    
+                  @else
+                    <img src="{{asset($dato->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>   
+                  @endif
                 </div>
                 <h3 class="mb-0">{{$dato->nombre}}</h3>
                 <h6 class="text-muted">{{$dato->puesto}}</h6>
