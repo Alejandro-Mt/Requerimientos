@@ -20,8 +20,7 @@ class ValidacionCliente extends Mailable
     public $sistemas;
     public $involucrados;
     public $relaciones;
-
-    public $subjet = "Confirmacion de Seguimiento";
+    public $subject;
     /**
      * Create a new message instance.
      *
@@ -38,6 +37,7 @@ class ValidacionCliente extends Mailable
                                     'l.solicitante',
                                     'd.departamento',
                                     'jd.nombre_r as j_dep',
+                                    'jd.apellidos',
                                     's.nombre_s',
                                     'c.nombre_cl',
                                     'au.nombre_r as autorizo',
@@ -62,6 +62,7 @@ class ValidacionCliente extends Mailable
         foreach($this->formato as $fold){
             $this->relaciones = explode(',',$fold->relaciones);
             $this->involucrados = explode(',',$fold->involucrados);
+            $this->subject = "$fold->folio $fold->descripcion";
         }
         
     }

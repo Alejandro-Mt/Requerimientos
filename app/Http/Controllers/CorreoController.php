@@ -39,6 +39,7 @@ class CorreoController extends Controller
                                     'l.solicitante',
                                     'd.departamento',
                                     'jd.nombre_r as j_dep',
+                                    'jd.apellidos',
                                     's.nombre_s',
                                     'c.nombre_cl',
                                     'au.nombre_r as autorizo',
@@ -61,11 +62,11 @@ class CorreoController extends Controller
         $sistemas = sistema::all();
         $responsables = responsable::all();
         foreach($formato as $fold){
-        $relaciones = explode(',',$fold->relaciones);
-        $involucrados = explode(',',$fold->involucrados);
-        $pdf = PDF::loadView('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
-        return $pdf -> stream ('documento.pdf');
-        #return view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
+            $relaciones = explode(',',$fold->relaciones);
+            $involucrados = explode(',',$fold->involucrados);
+            $pdf = PDF::loadView('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
+            return $pdf -> stream ('documento.pdf');
+            #return view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
         }
     }
 

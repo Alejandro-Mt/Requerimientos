@@ -23,7 +23,7 @@ _____________________________________________________
 <th align="left">Departamento:</th>
 <td>{{$dato->departamento}}</td>
 <th align="left">Jefe de departamento:</th>
-<td>{{$dato->j_dep}}</td>
+<td>{{$dato->j_dep}} {{$dato->apellidos}}</td>
 </tr>
 <tr>
 <th align="left">Sistema o aplicación:</th>
@@ -151,10 +151,14 @@ _____________________________________________________
 <th align="left">Resultado esperado</th>
 </tr>
 <tr>
-<td width="660px" style="border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding-right: 10px;padding-left: 10px">
-<textarea cols="70" rows="15" readonly style="resize: none; background:transparent; border:none;padding-right: 10px;padding-left: 10px">
+<td width="660px" style="border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding: 10px">
+<textarea class="RE" cols="75" readonly style="resize: vertical; resize: none; background-color: #ecfbfb; border:none;">
 {{$dato->esperado}}
 </textarea>
+<script>
+let area = document.querySelectorAll(".RE")
+window.addEventListener("DOMContentLoaded", () => {area.forEach((elemento) => {elemento.style.height = `${elemento.scrollHeight}px`})})    
+</script>
 </td>
 </tr>
 

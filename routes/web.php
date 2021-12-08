@@ -94,3 +94,4 @@ route::get('formatos.comentarios.{folio}',[MenuController::class, 'avance'])->mi
 route::post('formatos.comentarios',[MenuController::class, 'comentar'])->name('Comentar');
 
 route::get('formatos.ajustes',[PermissionsController::class, 'ajustes'])->middleware('auth')->name('Ajustes');
+route::post('formatos.ajustes',[PermissionsController::class, 'edit'])->name('AUser');

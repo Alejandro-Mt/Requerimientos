@@ -168,7 +168,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="esperado"
-                            class="col-sm-2 text-end control-label col-form-label">resultado Esperado*</label>
+                            class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
                         <div class="col-md-8">
                             <textarea name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
                                 placeholder="Que es lo que se espera" required autofocus></textarea>
@@ -227,5 +227,22 @@
 
 <form class="form-horizontal" action="" method="post">
 <h5>*Campos obligatorios</h5>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- This Page CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css"/>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+<script>
+    /************************************/
+    //default editor
+    /************************************/
+    $('.summernote').summernote({
+    height: 150, // set editor height
+    //codemirror: { theme:'spacelab'}, // codemirror options
+    //minHeight: null, // set minimum height of editor
+    //maxHeight: null, // set maximum height of editor
+    //focus: false, // set focus to editable area after initializing summernote
+    });
+</script>
 
 @endsection 
