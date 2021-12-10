@@ -46,11 +46,12 @@
           <!-- toggle and nav items -->
           <!-- ============================================================== -->
           <ul class="navbar-nav me-auto">
-              <li class="nav-item">
-                  <a class="nav-link sidebartoggler d-none d-md-block waves-effect waves-dark" href="javascript:void(0)">
-                      <i data-feather="menu" class="mdi mdi-menu font-24"></i>
-                  </a>
-              </li>
+            <li class="nav-item d-none d-md-block">
+                <a class="nav-link sidebartoggler waves-effect waves-dark" href="javascript:void(0)">
+                    <i data-feather="menu" class="mdi mdi-menu font-24"></i>
+                </a>
+            </li>
+            
               <!-- ============================================================== -->
               <!-- create new -->
               <!-- ============================================================== -->

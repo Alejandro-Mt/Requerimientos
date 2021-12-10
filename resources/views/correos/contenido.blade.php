@@ -152,38 +152,32 @@ _____________________________________________________
 </tr>
 <tr>
 <td width="660px" style="border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding: 10px">
-<textarea class="RE" cols="75" readonly style="resize: vertical; resize: none; background-color: #ecfbfb; border:none;">
-{{$dato->esperado}}
-</textarea>
-<script>
-let area = document.querySelectorAll(".RE")
-window.addEventListener("DOMContentLoaded", () => {area.forEach((elemento) => {elemento.style.height = `${elemento.scrollHeight}px`})})    
-</script>
+{!! nl2br(e($dato->esperado)) !!}
 </td>
 </tr>
-
 <tr>
 <th align="left">Áreas o sistemas relacionados</th>
 </tr>
 @for ($i = 0; $i < count($relaciones); $i++)  
 @foreach ($sistemas as $sistema)
 @if ($relaciones[$i] == $sistema->id_sistema)
-<tr style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">
-<td>{{$sistema->nombre_s}}</td>
+<tr>
+<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius:25px;padding-right: 10px;padding-left: 10px">
+{{$sistema->nombre_s}}
+</td>
 </tr>
 @endif 
 @endforeach
-@endfor 
-
+@endfor
 <tr>
 <th align="left">Responsables del proceso actual y usuario funcional:</th>
 </tr>
 @for ($i = 0; $i < count($involucrados); $i++)  
 @foreach ($responsables as $responsable)
 @if ($involucrados[$i] == $responsable->id_responsable)
-<tr style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">
-<td>
-{{$responsable->nombre_r}}
+<tr>
+<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding-right: 10px;padding-left: 10px">
+{{$responsable->nombre_r}} {{$responsable->apellidos}}
 </td>
 </tr>
 @endif

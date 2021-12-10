@@ -12,7 +12,9 @@ class ProfileController extends Controller
     //
     public function edit()
     {
-        $data = user::select('nombre','avatar','p.puesto')->join('puestos as p','users.id_puesto','p.id_puesto')->where('id', auth::user()->id)->get();
+        $data = user::select('nombre','apaterno','avatar','p.puesto')
+                    ->leftjoin('puestos as p','users.id_puesto','p.id_puesto')
+                    ->where('id', auth::user()->id)->get();
         return view('profile',compact('data'));
         #return $data;
     }

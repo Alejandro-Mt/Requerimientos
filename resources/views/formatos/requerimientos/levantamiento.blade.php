@@ -107,7 +107,7 @@
                                 @endforeach
                                 @foreach ($responsables as $ejecutivo)
                                     @if ($ejecutivo->id_area == 6)
-                                        <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
+                                        <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->apellidos}} {{$ejecutivo->nombre_r}}</option>;
                                     @endif
                                 @endforeach  
                                     @error('autorizacion')
@@ -253,14 +253,14 @@
                                             <option value={{$involucrados[$i]}} selected>
                                                 @foreach ($responsables as $previo) 
                                                         @if ($involucrados[$i] == $previo->id_responsable)
-                                                            {{$previo->nombre_r}}
+                                                            {{$previo->apellidos}} {{$previo->nombre_r}}
                                                         @endif 
                                                 @endforeach
                                             </option>
                                         @endfor                                        
                                     @endforeach
                                     @foreach ($responsables as $responsable)
-                                        <option value="{{$responsable->id_responsable}}">{{$responsable->nombre_r}}</option>
+                                        <option value="{{$responsable->id_responsable}}">{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
                                     @endforeach
                                     @error('involucrados')
                                         <span class="invalid-feedback" role="alert">

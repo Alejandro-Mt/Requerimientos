@@ -14,7 +14,7 @@
                     <img src="{{asset($dato->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>   
                   @endif
                 </div>
-                <h3 class="mb-0">{{$dato->nombre}}</h3>
+                <h3 class="mb-0">{{$dato->nombre}} {{$dato->apaterno}}</h3>
                 <h6 class="text-muted">{{$dato->puesto}}</h6>
                 <ul class="list-inline social-icons mt-4">
                   <li class="list-inline-item">
