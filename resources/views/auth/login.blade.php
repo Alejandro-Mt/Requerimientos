@@ -6,13 +6,11 @@
     
 <div class="row">
     <div class="col-lg-6">
-      <div class="card">
         <div class="card-body little-profile text-center">
             <div class="my-3" data-tilt>
                 <img src="images/img-01.png" alt="IMG">
             </div>
         </div>
-      </div>
     </div>
     <div class="col-lg-6">
       <div class="card">
