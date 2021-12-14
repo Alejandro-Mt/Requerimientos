@@ -3,7 +3,7 @@
 @section('content')
 <div class="row justify-content-center wrap-login100">
     <div class="">
-        <div class="login100-form-title">{{ __('Reestableser Contraseña') }}</div>
+        <div class="login100-form-title">{{ __('Restablecer Contraseña') }}</div>
 
         @if (session('status'))
             <div class="alert alert-success" role="alert">
