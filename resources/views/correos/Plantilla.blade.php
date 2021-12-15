@@ -34,13 +34,13 @@
           <th align="right">Departamento:</th>
           <td align="left">{{$dato->departamento}}</td>
           <th align="right">Quién autoriza:</th>
-          <td align="left">{{$dato->autorizo}}</td>
+          <td align="left">{{$dato->autorizo}} {{$dato->apellidos}}</td>
         </tr>
         <tr>
           <th align="right">Sistema o aplicación:</th>
           <td align="left">{{$dato->nombre_s}}</td>
           <th align="right">Cliente:</th>
-          <td align="left">{{$dato->nombre_cl}} {{$dato->apellidos}}</td>
+          <td align="left">{{$dato->nombre_cl}}</td>
         </tr>
         <!--<tr>
           <td></td>
@@ -190,7 +190,7 @@
           @foreach ($responsables as $responsable)
             @if ($involucrados[$i] == $responsable->id_responsable)
               <tr width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">
-                <td>{{$responsable->nombre_r}}</td>
+                <td>{{$responsable->nombre_r}} {{$responsable->apellidos}}</td>
               </tr>
             @endif 
           @endforeach
