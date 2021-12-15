@@ -33,21 +33,21 @@
         <tr>
           <th align="right">Departamento:</th>
           <td align="left">{{$dato->departamento}}</td>
-          <th align="right">Jefe del departamento:</th>
-          <td align="left">{{$dato->j_dep}} {{$dato->apellidos}}</td>
+          <th align="right">Quién autoriza:</th>
+          <td align="left">{{$dato->autorizo}}</td>
         </tr>
         <tr>
           <th align="right">Sistema o aplicación:</th>
           <td align="left">{{$dato->nombre_s}}</td>
           <th align="right">Cliente:</th>
-          <td align="left">{{$dato->nombre_cl}}</td>
+          <td align="left">{{$dato->nombre_cl}} {{$dato->apellidos}}</td>
         </tr>
-        <tr>
+        <!--<tr>
           <td></td>
           <td></td>
-          <th align="right">Quién autoriza:</th>
-          <td align="left">{{$dato->autorizo}}</td>
-        </tr>
+          <th align="right">Jefe del departamento:</th>
+          <td align="left">{{$dato->j_dep}}</td>
+        </tr>-->
       </table>
       <!-- seccion 2 -->
       <table width="660px" align="center">

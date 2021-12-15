@@ -19,10 +19,8 @@ class CreateLevantamientosTable extends Migration
             $table->string('folio',50)->unique();
             $table->string('solicitante')->lenght(100);
             $table->Integer('departamento')->lenght(10)->unsigned();
-            $table->Integer('jefe_departamento')->lenght(50)->unsigned();
-            #$table->foreign('jefe_departamento')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
+            $table->Integer('jefe_departamento')->lenght(50)->unsigned()->nullable();
             $table->Integer('autorizacion')->lenght(50)->unsigned();
-            #$table->foreign('autorizacion')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->boolean('previo');
             $table->string('problema')->lenght(50);
             $table->string('impacto')->lenght(50);
@@ -30,9 +28,7 @@ class CreateLevantamientosTable extends Migration
             $table->string('detalle')->lenght(50);
             $table->text('esperado');
             $table->string('relaciones')->lenght(50);
-            #$table->foreign('relaciones')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
             $table->string('involucrados')->lenght(50);
-            #$table->foreign('involucrados',10)->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->timestamps();
            # $table->unsignedInteger("diasResp")->nullable();#FechaRegistro-FechaFormato
             $table->timestamp('fechaaut')->nullable();

@@ -37,7 +37,7 @@ class LevantamientosController extends Controller
             'folio' => $data['folio'],
             'solicitante' => $data['solicitante'],
             'departamento' => $data['departamento'],
-            'jefe_departamento' => $data['jefe_departamento'],
+            #'jefe_departamento' => $data['jefe_departamento'],
             'autorizacion' => $data['autorizacion'],
             'previo' => $data['previo'],
             'problema' => $data['problema'],
@@ -67,7 +67,7 @@ class LevantamientosController extends Controller
         $update = levantamiento::FindOrFail($data['folio']);
         $update->solicitante = $data['solicitante'];
         $update->departamento = $data['departamento'];
-        $update->jefe_departamento = $data['jefe_departamento'];
+        #$update->jefe_departamento = $data['jefe_departamento'];
         $update->autorizacion = $data['autorizacion'];
         $update->previo = $data['previo'];
         $update->problema = $data['problema'];

@@ -52,7 +52,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <!--<div class="form-group row">
                         <label for="jefe_departamento"
                             class="col-sm-2 text-end control-label col-form-label">Jefe de Departamento</label>
                         <div class="col-md-8">  
@@ -71,7 +71,7 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group row">
                         <label for="autorizacion"
                             class="col-sm-2 text-end control-label col-form-label">Autorizo</label>

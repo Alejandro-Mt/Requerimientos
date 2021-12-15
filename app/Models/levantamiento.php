@@ -14,7 +14,7 @@ class levantamiento extends Model
         'folio',
         'solicitante',
         'departamento',
-        'jefe_departamento',
+        #'jefe_departamento',
         'autorizacion',
         'previo',
         'problema',

@@ -22,8 +22,8 @@ _____________________________________________________
 <tr>
 <th align="left">Departamento:</th>
 <td>{{$dato->departamento}}</td>
-<th align="left">Jefe de departamento:</th>
-<td>{{$dato->j_dep}} {{$dato->apellidos}}</td>
+<th align="left">Quién autoriza:</th>
+<td>{{$dato->autorizo}} {{$dato->apellidos}}</td>
 </tr>
 <tr>
 <th align="left">Sistema o aplicación:</th>
@@ -31,12 +31,12 @@ _____________________________________________________
 <th align="left">Cliente:</th>
 <td>{{$dato->nombre_cl}}</td>
 </tr>
-<tr>
+<!--<<tr>
 <td></td>
 <td></td>
-<th align="left">Quién autoriza:</th>
-<td>{{$dato->autorizo}}</td>
-</tr>
+th align="left">Jefe de departamento:</th>
+<td>{{$dato->j_dep}}</td>
+</tr>-->
 </table>
 _____________________________________________________
 <!-- seccion 2 -->
