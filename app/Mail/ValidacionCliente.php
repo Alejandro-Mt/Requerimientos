@@ -48,7 +48,8 @@ class ValidacionCliente extends Mailable
                                     'l.detalle',
                                     'l.esperado',
                                     'l.relaciones',
-                                    'l.involucrados')
+                                    'l.involucrados',
+                                    'r.id_estatus as estatus')
                           ->leftjoin('levantamientos as l', 'r.folio', 'l.folio')
                           ->leftJoin('areas as a', 'r.id_area','a.id_area')
                           ->leftJoin('departamentos as d','l.departamento','d.id')
