@@ -16,6 +16,7 @@ class CreateSistemaTable extends Migration
         Schema::create('sistemas', function (Blueprint $table) {
             $table->id('id_sistema');
             $table->string('nombre_s',50);
+            $table->string('dispercion',100)->nullable();
             $table->timestamps();
         });
     }

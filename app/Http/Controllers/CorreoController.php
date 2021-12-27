@@ -82,10 +82,20 @@ class CorreoController extends Controller
     }
 
     public function rechazo($folio){
-        $fol= registro::where('folio',$folio)->get();
-        mail::to("alejandro.martinez@3ti.mx")
-            ->send(new ValidacionRequerimiento($folio));
-        return 'Se ha enviado la respuesta, gracias.';
-        #dd($estatus);
+        $fol = registro::select('dispercion')
+                      ->leftJoin('sistemas as s','registros.id_sistema', 's.id_sistema')
+                      ->where('folio',$folio)
+                      ->get();
+        $hora = levantamiento::findOrFail($folio);
+        if($hora->fechaaut == NULL){ 
+            foreach($fol as $correo){
+                mail::to($correo->dispercion)
+                    ->send(new ValidacionRequerimiento($folio));
+                return 'Se ha enviado la respuesta, gracias.';
+            #dd($correo->dispercion);  
+            }
+        } else{
+          return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
+        }
     }
 }
