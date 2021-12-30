@@ -159,37 +159,37 @@
                             <tr id="{{$registro->folio}}" class="collapse show"><td></td>
                                 <td id="collapseOne_{{$loop->iteration}}" class="panel-collapse collapse">
                                     @foreach ($subprocesos as $subproceso)
-                                    @if ($subproceso->folio == $registro->folio && $subproceso->estatus == 'pendiente')
-                                        <div class="form-group row">
-                                            <label for="motivodesface" class="col-sm-7 control-label col-form-label">{{$subproceso->subproceso}}</label>
-                                                @if ($subproceso->previsto >= now())
-                                                    <div class="col-md-2 col-lg-2 f-icon">
-                                                        <a class="fas fa-check" style=color:green data-toggle="modal" data-target="#confirm-{{$subproceso->id}}" aria-valuetext="pausado"></a>
-                                                    </div>
-                                                @else
-                                                    <div class="col-md-2 col-lg-2 f-icon">
-                                                        <a class="fas fa-clock" style=color:red data-toggle="modal" data-target="#confirm-{{$subproceso->id}}" ><!--p class="fas fa-clock"></p--></a>
-                                                    </div>
-                                                @endif
-                                        </div>
-                                        <!-- Modal de Confirmación -->
-                                        <div class="modal" id="confirm-{{$subproceso->id}}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Concluir Subporceso</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <label>Una vez Concluido el Subproceso este desaparecera</label>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a class="btn btn-invert" data-dismiss="modal">Cancelar</a>
-                                                        <button type="submit" class="btn btn-success btn-ok"><a href="{{route('Concluir',$subproceso->subproceso)}}" style="color:white">Confirmar</a></button>
+                                        @if ($subproceso->folio == $registro->folio && $subproceso->estatus == 'pendiente')
+                                            <div class="form-group row">
+                                                <label for="motivodesface" class="col-sm-7 control-label col-form-label">{{$subproceso->subproceso}}</label>
+                                                    @if ($subproceso->previsto >= now())
+                                                        <div class="col-md-2 col-lg-2 f-icon">
+                                                            <a class="fas fa-check" style=color:green data-bs-toggle="modal" data-bs-target="#confirm-{{$subproceso->id}}" aria-valuetext="pausado"></a>
+                                                        </div>
+                                                    @else
+                                                        <div class="col-md-2 col-lg-2 f-icon">
+                                                            <a class="fas fa-clock" style=color:red data-bs-toggle="modal" data-bs-target="#confirm-{{$subproceso->id}}" ><!--p class="fas fa-clock"></p--></a>
+                                                        </div>
+                                                    @endif
+                                            </div>
+                                            <!-- Modal de Confirmación -->
+                                            <div class="modal" id="confirm-{{$subproceso->id}}" dismis aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header d-flex align-items-center">
+                                                            <h4 class="modal-title">Concluir Subporceso</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <label>Una vez Concluido el Subproceso este desaparecera</label>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a class="btn btn-invert" data-bs-dismiss="modal">Cancelar</a>
+                                                            <button type="submit" class="btn btn-success btn-ok"><a href="{{route('Concluir',$subproceso->subproceso)}}" style="color:white">Confirmar</a></button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endif
+                                        @endif
                                     @endforeach
                                 </td>
                             </tr>
