@@ -68,7 +68,7 @@
         </tr>
       </table>
 
-      <table align="center">
+      <table width="660px" align="center">
         <thead>
           <tr>
             <th width="250" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Descripción del problema:</th>
@@ -109,7 +109,7 @@
         </tbody>
       </table>
 
-      <table align="center">
+      <table width="660px" align="center">
         <thead>
           <tr>
             <th width="350" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Descripción general del requerimiento:</th>
@@ -150,7 +150,7 @@
         </tbody>
       </table>
 
-      <table align="center">
+      <table width="660px" align="center">
         <tr>
           <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Descripción específica del requerimiento</th>
         </tr>
