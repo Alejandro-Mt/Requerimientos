@@ -42,15 +42,16 @@ protected function validator(array $data)
     protected function create(request $data){
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $registros = $registros + 1;
+        y = now.getFullYear().toString().slice(-2);
         if($registros<10){
-            $folio = "PIP-00$registros";
+            $folio = "PIP-00$registros-$y";
         }
         else{
             if($registros<10){
-                $folio = "PIP-0$registros";
+                $folio = "PIP-0$registros-$y";
             }
             else{
-                $folio = "PIP-$registros";
+                $folio = "PIP-$registros-$y";
             }
         }
         registro::create([
