@@ -45,8 +45,8 @@ protected function validator(array $data)
         $registros = $registros + 1;
         $y = new DateTime('NOW');
         #$y = format('Y');
-        #$y = y.getFullYear().toString().slice(-2);
-        $y = \Carbon\Carbon::parse($y)->format(‘Y’);
+        $y = $y.getFullYear().toString().slice(-2);
+        #$y = \Carbon\Carbon::parse($y)->format(‘Y’);
         if($registros<10){
             $folio = "PIP-00$registros-$y";
         }
