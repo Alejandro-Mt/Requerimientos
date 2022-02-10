@@ -8,6 +8,7 @@ use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DateTime
 
 class RecordController extends Controller
 {
@@ -42,7 +43,7 @@ protected function validator(array $data)
     protected function create(request $data){
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $registros = $registros + 1;
-        $y = new Date();
+        $y = new DateTime('NOW');
         $y = y.getFullYear().toString().slice(-2);
         #y = { !! \Carbon\Carbon::parse($datos->fecha_actual)->format(‘d-m-Y’) !!}
         if($registros<10){
