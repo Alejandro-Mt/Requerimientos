@@ -44,9 +44,9 @@ protected function validator(array $data)
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $registros = $registros + 1;
         $y = new DateTime('NOW');
-        $y = format('Y');
+        #$y = format('Y');
         #$y = y.getFullYear().toString().slice(-2);
-        #y = { !! \Carbon\Carbon::parse($datos->fecha_actual)->format(‘d-m-Y’) !!}
+        $y = { !! \Carbon\Carbon::parse($y)->format(‘Y’) !!}
         if($registros<10){
             $folio = "PIP-00$registros-$y";
         }
