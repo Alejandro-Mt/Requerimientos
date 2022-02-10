@@ -37,6 +37,32 @@
                 <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
                 <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
             </div>
+            <div class="btn-group mb-2">
+                    <button
+                      type="button"
+                      class="btn btn-success dropdown-toggle"
+                      data-bs-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      Action
+                    </button>
+                    <ul class="dropdown-menu animated bounce">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li>
+                        <a class="dropdown-item" href="#">Another action</a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                      </li>
+                      <li>
+                        <hr class="dropdown-divider" />
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#">Separated link</a>
+                      </li>
+                    </ul>
+                  </div>
             <!--<div id='pestana' class="navbar navbar-expand-lg navbar-dark bg-success">
                 <div id='lista' class="navbar-item">
                     <a id='pestana1' 
