@@ -68,7 +68,7 @@ protected function validator(array $data)
             'id_area' => $data['id_area']
         ]);
         
-    dd($y);
+    dd($y->format('y');
     #return redirect(route('Nuevo'))->with('alert', $folio);
     
     }
