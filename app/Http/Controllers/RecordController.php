@@ -8,7 +8,7 @@ use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use DateTime
+use DateTime;
 
 class RecordController extends Controller
 {
