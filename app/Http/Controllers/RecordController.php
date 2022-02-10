@@ -51,7 +51,7 @@ protected function validator(array $data)
             $folio = "PIP-00$registros-22";
         }
         else{
-            if($registros<10){
+            if($registros<100){
                 $folio = "PIP-0$registros-$y";
             }
             else{
