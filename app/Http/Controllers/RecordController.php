@@ -45,10 +45,10 @@ protected function validator(array $data)
         $registros = $registros + 1;
         $y = new DateTime('NOW');
         #$y = format('Y');
-        $y = $y.getFullYear().toString().slice(-2);
+        #$y = $y.getFullYear().toString().slice(-2);
         #$y = \Carbon\Carbon::parse($y)->format(‘Y’);
         if($registros<10){
-            $folio = "PIP-00$registros-$y";
+            $folio = "PIP-00$registros-22";
         }
         else{
             if($registros<10){
@@ -68,8 +68,8 @@ protected function validator(array $data)
             'id_area' => $data['id_area']
         ]);
         
-    #return redirect(route('Nuevo'));
-    return redirect(route('Nuevo'))->with('alert', $folio);
+    dd($registros);
+    #return redirect(route('Nuevo'))->with('alert', $folio);
     
     }
 
