@@ -44,7 +44,7 @@ protected function validator(array $data)
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $registros = $registros + 1;
         $y = new DateTime('NOW');
-        $y = y->format('y');
+        $y = $y->format('y');
         #$y = $y.getFullYear().toString().slice(-2);
         #$y = \Carbon\Carbon::parse($y)->format(‘Y’);
         if($registros<10){
