@@ -48,7 +48,7 @@ protected function validator(array $data)
         #$y = $y.getFullYear().toString().slice(-2);
         #$y = \Carbon\Carbon::parse($y)->format(‘Y’);
         if($registros<10){
-            $folio = "PIP-00$registros-22";
+            $folio = "PIP-00$registros-$y";
         }
         else{
             if($registros<100){
