@@ -38,17 +38,11 @@
                 <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
             </div>
             <div class="btn-group mb-2">
-                    <button
-                      type="button"
-                      class="btn btn-success dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      Action
-                    </button>
+                    <button type="button" class="btn btn-light-success text-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                     <ul class="dropdown-menu animated bounce">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li>
+                          <a class="dropdown-item" href="#">Action</a>
+                      </li>
                       <li>
                         <a class="dropdown-item" href="#">Another action</a>
                       </li>
