@@ -6,6 +6,7 @@ use App\Models\comentario;
 use App\Models\estatu;
 use App\Models\pausa;
 use App\Models\registro;
+use App\Models\sistema;
 use App\Models\subproceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
