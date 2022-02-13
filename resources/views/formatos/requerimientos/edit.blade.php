@@ -4,34 +4,38 @@
 <body>
     <div class="row">
         <div class="card">
+            <!--<div class="card-body">
+                <div class="button-group">
+                <button class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Requerimientos</button>
+                <button class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Análisis</button>
+                <button class="btn btn-light-info text-info px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+                    Requerimientos
+                </button>
+                </div>
+                <div class="row">
+                <div class="col">
+                    <div class="multi-collapse collapse" id="multiCollapseExample1" style="">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                        richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes
+                        anderson cred nesciunt sapiente ea proident.
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="multi-collapse collapse" id="multiCollapseExample2" style="">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                        richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes
+                        anderson cred nesciunt sapiente ea proident.
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>-->
             <div class="button-group">
                 <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
                 <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
-            </div>
-            <div class="btn-group mb-2">
-                <button type="button" class="btn btn-light-success text-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard feather-sm fill-white text-white">
-                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                    </svg>
-                </button>
-                <ul class="dropdown-menu animated bounce">
-                    <li>
-                        <a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Estatus</font></font></a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Sistema</font></font></a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cliente</font></font></a>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ejecutivo</font></font></a>
-                    </li>
-                </ul>
             </div>
             <!--<div id='pestana' class="navbar navbar-expand-lg navbar-dark bg-success">
                 <div id='lista' class="navbar-item">
