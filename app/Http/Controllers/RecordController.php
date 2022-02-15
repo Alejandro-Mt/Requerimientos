@@ -41,12 +41,10 @@ protected function validator(array $data)
     }*/
 
     protected function create(request $data){
-        $registros = registro::where('folio', 'like', 'PIP%')->count();
-        $registros = $registros + 1;
         $y = new DateTime('NOW');
         $y = $y->format('y');
-        #$y = $y.getFullYear().toString().slice(-2);
-        #$y = \Carbon\Carbon::parse($y)->format(‘Y’);
+        $registros = registro::where('folio', 'like', "PIP%-$y")->count();
+        $registros = $registros + 1;
         if($registros<10){
             $folio = "PIP-00$registros-$y";
         }
