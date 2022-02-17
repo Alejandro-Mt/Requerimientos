@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\estatu;
-use App\Models\registro;
-use App\Models\responsable;
-use App\Models\sistema;
+use App\Models\departamento;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class BuildController extends Controller
-
+class DepartamentoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,16 +15,6 @@ class BuildController extends Controller
     public function index()
     {
         //
-        $registros = registro::where('folio', 'like', 'PIP%')->count();
-        $sistema = sistema::all();
-        $responsable = responsable::orderby('apellidos', 'asc')->get();
-        $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
-        $id = registro::latest('id_registro')->first();
-        $estatus = estatu::all();
-        $vacio = registro:: select('*')->count();
-        #view('formatos.requerimientos.new');
-        #dd($registros);
-        return view('soportes.reporte',compact('sistema','responsable','cliente','registros','id','estatus','vacio'));
     }
 
     /**
@@ -39,11 +24,11 @@ class BuildController extends Controller
      */
     public function create(Request $data)
     {
-        /*departamento::create([
+        departamento::create([
             'departamento' => $data['departamento'],
         ]);
         return redirect(route('Seguir'));
-        #dd($data);*/
+        #dd($data);
     }
 
     /**
@@ -76,14 +61,6 @@ class BuildController extends Controller
      */
     public function edit(Request $data)
     {
-        $registros = registro::where('folio', 'like', 'PIP%')->count();
-        $sistema = sistema::all();
-        $responsable = responsable::orderby('apellidos', 'asc')->get();
-        $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
-        $id = registro::latest('id_registro')->first();
-        $estatus = estatu::all();
-        $vacio = registro:: select('*')->count();
-        return view('soportes.primern',compact('sistema','responsable','cliente','registros','id','estatus','vacio'));
     }
 
     /**
@@ -95,10 +72,10 @@ class BuildController extends Controller
      */
     public function update(Request $data, $id)
     {
-        /*$update = departamento::FindOrFail($id);
+        $update = departamento::FindOrFail($id);
         $update->departamento = $data['departamento'];
         $update->save();  
-        return redirect(route('Seguir'));*/
+        return redirect(route('Seguir'));
     }
 
     /**
@@ -109,8 +86,8 @@ class BuildController extends Controller
      */
     public function destroy($id)
     {
-        #$id = departamento::find($id);
-        #$id->delete();
+        $id = departamento::find($id);
+        $id->delete();
         return redirect(route('Seguir'));
     }
 }

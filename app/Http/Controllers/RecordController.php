@@ -8,6 +8,7 @@ use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DateTime;
 
 class RecordController extends Controller
 {
@@ -42,7 +43,19 @@ protected function validator(array $data)
     protected function create(request $data){
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $registros = $registros + 1;
-        $folio = "PIP-$registros";
+        $y = new DateTime('NOW');
+        $y = $y->format('y');
+        if($registros<10){
+            $folio = "PIP-00$registros-$y";
+        }
+        else{
+            if($registros<100){
+                $folio = "PIP-0$registros-$y";
+            }
+            else{
+                $folio = "PIP-$registros-$y";
+            }
+        }
         registro::create([
             'folio' => $folio,
             'descripcion' => $data['descripcion'],
@@ -53,7 +66,7 @@ protected function validator(array $data)
             'id_area' => $data['id_area']
         ]);
         
-    #return redirect(route('Nuevo'));
+    #dd($y->format('y'));
     return redirect(route('Nuevo'))->with('alert', $folio);
     
     }

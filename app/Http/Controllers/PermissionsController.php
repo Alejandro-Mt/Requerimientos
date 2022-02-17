@@ -7,6 +7,7 @@ use App\Models\puesto;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PermissionsController extends Controller
 {
@@ -15,8 +16,15 @@ class PermissionsController extends Controller
         $areas = area::all();
         $equipo = user::where('id_area',Auth::user()->id_area)->get();
         $puestos = puesto::all();
-        return view('formatos.ajustes',compact('areas','equipo','puestos'));
-        #dd($equipo);
+        $usuarios = DB::table('users as u')
+                     ->select('u.id_puesto', 'p.jerarquia')
+                     ->leftjoin('puestos as p', 'u.id_puesto','p.id_puesto')
+                     ->where('u.id', auth::user()->id)
+                     ->get();
+        foreach($usuarios as $usuario){
+            return view('formatos.ajustes',compact('areas','equipo','puestos','usuario'));
+            #dd($usuario->id);
+        };
     }
 
     protected function edit(request $data){

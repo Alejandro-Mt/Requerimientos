@@ -97,13 +97,14 @@
                             <div class="col-md-8">
                                 <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
                                     style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
-                                    @foreach ($levantamientos as $valor)
+                                @foreach ($levantamientos as $valor)
                                     <option value={{$valor->autorizacion}}>
                                         @foreach ($responsables as $previo) 
                                             @if ($valor->autorizacion == $previo->id_responsable)
                                                 {{$previo->nombre_r}}
                                             @endif
-                                        @endforeach</option>                                        
+                                        @endforeach
+                                    </option>                                        
                                 @endforeach
                                 @foreach ($responsables as $ejecutivo)
                                     @if ($ejecutivo->id_area == 6)
@@ -131,7 +132,7 @@
                                     <label class="form-check-label mb-0" for="customControlValidation1">No</label>
                             
                                 @endforeach
-                                </div>
+                            </div>
                             @error('previo')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

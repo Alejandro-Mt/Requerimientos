@@ -1,7 +1,7 @@
 @extends('home')
 @section('content')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<body>
+<body >
     <div class="row">
         <div class="card">
             <!--<div class="card-body">
@@ -34,8 +34,16 @@
                 </div>
             </div>-->
             <div class="button-group">
-                <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
-                <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
+                @if (Auth::user()->id_puesto > 5)
+                    <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
+                    <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
+                @else
+                    @if (Auth::user()->id_area == 11)
+                        <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
+                    @else  
+                        <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
+                    @endif
+                @endif
             </div>
             <!--<div id='pestana' class="navbar navbar-expand-lg navbar-dark bg-success">
                 <div id='lista' class="navbar-item">
@@ -67,7 +75,25 @@
                     </thead>
                     <tbody id="contenidopestanas">
                         @foreach ($registros as $registro)
-                            <tr id="{{$registro->folio}}"class="collapse show" onmousemove="lock('play{{$loop->iteration}}','btn{{$loop->iteration}}')">
+                            <tr id="{{$registro->folio}}"
+                                @if (Auth::user()->id_puesto < 6)
+                                    @if (Auth::user()->id_area == 11)
+                                        @if ($registro->folio[0] == 'A')
+                                            class="collapse show"
+                                        @else
+                                            class="collapse"
+                                        @endif
+                                    @else
+                                        @if ($registro->folio[0] == 'P')
+                                            class="collapse show"
+                                        @else
+                                            class="collapse"
+                                        @endif
+                                    @endif 
+                                @else
+                                    class="collapse show" 
+                                @endif
+                            onmousemove="lock('play{{$loop->iteration}}','btn{{$loop->iteration}}')">
                                 <td>
                                     <div class="form-group row">
                                         <div class="col-md-13" >
@@ -156,7 +182,25 @@
                                 @endif
                             </td>
                             </tr>
-                            <tr id="{{$registro->folio}}" class="collapse show"><td></td>
+                            <tr id="{{$registro->folio}}" 
+                                @if (Auth::user()->id_puesto < 6)
+                                    @if (Auth::user()->id_area == 11)
+                                        @if ($registro->folio[0] == 'A')
+                                            class="collapse show"
+                                        @else
+                                            class="collapse"
+                                        @endif
+                                    @else
+                                        @if ($registro->folio[0] == 'P')
+                                            class="collapse show"
+                                        @else
+                                            class="collapse"
+                                        @endif
+                                    @endif 
+                                @else
+                                    class="collapse show" 
+                                @endif>
+                                <td></td>
                                 <td id="collapseOne_{{$loop->iteration}}" class="panel-collapse collapse">
                                     @foreach ($subprocesos as $subproceso)
                                         @if ($subproceso->folio == $registro->folio && $subproceso->estatus == 'pendiente')

@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\area;
+use App\Models\cliente;
 use App\Models\comentario;
+use App\Models\departamento;
 use App\Models\estatu;
+use App\Models\funcionalidad;
 use App\Models\pausa;
+use App\Models\puesto;
 use App\Models\registro;
+use App\Models\responsable;
+use App\Models\sistema;
 use App\Models\subproceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +41,7 @@ class MenuController extends Controller
             'folio'=> $folio,
             'pausa'=> '1'   
         ]);
-        return redirect(route('Editar'));
+        return redirect(route('Seguir'));
     }
     public function play($folio){
         $reaunudar = pausa::select('*')-> where ('folio', $folio)->orderby('created_at','desc')->first();
@@ -106,5 +113,34 @@ class MenuController extends Controller
         #$estatus = estatu::all();
         return redirect(route('Avance',$data->folio));
         #dd($data->all());
+    }
+    
+    public function store(){
+        //validat datos
+        /*$this->validate($data, [
+            'contenido' => 'required'
+        ]);*/
+        //insertar 
+        /*comentario::create([
+            'folio'=> $data['folio'],
+            'pausa'=> '1',
+            'usuario' => auth::user()->id ,
+            'contenido' => $data['contenido'],
+            'respuesta' => $data['respuesta'],
+        ]);*/
+        //Redireccionar
+        #$registros= registro::where('folio',$folio)->get();
+        #$estatus = estatu::all();
+        $areas = area::all();
+        $clientes = cliente::all();
+        $departamentos = departamento::all();
+        $estatus = estatu::all();
+        $funcionalidad = funcionalidad::all();
+        $puestos = puesto::all();
+        $responsables = responsable::select('id_responsable','nombre_r','apellidos','email','responsables.id_area','area')->leftjoin('areas as a','responsables.id_area','a.id_area')->get();
+        $sistemas = sistema::all();
+
+        return view('/layouts.datos',compact('areas','clientes','departamentos','estatus','funcionalidad','puestos','responsables','sistemas'));
+        #dd($responsables);
     }
 }

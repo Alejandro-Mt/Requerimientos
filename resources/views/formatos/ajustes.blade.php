@@ -59,13 +59,15 @@
                           autofocus>
                     <option value={{$miembro->id_puesto}}>
                       @foreach ($puestos as $puesto) 
-                        @if ($puesto->id_puesto == $miembro->id_puesto)
+                        @if ($puesto->id_puesto == $miembro->id_puesto) 
                             {{$puesto->puesto}}
                         @endif  
                       @endforeach
                     </option> 
                     @foreach ($puestos as $puesto)
+                      @if ($puesto->jerarquia < $usuario->jerarquia && $puesto->id_puesto < $usuario->id_puesto)
                         <option value = {{ $puesto->id_puesto }}>{{$puesto->puesto}}</option>;
+                      @endif
                     @endforeach                     
                   </select>
                   @error('id_puesto')
@@ -94,7 +96,9 @@
                       @endforeach
                     </option> 
                     @foreach ($areas as $area)
+                      @if ($usuario->jerarquia > 3)
                         <option value = {{$area->id_area}}>{{$area->area}}</option>;
+                      @endif
                     @endforeach                     
                   </select>
                   @error('id_area')

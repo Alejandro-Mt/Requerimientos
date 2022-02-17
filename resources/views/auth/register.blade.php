@@ -10,7 +10,7 @@
         <div class="form-group row">
             <label for="nombre" 
                 class="col-md-4 col-form-label text-md-left">{{ __('Nombre') }}</label>
-            <input id="nombre" type="text" class="input100 col-md-8 @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
+            <input id="nombre" type="text" class="text-capitalize input100 col-md-8 @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
 
             @error('nombre')
                 <span class="invalid-feedback" role="alert">
@@ -22,7 +22,7 @@
         <div class="form-group row">
             <label for="apaterno" 
                 class="col-md-4 col-form-label text-md-left">{{ __('Apellido Paterno') }}</label>
-            <input id="apaterno" type="text" class="input100 col-md-8 @error('apaterno') is-invalid @enderror" name="apaterno" value="{{ old('apaterno') }}" required autocomplete="apaterno" autofocus>
+            <input id="apaterno" type="text" class="text-capitalize input100 col-md-8 @error('apaterno') is-invalid @enderror" name="apaterno" value="{{ old('apaterno') }}" required autocomplete="apaterno" autofocus>
 
             @error('apaterno')
                 <span class="invalid-feedback" role="alert">
@@ -34,7 +34,7 @@
         <div class="form-group row">
             <label for="amaterno" 
                 class="col-md-4 col-form-label text-md-left">{{ __('Apellido Materno') }}</label>
-            <input id="amaterno" type="text" class="input100 col-md-8 @error('amaterno') is-invalid @enderror" name="amaterno" value="{{ old('amaterno') }}" required autocomplete="apaterno" autofocus>
+            <input id="amaterno" type="text" class="text-capitalize input100 col-md-8 @error('amaterno') is-invalid @enderror" name="amaterno" value="{{ old('amaterno') }}" required autocomplete="apaterno" autofocus>
 
             @error('amaterno')
                 <span class="invalid-feedback" role="alert">
