@@ -4,7 +4,7 @@
 <body>
     <div class="row">
         <div class="card">
-            <div class="button-group">
+            <div class="btn-toolbar justify-content-between">
                 <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
                 <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
                 <div class="mt-2 mt-md-0">
