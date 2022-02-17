@@ -79,6 +79,7 @@
                                 @endforeach
                             </ul>
                         </div>
+                        <button id="reset" class="btn text-gray">Quitar filtros</button>
                     </div>
                 </div>
             </div>
