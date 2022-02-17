@@ -51,8 +51,8 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check mr-sm-2">
-                                            <input id="estatus{{$loop->iteration}}" type="checkbox" class="form-check-input ches">
-                                            <label id="les{{$loop->iteration}}" class="form-check-label" for="estatus">{{$e->titulo}}</label>
+                                            <input type="checkbox" class="form-check-input" value="{{$e->titulo}}">
+                                            <label class="form-check-label" for="estatus">{{$e->titulo}}</label>
                                             </div>
                                         </a>
                                     </li>
@@ -70,8 +70,8 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check">
-                                            <input id="sistema{{$loop->iteration}}" type="checkbox" class="form-check-input chsi">
-                                            <label id="lsi{{$loop->iteration}}" class="form-check-label" for="invalidcheck3">{{$sistema->nombre_s}}</label>
+                                            <input type="checkbox" class="form-check-input" value="{{$sistema->nombre_s}}">
+                                            <label class="form-check-label">{{$sistema->nombre_s}}</label>
                                             </div>
                                         </a>
                                     </li>
@@ -111,7 +111,7 @@
                             <th scope="col">Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="searchable">
+                    <tbody>
                         @foreach ($registros as $registro)
                             <tr id="{{$registro->folio}}"class="collapse show" onmousemove="lock('play{{$loop->iteration}}','btn{{$loop->iteration}}')">
                                 <!-- Folio -->
@@ -131,9 +131,9 @@
                                     </div>
                                 </td>
                                 <!-- Titulo -->
-                                <td class="">{{$registro->titulo}}</td>
+                                <td class="estatus">{{$registro->titulo}}</td>
                                 <!-- Sistema -->
-                                <td>
+                                <td class="sistemas">
                                     @foreach ($sistemas as $sistema) 
                                         @if ($registro->id_sistema == $sistema->id_sistema)
                                             {{$sistema->nombre_s}}
@@ -268,33 +268,31 @@
             $('[id^="AA"]').collapse('hide')
             $('[id^="PIP"]').collapse('show')
         });
-        v = $(".ches");
-        for (let i = 0; i <= v.length; i++) {
-            $('#estatus'+i).on('change', function(){
-                if(this.checked){
-                    $('#searchable tr').hide();
-                        $('#searchable tr').filter(function() {
-                            return $(this).find('td').eq(1).text() == document.getElementById('les'+i).innerHTML
-                        }).show();
-                }else{
-                    $('#searchable tr').show();
-                } 
-            });
-        }
-        v = $(".chsi");
-        for (let i = 0; i <= v.length; i++) {
-            $('#sistema'+i).on('change', function(){
-                if(this.checked){
-                    $('#searchable tr').hide();
-                        $('#searchable tr').filter(function() {
-                            console.log($(this).find('td').eq(2).text().replace(/\s+/g, ''));
-                            return $(this).find('td').eq(2).text().replace(/\s+/g, '') == document.getElementById('lsi'+i).innerHTML.replace(/\s+/g, '');
-                        }).show();
-                }else{
-                    $('#searchable tr').show();
-                } 
-            });
-        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#reset").click(function(){
+            $("tbody tr").show();
+            $( "input:checkbox:checked" ).prop( "checked", false );
+        });
+        $("input:checkbox").on("change", function () {
+        
+            var a = $("input:checkbox:checked").map(function () {
+                return $(this).val().replace(/\s+/g, '')
+            })
+            $("tbody tr").hide();
+            var estatus = $(".estatus").filter(function () {
+                var sestatus = $(this).text().replace(/\s+/g, ''),
+                    index = $.inArray(sestatus, a);
+                return index >= 0
+            }).parent().show();
+            var sistemas = $(".sistemas").filter(function () {
+                var sistema = $(this).text().replace(/\s+/g, ''),
+                    index = $.inArray(sistema, a);
+                return index >= 0
+            }).parent().show();
+        }) 
     });
 </script>
 <style>
