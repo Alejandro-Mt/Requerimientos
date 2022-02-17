@@ -2,8 +2,12 @@
 @section('content')
 
     <div class="card">
+        <div class="box bg-success text-center">
+        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <h3 class="text-white">Liberacion</h3>
+        </div>
         <div class="card-body wizard-content">
-            <h3>Liberación</h3>
+            <!--<h3>Liberación</h3>-->
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Liberar')}}" class="mt-5">
@@ -24,7 +28,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Liberación PIP*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="fecha_lib_a" type="text" class="form-control"
+                                    <input name="fecha_lib_a" type="text" class="form-control mydatepicker"
                                       @foreach ($previo as $ant) 
                                         @if($ant->fecha_lib_a == null) value="{{null}}" 
                                         @else value="{{date('d-m-20y',strtotime($ant->fecha_lib_a))}}" 

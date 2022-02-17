@@ -2,8 +2,12 @@
 @section('content')
 
     <div class="card">
+        <div class="box bg-warning text-center">
+        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <h3 class="text-white">IMPLEMENTACIÓN</h3>
+        </div>
         <div class="card-body wizard-content">
-            <h3>Implementación</h3>
+        <!--<h3>Implementación</h3>-->
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Implementar')}}" class="mt-5">

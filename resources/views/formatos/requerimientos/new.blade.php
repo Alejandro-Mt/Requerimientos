@@ -17,6 +17,10 @@
 @endif
 
     <div class="card">
+        <div class="box bg-dark text-center">
+        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <h3 class="text-white">REQUERIMIENTO</h3>
+        </div>
         <div class="card-body wizard-content">
             <h3>Requerimiento</h3>
             <p>(*) Campos Obligatorios</p>

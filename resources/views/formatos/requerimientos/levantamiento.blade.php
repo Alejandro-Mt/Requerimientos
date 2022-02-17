@@ -2,8 +2,12 @@
 @section('content')
 
     <div class="card">
+        <div class="box bg-danger text-center">
+        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <h3 class="text-white">LEVANTAMIENTO</h3>
+        </div>
         <div class="card-body wizard-content">
-            <h4 class="card-title">Levantamiento</h4>
+            <!--<h4 class="card-title">Levantamiento</h4>-->
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Actualizar')}}" class="mt-5">
                 {{ csrf_field() }}

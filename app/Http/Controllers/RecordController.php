@@ -41,10 +41,10 @@ protected function validator(array $data)
     }*/
 
     protected function create(request $data){
-        $registros = registro::where('folio', 'like', 'PIP%')->count();
-        $registros = $registros + 1;
         $y = new DateTime('NOW');
         $y = $y->format('y');
+        $registros = registro::where('folio', 'like', "PIP%-$y")->count();
+        $registros = $registros + 1;
         if($registros<10){
             $folio = "PIP-00$registros-$y";
         }
@@ -66,7 +66,7 @@ protected function validator(array $data)
             'id_area' => $data['id_area']
         ]);
         
-    #dd($y->format('y'));
+    #dd($folio);
     return redirect(route('Nuevo'))->with('alert', $folio);
     
     }

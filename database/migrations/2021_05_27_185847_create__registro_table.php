@@ -19,7 +19,7 @@ class CreateRegistroTable extends Migration
             #$table->foreign('id_cliente',5)->references('id_cliente')->on('clientes')->ondelete('cascade')->onupdate('restrict');
             $table->Integer('id_sistema')->length(10)->unsigned()->index();
             #$table->foreign('id_sistema')->references('id_sistema')->on('sistemas')->ondelete('cascade')->onupdate('restrict');
-            $table->string('descripcion')->length(50);
+            $table->string('descripcion')->length(150);
             $table->Integer('id_responsable')->length(10)->unsigned()->index();
             #$table->foreign('id_responsable')->references('id_responsable')->on('responsables')->ondelete('cascade')->onupdate('restrict');
             $table->string('folio')->length(50)->unique();
