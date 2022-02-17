@@ -4,58 +4,101 @@
 <body>
     <div class="row">
         <div class="card">
-            <div class="btn-toolbar justify-content-between">
+            <!--<div class="card-body">
+                <div class="button-group">
+                <button class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Requerimientos</button>
+                <button class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Análisis</button>
+                <button class="btn btn-light-info text-info px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
+                    Requerimientos
+                </button>
+                </div>
+                <div class="row">
+                <div class="col">
+                    <div class="multi-collapse collapse" id="multiCollapseExample1" style="">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                        richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes
+                        anderson cred nesciunt sapiente ea proident.
+                    </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="multi-collapse collapse" id="multiCollapseExample2" style="">
+                    <div class="card card-body">
+                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
+                        richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes
+                        anderson cred nesciunt sapiente ea proident.
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>-->
+            <div class="button-group">
                 <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
                 <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
-                <div class="mt-2 mt-md-0">
-                    <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter feather-sm"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                    </button>
+                <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter feather-sm"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                </button>
+                <div class="collapse" id="collapseExample">
+                    <div class="button-group">
+                        <div class="btn-group mb-2" data-mdb-perfect-scrollbar="true" data-mdb-suppress-scroll-x="true">
+                            <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Estatus
+                            </button>
+                            <ul class="dropdown-menu scrollable-menu">
+                                @foreach ($estatus as $e)
+                                <div class="table-responsive">
+                                    <li class="list-inline-item">
+                                        <a class="dropdown-item" href="#"> 
+                                            <div class="form-check mr-sm-2">
+                                            <input type="checkbox" class="form-check-input" value="{{$e->titulo}}">
+                                            <label class="form-check-label" for="estatus">{{$e->titulo}}</label>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </div>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="btn-group mb-2">
+                            <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sistema
+                            </button>
+                            <ul class="dropdown-menu scrollable-menu">
+                                @foreach ($sistemas as $sistema)
+                                <div class="table-responsive">
+                                    <li class="list-inline-item">
+                                        <a class="dropdown-item" href="#"> 
+                                            <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" value="{{$sistema->nombre_s}}">
+                                            <label class="form-check-label">{{$sistema->nombre_s}}</label>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </div>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <button id="reset" class="btn text-gray">Quitar filtros</button>
+                    </div>
                 </div>
             </div>
-            <div class="collapse" id="collapseExample">
-                <div class="button-group">
-                    <div class="btn-group mb-2" data-mdb-perfect-scrollbar="true" data-mdb-suppress-scroll-x="true">
-                        <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Estatus
-                        </button>
-                        <ul class="dropdown-menu scrollable-menu">
-                            @foreach ($estatus as $e)
-                            <div class="table-responsive">
-                                <li class="list-inline-item">
-                                    <a class="dropdown-item" href="#"> 
-                                        <div class="form-check mr-sm-2">
-                                        <input type="checkbox" class="form-check-input" value="{{$e->titulo}}">
-                                        <label class="form-check-label" for="estatus">{{$e->titulo}}</label>
-                                        </div>
-                                    </a>
-                                </li>
-                            </div>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="btn-group mb-2">
-                        <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Sistema
-                        </button>
-                        <ul class="dropdown-menu scrollable-menu">
-                            @foreach ($sistemas as $sistema)
-                            <div class="table-responsive">
-                                <li class="list-inline-item">
-                                    <a class="dropdown-item" href="#"> 
-                                        <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" value="{{$sistema->nombre_s}}">
-                                        <label class="form-check-label">{{$sistema->nombre_s}}</label>
-                                        </div>
-                                    </a>
-                                </li>
-                            </div>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <button id="reset" class="btn text-gray">Quitar filtros</button>
+            <!--<div id='pestana' class="navbar navbar-expand-lg navbar-dark bg-success">
+                <div id='lista' class="navbar-item">
+                    <a id='pestana1' 
+                        class="navbar-brand" 
+                        href="javascript:cambiarPestanna('pestanas','pestana1')">Análisis
+                    </a>
                 </div>
-            </div>
+                <div class="navbar-item" data-navbarbg="color: plum">
+                    <a id='pestana2' 
+                        class="navbar-brand" 
+                        data-toggle="collapse"
+                        data-target="#" 
+                        href="javascript:cambiarPestanna('pestanas','pestana2')">Requerimiento
+                    </a>
+                </div>
+            </div>-->
             <div class="card-body wizard-content">
                 <h5 class="card-title mb-0">Seguimiento</h5>
             </div>
@@ -165,6 +208,9 @@
                                                 
                                             @endif
                                             @endforeach
+                                            <!--<button type="submit" class="btn btn-success text-white">
+                                                <a href="{{route('Subproceso',$registro->folio)}}" style="color:white">Nuevo Subproceso</a>
+                                            </button>-->
                                         </div>
                                     @endif
                                 </td>
@@ -289,7 +335,3 @@
         }
     }
 </script>
-
-
-
-
