@@ -36,7 +36,7 @@
             <div class="button-group">
                 <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
                 <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
-                <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <button type="button" class="btn waves-effect waves-light btn-outline-dark dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter feather-sm"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
                 </button>
                 <div class="collapse" id="collapseExample">
@@ -79,7 +79,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <button id="reset" class="btn text-gray">Quitar filtros</button>
+                        <button id="reset" class="btn waves-effect waves-light btn-rounded btn-outline-danger">Quitar filtros</button>
                     </div>
                 </div>
             </div>
@@ -110,6 +110,7 @@
                             <th scope="col">Estatus</th>
                             <th scope="col">Sistema</th>
                             <th scope="col">Acción</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
