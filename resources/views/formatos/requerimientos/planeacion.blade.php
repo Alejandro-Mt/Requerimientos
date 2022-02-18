@@ -4,6 +4,10 @@
 <link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="card">
+        <div class="box bg-cyan text-center">
+        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <h3 class="text-white">CONSTRUCCIÓN</h3>
+        </div>
         <section>
             <div class="row">
                 <div class="col-md-12">
