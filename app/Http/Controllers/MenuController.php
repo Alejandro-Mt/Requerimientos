@@ -24,7 +24,7 @@ class MenuController extends Controller
         $subprocesos = subproceso::all();
         $estatus = estatu::join('registros as r','r.id_estatus','estatus.id_estatus')->groupby('estatus.id_estatus')->get();
         $sistemas = sistema::all();
-        $registros = registro::select('registros.*','e.*','l.fechaaut')->join('estatus as e','e.id_estatus', 'registros.id_estatus')->leftjoin('levantamientos as l','l.folio', 'registros.folio')->orderby('l.folio')->get();
+        $registros = registro::select('registros.*','e.*','l.fechaaut')->join('estatus as e','e.id_estatus', 'registros.id_estatus')->leftjoin('levantamientos as l','l.folio', 'registros.folio')->orderby('registros.folio')->get();
         $pausa = pausa::select('r.folio',pausa::raw('max(pausas.pausa) as pausa'))->rightjoin('registros as r','r.folio', 'pausas.folio')->groupby('r.folio')->get();
         foreach ($pausa as $p);
         $vacio = pausa::count();
