@@ -2,8 +2,12 @@
 @section('content')
 
     <div class="card">
+        <div class="box bg-danger text-center">
+        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <h3 class="text-white">LEVANTAMIENTO</h3>
+        </div>
         <div class="card-body wizard-content">
-            <h4 class="card-title">Levantamiento</h4>
+            <!--<h4 class="card-title">Levantamiento</h4>-->
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Actualizar')}}" class="mt-5">
                 {{ csrf_field() }}
@@ -97,13 +101,14 @@
                             <div class="col-md-8">
                                 <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
                                     style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
-                                    @foreach ($levantamientos as $valor)
+                                @foreach ($levantamientos as $valor)
                                     <option value={{$valor->autorizacion}}>
                                         @foreach ($responsables as $previo) 
                                             @if ($valor->autorizacion == $previo->id_responsable)
                                                 {{$previo->nombre_r}}
                                             @endif
-                                        @endforeach</option>                                        
+                                        @endforeach
+                                    </option>                                        
                                 @endforeach
                                 @foreach ($responsables as $ejecutivo)
                                     @if ($ejecutivo->id_area == 6)
@@ -131,7 +136,7 @@
                                     <label class="form-check-label mb-0" for="customControlValidation1">No</label>
                             
                                 @endforeach
-                                </div>
+                            </div>
                             @error('previo')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
