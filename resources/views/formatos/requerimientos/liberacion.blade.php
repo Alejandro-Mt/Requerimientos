@@ -2,29 +2,34 @@
 @section('content')
 
     <div class="card">
+        <div class="box bg-success text-center">
+        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <h3 class="text-white">LIBERACIÓN</h3>
+        </div>
         <div class="card-body wizard-content">
-            <h3>Liberación</h3>
+            <!--<h3>Liberación</h3>-->
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Liberar')}}" class="mt-5">
                 {{ csrf_field() }}
                 <div>
-                    <section><div class="form-group row">
-                        <label for="Folio"
-                                class="col-sm-2 text-end control-label col-form-label">Folio</label>
-                        <div class="col-sm-3">
-                            @foreach ($registros as $registro)
-                                <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-                        
-                            @endforeach
+                    <section>
+                        <div class="form-group row">
+                            <label for="Folio"
+                                    class="col-sm-2 text-end control-label col-form-label">Folio</label>
+                            <div class="col-sm-3">
+                                @foreach ($registros as $registro)
+                                    <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
+                            
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
                         <div class="form-group row">
                             <label for="fecha_lib_a"
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Liberación PIP*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="fecha_lib_a" type="text" class="form-control"
+                                    <input name="fecha_lib_a" type="text" class="form-control mydatepicker"
                                       @foreach ($previo as $ant) 
                                         @if($ant->fecha_lib_a == null) value="{{null}}" 
                                         @else value="{{date('d-m-20y',strtotime($ant->fecha_lib_a))}}" 
@@ -61,26 +66,6 @@
                         </div>
                         <!-- Agregar candado de fecha, evitar fechas menores al Fecha entrega real-->
                         <div class="form-group row">
-                            <label for="inicio_lib"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Inicio Pruebas PIP*</label>
-                            <div class= 'col-md-8'>
-                                <div class="input-group">
-                                    <input name="inicio_lib" type="text" class="form-control mydatepicker" 
-                                      @foreach ($previo as $ant)
-                                        @if($ant->inicio_lib == null) value="{{null}}" 
-                                        @else value="{{date('d-m-20y',strtotime($ant->inicio_lib))}}"
-                                        @endif
-                                      @endforeach
-                                      placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text h-100">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="inicio_p_r"
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Liberación Pruebas QA*</label>
                             <div class= 'col-md-8'>
@@ -91,6 +76,26 @@
                                         @else value="{{date('d-m-20y',strtotime($ant->inicio_p_r))}}" 
                                         @endif
                                       @endforeach 
+                                      placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inicio_lib"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Inicio Pruebas PIP*</label>
+                            <div class= 'col-md-8'>
+                                <div class="input-group">
+                                    <input name="inicio_lib" type="text" class="form-control mydatepicker" 
+                                      @foreach ($previo as $ant)
+                                        @if($ant->inicio_lib == null) value="{{null}}" 
+                                        @else value="{{date('d-m-20y',strtotime($ant->inicio_lib))}}"
+                                        @endif
+                                      @endforeach
                                       placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
