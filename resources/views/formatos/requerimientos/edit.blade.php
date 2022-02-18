@@ -51,7 +51,7 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check mr-sm-2">
-                                            <input type="checkbox" class="form-check-input" value="{{$e->titulo}}">
+                                            <input type="checkbox" class="form-check-input ches" value="{{$e->titulo}}">
                                             <label class="form-check-label" for="estatus">{{$e->titulo}}</label>
                                             </div>
                                         </a>
@@ -70,7 +70,7 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" value="{{$sistema->nombre_s}}">
+                                            <input type="checkbox" class="form-check-input chsi" value="{{$sistema->nombre_s}}">
                                             <label class="form-check-label">{{$sistema->nombre_s}}</label>
                                             </div>
                                         </a>
@@ -277,23 +277,34 @@
             $("tbody tr").show();
             $( "input:checkbox:checked" ).prop( "checked", false );
         });
-        $("input:checkbox").on("change", function () {
-        
-            var a = $("input:checkbox:checked").map(function () {
+        $(".ches,.chsi").on("change", function () {
+            var ches = $(".ches:checked").map(function () {
+                return $(this).val()
+            }).get();
+            var chsi = $(".chsi:checked").map(function () {
                 return $(this).val().replace(/\s+/g, '')
-            })
-            $("tbody tr").hide();
-            var estatus = $(".estatus").filter(function () {
-                var sestatus = $(this).text().replace(/\s+/g, ''),
-                    index = $.inArray(sestatus, a);
-                return index >= 0
-            }).parent().show();
+            }).get();
+
+            var all = $("tbody tr").hide();
             var sistemas = $(".sistemas").filter(function () {
                 var sistema = $(this).text().replace(/\s+/g, ''),
-                    index = $.inArray(sistema, a);
+                    index2 = $.inArray(sistema, chsi);
+                    return index2 >=0
+            }).parent()
+            if (!sistemas.length) sistemas = all
+            var estatus = $(".estatus").filter(function () {
+                var sestatus = $(this).text(),
+                    index = $.inArray(sestatus, ches);
+
                 return index >= 0
-            }).parent().show();
-        }) 
+            }).parent()
+            if (!estatus.length) estatus = all
+
+            sistemas.filter(estatus).show()
+
+            console.log(sistemas,estatus)
+
+        }).first().change()
     });
 </script>
 <style>
