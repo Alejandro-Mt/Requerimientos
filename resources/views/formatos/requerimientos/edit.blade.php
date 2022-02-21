@@ -5,10 +5,10 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.css">
 <!-- Incluir complemento -->
 <script src="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.js"></script>
-<body >
+<body>
     <div class="row">
         <div class="card">
-            <div class="button-group">
+            <div class="btn-toolbar justify-content-between">
                 @if (Auth::user()->id_puesto > 5)
                     <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
                     <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
@@ -19,9 +19,13 @@
                         <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
                     @endif
                 @endif
-                <button type="button" class="btn text-gray dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter feather-sm"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-                </button>
+                <div class="mt-2 mt-md-0">
+                    <button type="button" class="btn waves-effect waves-light btn-sm btn-outline-dark dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-filter feather-sm"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="btn-toolbar justify-content-between">
                 <div class="collapse" id="collapseExample">
                     <div class="button-group">
                         <div class="btn-group mb-2" data-mdb-perfect-scrollbar="true" data-mdb-suppress-scroll-x="true">
@@ -34,7 +38,7 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check mr-sm-2">
-                                            <input id="estatus{{$loop->iteration}}" type="checkbox" class="form-check-input ches">
+                                            <input id="estatus{{$loop->iteration}}" type="checkbox" class="form-check-input ches" value="{{$e->titulo}}">
                                             <label id="les{{$loop->iteration}}" class="form-check-label" for="estatus">{{$e->titulo}}</label>
                                             </div>
                                         </a>
@@ -53,7 +57,7 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check">
-                                            <input id="sistema{{$loop->iteration}}" type="checkbox" class="form-check-input chsi">
+                                            <input id="sistema{{$loop->iteration}}" type="checkbox" class="form-check-input chsi" value="{{$sistema->nombre_s}}">
                                             <label id="lsi{{$loop->iteration}}" class="form-check-label" for="invalidcheck3">{{$sistema->nombre_s}}</label>
                                             </div>
                                         </a>
@@ -62,6 +66,7 @@
                                 @endforeach
                             </ul>
                         </div>
+                        <button id="reset" class="btn waves-effect waves-light btn-rounded btn-outline-danger">Quitar filtros</button>
                     </div>
                 </div>
             </div>
@@ -76,6 +81,7 @@
                             <th scope="col">Estatus</th>
                             <th scope="col">Sistema</th>
                             <th scope="col">Acción</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody id="searchable">
@@ -116,9 +122,9 @@
                                     </div>
                                 </td>
                             <!-- Titulo -->
-                                <td class="">{{$registro->titulo}}</td>
+                                <td class="estatus">{{$registro->titulo}}</td>
                             <!-- Sistema -->
-                                <td>
+                                <td class="sistemas">
                                     @foreach ($sistemas as $sistema) 
                                         @if ($registro->id_sistema == $sistema->id_sistema)
                                            {{$sistema->nombre_s}}
@@ -189,8 +195,7 @@
                                                     <div class="col-md-2 col-lg-2 f-icon">
                                                         <a id="play{{$loop->iteration}}"class="fas fa-pause"  style="color:red" href="{{route('Pausa',$registro->folio)}}"></a>
                                                     </div>
-                                                
-                                            @endif
+                                                @endif
                                             @endforeach
                                             <!--<button type="submit" class="btn btn-success text-white">
                                                 <a href="{{route('Subproceso',$registro->folio)}}" style="color:white">Nuevo Subproceso</a>
@@ -260,12 +265,6 @@
             </div>
         </div>
     </div>
-    <script>
-        // Inicializar selección múltiple en su selección regular
-        $("#my-select").multipleSelect({
-            filter: true
-        });
-    </script>
 </body>
 <script>
     $(document).ready(function(){
@@ -277,33 +276,60 @@
             $('[id^="AA"]').collapse('hide')
             $('[id^="PIP"]').collapse('show')
         });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#reset").click(function(){
+            $("tbody tr").show();
+            $( "input:checkbox:checked" ).prop( "checked", false );
+        });
+        /*$("input:checkbox").on("change", function () {
         
-        v = $(".ches");
-        for (let i = 0; i <= v.length; i++) {
-            $('#estatus'+i).on('change', function(){
-                if(this.checked){
-                    $('#searchable tr').hide();
-                        $('#searchable tr').filter(function() {
-                            return $(this).find('td').eq(1).text() == document.getElementById('les'+i).innerHTML
-                        }).show();
-                }else{
-                    $('#searchable tr').show();
-                } 
-            });
-        }
-        v = $(".chsi");
-        for (let i = 0; i <= v.length; i++) {
-            $('#sistema'+i).on('change', function(){
-                if(this.checked){
-                    $('#searchable tr').hide();
-                        $('#searchable tr').filter(function() {
-                            return $(this).find('td').eq(2).text().replace(/\s+/g, '') == document.getElementById('lsi'+i).innerHTML.replace(/\s+/g, '');
-                        }).show();
-                }else{
-                    $('#searchable tr').show();
-                } 
-            });
-        }
+            var a = $("input:checkbox:checked").map(function () {
+                return $(this).val().replace(/\s+/g, '')
+            })
+            $("tbody tr").hide();
+            var estatus = $(".estatus").filter(function () {
+                var sestatus = $(this).text().replace(/\s+/g, ''),
+                    index = $.inArray(sestatus, a);
+                return index >= 0
+            }).parent().show();
+            var sistemas = $(".sistemas").filter(function () {
+                var sistema = $(this).text().replace(/\s+/g, ''),
+                    index = $.inArray(sistema, a);
+                return index >= 0
+            }).parent().show();
+        }) */
+        $(".ches,.chsi").on("change", function () {
+        var ches = $(".ches:checked").map(function () {
+            return $(this).val()
+        }).get();
+        var chsi = $(".chsi:checked").map(function () {
+            return $(this).val().replace(/\s+/g, '')
+        }).get();
+        
+        var all = $("tbody tr").hide();
+        var sistemas = $(".sistemas").filter(function () {
+            var sistema = $(this).text().replace(/\s+/g, ''),
+            	index2 = $.inArray(sistema, chsi);
+            	return index2 >=0
+        }).parent()
+        if (!sistemas.length) sistemas = all
+        var estatus = $(".estatus").filter(function () {
+            var sestatus = $(this).text(),
+                index = $.inArray(sestatus, ches);
+                
+            return index >= 0
+        }).parent()
+        if (!estatus.length) estatus = all
+        
+        sistemas.filter(estatus).show()
+        
+        //console.log(sistemas,estatus)
+
+    }).first().change()
+
     });
 </script>
 @endsection
@@ -329,7 +355,7 @@
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
-}
+    }
 </style>
 
 <script type="text/javascript">
@@ -338,6 +364,7 @@
         estatus = document.getElementById(play)
         sub = document.getElementsByClassName('fa-plus')
         idSub = document.getElementsByClassName('fa-check')
+        console.log(estatus.classList);
         if(estatus.classList == "fas fa-play"){
             button.disabled = true;
             //sub.removeAttribute("href");

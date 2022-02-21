@@ -43,7 +43,7 @@ class MenuController extends Controller
             'folio'=> $folio,
             'pausa'=> '1'   
         ]);
-        return redirect(route('Seguir'));
+        return redirect(route('Editar'));
     }
     public function play($folio){
         $reaunudar = pausa::select('*')-> where ('folio', $folio)->orderby('created_at','desc')->first();

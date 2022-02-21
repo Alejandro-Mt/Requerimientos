@@ -48,7 +48,12 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha de Implementación*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="f_implementacion" type="text" @foreach ($previo as $ant) value="{{date('d-m-20y',strtotime($ant->f_implementacion))}}" @endforeach class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="f_implementacion" type="text" 
+                                    @foreach ($previo as $ant) 
+                                        @if($ant->f_implementacion == null) value="{{null}}" 
+                                            @else value="{{date('d-m-20y',strtotime($ant->f_implementacion))}}"
+                                        @endif
+                                    @endforeach class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>

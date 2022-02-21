@@ -9,7 +9,7 @@
             <h3 class="text-white">CONSTRUCCIÓN</h3>
         </div>
         <div class="card-body wizard-content">
-            <h3>Construcción</h3>
+            <h3>Desarrollo</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Construir')}}" class="mt-5">
