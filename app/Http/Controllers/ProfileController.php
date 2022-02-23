@@ -25,9 +25,9 @@ class ProfileController extends Controller
         Storage::delete($avatar);
         $data->validate(['avatar'=>'required|image|max:2048']);
         $update = User::findOrFail($user->id);
-        $update->avatar =storage::url($data->file('avatar')->store('public/avatar'));
+        $update->avatar = storage::url($data->file('avatar')->store('public/avatar'));
         $update->save(); 
         #return redirect(route('profile',$user->id));
-        return $data;
+        #return $data->avatar;
     }
 }
