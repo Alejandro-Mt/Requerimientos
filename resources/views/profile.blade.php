@@ -22,11 +22,6 @@
                       <i class="ri-edit-2-fill"></i>
                     </a>
                   </li>
-                  <!--<li class="list-inline-item">
-                    <a href="javascript:void(0)">
-                      <i class="ri-settings-5-line"></i>
-                    </a>
-                  </li>-->
                   <li class="list-inline-item">
                     <a href="{{route('Ajustes')}}">
                       <i class="ri-user-settings-line"></i>
@@ -60,26 +55,14 @@
                           <div class="modal-body">
                           <form class="dropzone" action="{{route('Actualiza')}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
                             {{csrf_field()}}
-                            <!--<div class="row">
-                              <div class="col-md-12">
-                                <div class="card">
-                                  <div class="card-body little-profile text-center">
-                                    <div class="my-3">
-                                      <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="128" class="rounded-circle shadow"/>
-                                    </div>
-                                  </div>
-                                <input class="@error('contenido') is-invalid @enderror" type="file" id="avatar" name="avatar" accept="image/*">
-                                </div>
-                                @error('avatar')
-                                  <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                  </span>
-                                @enderror
-                              </div>
-                            </div>-->
-                            <button type="submit" class="btn btn-success waves-effect waves-light text-white"> Guardar</button>
-                            <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
+                            <div class="fallback">
+                              <input type="file" name="avatar" id="avatar" accept="image/*">
+                            </div>
                           </form>
+                            <button type="submit" class="btn btn-success waves-effect waves-light text-white">
+                              <a href="{{route('profile',Auth::user()->id)}}" style="color:white"> Guardar</a>
+                            </button>
+                            <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
                           </div>
                       </div>
                   </div>
