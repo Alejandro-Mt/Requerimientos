@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ValidacionCliente;
 use App\Mail\ValidacionRequerimiento;
+use App\Models\archivo;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
@@ -11,6 +12,7 @@ use App\Models\sistema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 
 class CorreoController extends Controller
@@ -18,20 +20,26 @@ class CorreoController extends Controller
     //
     
     public function send($folio){
-        $registros = registro::select('*')-> where ('folio', $folio)->get();
-        return view('layouts.correo',compact('registros'));
+        $registros = registro::where ('folio', $folio)->get();
+        $archivos = archivo::where ('folio', $folio)->get();
+        return view('layouts.correo',compact('registros','folio','archivos'));
         #dd($registros);
     }
     public function sended(request $data){
         mail::to($data->email)
             ->send(new ValidacionCliente($data->folio));
-        $estatus = registro::select("*")-> where ('folio', $data->folio)->first();
-        
-        $estatus->id_estatus = $data->input('id_estatus');
-        $estatus->save();
-        return redirect('formatos.requerimientos.edit');
-        #dd($estatus);
+        if(count(Mail::failures()) < 1){
+            #$estatus = registro::select("*")-> where ('folio', $data->folio)->first();
+            #$estatus->id_estatus = $data->input('id_estatus');
+            #$estatus->save();
+			$a = "El Correo ha sido enviado "; 
+            return redirect('formatos.requerimientos.edit')->with('alert', $a);
+		}else{
+			$b ='No se pudo enviar el correo. Vuelve a intentarlo. ';
+            return redirect('formatos.requerimientos.edit')->with('alert', $b);
+		} 
     }
+
     protected function PDF($folio){
         $formato = db::table('registros as r')
                           ->select('l.created_at as fsol',
@@ -97,5 +105,30 @@ class CorreoController extends Controller
         } else{
           return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
         }
+    }
+    function store(Request $data,$folio){ 
+        $rename = $data->file('adjunto')->getClientOriginalName();
+        $data->validate(['adjunto'=>'required']);{
+        $files = Storage::putFileAs("public/$data->folio", $data->file('adjunto'),$rename);
+        $url = Storage::url($files);
+        if(archivo::where('url', 'like', '%' . $rename . '%')->count() == 0)
+            archivo::create([
+                'folio'=>$folio,
+                'url'=>$url
+            ]);
+        }
+    }
+    public function destroy($name){
+        #$name = pathinfo($data->file, PATHINFO_FILENAME);
+        $archivos = archivo::where('url', 'like', '%' . $name . '%')->get();
+        foreach($archivos as $archivo){
+            $file = str_replace('storage',"public",$archivo->url);
+            Storage::delete($file);
+            $archivo->delete();
+        }
+        /*$url = archivo::FindOrFile($id);
+        $file = str_replace('storage',"public/$url->folio",$url->url);
+        Storage::delete($file);
+        $url->delete($id);*/
     }
 }
