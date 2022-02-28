@@ -1,7 +1,34 @@
 @extends('home')
 @section('content')
+<!-- Incluir la hoja de estilo predeterminada -->
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.css">
+<link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
+<!-- Incluir complemento -->
+<script src="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
+    @if (session('alert'))
+        <input class="d-none" id="message" value="{{ session('alert') }}">
+        <script>
+            $(document).ready(function(){
+                message = $("#message").val();
+                sended = 'El Correo ha sido enviado ';
+                if(message == sended){
+                    toastr.success(
+                        message,
+                        "¡Enviado!",
+                        { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+                    );
+                }else{
+                    toastr.error(
+                        message,
+                        "¡Error!",
+                        { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+                    );
+                }
+            });
+        </script>
+    @endif
     <div class="row">
         <div class="card">
             <!--<div class="card-body">
@@ -315,6 +342,8 @@
     overflow-x: hidden;
     }
 </style>
+<script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+<script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
 @endsection
 
 <script type="text/javascript">
