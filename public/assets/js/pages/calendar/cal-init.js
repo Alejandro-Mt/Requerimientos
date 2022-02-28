@@ -50,6 +50,10 @@
                     document.getElementsByName('FechaLibP')[0].value=inicio;
                     document.getElementsByName('FechaLibR')[0].value=inicio;
                     break;
+                case 'Implementación':
+                    document.getElementsByName('FechaImpP')[0].value=inicio;
+                    //document.getElementsByName('FechaImpR')[0].value=inicio;
+                    break;
             }
             // is the "remove after drop" checkbox checked?
             if ($('#drop-remove').is(':checked')) {
@@ -224,6 +228,9 @@
                         case 'Liberación':
                             document.getElementsByName('FechaLibR')[0].value=fin;
                             break;
+                        case 'Implemantación':
+                            document.getElementsByName('FechaImpP')[0].value=fin;
+                            break;
                     }
                 },
                 eventDrop: function(event) {
@@ -250,6 +257,10 @@
                         case 'Liberación':
                             document.getElementsByName('FechaLibP')[0].value=inicio;
                             document.getElementsByName('FechaLibR')[0].value=fin;
+                            break;
+                        case 'Implemantación':
+                            document.getElementsByName('FechaImpP')[0].value=inicio;
+                            //document.getElementsByName('FechaImpR')[0].value=inicio;
                             break;
                     }
                     var allDay=event.allDay;
