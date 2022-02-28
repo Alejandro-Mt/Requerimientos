@@ -35,6 +35,9 @@
                                             <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-warning"><i
                                                     class="fa fa-circle text-warning me-2"></i>Liberación
                                             </div>
+                                            <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-primary"><i
+                                                    class="fa fa-circle text-primary me-2"></i>Implementación
+                                            </div>
                                         </div>
                                         <!-- checkbox -->
                                         <div class="form-check">
@@ -304,7 +307,9 @@
                         <input class="d-none" name="fechaInConP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <input class="d-none" name="fechaInConR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <input class="d-none" name="FechaLibP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                        <input class="d-none" name="FechaLibR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">                                    
+                        <input class="d-none" name="FechaLibR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy"> 
+                        <input class="d-none" name="FechaImpP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
+                        <!--<input class="d-none" name="FechaImpR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">-->
                         <div class="card-body text-center">
                             <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
                             <a style='text-align: center'>Solicitar Información</a>
