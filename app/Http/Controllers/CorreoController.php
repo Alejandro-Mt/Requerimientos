@@ -29,9 +29,9 @@ class CorreoController extends Controller
         mail::to($data->email)
             ->send(new ValidacionCliente($data->folio));
         if(count(Mail::failures()) < 1){
-            #$estatus = registro::select("*")-> where ('folio', $data->folio)->first();
-            #$estatus->id_estatus = $data->input('id_estatus');
-            #$estatus->save();
+            $estatus = registro::select("*")-> where ('folio', $data->folio)->first();
+            $estatus->id_estatus = $data->input('id_estatus');
+            $estatus->save();
 			$a = "El Correo ha sido enviado "; 
             return redirect('formatos.requerimientos.edit')->with('alert', $a);
 		}else{
