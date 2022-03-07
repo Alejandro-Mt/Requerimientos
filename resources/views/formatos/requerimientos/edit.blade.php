@@ -1,11 +1,35 @@
 @extends('home')
 @section('content')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Incluir la hoja de estilo predeterminada -->
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.css">
+<link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
 <!-- Incluir complemento -->
 <script src="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <body>
+    @if (session('alert'))
+        <input class="d-none" id="message" value="{{ session('alert') }}">
+        <script>
+            $(document).ready(function(){
+                message = $("#message").val();
+                sended = 'El Correo ha sido enviado ';
+                if(message == sended){
+                    toastr.success(
+                        message,
+                        "¡Enviado!",
+                        { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+                    );
+                }else{
+                    toastr.error(
+                        message,
+                        "¡Error!",
+                        { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+                    );
+                }
+            });
+        </script>
+    @endif
     <div class="row">
         <div class="card">
             <div class="btn-toolbar justify-content-between">
@@ -38,7 +62,7 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check mr-sm-2">
-                                            <input id="estatus{{$loop->iteration}}" type="checkbox" class="form-check-input ches" value="{{$e->titulo}}">
+                                            <input id="estatus{{$loop->iteration}}" type="checkbox" class="form-check-input secondary check-outline outline-secondary ches" value="{{$e->titulo}}">
                                             <label id="les{{$loop->iteration}}" class="form-check-label" for="estatus">{{$e->titulo}}</label>
                                             </div>
                                         </a>
@@ -57,7 +81,7 @@
                                     <li class="list-inline-item">
                                         <a class="dropdown-item" href="#"> 
                                             <div class="form-check">
-                                            <input id="sistema{{$loop->iteration}}" type="checkbox" class="form-check-input chsi" value="{{$sistema->nombre_s}}">
+                                            <input id="sistema{{$loop->iteration}}" type="checkbox" class="form-check-input secondary check-outline outline-secondary chsi" value="{{$sistema->nombre_s}}">
                                             <label id="lsi{{$loop->iteration}}" class="form-check-label" for="invalidcheck3">{{$sistema->nombre_s}}</label>
                                             </div>
                                         </a>
@@ -284,23 +308,6 @@
             $("tbody tr").show();
             $( "input:checkbox:checked" ).prop( "checked", false );
         });
-        /*$("input:checkbox").on("change", function () {
-        
-            var a = $("input:checkbox:checked").map(function () {
-                return $(this).val().replace(/\s+/g, '')
-            })
-            $("tbody tr").hide();
-            var estatus = $(".estatus").filter(function () {
-                var sestatus = $(this).text().replace(/\s+/g, ''),
-                    index = $.inArray(sestatus, a);
-                return index >= 0
-            }).parent().show();
-            var sistemas = $(".sistemas").filter(function () {
-                var sistema = $(this).text().replace(/\s+/g, ''),
-                    index = $.inArray(sistema, a);
-                return index >= 0
-            }).parent().show();
-        }) */
         $(".ches,.chsi").on("change", function () {
         var ches = $(".ches:checked").map(function () {
             return $(this).val()
@@ -332,6 +339,8 @@
 
     });
 </script>
+<script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+<script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
 @endsection
 
 <script type="text/javascript">
@@ -372,3 +381,4 @@
         }
     }
 </script>
+

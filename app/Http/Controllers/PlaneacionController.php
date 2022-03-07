@@ -6,6 +6,7 @@ use App\Models\analisis;
 use App\Models\construccion;
 use App\Models\cronograma;
 use App\Models\desfase;
+use App\Models\implementacion;
 use App\Models\informacion;
 use App\Models\liberacion;
 use App\Models\planeacion;
@@ -159,6 +160,21 @@ class PlaneacionController extends Controller
                 $updateCL->fin = date('y/m/d',strtotime($data('FechaLibR')));
                 $updateCL->save();
             }*/
+        }
+        if($data['FechaImpP']<>NULL){
+            if(implementacion::where('folio',$data['folio'])->count() == 0){
+                cronograma::create([
+                    'folio' => $data['folio'],
+                    'titulo' => 'Implementación',
+                    'inicio' => date("y/m/d", strtotime($data['FechaImpP'])),
+                    'fin' => date("y/m/d", strtotime($data['FechaImpP'])),
+                    'color' => 'bg-primary'
+                ]);
+                implementacion::create([
+                    'folio' => $data['folio'],
+                    'f_implementacion' => date("y/m/d", strtotime($data['FechaImpP'])),
+                ]);
+            }
         }
         $estatus = registro::select()-> where ('folio', $data->folio)->first();
         $estatus->id_estatus = $data->input('id_estatus');

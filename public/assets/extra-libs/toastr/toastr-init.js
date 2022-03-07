@@ -145,6 +145,7 @@ $(function () {
   });
 
   // Slide Down / Slide Up
+  //  mensaje de informacion  //
   $("#slide-toast").on("click", function () {
     toastr.error(
       "Aun no se ha recibido la informacion solicitada",
@@ -152,6 +153,7 @@ $(function () {
       { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
     );
   });
+  //  mensaje de folio  //
   $("#slide-folio-pip").on("load", function () {
     toastr.success(
       "N° folio: PIP-" + $("#folio").val(),

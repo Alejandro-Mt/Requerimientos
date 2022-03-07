@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\archivo;
 use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Bus\Queueable;
@@ -21,6 +22,7 @@ class ValidacionCliente extends Mailable
     public $involucrados;
     public $relaciones;
     public $subject;
+    public $file;
     /**
      * Create a new message instance.
      *
@@ -65,6 +67,7 @@ class ValidacionCliente extends Mailable
             $this->involucrados = explode(',',$fold->involucrados);
             $this->subject = "$fold->folio $fold->descripcion";
         }
+        $this->file = archivo::where('folio',$folio)->get();
         
     }
 
@@ -75,6 +78,14 @@ class ValidacionCliente extends Mailable
      */
     public function build()
     {
-        return $this->markdown('correos.contenido');
+        $email = $this->markdown('correos.contenido');
+        // $archivosadjuntos es una matriz con rutas de archivos de archivos adjuntos
+        foreach($this->file as $ruta){
+            $email->attach(public_path($ruta->url));
+        }
+        return $email;
+        #return $this->file;
+
+        
     }
 }
