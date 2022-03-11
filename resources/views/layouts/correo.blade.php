@@ -9,7 +9,7 @@
                 <label for="email" class="col-sm-2 text-end control-label col-form-label">{{ __('Dirección de Correo') }}</label>
                 <div class="col-md-6">
                        <!-- <i class="fa fa-envelope"></i>-->
-                    <input id="email" type="email" class="required form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>                    
+                    <input id="email" type="text" class="required form-control @error('email') is-invalid @enderror" name="email[]" value="{{ old('email') }}" required autocomplete="email" autofocus>                    
                     @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -163,4 +163,3 @@
     </script>
 
 @endsection
-
