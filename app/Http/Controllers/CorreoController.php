@@ -26,7 +26,8 @@ class CorreoController extends Controller
         #dd($registros);
     }
     public function sended(request $data){
-        mail::to($data->email)
+        $destino = implode(';', $data['email']);
+        mail::to(explode(';', $destino))
             ->send(new ValidacionCliente($data->folio));
         if(count(Mail::failures()) < 1){
             $estatus = registro::select("*")-> where ('folio', $data->folio)->first();
