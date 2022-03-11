@@ -28,8 +28,10 @@ class HomeController extends Controller
         $tabla = db::table('registros as r')
                         ->select('r.folio',
                             'descripcion',
+                            'e.titulo',
+                            'cl.clase',
                             'subproceso',
-                            #"'prioridad'",
+                            'l.impacto',
                             'nombre_s',
                             db::raw("ifnull(ar.nombre_r,'NO ASIGNADO') as Arquitecto"),
                             'nombre_cl',
@@ -75,7 +77,6 @@ class HomeController extends Controller
                             'imp.cronograma',
                             'imp.link_c',
                             'imp.f_implementacion',
-                            'e.titulo',
                             'imp.estatus_f',
                             'imp.seguimiento',
                             'imp.comentarios',
@@ -85,7 +86,8 @@ class HomeController extends Controller
                         ->join('responsables as re','r.id_responsable','re.id_responsable')
                         ->join('clientes as c','c.id_cliente','r.id_cliente')
                         ->join('estatus as e', 'e.id_estatus','r.id_estatus')
-                        ->leftjoin('responsables as ar','r.id_arquitecto_d','ar.id_responsable')
+                        ->leftJoin('clases as cl', 'cl.id_clase','r.id_clase')
+                        ->leftjoin('responsables as ar','r.id_arquitecto','ar.id_responsable')
                         ->leftjoin('levantamientos as l','r.folio','l.folio')
                         ->leftJoin('subprocesos as sub','r.folio','sub.folio')
                         ->leftJoin('planeacion as p', 'r.folio','p.folio')
