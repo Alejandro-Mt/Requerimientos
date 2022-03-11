@@ -108,4 +108,11 @@ class MenuController extends Controller
         return redirect(route('Avance',$data->folio));
         #dd($data->all());
     }
+    public function posponer($folio){
+        pausa::create([
+            'folio'=> $folio,
+            'pausa'=> '2'   
+        ]);
+        return redirect(route('Editar'));
+    }
 }
