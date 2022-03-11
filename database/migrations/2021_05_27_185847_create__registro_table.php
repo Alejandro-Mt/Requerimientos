@@ -27,8 +27,9 @@ class CreateRegistroTable extends Migration
             #$table->foreign('id_estatus')->references('id_estatus')->on('estatus')->ondelete('cascade')->onupdate('restrict');
             $table->Integer('id_area')->length(10)->unsigned();
             #$table->foreign('id_area')->references('id_area')->on('areas')->ondelete('cascade')->onupdate('restrict');
-            $table->integer('id_arquitecto_d')->length(10)->nullable()->unsigned();
+            $table->integer('id_arquitecto')->length(10)->nullable()->unsigned();
             #$table->foreign('id_puesto')->references('id_puesto')->on('puestos')->ondelete('cascade')->onUpdate('restrict');
+            $table->integer('id_clase')->length(10)->nullable()->unsigned();
             $table->timestamps();
         });
     }
