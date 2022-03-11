@@ -22,6 +22,7 @@ class levantamiento extends Model
         'general',
         'detalle',
         'relaciones',
+        'areas',
         'esperado',
         'involucrados',
         'estatusAut'
