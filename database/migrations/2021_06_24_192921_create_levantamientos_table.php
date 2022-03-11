@@ -28,6 +28,7 @@ class CreateLevantamientosTable extends Migration
             $table->string('detalle')->lenght(50);
             $table->text('esperado');
             $table->string('relaciones')->lenght(50);
+            $table->string('areas')->lenght(50);
             $table->string('involucrados')->lenght(50);
             $table->timestamps();
            # $table->unsignedInteger("diasResp")->nullable();#FechaRegistro-FechaFormato
