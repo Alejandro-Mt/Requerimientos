@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\area;
 use App\Models\departamento;
 use App\Models\levantamiento;
 use App\Models\registro;
@@ -18,11 +19,12 @@ class LevantamientosController extends Controller
      */
     
     protected function formato($id_registro){
-        $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
-        $sistemas = sistema::all();
-        $responsables = responsable::orderby('apellidos', 'asc')->get();
+        $areas = area::all();
         $departamentos = departamento::all();
-        return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros','departamentos')); 
+        $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
+        $responsables = responsable::orderby('apellidos', 'asc')->get();
+        $sistemas = sistema::all();
+        return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros','departamentos','areas')); 
     }
 
 
@@ -45,6 +47,7 @@ class LevantamientosController extends Controller
             'general' => $data['general'],
             'detalle' => $data['detalle'],
             'relaciones' => implode(',', $data['relaciones']),
+            'areas' => implode(',', $data['areas']),
             'esperado' => $data['esperado'],
             'involucrados'=> implode(',', $data['involucrados'])
         ]);
@@ -75,6 +78,7 @@ class LevantamientosController extends Controller
         $update->general = $data['general'];
         $update->detalle = $data['detalle'];
         $update->relaciones = implode(',', $data['relaciones']);
+        $update->areas = implode(',', $data['areas']);
         $update->esperado = $data['esperado'];
         $update->involucrados = implode(',', $data['involucrados']);
         $estatus = registro::select()-> where ('folio', $data->folio)->first();
@@ -110,10 +114,12 @@ class LevantamientosController extends Controller
         $responsables = responsable::orderby('apellidos', 'asc')->get();
         $levantamientos = levantamiento::findOrFail($registros);
         $departamentos = departamento::all();
+        $areas = area::all();
         foreach($levantamientos as $valor);
         $involucrados = explode(',',$valor->involucrados);
         $relaciones = explode(',',$valor->relaciones);
-        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamientos','involucrados','departamentos'));
+        $areasr = explode(',',$valor->areas);
+        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamientos','involucrados','departamentos','areasr','areas'));
         #dd($relaciones);
     }
 

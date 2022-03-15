@@ -1,10 +1,8 @@
 @extends('home')
 @section('content')
 <!-- Incluir la hoja de estilo predeterminada -->
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.css">
 <link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
 <!-- Incluir complemento -->
-<script src="https://cdn.rawgit.com/wenzhixin/multiple-select/e14b36de/multiple-select.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <body>
@@ -101,11 +99,11 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Folio</th>
-                            <th scope="col">Estatus</th>
-                            <th scope="col">Sistema</th>
-                            <th scope="col">Acción</th>
-                            <th scope="col"></th>
+                            <th class="text-center">Folio</th>
+                            <th class="text-center">Estatus</th>
+                            <th class="text-center">Sistema</th>
+                            <th class="text-center">Acción</th>
+                            <th class="text-center"></th>
                         </tr>
                     </thead>
                     <tbody id="searchable">
@@ -130,7 +128,7 @@
                                 @endif
                             onmousemove="lock('play{{$loop->iteration}}','btn{{$loop->iteration}}')">
                             <!-- Folio -->
-                                <td>
+                                <td class="col-md-2 text-center">
                                     <div class="form-group row">
                                         <div class="col-md-13" >
                                             <i id="{{$loop->iteration}}" 
@@ -146,9 +144,65 @@
                                     </div>
                                 </td>
                             <!-- Titulo -->
-                                <td class="estatus">{{$registro->titulo}}</td>
+                                <td class="estatus col-md-3 text-center">
+                                    @if ($registro->id_estatus==18)
+                                        <button type="button" class="w-100 btn btn-rounded text-dark">
+                                            {{$registro->titulo}}
+                                        </button>
+                                    @else
+                                        @foreach ($pausa as $pospuesto)
+                                            @if ($registro->folio == $pospuesto->folio)
+                                                @if ($pospuesto->pausa == 2)
+                                                    <button type="button" class="w-100 btn btn-rounded text-dark" data-bs-toggle="modal" data-bs-target="#est{{$loop->iteration}}">
+                                                        <a class="text-danger">{{"POSPUESTO"}}</a>
+                                                    </button>
+                                                @else     
+                                                    <!-- Full width modal -->
+                                                    <button type="button" class="w-100 btn btn-rounded text-dark" data-bs-toggle="modal" data-bs-target="#est{{$loop->iteration}}">
+                                                        <!--<i data-feather="log-in" class="fill-white m-auto feather-sm text-center d-block text-center"></i>-->
+                                                        {{$registro->titulo}}
+                                                    </button>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </td>
+                                <div id="est{{$loop->iteration}}" class="modal fade" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                @foreach($pausa as $p)
+                                                    @if($p->folio == $registro->folio)
+                                                        <div class="text-center mt-2 mb-4">
+                                                            <a href="index.html" class="text-success">{{$registro->folio}}</a>
+                                                        </div>
+                                                        <button id="btnGroupVerticalDrop1" type="button" class="estatus justify-content-center w-100 btn btn-rounded d-flex text-dark align-items-center dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            @if($p->pausa == 2)
+                                                                <a class="text-danger">{{"POSPUESTO"}}</a>
+                                                            @else
+                                                                {{$registro->titulo}}
+                                                            @endif
+                                                        </button>
+                                                    @endif
+                                                    <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="btnGroupVerticalDrop1">
+                                                        @if ($p->pausa == 2 && $p->folio == $registro->folio)
+                                                            <a class="dropdown-item" href="{{route('Play',$registro->folio)}}">{{$registro->titulo}}</a>
+                                                            <a class="dropdown-item" href="#">Cancelar</a>
+                                                        @else
+                                                            <a class="dropdown-item" href="{{route('Posponer',$registro->folio)}}">POSPONER</a>
+                                                            <a class="dropdown-item" href="#">Cancelar</a>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <!-- /.modal -->
                             <!-- Sistema -->
-                                <td class="sistemas">
+                                <td class="sistemas col-md-3 text-center">
                                     @foreach ($sistemas as $sistema) 
                                         @if ($registro->id_sistema == $sistema->id_sistema)
                                            {{$sistema->nombre_s}}
@@ -156,55 +210,44 @@
                                     @endforeach
                                 </td>
                             <!-- Accion -->
-                                @switch($registro->id_estatus)
-                                    @case(17)
-                                        <td><button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Formato',$registro->id_registro)}}" style="color:white">Llenar Solicitud</a></button></td>
-                                        @break
-                                    @case(10)
-                                        <td><button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Enviar Reporte</a></button></td>
-                                        @break
-                                    @case(16)
-                                        <td>
-                                            <button type="submit" class="btn btn-warning text-white" ><a href="{{route('Levantamiento',$registro->id_registro)}}" style="color:white">Revisión de Datos</a></button>
-                                            @if($registro->fechaaut <> null)
-                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Confirmación</a></button>
-                                            @endif
-                                        </td>
-                                        @break
-                                    @case(11)
-                                        <td> 
-                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeación</a></button>
-                                        </td>
-                                        @break
-                                    @case(9)
-                                        <td>
-                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Análisis de Desarrollo</a></button>
-                                        </td>
-                                        @break
-                                    @case(7)
-                                        <td>
-                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Construccion',$registro->folio)}}" style="color:white">Construcción</a></button>
-                                        </td>
-                                        @break
-                                    @case(8)
-                                        <td>
-                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Liberacion',$registro->folio)}}" style="color:white">Liberación</a></button>
-                                        </td>
-                                        @break
-                                    @case(2)
-                                        <td>
-                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementación</a></button>
-                                        </td>
-                                        @break
-                                    @case(18)
-                                        <td>
-                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white" ><a href="#" style="color:white">Implementado</a></button>
-                                        </td>
-                                        @break
-                                    @default 
-                                @endswitch
+                                <td class="col-md-2">
+                                    @switch($registro->id_estatus)
+                                        @case(17)
+                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Formato',$registro->id_registro)}}" style="color:white">Llenar Solicitud</a></button>
+                                            @break
+                                        @case(10)
+                                            <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Enviar Reporte</a></button>
+                                            @break
+                                        @case(16)
+                                                <button type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Levantamiento',$registro->id_registro)}}" style="color:white">Revisión de Datos</a></button>
+                                                @if($registro->fechaaut <> null)
+                                                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Enviar',$registro->folio)}}" style="color:white">Confirmación</a></button>
+                                                @endif
+                                            @break
+                                        @case(11)
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeación</a></button>
+                                            @break
+                                        @case(9)
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Análisis de Desarrollo</a></button>
+                                            @break
+                                        @case(7)
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Construccion',$registro->folio)}}" style="color:white">Construcción</a></button>
+                                            @break
+                                        @case(8)
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Liberacion',$registro->folio)}}" style="color:white">Liberación</a></button>
+                                            @break
+                                        @case(2)
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Implementacion',$registro->folio)}}" style="color:white">Implementación</a></button>
+                                            @break
+                                        @case(18)
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white w-100" ><a href="#" style="color:white">Implementado</a></button>
+                                            @break
+                                        @default 
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white w-100" ><a href="#" style="color:white"></a></button>
+                                    @endswitch
+                                </td>
                             <!-- Menu -->
-                                <td>
+                                <td class="col-md-2 align-items-center">
                                     @if ($registro->id_estatus <> 18)
                                         <div class="form-group row">
                                             <div class="col-md-2 col-lg-1 f-icon">
@@ -310,7 +353,7 @@
         });
         $(".ches,.chsi").on("change", function () {
         var ches = $(".ches:checked").map(function () {
-            return $(this).val()
+            return $(this).val().replace(/\s+/g, '')
         }).get();
         var chsi = $(".chsi:checked").map(function () {
             return $(this).val().replace(/\s+/g, '')
@@ -320,13 +363,14 @@
         var sistemas = $(".sistemas").filter(function () {
             var sistema = $(this).text().replace(/\s+/g, ''),
             	index2 = $.inArray(sistema, chsi);
+                console.log(sistemas);
             	return index2 >=0
         }).parent()
         if (!sistemas.length) sistemas = all
         var estatus = $(".estatus").filter(function () {
-            var sestatus = $(this).text(),
+            var sestatus = $(this).first().text().replace(/\s+/g, ''),
                 index = $.inArray(sestatus, ches);
-                
+                console.log(sestatus);
             return index >= 0
         }).parent()
         if (!estatus.length) estatus = all

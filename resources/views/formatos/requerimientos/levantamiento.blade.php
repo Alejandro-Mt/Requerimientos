@@ -224,18 +224,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
-
                             <!-- ---------------------
                                 start Default Summernote Editor
                             ---------------- -->
                             <label for="esperado" class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
-                            <div class="card-body">
+                            <div class="col-md-8">
                                 @foreach ($levantamientos as $valor)
-                                <textarea name="esperado" aria-placeholder="Que es lo que se espera" required autofocus rows="5"
-                                    class="required form-control @error ('esperado') is-invvalid @enderror">
-{{$valor->esperado}}
-                                </textarea>
-                            @endforeach
+                                    <textarea name="esperado" aria-placeholder="Que es lo que se espera" required autofocus rows="5"
+                                        class="required form-control @error ('esperado') is-invvalid @enderror">{!! nl2br(e($valor->esperado)) !!}
+                                    </textarea>
+                                @endforeach
                                 @error('esperado')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -277,7 +275,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="relaciones"
-                                class="col-sm-2 text-end control-label col-form-label">Relación con Otras Áreas o Sistemas</label>
+                                class="col-sm-2 text-end control-label col-form-label">Relación con Otros Sistemas</label>
                             <div class="col-md-8">
                                 <select name="relaciones[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
                                     @foreach ($levantamientos as $valor)
@@ -295,6 +293,33 @@
                                         <option value="{{$sistema->id_sistema}}">{{$sistema->nombre_s}}</option>
                                     @endforeach
                                     @error('relaciones')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="areas"
+                                class="col-sm-2 text-end control-label col-form-label">Relación con Otras Áreas</label>
+                            <div class="col-md-8">
+                                <select name="areas[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="" style="height: 36px;width: 100%;" required autofocus>
+                                    @foreach ($levantamientos as $valor)
+                                        @for ($i = 0; $i < count($areasr); $i++)
+                                            <option value={{$areasr[$i]}} selected>
+                                                @foreach ($areas as $previo) 
+                                                        @if ($areasr[$i] == $previo->id_area)
+                                                            {{$previo->area}}
+                                                        @endif
+                                                @endforeach
+                                            </option> 
+                                        @endfor                                       
+                                    @endforeach
+                                    @foreach ($areas as $area)
+                                        <option value="{{$area->id_area}}">{{$area->area}}</option>
+                                    @endforeach
+                                    @error('areas')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

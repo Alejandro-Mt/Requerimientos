@@ -23,6 +23,8 @@
                   <tr>
                     <th class="header">*ID REQUERIMIENTO</th>
                     <th class="header">DESCRIPCIÓN</th>
+                    <th class="header">*ESTATUS GENERAL</th>
+                    <th class="header">*CLASIFICACIÓN</th>
                     <th class="header">*SUBPROCESO</th>
                     <th class="header">*SISTEMA</th>
                     <th class="header">*RESPONSABLE DESARROLLO</th>
@@ -30,7 +32,7 @@
                     <th class="header">*RESPONSABLE PIP</th>
                     <th class="header">*TITULO COMPLETO EN BITRIX</th>
                     <th class="header">*PRIORIDAD</th>
-                    <th class="header">NUMERO DE PRIORIDAD</th>
+                    <!--<th class="header">NUMERO DE PRIORIDAD</th>-->
                     <th class="header">FECHA DE SOLICITUD DEL CLIENTE</th>
                     <th class="header">FECHA DE CREACIÓN DE FORMATO DE REQUERIMIENTO (PIP A CLIENTE)</th>
                     <th class="header">*DÍAS (SOLICITUD DEL CLIENTE - CREACIÓN DE FORMATO DE REQUERIMIENTO)</th>
@@ -73,7 +75,6 @@
                     <th class="header">CRONOGRAMA DE IMPLEMENTACIÓN</th>
                     <th class="header">LINK CRONOGRAMA</th>
                     <th class="header">FECHA DE IMPLEMENTACIÓN</th>
-                    <th class="header">*ESTATUS GENERAL</th>
                     <th class="header">*ESTATUS FUNCIONALIDAD EN PRODUCCIÓN</th>
                     <th class="header">SEGUIMIENTO</th>
                     <th class="header">COMENTARIOS</th>
@@ -85,14 +86,32 @@
                     <tr>
                       <td>{{$registro->folio}}</td>
                       <td>{{$registro->descripcion}}</td>
+                      <td>{{$registro->titulo}}</td>
+                      <td>{{$registro->clase}}</td>
                       <td>{{$registro->subproceso}}</td>
                       <td>{{$registro->nombre_s}}</td>
                       <td>{{$registro->Arquitecto}}</td>
                       <td>{{$registro->nombre_cl}}</td>
                       <td>{{$registro->nombre_r}}</td>
-                      <td>{{$registro->Bitrix}}</td>
-                      <th>{{'no-data'}}</th>
-                      <th>{{'no-data'}}</th>
+                      <th>{{$registro->Bitrix}}</th>
+                      <td>
+                        @switch($registro->impacto)
+                            @case(1)
+                                BAJA
+                                @break
+                            @case(2)
+                                MEDIA
+                                @break@case(1)
+                                ALTA
+                                @break
+                            @case(2)
+                                CRITICA
+                                @break
+                            @default
+                                NULA
+                        @endswitch
+                      </td>
+                      <!--<th>{{'no-data'}}</th>-->
                       <td>@if($registro->solicitud <> null) {{date('d-m-20y',strtotime($registro->solicitud))}} @endif</td>
                       <td>@if($registro->formato <> null) {{date('d-m-20y',strtotime($registro->formato))}} @endif</td>
                       <td>{{$registro->Dif}}</td>
@@ -107,39 +126,38 @@
                       <td>{{$registro->evidencia}}</td>
                       <td>@if($registro->fechaCompReqR <> null) {{date('d-m-20y',strtotime($registro->fechaCompReqR))}} @endif</td>
                       <td>{{$registro->diascomp}}</td>
-                      <th>{{$registro->motivo}}</th>
-                      <th>{{$registro->motivopausa}}</th>
-                      <th>{{$registro->evPausa}}</th>
-                      <th>@if($registro->fechaReact <> null) {{date('d-m-20y',strtotime($registro->fechaReact))}} @endif</th>
-                      <th>@if($registro->envioAnalisis <> null) {{date('d-m-20y',strtotime($registro->envioAnalisis))}} @endif</th>
-                      <th>{{$registro->motivodesfase}}</th>
-                      <th>{{$registro->diasAn}}</th>
-                      <th>@if($registro->autCl <> null) {{date('d-m-20y',strtotime($registro->autCl))}} @endif</th>
-                      <th>{{$registro->diasAut}}</th>
-                      <th>@if($registro->fechaConst <> null) {{date('d-m-20y',strtotime($registro->fechaConst))}} @endif</th>
-                      <th>{{$registro->motivoDC}}</th>
-                      <th>@if($registro->solInfopip <> null) {{date('d-m-20y',strtotime($registro->solInfopip))}} @endif</th>
-                      <th>@if($registro->solInfoC <> null) {{date('d-m-20y',strtotime($registro->solInfoC))}} @endif</th>
-                      <th>@if($registro->respuesta <> null) {{date('d-m-20y',strtotime($registro->respuesta))}} @endif</th>
-                      <th>{{$registro->mri}}</th>
-                      <th>{{$registro->diasInfo}}</th>
-                      <th>@if($registro->fecha_lib_a <> null) {{date('d-m-20y',strtotime($registro->fecha_lib_a))}} @endif</th>
-                      <th>@if($registro->fecha_lib_r <> null) {{date('d-m-20y',strtotime($registro->fecha_lib_r))}} @endif</th>
-                      <th>{{$registro->diasL}}</th>
-                      <th>@if($registro->inicio_lib <> null) {{date('d-m-20y',strtotime($registro->inicio_lib))}} @endif</th>
-                      <th>{{$registro->diasInicioL}}</th>
-                      <th>@if($registro->inicio_p_r <> null) {{date('d-m-20y',strtotime($registro->inicio_p_r))}} @endif</th>
-                      <th>{{$registro->diasPL}}</th>
-                      <th>{{$registro->t_pruebas}}</th>
-                      <th>{{$registro->evidencia_p}}</th>
-                      <th>{{$registro->cronograma}}</th>
-                      <th>{{$registro->link_c}}</th>
-                      <th>@if($registro->f_implementacion <> null) {{date('d-m-20y',strtotime($registro->f_implementacion))}} @endif</th>
-                      <th>{{$registro->titulo}}</th>
-                      <th>{{$registro->estatus_f}}</th>
-                      <th>{{$registro->seguimiento}}</th>
-                      <th>{{$registro->comentarios}}</th>
-                      <th>{{$registro->duracion}}</th>
+                      <td>{{$registro->motivo}}</td>
+                      <td>{{$registro->motivopausa}}</td>
+                      <td>{{$registro->evPausa}}</td>
+                      <td>@if($registro->fechaReact <> null) {{date('d-m-20y',strtotime($registro->fechaReact))}} @endif</td>
+                      <td>@if($registro->envioAnalisis <> null) {{date('d-m-20y',strtotime($registro->envioAnalisis))}} @endif</td>
+                      <td>{{$registro->motivodesfase}}</td>
+                      <td>{{$registro->diasAn}}</td>
+                      <td>@if($registro->autCl <> null) {{date('d-m-20y',strtotime($registro->autCl))}} @endif</td>
+                      <td>{{$registro->diasAut}}</td>
+                      <td>@if($registro->fechaConst <> null) {{date('d-m-20y',strtotime($registro->fechaConst))}} @endif</td>
+                      <td>{{$registro->motivoDC}}</td>
+                      <td>@if($registro->solInfopip <> null) {{date('d-m-20y',strtotime($registro->solInfopip))}} @endif</td>
+                      <td>@if($registro->solInfoC <> null) {{date('d-m-20y',strtotime($registro->solInfoC))}} @endif</td>
+                      <td>@if($registro->respuesta <> null) {{date('d-m-20y',strtotime($registro->respuesta))}} @endif</td>
+                      <td>{{$registro->mri}}</td>
+                      <td>{{$registro->diasInfo}}</td>
+                      <td>@if($registro->fecha_lib_a <> null) {{date('d-m-20y',strtotime($registro->fecha_lib_a))}} @endif</td>
+                      <td>@if($registro->fecha_lib_r <> null) {{date('d-m-20y',strtotime($registro->fecha_lib_r))}} @endif</td>
+                      <td>{{$registro->diasL}}</td>
+                      <td>@if($registro->inicio_lib <> null) {{date('d-m-20y',strtotime($registro->inicio_lib))}} @endif</td>
+                      <td>{{$registro->diasInicioL}}</td>
+                      <td>@if($registro->inicio_p_r <> null) {{date('d-m-20y',strtotime($registro->inicio_p_r))}} @endif</td>
+                      <td>{{$registro->diasPL}}</td>
+                      <td>{{$registro->t_pruebas}}</td>
+                      <td>{{$registro->evidencia_p}}</td>
+                      <td>{{$registro->cronograma}}</td>
+                      <td>{{$registro->link_c}}</td>
+                      <td>@if($registro->f_implementacion <> null) {{date('d-m-20y',strtotime($registro->f_implementacion))}} @endif</td>
+                      <td>{{$registro->estatus_f}}</td>
+                      <td>{{$registro->seguimiento}}</td>
+                      <td>{{$registro->comentarios}}</td>
+                      <td>{{$registro->duracion}}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -147,6 +165,8 @@
                   <tr>
                     <th>*ID REQUERIMIENTO</th>
                     <th>DESCRIPCIÓN</th>
+                    <th>*ESTATUS GENERAL</th>
+                    <th>*CLASIFICACIÓN</th>
                     <th>*SUBPROCESO</th>
                     <th>*SISTEMA</th>
                     <th>*RESPONSABLE DESARROLLO</th>
@@ -154,7 +174,7 @@
                     <th>*RESPONSABLE PIP</th>
                     <th>*TITULO COMPLETO EN BITRIX</th>
                     <th>*PRIORIDAD</th>
-                    <th>NUMERO DE PRIORIDAD</th>
+                    <!--<th>NUMERO DE PRIORIDAD</th>-->
                     <th>FECHA DE SOLICITUD DEL CLIENTE</th>
                     <th>FECHA DE CREACIÓN DE FORMATO DE REQUERIMIENTO (PIP A CLIENTE)</th>
                     <th>*DÍAS (SOLICITUD DEL CLIENTE - CREACIÓN DE FORMATO DE REQUERIMIENTO)</th>
@@ -197,7 +217,6 @@
                     <th>CRONOGRAMA DE IMPLEMENTACIÓN</th>
                     <th>LINK CRONOGRAMA</th>
                     <th>FECHA DE IMPLEMENTACIÓN</th>
-                    <th>*ESTATUS GENERAL</th>
                     <th>*ESTATUS FUNCIONALIDAD EN PRODUCCIÓN</th>
                     <th>SEGUIMIENTO</th>
                     <th>COMENTARIOS</th>

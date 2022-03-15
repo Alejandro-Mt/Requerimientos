@@ -201,13 +201,29 @@
                     </div>
                     <div class="form-group row">
                         <label for="relaciones"
-                            class="col-sm-2 text-end control-label col-form-label">Relacion con Otras Areas o Sistemas</label>
+                            class="col-sm-2 text-end control-label col-form-label">Relación con Otros Sistemas</label>
                         <div class="col-md-8">
                             <select name="relaciones[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($sistemas as $sistema)
                                     <option value="{{$sistema->id_sistema}}">{{$sistema->nombre_s}}</option>
                                 @endforeach
                                 @error('relaciones')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="areas"
+                            class="col-sm-2 text-end control-label col-form-label">Relación con Otras Áreas</label>
+                        <div class="col-md-8">
+                            <select name="areas[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
+                                @foreach ($areas as $area)
+                                    <option value="{{$area->id_area}}">{{$area->area}}</option>
+                                @endforeach
+                                @error('areas')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

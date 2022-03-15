@@ -18,6 +18,7 @@ class registro extends Model
         'id_cliente',
         'id_estatus',
         'id_area',
-        'arquitecto'
+        'id_arquitecto',
+        'id_clase'
     ];
 }

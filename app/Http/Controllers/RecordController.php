@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\clase;
 use App\Models\estatu;
 use App\Models\registro;
 use App\Models\responsable;
@@ -14,14 +15,15 @@ class RecordController extends Controller
 {
     protected function index(){
         
-        $registros = registro::where('folio', 'like', 'PIP%')->count();
-        $sistema = sistema::all();
-        $responsable = responsable::orderby('apellidos', 'asc')->get();
+        $clases = clase::all();
         $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
-        $id = registro::latest('id_registro')->first();
         $estatus = estatu::all();
+        $id = registro::latest('id_registro')->first();
+        $registros = registro::where('folio', 'like', 'PIP%')->count();
+        $responsable = responsable::orderby('apellidos', 'asc')->get();
+        $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
-        return view('formatos.requerimientos.new',compact('sistema','responsable','cliente','registros','id','estatus','vacio'));
+        return view('formatos.requerimientos.new',compact('clases','cliente','estatus','id','registros','responsable','sistema','vacio'));
         #dd($registros);
     }
 
@@ -63,7 +65,9 @@ protected function validator(array $data)
             'id_sistema' => $data['id_sistema'],
             'id_cliente' => $data['id_cliente'],
             'id_estatus' => $data['id_estatus'],
-            'id_area' => $data['id_area']
+            'id_area' => $data['id_area'],
+            'id_arquitecto' => $data['id_arquitecto'],
+            'id_clase' => $data['id_clase']
         ]);
         
     #dd($folio);

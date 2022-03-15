@@ -118,20 +118,44 @@
                                 </select>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
+                        <div class="form-group row">
                             <label for="Arquitecto"
-                                class="col-sm-2 text-end control-label col-form-label">personal solicitante*</label>
-                            <div class="col-md-8">
-                                <select class="form-select shadow-none select2-hidden-accessible"   style="width: 100%; height:36px;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="0">Selección</option>
-                                    @foreach ($responsable as $arqutecto)
-                                        @if ($arqutecto ->id_area == 12)
-                                            <option value = {{ $arqutecto->id_responsable }}>{{$arqutecto->nombre_r}}</option>;
-                                        @endif    
-                                    @endforeach                             
+                                class="col-sm-2 text-end control-label col-form-label">Arquitecto*</label>
+                            <div class="col-md-8">  
+                                <select class="form-select @error('id_arquitecto') is-invalid @enderror" 
+                                    style="width: 100%; height:36px;" name="id_arquitecto" tabindex="-1" aria-hidden="true" required autofocus>
+                                    <option value={{null}}>Selección</option>
+                                    @foreach ($responsable as $arquitecto):
+                                        @if ($arquitecto ->id_area == 12)
+                                            <option value = {{ $arquitecto->id_responsable }}>{{$arquitecto->apellidos}} {{$arquitecto->nombre_r}}</option>;
+                                        @endif
+                                    @endforeach                     
                                 </select>
+                                @error('id_arquitecto')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
-                        </div>-->
+                        </div>
+                        <div class="form-group row">
+                            <label for="Clase"
+                                class="col-sm-2 text-end control-label col-form-label">Clase*</label>
+                            <div class="col-md-8">  
+                                <select class="form-select @error('id_clase') is-invalid @enderror" 
+                                    style="width: 100%; height:36px;" name="id_clase" tabindex="-1" aria-hidden="true" required autofocus>
+                                    <option value={{null}}>Selección</option>
+                                    @foreach ($clases as $clase):
+                                        <option value = {{ $clase->id_clase }}>{{$clase->clase}}</option>;
+                                    @endforeach                     
+                                </select>
+                                @error('id_clase')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="Prioridad"
                                 class="col-sm-2 text-end control-label col-form-label">Prioridad*</label>
@@ -146,20 +170,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
-                            <label for="Fecha"
-                            class="col-sm-2 text-end control-label col-form-label">Fecha*</label>
-                            <div class= 'col-md-8'>
-                                <div class="input-group">
-                                    <input type="text" class="form-control mydatepicker" placeholder="MM/DD/AAAA">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text h-100">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="d-none">
                             @foreach ($estatus as $estatus)
                                 <input type="text" name="id_area" value="6" visible="false">

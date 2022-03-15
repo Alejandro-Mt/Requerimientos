@@ -82,6 +82,7 @@ Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->middleware('auth')->name('Editar');
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
+Route::get('/posponer/{folio}', [MenuController::class,'posponer'])->name('Posponer');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
 Route::get('/formatos.requerimientos.formato.{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');
