@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\area;
-use App\Models\cliente;
+use App\Models\Cliente;
 use App\Models\comentario;
 use App\Models\departamento;
 use App\Models\estatu;
