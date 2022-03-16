@@ -62,6 +62,9 @@ Route::post('/formatos.requerimientos.edit', [LevantamientosController::class, '
 Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
 Route::get('/correos.contenido.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
 Route::get('/correos.{folio}',[CorreoController::class, 'rechazo'])->name('Rechazo');
+Route::get('libera.{folio}', [CorreoController::class, 'libera'])->name('Libera');
+Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('Requiere');
+Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut');
 Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
 Route::delete('file.borrar.{id}', [CorreoController::class, 'destroy'])->name('dfile');
 Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->middleware('auth')->name('Enviar');
