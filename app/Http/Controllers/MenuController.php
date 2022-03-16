@@ -137,7 +137,7 @@ class MenuController extends Controller
         #$registros= registro::where('folio',$folio)->get();
         #$estatus = estatu::all();
         $areas = area::all();
-        $clientes = cliente::all();
+        $clientes = Cliente::all();
         $departamentos = departamento::all();
         $estatus = estatu::all();
         $funcionalidad = funcionalidad::all();
