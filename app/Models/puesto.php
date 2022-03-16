@@ -9,4 +9,8 @@ class puesto extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_puesto';
+    protected $fillable = [
+        'puesto',
+        'jerarquia'
+    ];
 }
