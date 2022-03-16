@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\area;
+use App\Models\cliente;
 use App\Models\comentario;
+use App\Models\departamento;
 use App\Models\estatu;
+use App\Models\funcionalidad;
 use App\Models\pausa;
+use App\Models\puesto;
 use App\Models\registro;
+use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\subproceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -24,11 +31,16 @@ class MenuController extends Controller
         $subprocesos = subproceso::all();
         $estatus = estatu::join('registros as r','r.id_estatus','estatus.id_estatus')->groupby('estatus.id_estatus')->get();
         $sistemas = sistema::all();
-        $registros = registro::select('registros.*','e.*','l.fechaaut')->join('estatus as e','e.id_estatus', 'registros.id_estatus')->leftjoin('levantamientos as l','l.folio', 'registros.folio')->orderby('registros.folio')->get();
+        $registros = registro::select('registros.*','e.*','l.fechaaut','l.fechades')
+                            ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
+                            ->orderby('registros.folio')
+                            ->get();
         $pausa = pausa::select('r.folio',pausa::raw('max(pausas.pausa) as pausa'))->rightjoin('registros as r','r.folio', 'pausas.folio')->groupby('r.folio')->get();
         foreach ($pausa as $p);
         $vacio = pausa::count();
         return view('formatos.requerimientos.edit',compact('estatus','pausa','registros','sistemas','subprocesos','vacio'));
+        #dd($pausa);
     }
     public function pause($folio){
         pausa::create([
@@ -107,6 +119,34 @@ class MenuController extends Controller
         #$estatus = estatu::all();
         return redirect(route('Avance',$data->folio));
         #dd($data->all());
+    }
+    public function store(){
+        //validat datos
+        /*$this->validate($data, [
+            'contenido' => 'required'
+        ]);*/
+        //insertar 
+        /*comentario::create([
+            'folio'=> $data['folio'],
+            'pausa'=> '1',
+            'usuario' => auth::user()->id ,
+            'contenido' => $data['contenido'],
+            'respuesta' => $data['respuesta'],
+        ]);*/
+        //Redireccionar
+        #$registros= registro::where('folio',$folio)->get();
+        #$estatus = estatu::all();
+        $areas = area::all();
+        $clientes = cliente::all();
+        $departamentos = departamento::all();
+        $estatus = estatu::all();
+        $funcionalidad = funcionalidad::all();
+        $puestos = puesto::all();
+        $responsables = responsable::select('id_responsable','nombre_r','apellidos','email','responsables.id_area','area')->leftjoin('areas as a','responsables.id_area','a.id_area')->get();
+        $sistemas = sistema::all();
+
+        return view('/layouts.datos',compact('areas','clientes','departamentos','estatus','funcionalidad','puestos','responsables','sistemas'));
+        #dd($responsables);
     }
     public function posponer($folio){
         pausa::create([
