@@ -24,7 +24,7 @@ class ClienteController extends Controller
      */
     public function create(Request $data)
     {
-        cliente::create([
+        Cliente::create([
             'nombre_cl' => $data['nombre_cl'],
             'abreviacion' => $data['abreviacion'],
         ]);
@@ -73,7 +73,7 @@ class ClienteController extends Controller
      */
     public function update(Request $data, $id_cliente)
     {
-        $update = cliente::FindOrFail($id_cliente);
+        $update = Cliente::FindOrFail($id_cliente);
         $update->nombre_cl = $data['nombre_cl'];
         $update->abreviacion = $data['abreviacion'];
         $update->save();  
@@ -88,7 +88,7 @@ class ClienteController extends Controller
      */
     public function destroy($id_cliente)
     {
-        $id_cliente = cliente::find($id_cliente);
+        $id_cliente = Cliente::find($id_cliente);
         $id_cliente->delete();
         return redirect(route('Seguir'));
     }
