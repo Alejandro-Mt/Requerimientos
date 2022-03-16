@@ -32,7 +32,7 @@ class RecordController extends Controller
         $this->middleware('auth');
     }
 
-protected function validator(array $data)
+    protected function validator(array $data)
     {
         return Validator::make($data, [
             'descripcion' => ['required', 'string', 'max:255'],
@@ -72,8 +72,14 @@ protected function validator(array $data)
         
     #dd($folio);
     return redirect(route('Nuevo'))->with('alert', $folio);
-    
     }
-
+    
+    public function update($folio)
+    {
+        $registro = registro::where('folio',$folio)->first();
+        $registro->id_estatus= 14;
+        $registro->save();
+        return redirect(route('Editar'));
+    }
 
 }
