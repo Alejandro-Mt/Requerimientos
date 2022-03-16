@@ -27,6 +27,11 @@
                       <i class="ri-user-settings-line"></i>
                     </a>
                   </li>
+                  <li class="list-inline-item">
+                    <a href="{{route('Seguir')}}">
+                      <i class="ri-settings-5-line"></i>
+                    </a>
+                  </li>
                   <!--<li class="list-inline-item">
                     <a href="javascript:void(0)">
                       <i class="ri-google-fill"></i>
