@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SegundaValidacion;
 use App\Mail\ValidacionCliente;
 use App\Mail\ValidacionRequerimiento;
 use App\Models\archivo;
@@ -44,6 +45,7 @@ class CorreoController extends Controller
     protected function PDF($folio){
         $formato = db::table('registros as r')
                           ->select('l.created_at as fsol',
+                                    'r.descripcion',
                                     'a.area',
                                     'l.solicitante',
                                     'd.departamento',
@@ -74,7 +76,7 @@ class CorreoController extends Controller
             $relaciones = explode(',',$fold->relaciones);
             $involucrados = explode(',',$fold->involucrados);
             $pdf = PDF::loadView('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
-            return $pdf -> stream ('documento.pdf');
+            return $pdf -> stream ("$folio $fold->descripcion.pdf");
             #return view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
         }
     }
@@ -107,6 +109,51 @@ class CorreoController extends Controller
           return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
         }
     }
+
+    protected function libera($folio){
+        $hora = levantamiento::findOrFail($folio);
+        $fol = registro::select('res.email')
+                      ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
+                      ->where('folio',$folio)
+                      ->get();
+        if($hora->fechaaut == NULL){ 
+            $hora -> fechades = now();
+            $hora -> save();
+            foreach($fol as $correo){
+                mail::to($correo->email)
+                    ->send(new SegundaValidacion($folio));
+                return 'Se ha enviado la respuesta, gracias.'; 
+            }      
+        } else{
+            return ('Ya ha sido autorizado');
+        }
+    }
+
+    public function requiere($folio){
+        $fol = registro::select('res.email')
+                      ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
+                      ->where('folio',$folio)
+                      ->get();
+        $hora = levantamiento::findOrFail($folio);
+        if($hora->fechades == NULL){ 
+            foreach($fol as $correo){
+                mail::to($correo->email)
+                    ->send(new SegundaValidacion($folio));
+                return 'Se ha enviado la respuesta, gracias.';
+            #dd($correo->email);  
+            }
+        } else{
+          return ('Este folio ya ha sido contestado');
+        }
+    }
+
+    public function segval ($folio){
+        $update = levantamiento::FindOrFail($folio);
+        $update->fechades = now(); 
+        $update->save();
+        return redirect(route('Editar'));
+    }
+
     function store(Request $data,$folio){ 
         $rename = $data->file('adjunto')->getClientOriginalName();
         $data->validate(['adjunto'=>'required']);{
