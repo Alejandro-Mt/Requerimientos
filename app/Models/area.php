@@ -9,4 +9,5 @@ class area extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_area';
+    protected $fillable = ['area'];
 }
