@@ -205,6 +205,9 @@ _____________________________________________________
 <td>@component('mail::button', ['url' => route('Rechazo',$dato->folio)])Rechazar @endcomponent</td>
 <td>@component('mail::button', ['url' => route('Respuesta',$dato->folio)])Autorizar @endcomponent</td> 
 </tr> 
+@else
+<td>@component('mail::button', ['url' => route('Requiere',$dato->folio)])Requiere @endcomponent</td>
+<td>@component('mail::button', ['url' => route('Libera',$dato->folio)])No requiere @endcomponent</td>
 @endif
 </table>
 @endforeach
