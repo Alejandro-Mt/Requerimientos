@@ -350,28 +350,32 @@
             $( "input:checkbox:checked" ).prop( "checked", false );
         });
         $(".ches,.chsi").on("change", function () {
-            var ches = $(".ches:checked").map(function () {
-                return $(this).val()
-            }).get();
-            var chsi = $(".chsi:checked").map(function () {
-                return $(this).val().replace(/\s+/g, '')
-            }).get();
-            var all = $("tbody tr").hide();
-            var sistemas = $(".sistemas").filter(function () {
-                var sistema = $(this).text().replace(/\s+/g, ''),
-                    index2 = $.inArray(sistema, chsi);
-                    return index2 >=0
-            }).parent()
-            if (!sistemas.length) sistemas = all
-            var estatus = $(".estatus").filter(function () {
-                var sestatus = $(this).text(),
-                    index = $.inArray(sestatus, ches);
-                return index >= 0
-            }).parent()
-            if (!estatus.length) estatus = all
-            sistemas.filter(estatus).show()
-            console.log(sistemas,estatus)
-        }).first().change()
+        var ches = $(".ches:checked").map(function () {
+            return $(this).val().replace(/\s+/g, '')
+        }).get();
+        var chsi = $(".chsi:checked").map(function () {
+            return $(this).val().replace(/\s+/g, '')
+        }).get();
+        
+        var all = $("tbody tr").hide();
+        var sistemas = $(".sistemas").filter(function () {
+            var sistema = $(this).text().replace(/\s+/g, ''),
+            	index2 = $.inArray(sistema, chsi);
+            	return index2 >=0
+        }).parent()
+        if (!sistemas.length) sistemas = all
+        var estatus = $(".estatus").filter(function () {
+            var sestatus = $(this).first().text().replace(/\s+/g, ''),
+                index = $.inArray(sestatus, ches);
+                console.log(sestatus);
+            return index >= 0
+        }).parent()
+        if (!estatus.length) estatus = all
+        sistemas.filter(estatus).show()
+        //console.log(sistemas,estatus)
+
+    }).first().change()
+
     });
 </script>
 <style>
