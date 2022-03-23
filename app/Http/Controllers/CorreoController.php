@@ -83,10 +83,18 @@ class CorreoController extends Controller
 
     protected function respuesta($folio){
         $hora = levantamiento::findOrFail($folio);
+        $fol = registro::select('res.email')
+                      ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
+                      ->where('registros.folio',$folio)
+                      ->get();
         if($hora->fechaaut == NULL){ 
             $hora -> fechaaut = now();
             $hora -> save();
-        return 'Se ha autorizado satisfactoriamente';        
+            foreach($fol as $correo){
+                mail::to($correo->email)
+                    ->send(new ValidacionRequerimiento($folio));
+                return 'Se ha autorizado satisfactoriamente';   
+            }     
         } else{
             return ('Ya ha sido autorizado');
         }
