@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\archivo;
 use App\Models\area;
-use App\Models\cliente;
+use App\Models\Cliente;
 use App\Models\comentario;
 use App\Models\departamento;
 use App\Models\estatu;
@@ -31,7 +32,7 @@ class MenuController extends Controller
         $subprocesos = subproceso::all();
         $estatus = estatu::join('registros as r','r.id_estatus','estatus.id_estatus')->groupby('estatus.id_estatus')->get();
         $sistemas = sistema::all();
-        $registros = registro::select('registros.*','e.*','l.fechaaut')
+        $registros = registro::select('registros.*','e.*','l.fechaaut','l.fechades')
                             ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
                             ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
                             ->orderby('registros.folio')
@@ -98,7 +99,8 @@ class MenuController extends Controller
                                     ->leftjoin ('users as u','u.id','comentarios.usuario')
                                     ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
                                     ->where('folio',$folio)->get();
-        return view('formatos.comentarios',compact('estatus','registros','comentarios'));
+        $archivos = archivo::where('folio',$folio)->get();
+        return view('formatos.comentarios',compact('archivos','comentarios','estatus','folio','registros'));
         #dd($comentarios);
     }
     public function comentar(Request $data){
@@ -120,7 +122,6 @@ class MenuController extends Controller
         return redirect(route('Avance',$data->folio));
         #dd($data->all());
     }
-    
     public function store(){
         //validat datos
         /*$this->validate($data, [
@@ -138,7 +139,7 @@ class MenuController extends Controller
         #$registros= registro::where('folio',$folio)->get();
         #$estatus = estatu::all();
         $areas = area::all();
-        $clientes = cliente::all();
+        $clientes = Cliente::all();
         $departamentos = departamento::all();
         $estatus = estatu::all();
         $funcionalidad = funcionalidad::all();

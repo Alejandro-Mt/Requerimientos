@@ -42,7 +42,7 @@
                         </div>
                         <div class="modal-footer">
                             <a class="btn btn-invert" data-bs-dismiss="modal">Cancelar</a>
-                            <button type="submit" class="btn btn-success btn-ok">Confirmar</a></button>
+                            <button type="submit" class="btn btn-success btn-ok">Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
             });
         });                 
     });    
-    </script>
+</script>
 
 @endsection
 

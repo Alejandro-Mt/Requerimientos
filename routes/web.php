@@ -83,6 +83,7 @@ Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->middleware('auth')->name('Editar');
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
 Route::get('/posponer/{folio}', [MenuController::class,'posponer'])->name('Posponer');
+Route::get('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
 Route::get('/formatos.requerimientos.formato.{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');
@@ -93,6 +94,11 @@ Route::post('/formatos.requerimientos.edit', [LevantamientosController::class, '
 Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
 Route::get('/correos.contenido.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
 Route::get('/correos.{folio}',[CorreoController::class, 'rechazo'])->name('Rechazo');
+##  metodos para correo  autorizacion 2 ##
+Route::get('libera.{folio}', [CorreoController::class, 'libera'])->name('Libera');
+Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('Requiere');
+Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut');
+Route::get('archivos.{folio}',[CorreoController::class,'libera']);
 Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
 Route::delete('file.borrar.{id}', [CorreoController::class, 'destroy'])->name('dfile');
 Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->middleware('auth')->name('Enviar');
@@ -127,7 +133,7 @@ route::get('formatos.comentarios.{folio}',[MenuController::class, 'avance'])->mi
 route::post('formatos.comentarios',[MenuController::class, 'comentar'])->name('Comentar');
 ##  metodos para Soporte ##
 route::get('soporte.nuevo',[BuildController::class, 'index'])->middleware('auth')->name('Soporte');
-route::post('soporte.ajustes',[BuildController::class, 'edit'])->name('AUser');
+route::post('soporte.ajustes',[BuildController::class, 'edit'])->name('SUser');
 ##  seg  ##
 route::get('soporte.niveles',[BuildController::class, 'edit'])->middleware('auth')->name('Seg');
 ##  metodos para Usuario ##

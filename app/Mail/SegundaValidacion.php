@@ -8,11 +8,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ValidacionRequerimiento extends Mailable
+class SegundaValidacion extends Mailable
 {
     use Queueable, SerializesModels;
-    public $datos;
 
+    public $datos;
     /**
      * Create a new message instance.
      *
@@ -21,10 +21,7 @@ class ValidacionRequerimiento extends Mailable
     public function __construct($folio)
     {
         //
-        $this->datos = registro::where('l.folio',$folio)
-                                ->leftjoin('levantamientos as l', 'registros.folio', 'l.folio')
-                                ->leftjoin('responsables as au','l.autorizacion','au.id_responsable')
-                                ->get();
+        $this->datos = registro::where('folio',$folio)->get();
     }
 
     /**
@@ -34,6 +31,12 @@ class ValidacionRequerimiento extends Mailable
      */
     public function build()
     {
-        return $this->markdown('correos.requerimiento');
+        foreach($this->datos as $validacion)
+        if ($validacion->fechades == NULL) {
+            return $this->markdown('correos.respuesta desarrollo.validar');
+        } else {
+            return $this->markdown('correos.respuesta desarrollo.novalidar');
+        }
+        #return dd($validacion->fechades);
     }
 }

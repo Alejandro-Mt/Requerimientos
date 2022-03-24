@@ -145,7 +145,7 @@
                                 </td>
                             <!-- Titulo -->
                                 <td class="estatus col-md-3 text-center">
-                                    @if ($registro->id_estatus==18)
+                                    @if ($registro->id_estatus==18 || $registro->id_estatus==14)
                                         <button type="button" class="w-100 btn btn-rounded text-dark">
                                             {{$registro->titulo}}
                                         </button>
@@ -187,13 +187,34 @@
                                                     <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="btnGroupVerticalDrop1">
                                                         @if ($p->pausa == 2 && $p->folio == $registro->folio)
                                                             <a class="dropdown-item" href="{{route('Play',$registro->folio)}}">{{$registro->titulo}}</a>
-                                                            <a class="dropdown-item" href="#">Cancelar</a>
+                                                            <a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#conf{{$loop->iteration}}">CANCELAR</a>
                                                         @else
                                                             <a class="dropdown-item" href="{{route('Posponer',$registro->folio)}}">POSPONER</a>
-                                                            <a class="dropdown-item" href="#">Cancelar</a>
+                                                            <a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#conf{{$loop->iteration}}">CANCELAR</a>
                                                         @endif
                                                     </div>
                                                 @endforeach
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
+                                <div id="conf{{$loop->iteration}}" class="modal fade" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                @foreach($pausa as $p)
+                                                    @if($p->folio == $registro->folio)
+                                                        <div class="text-center mt-2 mb-4">
+                                                            <a href="index.html" class="text-danger">¿Estas seguro de cancelar este requerimiento?</a>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a class="btn btn-invert" data-bs-dismiss="modal">Cancelar</a>
+                                                <a type="submit" class="btn btn-success btn-ok" href="{{route('Cancelar',$registro->folio)}}">Confirmar</a>
                                             </div>
                                         </div>
                                         <!-- /.modal-content -->
@@ -225,7 +246,32 @@
                                                 @endif
                                             @break
                                         @case(11)
+                                            @if ($registro->fechades == null)
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100"><a data-bs-toggle="modal" data-bs-target="#Adjuntos{{$loop->iteration}}" style="color:white">Cargar autorización</a></button> 
+                                                <!-- BEGIN MODAL -->
+                                                <div class="modal" id="Adjuntos{{$loop->iteration}}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header d-flex align-items-center">
+                                                                <h4 class="modal-title"><strong>Documentos adjuntos</strong></h4>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <a href="index.html" class="text-danger">Una vez autorizado no se podrán cargar nuevos archivos</a>
+                                                                <form  class="dropzone" action="{{route('Adjuntos',$registro->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
+                                                                </form> 
+                                                            <button type="submit" class="btn btn-success waves-effect waves-light text-white">
+                                                                <a href="{{route('Aut',$registro->folio)}}" style="color:white"> Autorizar</a>
+                                                            </button>
+                                                            <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                 <!-- End Modal -->
+                                            @else
                                                 <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeación</a></button>
+                                            @endif
                                             @break
                                         @case(9)
                                                 <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Análisis de Desarrollo</a></button>
@@ -243,12 +289,13 @@
                                                 <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white w-100" ><a href="#" style="color:white">Implementado</a></button>
                                             @break
                                         @default 
-                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-success text-white w-100" ><a href="#" style="color:white"></a></button>
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-danger text-white w-100" ><a href="#" style="color:white">Cancelado</a></button>
                                     @endswitch
                                 </td>
                             <!-- Menu -->
                                 <td class="col-md-2 align-items-center">
                                     @if ($registro->id_estatus <> 18)
+                                      @if ($registro->id_estatus <> 14)
                                         <div class="form-group row">
                                             <div class="col-md-2 col-lg-1 f-icon">
                                                 <a class="fas fa-plus" href="{{route('Subproceso',$registro->folio)}}" role="button" style="color:#3e5569"></a> 
@@ -268,6 +315,7 @@
                                                 <a href="{{route('Subproceso',$registro->folio)}}" style="color:white">Nuevo Subproceso</a>
                                             </button>-->
                                         </div>
+                                      @endif
                                     @endif
                                 </td>
                             </tr>
@@ -316,7 +364,7 @@
                                                             <label>Una vez Concluido el Subproceso este desaparecera</label>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <a class="btn btn-invert" data-bs-dismiss="modal">Cancelar</a>
+                                                            <a class="btn btn-invert" data-bs-dismiss="modal" href="">Cancelar</a>
                                                             <button type="submit" class="btn btn-success btn-ok"><a href="{{route('Concluir',$subproceso->subproceso)}}" style="color:white">Confirmar</a></button>
                                                         </div>
                                                     </div>
@@ -385,6 +433,32 @@
 </script>
 <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
 <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dropzone/dist/min/dropzone.min.css")}}"/>
+<script src="{{asset("assets/libs/dropzone/dist/min/dropzone.min.js")}}"></script>
+<!-- -------------------------------------------------------------- -->
+<!-- End Container fluid  -->
+<!-- -------------------------------------------------------------- -->
+
+<script>
+    Dropzone.options.myAwesomeDropzone = {
+        headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+        paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
+        //uploadMultiple: true,
+        maxFilesize: 150, // Tamaño máximo en MB
+        addRemoveLinks: true,
+        dictRemoveFile: "Remover",
+        removedfile: function(file) {
+            var name = file.name;        
+            $.ajax({
+                headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+                type: 'DELETE',
+                url: "file.borrar." + name,
+            });
+            var _ref;
+            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+        }
+    };
+</script>
 @endsection
 
 <script type="text/javascript">
