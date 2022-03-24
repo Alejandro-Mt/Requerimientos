@@ -263,9 +263,9 @@
                                             @break
                                         @case(11)
                                             @if ($registro->fechades == null)
-                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100"><a data-bs-toggle="modal" data-bs-target="#Adjuntos" style="color:white">Cargar autorización</a></button> 
+                                                <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100"><a data-bs-toggle="modal" data-bs-target="#Adjuntos{{$loop->iteration}}" style="color:white">Cargar autorización</a></button> 
                                                 <!-- BEGIN MODAL -->
-                                                <div class="modal" id="Adjuntos">
+                                                <div class="modal" id="Adjuntos{{$loop->iteration}}">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header d-flex align-items-center">
