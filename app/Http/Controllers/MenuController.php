@@ -98,8 +98,10 @@ class MenuController extends Controller
                                     ->leftjoin ('users as u','u.id','comentarios.usuario')
                                     ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
                                     ->where('folio',$folio)->get();
-        return view('formatos.comentarios',compact('estatus','registros','comentarios'));
-        #dd($comentarios);
+        $archivos = archivo::where('folio',$folio)->get();
+        $formatos = levantamiento::where('folio',$folio)->count();
+        return view('formatos.comentarios',compact('archivos','comentarios','estatus','folio','formatos','registros'));
+        #dd($formatos);
     }
     public function comentar(Request $data){
         //validat datos
