@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\archivo;
 use App\Models\area;
 use App\Models\Cliente;
 use App\Models\comentario;
 use App\Models\departamento;
 use App\Models\estatu;
 use App\Models\funcionalidad;
+use App\Models\levantamiento;
 use App\Models\pausa;
 use App\Models\puesto;
 use App\Models\registro;
