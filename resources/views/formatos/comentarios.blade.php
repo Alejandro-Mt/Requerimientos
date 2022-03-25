@@ -96,7 +96,123 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="card">
-              <div class="card-body">
+              <div class="card-body">  
+                <div class="row">
+                  <div class="col-xl-2 col-md-6 col-lg-10 d-flex align-items-center border-bottom">
+                    <h4 class="card-title">
+                      <span class="lstick d-inline-block align-middle"></span><strong>{{ __('DOCUMENTACIÓN') }}</strong>
+                    </h4>
+                  </div>
+                  <div class="col-xl-2 col-md-6 col-lg-2 d-flex align-items-center border-bottom">
+                    <button id="upload" type="button" class="btn waves-effect waves-light btn-outline-success">
+                      <a data-bs-toggle="modal" data-bs-target="#Adjuntos">
+                        <i class="feather-sm" data-feather="upload-cloud"></i>
+                      </a>
+                    </button>
+                  </div>
+                  <!-- BEGIN MODAL -->
+                  <div class="modal" id="Adjuntos">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header d-flex align-items-center">
+                            <h4 class="modal-title"><strong>Cargar documentos</strong></h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form  class="dropzone" action="{{route('Adjuntos',$folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone"></form> 
+                            <button type="submit" class="btn btn-success waves-effect waves-light text-white">
+                              <a href="{{route('Avance',$folio)}}" style="color:white"> Actualizar</a>
+                            </button>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- End Modal -->
+                  <div class="col-md-12">
+                    @foreach($archivos as $archivo)
+                      <form id="{{$loop->iteration}}" action="{{route('dfile',pathinfo($archivo->url, PATHINFO_FILENAME))}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone"> 
+                        {{csrf_field()}}
+                        @method('DELETE')
+                        @switch(pathinfo($archivo->url, PATHINFO_EXTENSION))
+                          @case('xlsx')
+                            <div class="d-flex align-items-center">
+                              <img src="{{asset("assets/images/icons/xls.png")}}" alt="user" width="32" class="shadow col-sm-1"/>  
+                              <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                              </button>
+                              <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete">
+                                <i class="feather-sm" data-feather="trash-2"></i>
+                              </button>
+                            </div>
+                            @break
+                          @case('docx')
+                            <div class="d-flex align-items-center">
+                              <img src="{{asset("assets/images/icons/doc.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
+                              <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                              </button>
+                              <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
+                                <i class="feather-sm" data-feather="trash-2"></i>
+                              </button>
+                            </div>
+                            @break
+                          @case('txt')
+                            <div class="d-flex align-items-center">
+                              <img src="{{asset("assets/images/icons/txt.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
+                              <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                              </button>
+                              <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
+                                <i class="feather-sm" data-feather="trash-2"></i>
+                              </button>
+                            </div>
+                            @break
+                          @case('pdf')
+                            <div class="d-flex align-items-center">
+                              <img src="{{asset("assets/images/icons/pdf.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
+                              <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}">
+                                  <i class="feather-sm"  href="{{asset("$archivo->url")}}" data-feather="download-cloud"></i>
+                                </a>
+                              </button>
+                              <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
+                                <i class="feather-sm" data-feather="trash-2"></i>
+                              </button>
+                            </div>
+                            @break
+                          @default
+                            <div class="d-flex align-items-center">
+                              <img src="{{asset("$archivo->url")}}" alt="user" width="24" class="shadow col-sm-1"/> 
+                              <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}">
+                                  <i class="feather-sm"  href="{{asset("$archivo->url")}}" data-feather="download-cloud"></i>
+                                </a>
+                              </button>
+                              <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
+                                <i class="feather-sm" data-feather="trash-2"></i>
+                              </button>
+                            </div>
+                        @endswitch
+                      </form> 
+                    @endforeach
+                    @foreach($registros as $format)
+                      @if($formatos <> 0)
+                        <div class="d-flex align-items-center">
+                          <img src="{{asset("assets/images/icons/pdf.png")}}" alt="user" width="32" class="shadow col-sm-1"/>  
+                          <h6 class="modal-title col-sm-9"><strong>{{"$format->folio $format->descripcion"}}</strong></h6>
+                          <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                            <a href="{{route("Archivo",$format->folio)}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                          </button>
+                        </div>
+                      @endif
+                    @endforeach  
+                  </div>
+                </div>
                 <h4 class="card-title border-bottom">
                   <span class="lstick d-inline-block align-middle"></span>Comentarios
                 </h4>
@@ -232,5 +348,46 @@
           </div>
         </div>
         <!-- End row -->
-    </div>    
+    </div>
+
+<link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dropzone/dist/min/dropzone.min.css")}}"/>
+<script src="{{asset("assets/libs/dropzone/dist/min/dropzone.min.js")}}"></script>
+<script>
+    Dropzone.options.myAwesomeDropzone = {
+      headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+      paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
+      //uploadMultiple: true,
+      maxFilesize: 150, // Tamaño máximo en MB
+      addRemoveLinks: true,
+      dictRemoveFile: "Remover",
+      removedfile: function(file) {
+        var name = file.name;        
+        $.ajax({
+          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+          type: 'DELETE',
+          url: "file.borrar." + name,
+        });
+        var _ref;
+        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+      }
+    };
+</script>  
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.delete').on('click', function(e) {
+      e.preventDefault();
+      var parent = $(this).parent().parent().attr('id');
+      var name = $(this).attr('id');
+      var dataString = 'item='+name;
+      $.ajax({
+        headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+        type: "DELETE",
+        url: "file.borrar."+name, 
+        success: function(response) {			
+          $('#'+parent).hide("slow");
+        }               
+      });
+    });                 
+  });    
+</script>
 @endsection
