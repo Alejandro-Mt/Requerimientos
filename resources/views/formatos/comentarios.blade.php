@@ -98,11 +98,13 @@
             <div class="card">
               <div class="card-body">  
                 <div class="row">
-                  <div class="col-xl-2 col-md-6 col-lg-10 d-flex align-items-center">
-                    <label for="doc" class="col-sm-6 text-end control-label col-form-label">{{ __('Documentos precargados') }}</label>
+                  <div class="col-xl-2 col-md-6 col-lg-10 d-flex align-items-center border-bottom">
+                    <h4 class="card-title">
+                      <span class="lstick d-inline-block align-middle"></span><strong>{{ __('DOCUMENTACIÓN') }}</strong>
+                    </h4>
                   </div>
-                  <div class="col-xl-2 col-md-6 col-lg-2 d-flex align-items-center">
-                    <button id="upload" type="button" class="btn waves-effect waves-light btn-outline-success delete">
+                  <div class="col-xl-2 col-md-6 col-lg-2 d-flex align-items-center border-bottom">
+                    <button id="upload" type="button" class="btn waves-effect waves-light btn-outline-success">
                       <a data-bs-toggle="modal" data-bs-target="#Adjuntos">
                         <i class="feather-sm" data-feather="upload-cloud"></i>
                       </a>
@@ -134,10 +136,13 @@
                         @switch(pathinfo($archivo->url, PATHINFO_EXTENSION))
                           @case('xlsx')
                             <div class="d-flex align-items-center">
-                              <img src="{{asset("assets/images/icons/xls.png")}}" alt="user" width="24" class="shadow col-sm-1"/>  
+                              <img src="{{asset("assets/images/icons/xls.png")}}" alt="user" width="32" class="shadow col-sm-1"/>  
                               <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
-                              <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 feather-sm fill-white"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                              </button>
+                              <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete">
+                                <i class="feather-sm" data-feather="trash-2"></i>
                               </button>
                             </div>
                             @break
@@ -145,8 +150,11 @@
                             <div class="d-flex align-items-center">
                               <img src="{{asset("assets/images/icons/doc.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
                               <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                              </button>
                               <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 feather-sm fill-white"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                <i class="feather-sm" data-feather="trash-2"></i>
                               </button>
                             </div>
                             @break
@@ -154,8 +162,11 @@
                             <div class="d-flex align-items-center">
                               <img src="{{asset("assets/images/icons/txt.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
                               <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                              </button>
                               <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 feather-sm fill-white"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                <i class="feather-sm" data-feather="trash-2"></i>
                               </button>
                             </div>
                             @break
@@ -163,8 +174,13 @@
                             <div class="d-flex align-items-center">
                               <img src="{{asset("assets/images/icons/pdf.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
                               <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}">
+                                  <i class="feather-sm"  href="{{asset("$archivo->url")}}" data-feather="download-cloud"></i>
+                                </a>
+                              </button>
                               <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 feather-sm fill-white"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                <i class="feather-sm" data-feather="trash-2"></i>
                               </button>
                             </div>
                             @break
@@ -172,13 +188,29 @@
                             <div class="d-flex align-items-center">
                               <img src="{{asset("$archivo->url")}}" alt="user" width="24" class="shadow col-sm-1"/> 
                               <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                              <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                                <a href="{{asset("$archivo->url")}}">
+                                  <i class="feather-sm"  href="{{asset("$archivo->url")}}" data-feather="download-cloud"></i>
+                                </a>
+                              </button>
                               <button id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" type="button" class="btn waves-effect waves-light btn-outline-danger delete col-sm-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 feather-sm fill-white"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                <i class="feather-sm" data-feather="trash-2"></i>
                               </button>
                             </div>
                         @endswitch
-                      </form>   
+                      </form> 
                     @endforeach
+                    @foreach($registros as $format)
+                      @if($formatos <> 0)
+                        <div class="d-flex align-items-center">
+                          <img src="{{asset("assets/images/icons/pdf.png")}}" alt="user" width="32" class="shadow col-sm-1"/>  
+                          <h6 class="modal-title col-sm-9"><strong>{{"$format->folio $format->descripcion"}}</strong></h6>
+                          <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                            <a href="{{route("Archivo",$format->folio)}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                          </button>
+                        </div>
+                      @endif
+                    @endforeach  
                   </div>
                 </div>
                 <h4 class="card-title border-bottom">

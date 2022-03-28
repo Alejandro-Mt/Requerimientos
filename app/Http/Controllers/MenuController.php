@@ -9,6 +9,7 @@ use App\Models\comentario;
 use App\Models\departamento;
 use App\Models\estatu;
 use App\Models\funcionalidad;
+use App\Models\levantamiento;
 use App\Models\pausa;
 use App\Models\puesto;
 use App\Models\registro;
@@ -100,8 +101,9 @@ class MenuController extends Controller
                                     ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
                                     ->where('folio',$folio)->get();
         $archivos = archivo::where('folio',$folio)->get();
-        return view('formatos.comentarios',compact('archivos','comentarios','estatus','folio','registros'));
-        #dd($comentarios);
+        $formatos = levantamiento::where('folio',$folio)->count();
+        return view('formatos.comentarios',compact('archivos','comentarios','estatus','folio','formatos','registros'));
+        #dd($formatos);
     }
     public function comentar(Request $data){
         //validat datos
