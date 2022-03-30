@@ -8,10 +8,12 @@ use App\Models\cronograma;
 use App\Models\desfase;
 use App\Models\implementacion;
 use App\Models\informacion;
+use App\Models\levantamiento;
 use App\Models\liberacion;
 use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\responsable;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use PHPUnit\Util\Json;
 
@@ -43,10 +45,24 @@ class PlaneacionController extends Controller
     public function create(request $data)
     #se comentan las actualizaciones de Calendario
     {
+        $registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
+        if($data['desfase'] == '1'){
+            $this->validate($data, ['motivodesfase' => "required"]);
+            $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
+        }
+        foreach($registro as $fecha){$this->validate($data, ['fechaCompReqC' => "required|date|after_or_equal:$fecha->fechades"]);}
         $verificar = planeacion::where('folio',$data['folio'])->count();
         if($data['fechaCompReqC']<>NULL){$fechaCompReqC=date("y/m/d", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
-        if($data['fechaCompReqR']<>NULL){$fechaCompReqR=date("y/m/d", strtotime($data['fechaCompReqR']));}else{$fechaCompReqR=NULL;}
+        if($data['fechaCompReqR']<>NULL){
+            if($data['fechaCompReqC'] <> NULL){
+                $this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
+            }
+            $fechaCompReqR=date("y/m/d", strtotime($data['fechaCompReqR']));
+        }else{
+            $fechaCompReqR=NULL;
+        }
         if($data['fechareact']<>NULL){$fechareact=date("y/m/d", strtotime($data['fechareact']));}else{$fechareact=NULL;}
+        if($data['id_estatus'] == 9){$this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);}
         if($verificar == 0){
             planeacion::create([
                 'folio' => $data['folio'],
@@ -180,7 +196,6 @@ class PlaneacionController extends Controller
         $estatus->id_estatus = $data->input('id_estatus');
         $estatus->save();
         return redirect(route('Editar'));
-        #dd($data);
     }
 
     /**
