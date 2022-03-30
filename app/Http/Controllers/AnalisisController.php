@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\analisis;
 use App\Models\desfase;
 use App\Models\informacion;
+use App\Models\planeacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
 
@@ -33,10 +34,24 @@ class AnalisisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
+        $val = planeacion::select('fechaCompReqR')->where('folio',$data['folio'])->get();
+        if($data['desfase'] == '1'){
+            $this->validate($data, ['motivodesfase' => "required"]);
+            $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
+        }
+        foreach($val as $fecha){$this->validate($data, ['fechaCompReqC' => "required|date|after_or_equal:$fecha->fechaCompReqR"]);}
         $verificar = analisis::where('folio',$data['folio'])->count();
         if($data['fechaCompReqC']<>NULL){$fechaCompReqC=date("y/m/d", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
-        if($data['fechaCompReqR']<>NULL){$fechaCompReqR=date("y/m/d", strtotime($data['fechaCompReqR']));}else{$fechaCompReqR=NULL;}
+        if($data['fechaCompReqR']<>NULL){
+            if($data['fechaCompReqC'] <> NULL){
+                $this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
+            }
+            $fechaCompReqR=date("y/m/d", strtotime($data['fechaCompReqR']));}
+        else{
+            $fechaCompReqR=NULL;
+        }
         if($data['fechareact']<>NULL){$fechareact=date("y/m/d", strtotime($data['fechareact']));}else{$fechareact=NULL;}
+        if($data['id_estatus'] == 7){$this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);}
         if($verificar == 0){
             analisis::create([
             'folio' => $data['folio'],
