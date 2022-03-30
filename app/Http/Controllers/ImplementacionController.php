@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\desfase;
 use App\Models\implementacion;
+use App\Models\liberacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +30,9 @@ class ImplementacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(request $data){
+    public function create(request $data){ 
+        $val = liberacion::select('fecha_lib_r')->where('folio',$data['folio'])->get();
+        foreach($val as $fecha){$this->validate($data, ['f_implementacion' => "required|date|after_or_equal:$fecha->fecha_lib_r"]);}
         $verificar = implementacion::where('folio',$data['folio'])->count();
         if($data['f_implementacion']<>NULL){$f_implementacion=date("y/m/d", strtotime($data['f_implementacion']));}else{$f_implementacion=NULL;}
         if($data['cronograma']==NULL){$data['cronograma']= 0;}
