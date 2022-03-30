@@ -48,17 +48,23 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha de Implementación*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="f_implementacion" type="text" 
+                                    <input name="f_implementacion" type="text" class="form-control mydatepicker required form-control @error('f_implementacion') is-invalid @enderror"
+                                    @if ($vacio == 0) value="{{ old('f_implementacion') }}" @endif 
                                     @foreach ($previo as $ant) 
-                                        @if($ant->f_implementacion == null) value="{{null}}" 
+                                        @if($ant->f_implementacion == null) value="{{ old('f_implementacion') }}"
                                             @else value="{{date('d-m-20y',strtotime($ant->f_implementacion))}}"
                                         @endif
-                                    @endforeach class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    @endforeach placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
                                         </span>
                                     </div>
+                                    @error('f_implementacion')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

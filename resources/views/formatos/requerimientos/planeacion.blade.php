@@ -5,7 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="card">
         <div class="box bg-cyan text-center">
-        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+            <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
             <h3 class="text-white">CONSTRUCCIÓN</h3>
         </div>
         <section>
@@ -140,7 +140,6 @@
                             <div class="col-sm-3">
                                 @foreach ($registros as $registro)
                                     <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-                            
                                 @endforeach
                             </div>
                         </div>
@@ -149,19 +148,25 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="fechaCompReqC"
+                                    <input name="fechaCompReqC" type="text" class="form-control mydatepicker required form-control @error('fechaCompReqC') is-invalid @enderror" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"  required autofocus
+                                        @if ($vacio == 0) value="{{ old('fechaCompReqC') }}" @endif 
                                         @foreach ($previo as $ant)
-                                            @if ($ant->fechaCompReqC <> NULL)
-                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" 
+                                            @if ($ant->fechaCompReqC == NULL)
+                                                value="{{ old('fechaCompReqC') }}"
                                             @else
-                                                value="{{null}}"
+                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" 
                                             @endif 
-                                        @endforeach type="text" class="form-control mydatepicker" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
+                                        @endforeach >
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
                                         </span>
                                     </div>
+                                    @error('fechaCompReqC')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -170,7 +175,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
                             <div class="col-md-8">
                                 <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                    name="evidencia" @foreach ($previo as $ant) value="{{$ant->evidencia}}" @endforeach placeholder="evidencia" required autofocus>
+                                    name="evidencia" @if ($vacio == 0) value="{{ old('evidencia') }}" @endif @foreach ($previo as $ant) @if($ant->evidencia == NULL) value="{{ old('evidencia') }}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
                                 @error('evidencia')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -184,26 +189,31 @@
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name = "fechaCompReqR"
+                                        @if ($vacio == 0) value="{{ old('fechaCompReqR') }}" @endif 
                                         @foreach ($previo as $ant)
                                             @if ($ant->fechaCompReqR <> NULL)
                                                 value="{{date('d-m-20y',strtotime($ant->fechaCompReqR))}}" 
                                             @else
-                                                value="{{null}}"
+                                                value="{{ old('fechaCompReqR') }}"
                                             @endif 
-                                        @endforeach type="text" class="form-control mydatepicker" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
-                                    <!--<input type="text" class="form-control mydatepicker" placeholder="dd/mm/yyyy">-->
+                                        @endforeach type="text" class="form-control mydatepicker required form-control @error('fechaCompReqR') is-invalid @enderror" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
                                         </span>
                                     </div>
+                                    @error('fechaCompReqR')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="desfase">Se Generó desfase</label>
                             <div class="col-md-8">
-                                <input type="checkbox" class="form-check-input" id="desfase" name="desfase" value="1" @foreach ($previo as $ant) @if ($ant->desfase==1) checked=true @endif @endforeach onchange="javascript:showContent()">
+                                <input type="checkbox" class="form-check-input" id="desfase" name="desfase" {{ (! empty(old('desfase')) ? 'checked' : '') }} @foreach ($previo as $ant) @if ($ant->desfase==1) checked="true" @endif @endforeach onchange="javascript:showContent()">
                             </div>
                         </div>
                         <div id="content" @if($vacio <> 0) @foreach ($previo as $ant) @if ($ant->desfase == 1) style="display: block;" @else style="display: none;" @endif @endforeach @else style='display: none;' @endif>
@@ -224,16 +234,15 @@
                                                 </option>
                                             @endif
                                         @endforeach
-                                        
                                         <option value={{null}}>Selección</option>
                                         @foreach ( $desfases as  $desfase)
                                             <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
                                         @endforeach 
-                                        <!--@error('motivodesfase')
+                                        @error('motivodesfase')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror -->                         
+                                        @enderror                        
                                     </select>
                                 </div>
                             </div>
@@ -285,19 +294,24 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivación</label>
                                 <div class= 'col-md-8'>
                                     <div class="input-group">
-                                        <input name="fechareact" 
+                                        <input name="fechareact"  type="text" class="form-control mydatepicker required form-control @error('fechareact') is-invalid @enderror"placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"
                                             @foreach ($previo as $ant)
                                                 @if ($ant->fechareact <> NULL)
                                                     value="{{date('d-m-20y',strtotime($ant->fechareact))}}" 
                                                 @else
-                                                    value="{{null}}"
+                                                    value="{{ old('fechareact') }}"
                                                 @endif 
-                                            @endforeach type="text" class="form-control mydatepicker"  placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
+                                            @endforeach>
                                         <div class="input-group-append">
                                             <span class="input-group-text h-100">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
                                         </div>
+                                        @error('fechareact')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -336,10 +350,12 @@
             element = document.getElementById("content");
             check = document.getElementById("desfase");
             if (check.checked) {
-                element.style.display='block'
+                element.style.display='block';
+                check.value= 1;
             }
             else {
-                element.style.display='none'
+                element.style.display='none';
+                check.value = 0;
             }
         }
         function showPause() {

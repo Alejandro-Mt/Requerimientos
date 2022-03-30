@@ -124,7 +124,7 @@ class CorreoController extends Controller
                       ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
                       ->where('folio',$folio)
                       ->get();
-        if($hora->fechaaut == NULL){ 
+        if($hora->fechades == NULL){ 
             $hora -> fechades = now();
             $hora -> save();
             foreach($fol as $correo){
@@ -134,6 +134,7 @@ class CorreoController extends Controller
             }      
         } else{
             return ('Ya ha sido autorizado');
+            #dd($hora);
         }
     }
 
