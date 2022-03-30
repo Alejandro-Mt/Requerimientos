@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\construccion;
 use App\Models\desfase;
 use App\Models\liberacion;
 use App\Models\registro;
@@ -29,11 +30,34 @@ class LiberacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
+        #$registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
+        $val = construccion::select('fechaCompReqR')->where('folio',$data['folio'])->get();
+        foreach($val as $fecha){$this->validate($data, ['fecha_lib_a' => "required|date|after_or_equal:$fecha->fechaCompReqR"]);}
         $verificar = liberacion::where('folio',$data['folio'])->count();
         if($data['fecha_lib_a']<>NULL){$fecha_lib_a=date("y/m/d", strtotime($data['fecha_lib_a']));}else{$fecha_lib_a=NULL;}
-        if($data['fecha_lib_r']<>NULL){$fecha_lib_r=date("y/m/d", strtotime($data['fecha_lib_r']));}else{$fecha_lib_r=NULL;}
-        if($data['inicio_lib']<>NULL){$inicio_lib=date("y/m/d", strtotime($data['inicio_lib']));}else{$inicio_lib=NULL;}
-        if($data['inicio_p_r']<>NULL){$inicio_p_r=date("y/m/d", strtotime($data['inicio_p_r']));}else{$inicio_p_r=NULL;}
+        if($data['fecha_lib_r']<>NULL){
+            if($data['fecha_lib_a'] <> NULL){
+                $this->validate($data, ['fecha_lib_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+            }
+            $fecha_lib_r=date("y/m/d", strtotime($data['fecha_lib_r']));
+        }else{$fecha_lib_r=NULL;}
+        if($data['inicio_lib']<>NULL){
+            if($data['fecha_lib_a'] <> NULL){
+                $this->validate($data, ['inicio_lib' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+            }
+            $inicio_lib=date("y/m/d", strtotime($data['inicio_lib']));
+        }else{$inicio_lib=NULL;}
+        if($data['inicio_p_r']<>NULL){
+            if($data['fecha_lib_a'] <> NULL){
+                $this->validate($data, ['inicio_p_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+            }
+            $inicio_p_r=date("y/m/d", strtotime($data['inicio_p_r']));
+        }else{$inicio_p_r=NULL;}
+        if($data['id_estatus'] == 2){
+            $this->validate($data, ['fecha_lib_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+            $this->validate($data, ['inicio_lib' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+            $this->validate($data, ['inicio_p_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+        }
         if($verificar == 0){
             liberacion::create([
                 'folio' => $data['folio'],
