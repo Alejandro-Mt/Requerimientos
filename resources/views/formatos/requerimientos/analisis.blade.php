@@ -26,145 +26,179 @@
                                 @endforeach
                             </div>
                         </div>
-                        
-                            <div class="form-group row">
-                                <label for="fechaCompReqC"
-                                    class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega de Requerimientos*</label>
-                                <div class= 'col-md-8'>
-                                    <div class="input-group">
-                                        <input name="fechaCompReqC" @foreach ($previo as $ant) @if($ant->fechaCompReqC == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" @endif @endforeach type="text" class="form-control mydatepicker" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text h-100">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
+                        <div class="form-group row">
+                            <label for="fechaCompReqC"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega*</label>
+                            <div class= 'col-md-8'>
+                                <div class="input-group">
+                                    <input name="fechaCompReqC" type="text" class="form-control mydatepicker required form-control @error('fechaCompReqC') is-invalid @enderror" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"  required autofocus
+                                        @if ($vacio == 0) value="{{ old('fechaCompReqC') }}" @endif 
+                                        @foreach ($previo as $ant)
+                                            @if ($ant->fechaCompReqC == NULL)
+                                                value="{{ old('fechaCompReqC') }}"
+                                            @else
+                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" 
+                                            @endif 
+                                        @endforeach >
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="evidencia"
-                                    class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
-                                <div class="col-md-8">
-                                    <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                        name="evidencia" @foreach ($previo as $ant) @if($ant->evidencia == 'null') value="{{NULL}}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
-                                    @error('evidencia')
+                                    @error('fechaCompReqC')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="evidencia"
+                                class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
+                            <div class="col-md-8">
+                                <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
+                                    name="evidencia" @if ($vacio == 0) value="{{ old('evidencia') }}" @endif @foreach ($previo as $ant) @if($ant->evidencia == NULL) value="{{ old('evidencia') }}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
+                                @error('evidencia')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="fechaCompReqR"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega Real*</label>
+                            <div class= 'col-md-8'>
+                                <div class="input-group">
+                                    <input name = "fechaCompReqR"
+                                        @if ($vacio == 0) value="{{ old('fechaCompReqR') }}" @endif 
+                                        @foreach ($previo as $ant)
+                                            @if ($ant->fechaCompReqR <> NULL)
+                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqR))}}" 
+                                            @else
+                                                value="{{ old('fechaCompReqR') }}"
+                                            @endif 
+                                        @endforeach type="text" class="form-control mydatepicker required form-control @error('fechaCompReqR') is-invalid @enderror" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text h-100">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                    @error('fechaCompReqR')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-end form-check-label" for="desfase">Se Generó desfase</label>
+                            <div class="col-md-8">
+                                <input type="checkbox" class="form-check-input" id="desfase" name="desfase" {{ (! empty(old('desfase')) ? 'checked' : '') }} @foreach ($previo as $ant) @if ($ant->desfase==1) checked="true" @endif @endforeach onchange="javascript:showContent()">
+                            </div>
+                        </div>
+                        <div id="content" @if($vacio <> 0) @foreach ($previo as $ant) @if ($ant->desfase == 1) style="display: block;" @else style="display: none;" @endif @endforeach @else style='display: none;' @endif>
                             <div class="form-group row">
-                                <label for="fechaCompReqR"
-                                    class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega de Requerimientos Real*</label>
+                                <label for="motivodesfase"
+                                    class="col-sm-2 text-end control-label col-form-label">Motivo de desfase*</label>
+                                <div class="col-md-8">
+                                    <select class="form-select @error ('motivodesfase') is-invalid @enderror" style="width: 100%; height:36px;"
+                                        id="motivodesfase" name="motivodesfase" tabindex="-1" aria-hidden="true" autofocus onchange="javascript:showPause()">
+                                        @foreach ($previo as $ant)    
+                                            @if ($ant->motivodesfase <> null)
+                                                <option value={{$ant->motivodesfase}}>
+                                                    @foreach ($desfases as $desfase)
+                                                        @if($desfase->id == $ant->motivodesfase)
+                                                            {{$desfase->motivo}}
+                                                        @endif
+                                                    @endforeach
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                        <option value={{null}}>Selección</option>
+                                        @foreach ( $desfases as  $desfase)
+                                            <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
+                                        @endforeach 
+                                        <!--@error('motivodesfase')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror -->                         
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="pause"  @if($vacio <> 0) @foreach ($previo as $ant) @if($ant->motivodesfase <> 6) style="display: none;" @endif @endforeach @else style='display: none;' @endif>
+                                <div class="form-group row">
+                                    <label for="motivopausa"
+                                        class="col-sm-2 text-end control-label col-form-label">Motivo de Pausa</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="required form-control @error('motivopausa') is-invalid @enderror" 
+                                            name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Motivo" autofocus>
+                                        <!--@error('motivopausa')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror-->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="evpausa"
+                                        class="col-sm-2 text-end control-label col-form-label">Evidencia de Pausa</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="required form-control @error('evpausa') is-invalid @enderror" 
+                                            name="evpausa" @foreach ($previo as $ant) value="{{$ant->evPausa}}" @endforeach placeholder="Link de Evidencia" autofocus>
+                                        <!--@error('evpausa')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="other" @if($vacio <> 0) @foreach ($previo as $ant) @if($ant->motivodesfase <> 7) style="display: none;" @endif @endforeach @else style='display: none;' @endif>
+                                <div class="form-group row">
+                                    <label for="otromotivo"
+                                        class="col-sm-2 text-end control-label col-form-label">Motivo</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="required form-control @error('otromotivo') is-invalid @enderror" 
+                                            name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Otro Motivo" autofocus>
+                                        <!--@error('otromotivo')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror-->
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="form-group row">
+                                <label for="fechareact"
+                                class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivación</label>
                                 <div class= 'col-md-8'>
                                     <div class="input-group">
-                                        <input name = "fechaCompReqR" 
-                                            @foreach ($previo as $ant) @if($ant->fechaCompReqR == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaCompReqR))}}"  @endif @endforeach type="text" class="form-control mydatepicker" id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
-                                        <!--<input type="text" class="form-control mydatepicker" placeholder="dd/mm/yyyy">-->
+                                        <input name="fechareact"  type="text" class="form-control mydatepicker required form-control @error('fechareact') is-invalid @enderror"placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"
+                                            @foreach ($previo as $ant)
+                                                @if ($ant->fechareact <> NULL)
+                                                    value="{{date('d-m-20y',strtotime($ant->fechareact))}}" 
+                                                @else
+                                                    value="{{ old('fechareact') }}"
+                                                @endif 
+                                            @endforeach>
                                         <div class="input-group-append">
                                             <span class="input-group-text h-100">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
                                         </div>
+                                        @error('fechareact')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                    <label class="col-sm-2 text-end form-check-label" for="desfase">Se Genero desfase</label>
-                                <div class="col-md-8">
-                                    <input type="checkbox" class="form-check-input" id="desfase" name="desfase" value="1" @foreach ($previo as $ant) @if ($ant->desfase==1) checked=true @endif @endforeach onchange="javascript:showContent()">
-                                </div>
-                            </div>
-                            <div id="content" @if($vacio <> 0) @foreach ($previo as $ant) @if ($ant->desfase == 1) style="display: block;" @else style="display: none;" @endif @endforeach @else style='display: none;' @endif>
-                                <div class="form-group row">
-                                    <label for="motivodesfase"
-                                        class="col-sm-2 text-end control-label col-form-label">Motivo de desfase*</label>
-                                    <div class="col-md-8">
-                                        <select class="form-select @error ('motivodesfase') is-invalid @enderror" style="width: 100%; height:36px;"
-                                            id="motivodesfase" name="motivodesfase" tabindex="-1" aria-hidden="true" autofocus onchange="javascript:showPause()">
-                                            @foreach ($previo as $ant)    
-                                                @if ($ant->motivodesfase <> null)
-                                                    <option value={{$ant->motivodesfase}}>
-                                                        @foreach ($desfases as $desfase)
-                                                            @if($desfase->id == $ant->motivodesfase)
-                                                                {{$desfase->motivo}}
-                                                            @endif
-                                                        @endforeach
-                                                    </option>
-                                                @endif
-                                            @endforeach
-                                            
-                                            <option value={{null}}>Selección</option>
-                                            @foreach ( $desfases as  $desfase)
-                                                <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
-                                            @endforeach 
-                                            <!--@error('motivodesfase')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror -->                         
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="pause"  @if($vacio <> 0) @foreach ($previo as $ant) @if($ant->motivodesfase <> 6) style="display: none;" @endif @endforeach @else style='display: none;' @endif>
-                                    <div class="form-group row">
-                                        <label for="motivopausa"
-                                            class="col-sm-2 text-end control-label col-form-label">Motivo de Pausa</label>
-                                        <div class="col-md-8">
-                                            <input type="text" class="required form-control @error('motivopausa') is-invalid @enderror" 
-                                                name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Motivo" autofocus>
-                                            <!--@error('motivopausa')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror-->
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="evpausa"
-                                            class="col-sm-2 text-end control-label col-form-label">Evidencia de Pausa</label>
-                                        <div class="col-md-8">
-                                            <input type="text" class="required form-control @error('evpausa') is-invalid @enderror" 
-                                                name="evpausa" @foreach ($previo as $ant) value="{{$ant->evPausa}}" @endforeach placeholder="Link de Evidencia" autofocus>
-                                            <!--@error('evpausa')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror-->
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="other" @if($vacio <> 0) @foreach ($previo as $ant) @if($ant->motivodesfase <> 7) style="display: none;" @endif @endforeach @else style='display: none;' @endif>
-                                    <div class="form-group row">
-                                        <label for="otromotivo"
-                                            class="col-sm-2 text-end control-label col-form-label">Motivo</label>
-                                        <div class="col-md-8">
-                                            <input type="text" class="required form-control @error('otromotivo') is-invalid @enderror" 
-                                                name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Otro Motivo" autofocus>
-                                            <!--@error('otromotivo')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror-->
-                                        </div>
-                                    </div>
-                                </div>                              
-                                <div class="form-group row">
-                                    <label for="fechareact"
-                                    class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivación</label>
-                                    <div class= 'col-md-8'>
-                                        <div class="input-group">
-                                            <input name="fechareact" @foreach ($previo as $ant) @if($ant->fechaReact == null) value="{{null}}" @else value="{{date('d-m-20y',strtotime($ant->fechaReact))}}" @endif @endforeach type="text" class="form-control mydatepicker"  placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text h-100">
-                                                    <i class="fa fa-calendar"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        </div>
                         <div class="card-body text-center">
                             <div class="card-body text-center">
                                 <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
@@ -195,10 +229,12 @@
             element = document.getElementById("content");
             check = document.getElementById("desfase");
             if (check.checked) {
-                element.style.display='block'
+                element.style.display='block';
+                check.value= 1;
             }
             else {
-                element.style.display='none'
+                element.style.display='none';
+                check.value= 0;
             }
         }
         function showPause() {
