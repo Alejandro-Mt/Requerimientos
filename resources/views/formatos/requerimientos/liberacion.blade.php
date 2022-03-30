@@ -35,7 +35,7 @@
                                         @else value="{{date('d-m-20y',strtotime($ant->fecha_lib_a))}}" 
                                         @endif 
                                       @endforeach
-                                      id="datepicker-autoclose" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                      placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
