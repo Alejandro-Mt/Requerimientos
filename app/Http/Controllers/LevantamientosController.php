@@ -35,6 +35,11 @@ class LevantamientosController extends Controller
      */
     
     protected function levantamiento(request $data){
+        $this->validate($data, [
+            'problema' => "max:250",
+            'general' => "max:250",
+            'detalle' => "max:250"
+        ]);
         levantamiento::create([
             'folio' => $data['folio'],
             'solicitante' => $data['solicitante'],
