@@ -1,6 +1,7 @@
 @extends('home')
 @section('content')
-
+<link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <div class="card">
     <div class="box bg-danger text-center">
     <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
@@ -20,7 +21,7 @@
                             class="col-sm-2 text-end control-label col-form-label">Folio/ID</label>
                         <div class="col-md-3">
                             @foreach ($registros as $registro)
-                                <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" 
+                                <input name="folio" type="text" class="required form-control  @error ('folio') is-invalid @enderror" 
                                     value={{$registro->folio}} readonly="readonly">                                  
                             @endforeach
                         </div>
@@ -29,8 +30,7 @@
                         <label for="solicitante"
                             class="col-sm-2 text-end control-label col-form-label">Solicitante*</label>
                         <div class="col-md-8">
-                            <input type="text" class="required form-control @error('solicitante') is-invalid @enderror" 
-                                name="solicitante" placeholder="Quien Solicita" required autofocus>
+                            <input type="text" class="required form-control @error('solicitante') is-invalid @enderror" value="{{old('solicitante')}}" name="solicitante" placeholder="Quien Solicita" required autofocus>
                             @error('solicitante')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -46,7 +46,11 @@
                                 style="width: 100%; height:36px;" name="departamento" tabindex="-1" aria-hidden="true" required autofocus>
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($departamentos as $departamento):
-                                    <option value = {{ $departamento->id }}>{{$departamento->departamento}}</option>;
+                                    @if(old('departamento') == $departamento->id)
+                                        <option value = {{ $departamento->id }} selected>{{$departamento->departamento}}</option>;
+                                    @else
+                                        <option value = {{ $departamento->id }}>{{$departamento->departamento}}</option>;
+                                    @endif
                                 @endforeach                     
                             </select>
                             @error('departamento')
@@ -80,12 +84,16 @@
                         <label for="autorizacion"
                             class="col-sm-2 text-end control-label col-form-label">Autorizo</label>
                         <div class="col-md-8">
-                            <select class="form-select @error ('autorizacion') is-invvalid @enderror" 
+                            <select class="form-select @error ('autorizacion') is-invalid @enderror" 
                                 style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($responsables as $autoriza)
                                     @if ($autoriza->id_area == 6)
-                                        <option value={{$autoriza->id_responsable}}>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>;
+                                        @if(old('autorizacion') == $autoriza->id_responsable)
+                                            <option value={{$autoriza->id_responsable}} selected>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>
+                                        @else
+                                            <option value={{$autoriza->id_responsable}}>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>
+                                        @endif
                                     @endif
                                 @endforeach; 
                                 @error('autorizacion')
@@ -101,11 +109,26 @@
                             class="col-sm-2 text-end control-label col-form-label">¿Existe previo?</label>
                         <div class="col-md-8">
                         <!--<div class="form-check">-->
-                            <input type="radio" value="1" class="form-check-input" id="customControlValidation1" name="previo" required>
-                            <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
-                        
-                            <input type="radio"  value="0" class="form-check-input" id="customControlValidation2" name="previo" required>
-                            <label class="form-check-label mb-0" for="customControlValidation1">No</label>
+                            @switch(old('previo'))
+                                @case(1)
+                                    <input type="radio" value="1" checked="true" class="form-check-input" id="customControlValidation1" name="previo" required>
+                                    <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
+                                    <input type="radio"  value="0" class="form-check-input" id="customControlValidation2" name="previo" required>
+                                    <label class="form-check-label mb-0" for="customControlValidation1">No</label>
+                                    @break
+                                @case(0)
+                                    <input type="radio" value="1" class="form-check-input" id="customControlValidation1" name="previo" required>
+                                    <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
+                                    <input type="radio"  value="0" checked="true" class="form-check-input" id="customControlValidation2" name="previo" required>
+                                    <label class="form-check-label mb-0" for="customControlValidation1">No</label>
+                                    @break
+                                @default
+                                    <input type="radio" value="1" class="form-check-input" id="customControlValidation1" name="previo" required>
+                                    <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
+                                
+                                    <input type="radio"  value="0" class="form-check-input" id="customControlValidation2" name="previo" required>
+                                    <label class="form-check-label mb-0" for="customControlValidation1">No</label>
+                            @endswitch
                         </div>
                         @error('previo')
                             <span class="invalid-feedback" role="alert">
@@ -117,21 +140,37 @@
                         <label for="problema"
                             class="col-sm-2 text-end control-label col-form-label">Descripcion del Problema*</label>
                         <div class="col-md-8">
-                            <input name="problema" type="text" class="required form-control @error ('problema') is-invvalid @enderror" 
-                                placeholder="Se detallado" required autofocus>
-                            @error('problema')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <div class="input-group">
+                                <input name="problema" type="text" class="required form-control @error ('problema') is-invalid @enderror" value="{{old('problema')}}" placeholder="Se detallado" required autofocus>
+                                @error('problema')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="impacto"
                             class="col-sm-2 text-end control-label col-form-label">Impacto en la Operacion*</label>
                         <div class="col-md-8">
-                            <select name="impacto" class="form-select @error ('impacto') is-invvalid @enderror" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="impacto" class="form-select @error ('impacto') is-invalid @enderror" style="height: 36px;width: 100%;" required autofocus>
                                 <option value={{null}}>Seleccion</option>
+                                @switch(old('impacto'))
+                                    @case(1)
+                                        <option value='1' selected>Baja</option>
+                                        @break
+                                    @case(2)
+                                        <option value='2' selected>Media</option>
+                                        @break
+                                    @case(3)
+                                        <option value='3' selected>Alta</option>
+                                        @break
+                                    @case(4)
+                                        <option value='4' selected>Critica</option>
+                                        @break
+                                    @default
+                                @endswitch
                                 <option value='1'>Baja</option>
                                 <option value='2'>Media</option>
                                 <option value='3'>Alta</option>
@@ -148,8 +187,7 @@
                         <label for="general"
                             class="col-sm-2 text-end control-label col-form-label">Descripcion General del Requerimiento*</label>
                         <div class="col-md-8">
-                            <input name="general" type="text" class="required form-control  @error ('general') is-invvalid @enderror" 
-                                placeholder="Se breve" required autofocus>
+                            <input name="general" type="text" class="required form-control  @error ('general') is-invalid @enderror" value="{{old('general')}}" placeholder="Se breve" required autofocus>
                             @error('general')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -161,8 +199,7 @@
                         <label for="detalle"
                             class="col-sm-2 text-end control-label col-form-label">Descripcion Especifica del Requerimiento*</label>
                         <div class="col-md-8">
-                            <input name="detalle" type="text" class="required form-control @error ('detalle') is-invvalid @enderror" 
-                                placeholder="Se detallado" required autofocus>
+                            <input name="detalle" type="text" class="required form-control @error ('detalle') is-invalid @enderror" value="{{old('detalle')}}" placeholder="Se detallado" required autofocus>
                             @error('detalle')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -174,8 +211,7 @@
                         <label for="esperado"
                             class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
                         <div class="col-md-8">
-                            <textarea name="esperado" type="text" class="required form-control @error ('esperado') is-invvalid @enderror" 
-                                placeholder="Que es lo que se espera" required autofocus></textarea>
+                            <textarea name="esperado" type="text" class="required form-control @error ('esperado') is-invalid @enderror" value="" placeholder="Que es lo que se espera" required autofocus>{{old('esperado')}}</textarea>
                             @error('esperado')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -189,9 +225,13 @@
                         <div class="col-md-8">
                             <select name="involucrados[]" class="select2 form-select mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($responsables as $responsable)
-                                    <option value="{{$responsable->id_responsable}}">{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
+                                @if(old('involucrados[]') == $responsable->id_responsable)
+                                    <option value={{$responsable->id_responsable}} selected>{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
+                                @else
+                                    <option value={{$responsable->id_responsable}}>{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
+                                @endif
                                 @endforeach
-                                @error('involucrados')
+                                @error('involucrados[]')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -264,5 +304,6 @@
     //focus: false, // set focus to editable area after initializing summernote
     });
 </script>
-
+<script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+<script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
 @endsection 
