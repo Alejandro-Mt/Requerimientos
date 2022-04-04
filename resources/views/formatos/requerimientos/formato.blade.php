@@ -46,11 +46,7 @@
                                 style="width: 100%; height:36px;" name="departamento" tabindex="-1" aria-hidden="true" required autofocus>
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($departamentos as $departamento):
-                                    @if(old('departamento') == $departamento->id)
-                                        <option value = {{ $departamento->id }} selected>{{$departamento->departamento}}</option>;
-                                    @else
-                                        <option value = {{ $departamento->id }}>{{$departamento->departamento}}</option>;
-                                    @endif
+                                    <option value="{{$departamento->id}}" {{old('departamento')==$departamento->id ? 'selected' : ''}}>{{$departamento->departamento}}</option>
                                 @endforeach                     
                             </select>
                             @error('departamento')
@@ -89,11 +85,7 @@
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($responsables as $autoriza)
                                     @if ($autoriza->id_area == 6)
-                                        @if(old('autorizacion') == $autoriza->id_responsable)
-                                            <option value={{$autoriza->id_responsable}} selected>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>
-                                        @else
-                                            <option value={{$autoriza->id_responsable}}>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>
-                                        @endif
+                                        <option value="{{$autoriza->id_responsable}}" {{old('autorizacion')==$autoriza->id_responsable ? 'selected' : ''}}>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>
                                     @endif
                                 @endforeach; 
                                 @error('autorizacion')
@@ -108,27 +100,11 @@
                         <label for="previo"
                             class="col-sm-2 text-end control-label col-form-label">¿Existe previo?</label>
                         <div class="col-md-8">
-                        <!--<div class="form-check">-->
-                            @switch(old('previo'))
-                                @case(1)
-                                    <input type="radio" value="1" checked="true" class="form-check-input" id="customControlValidation1" name="previo" required>
-                                    <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
-                                    <input type="radio"  value="0" class="form-check-input" id="customControlValidation2" name="previo" required>
-                                    <label class="form-check-label mb-0" for="customControlValidation1">No</label>
-                                    @break
-                                @case(0)
-                                    <input type="radio" value="1" class="form-check-input" id="customControlValidation1" name="previo" required>
-                                    <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
-                                    <input type="radio"  value="0" checked="true" class="form-check-input" id="customControlValidation2" name="previo" required>
-                                    <label class="form-check-label mb-0" for="customControlValidation1">No</label>
-                                    @break
-                                @default
-                                    <input type="radio" value="1" class="form-check-input" id="customControlValidation1" name="previo" required>
-                                    <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
-                                
-                                    <input type="radio"  value="0" class="form-check-input" id="customControlValidation2" name="previo" required>
-                                    <label class="form-check-label mb-0" for="customControlValidation1">No</label>
-                            @endswitch
+                            <input type="radio" value="1" {{old('previo')==1 ? 'checked' : ''}} class="form-check-input" id="customControlValidation1" name="previo" required>
+                            <label class="form-check-label mb-0" for="customControlValidation1">Si</label>
+                        
+                            <input type="radio"  value="0" {{old('previo')==0 ? 'checked' : ''}} class="form-check-input" id="customControlValidation2" name="previo" required>
+                            <label class="form-check-label mb-0" for="customControlValidation1">No</label>
                         </div>
                         @error('previo')
                             <span class="invalid-feedback" role="alert">
@@ -156,25 +132,10 @@
                         <div class="col-md-8">
                             <select name="impacto" class="form-select @error ('impacto') is-invalid @enderror" style="height: 36px;width: 100%;" required autofocus>
                                 <option value={{null}}>Seleccion</option>
-                                @switch(old('impacto'))
-                                    @case(1)
-                                        <option value='1' selected>Baja</option>
-                                        @break
-                                    @case(2)
-                                        <option value='2' selected>Media</option>
-                                        @break
-                                    @case(3)
-                                        <option value='3' selected>Alta</option>
-                                        @break
-                                    @case(4)
-                                        <option value='4' selected>Critica</option>
-                                        @break
-                                    @default
-                                @endswitch
-                                <option value='1'>Baja</option>
-                                <option value='2'>Media</option>
-                                <option value='3'>Alta</option>
-                                <option value='4'>Critica</option>                         
+                                <option value='1' {{old('impacto')==1 ? 'selected' : ''}}>Baja</option>
+                                <option value='2' {{old('impacto')==2 ? 'selected' : ''}}>Media</option>
+                                <option value='3' {{old('impacto')==3 ? 'selected' : ''}}>Alta</option>
+                                <option value='4' {{old('impacto')==4 ? 'selected' : ''}}>Critica</option>                         
                             </select>
                             @error('impacto')
                                 <span class="invalid-feedback" role="alert">
@@ -225,11 +186,7 @@
                         <div class="col-md-8">
                             <select name="involucrados[]" class="select2 form-select mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($responsables as $responsable)
-                                @if(old('involucrados[]') == $responsable->id_responsable)
-                                    <option value={{$responsable->id_responsable}} selected>{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
-                                @else
-                                    <option value={{$responsable->id_responsable}}>{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
-                                @endif
+                                    <option value="{{$responsable->id_responsable}}" {{ (collect(old('involucrados'))->contains($responsable->id_responsable)) ? 'selected':'' }}>{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
                                 @endforeach
                                 @error('involucrados[]')
                                     <span class="invalid-feedback" role="alert">
@@ -245,7 +202,7 @@
                         <div class="col-md-8">
                             <select name="relaciones[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($sistemas as $sistema)
-                                    <option value="{{$sistema->id_sistema}}">{{$sistema->nombre_s}}</option>
+                                    <option value="{{$sistema->id_sistema}}" {{ (collect(old('relaciones'))->contains($sistema->id_sistema)) ? 'selected':'' }}>{{$sistema->nombre_s}}</option>
                                 @endforeach
                                 @error('relaciones')
                                     <span class="invalid-feedback" role="alert">
@@ -261,7 +218,7 @@
                         <div class="col-md-8">
                             <select name="areas[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($areas as $area)
-                                    <option value="{{$area->id_area}}">{{$area->area}}</option>
+                                    <option value="{{$area->id_area}}" {{ (collect(old('areas'))->contains($area->id_area)) ? 'selected':'' }}>{{$area->area}}</option>
                                 @endforeach
                                 @error('areas')
                                     <span class="invalid-feedback" role="alert">
