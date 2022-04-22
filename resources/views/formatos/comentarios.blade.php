@@ -231,7 +231,12 @@
                             @endif
                           </div>
                           <div class="col-9">
-                            <textarea name="contenido" placeholder="Escribe tu Comentario" class="form-control border-0" style="resize: none"></textarea>
+                            <textarea name="contenido" placeholder="Escribe tu Comentario" class="form-control border-0 required form-control  @error ('contenido') is-invalid @enderror" style="resize: none">{{old('contenido')}}</textarea>
+                            @error('contenido')
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                              </span>
+                            @enderror  
                           </div>
                           <div class="col-1 text-end">
                             <button type="submit" class="btn btn-lg">
