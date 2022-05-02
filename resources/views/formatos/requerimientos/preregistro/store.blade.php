@@ -59,13 +59,18 @@
                         @endforeach
                     </td>
                     <td>
-                      <a href="{{route('AA',$solicitud->folio)}}" class="font-weight-medium link">{{$solicitud->descripcion}}</a>
+                        @if($solicitud->adjunto == 'si')
+                          <i class="feather-sm" data-feather="paperclip"></i>
+                          <a href="{{route('AA',$solicitud->folio)}}" class="font-weight-medium link">{{$solicitud->descripcion}}</a>
+                        @else
+                          <a class="font-weight-medium link">{{$solicitud->descripcion}}</a>
+                        @endif
                     </td>
                     <td>
-                      @if ($solicitud->estatus == 20)
-                        <a href="{{route('NR',$solicitud->descripcion)}}" class="fw-bold link">{{$solicitud->descripcion}}</a>
+                      @if ($solicitud->id_estatus == 20)
+                        <a href="{{route('NR',$solicitud->folio)}}" class="fw-bold link">{{$solicitud->folio}}</a>
                       @else
-                        <a class="fw-bold link">{{$solicitud->descripcion}}</a> 
+                        <a class="fw-bold link">{{$solicitud->folio}}</a> 
                       @endif
                     </td>
                     <td>
