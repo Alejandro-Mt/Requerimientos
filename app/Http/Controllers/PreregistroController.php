@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\SolicitudRequerimiento;
 use App\Models\archivo;
 use App\Models\clase;
 use App\Models\estatu;
@@ -10,8 +11,10 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitud;
+use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
 
@@ -58,13 +61,21 @@ class PreregistroController extends Controller
             'id_estatus' => 20,
             'descripcion' => $data['descripcion']
         ]);
-        if($data['adjunto'] == 'true'){
-            return redirect(route('Plus',$folio));
+        $coordinacion = user:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
+        $solicitud = solicitud::where('folio',$folio)->get();
+        $archivos = archivo::where ('folio', $folio)->get();
+        foreach ($coordinacion as $c){
+            mail::to($data['correo'])
+                ->cc(explode(',', $c->email))
+                ->send(new SolicitudRequerimiento($folio));
+            #dd($c->email);
+            if($data['adjunto'] == 'true'){
+                return redirect(route('Plus',$folio));
+            }
+            else{
+                return redirect(route('home'));
+            }
         }
-        else{
-            return redirect(route('home'))->with('alert', $folio);
-        }
-        dd($data);
     }
 
     /**
@@ -73,12 +84,13 @@ class PreregistroController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    function store(Request $data){ 
+    function store(){ 
+        $archivos = archivo::select('folio')->distinct()->get();
         $clientes = Cliente::all();
         $estatus = estatu::all();
         $sistemas = sistema::all();
-        $solicitudes = solicitud::all();
-        return view('formatos.requerimientos.preregistro.store',compact('clientes','estatus','sistemas','solicitudes'));
+        $solicitudes = solicitud::select('solicitudes.*',db::raw('if(a.folio = solicitudes.folio,"si","no") as adjunto'))->leftjoin('archivos as a','solicitudes.folio','a.folio')->distinct()->get();
+        return view('formatos.requerimientos.preregistro.store',compact('archivos','clientes','estatus','sistemas','solicitudes'));
     }
 
     function upload($folio){
