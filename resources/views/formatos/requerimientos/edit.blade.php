@@ -32,7 +32,7 @@
     <div class="row">
         <div class="card">
             <!--<div class="card-body">
-                <div class="button-group">
+                <div class="button-group col-md-6 col-lg-4 d-flex align-items-stretch">
                 <button class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Requerimientos</button>
                 <button class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Análisis</button>
                 <button class="btn btn-light-info text-info px-4 rounded-pill font-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">
