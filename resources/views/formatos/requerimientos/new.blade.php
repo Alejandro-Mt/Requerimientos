@@ -181,7 +181,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="Prioridad"
-                                class="col-sm-2 text-end control-label col-form-label">Prioridad*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Impacto*</label>
                             <div class="col-md-8">
                                 <select class="form-select"   style="width: 100%; height:36px;" id="prioridad" tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="0">Selección</option>
