@@ -11,7 +11,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitud;
-use App\Models\user;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -61,7 +61,7 @@ class PreregistroController extends Controller
             'id_estatus' => 20,
             'descripcion' => $data['descripcion']
         ]);
-        $coordinacion = user:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
+        $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
         $solicitud = solicitud::where('folio',$folio)->get();
         $archivos = archivo::where ('folio', $folio)->get();
         foreach ($coordinacion as $c){
