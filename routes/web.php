@@ -147,7 +147,7 @@ route::post('preregistro.crear',[PreregistroController::class, 'create'])->name(
 route::get('preregistro.carga.{folio}',[PreregistroController::class, 'upload'])->name('Plus');
 route::post('preregistro.archivos.{folio}',[PreregistroController::class,'data'])->name('Previsto');
 
-route::get('preregistro.listado',[PreregistroController::class, 'store'])->name('Admsol');
-route::get('preregistro.datos.{folio}',[PreregistroController::class, 'show'])->name('AA');
-route::get('requerimiento.nuevo.{folio}',[PreregistroController::class, 'edit'])->name('NR');
+route::get('preregistro.listado',[PreregistroController::class, 'store'])->middleware('auth')->name('Admsol');
+route::get('preregistro.datos.{folio}',[PreregistroController::class, 'show'])->middleware('auth')->name('AA');
+route::get('requerimiento.nuevo.{folio}',[PreregistroController::class, 'edit'])->middleware('auth')->name('NR');
 route::post('preregistro.rechazo.{folio}',[PreregistroController::class, 'destroy'])->name('RechazoP');
