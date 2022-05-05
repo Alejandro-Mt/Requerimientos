@@ -22,7 +22,7 @@ class CreateSolicitudesTable extends Migration
             $table->string('descripcion')->length( 250);
             $table->string('folio')->length(50)->unique();
             $table->Integer('id_estatus')->length(10)->unsigned();
-            $table->string('folior')->length(50)->unique();
+            $table->string('folior')->length(50)->unique()->nullable();
             $table->timestamps();
         });
     }
