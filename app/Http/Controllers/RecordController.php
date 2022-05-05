@@ -73,7 +73,8 @@ class RecordController extends Controller
         ]);
        if($data['preregistro'] != NULL){
             $update = solicitud::where('folio',$data['preregistro'])->first();
-            $update->id_estatus= '21';
+            $update->id_estatus = '21';
+            $update->folior = $folio;
             $update->save();
        }
         #dd($update);
