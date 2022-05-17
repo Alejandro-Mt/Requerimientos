@@ -18,6 +18,7 @@ use App\Http\Controllers\MaquetadoController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\PlaneacionController;
+use App\Http\Controllers\PreregistroController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\RecordController;
@@ -139,3 +140,14 @@ route::get('soporte.niveles',[BuildController::class, 'edit'])->middleware('auth
 ##  metodos para Usuario ##
 route::get('formatos.ajustes',[PermissionsController::class, 'ajustes'])->middleware('auth')->name('Ajustes');
 route::post('formatos.ajustes',[PermissionsController::class, 'edit'])->name('AUser');
+
+##  metodos para registro previo  ##
+route::get('preregistro',[PreregistroController::class, 'index'])->name('PreRegistro');
+route::post('preregistro.crear',[PreregistroController::class, 'create'])->name('ClienteSol');
+route::get('preregistro.carga.{folio}',[PreregistroController::class, 'upload'])->name('Plus');
+route::post('preregistro.archivos.{folio}',[PreregistroController::class,'data'])->name('Previsto');
+
+route::get('preregistro.listado',[PreregistroController::class, 'store'])->name('Admsol');
+route::get('preregistro.datos.{folio}',[PreregistroController::class, 'show'])->name('AA');
+route::get('requerimiento.nuevo.{folio}',[PreregistroController::class, 'edit'])->name('NR');
+route::post('preregistro.rechazo.{folio}',[PreregistroController::class, 'destroy'])->name('RechazoP');

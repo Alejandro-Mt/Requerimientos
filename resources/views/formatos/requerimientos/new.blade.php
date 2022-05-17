@@ -53,8 +53,13 @@
                             <label for="descripcion"
                                 class="col-sm-2 text-end control-label col-form-label">Descripción*</label>
                             <div class="col-md-8">
-                                <input type="text" class="required form-control @error('descripcion') is-invalid @enderror" 
-                                    name="descripcion" placeholder="Descripción" required autofocus>
+                                <input type="text" class="required form-control @error('descripcion') is-invalid @enderror" name="descripcion" placeholder="Descripción" required autofocus
+                                    @if ($datos != NULL)
+                                        @foreach ($datos as $dato)
+                                            value="{{$dato->descripcion}}"
+                                        @endforeach
+                                    @endif
+                                >
                                 @error('descripcion')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -88,7 +93,16 @@
                             <div class="col-md-8">
                                 <select class="form-select @error ('id_sistema') is-invvalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_sistema" tabindex="-1" aria-hidden="true" required autofocus>
-                                    <option value={{null}}>Selección</option>
+                                    @if ($datos != NULL)
+                                        @foreach ($datos as $dato)
+                                            @foreach ($sistema as $id)
+                                                @if ($id->id_sistema == $dato->id_sistema)
+                                                    <option value="{{$id->id_sistema}}">{{$id->nombre_s}}</option>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    @else  <option value="{{NULL}}">Selección</option>
+                                    @endif
                                     @foreach ($sistema as $valores):
                                         <option value={{$valores->id_sistema}}>{{$valores->nombre_s}}</option>;
                                     @endforeach;  
@@ -106,7 +120,16 @@
                             <div class="col-md-8">
                                 <select class="form-select @error ('id_cliente') is-invalid @enderror" 
                                     style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
-                                    <option value={{null}}>Selección</option>
+                                    @if ($datos != NULL)
+                                        @foreach ($datos as $dato)
+                                            @foreach ($cliente as $id)
+                                                @if ($id->id_cliente == $dato->id_cliente)
+                                                    <option value="{{$id->id_cliente}}">{{$id->nombre_cl}}</option>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    @else  <option value="{{NULL}}">Selección</option>
+                                    @endif
                                     @foreach ($cliente as $cliente)
                                         <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
@@ -158,7 +181,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="Prioridad"
-                                class="col-sm-2 text-end control-label col-form-label">Prioridad*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Impacto*</label>
                             <div class="col-md-8">
                                 <select class="form-select"   style="width: 100%; height:36px;" id="prioridad" tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="0">Selección</option>
@@ -180,7 +203,7 @@
                             <input type="text" name="id_area" value="6" visible="false">
                         </div>
                         <div class="card-body text-center">
-                            <button type="submit" class="btn btn-success text-white">Guardar</button>
+                            <button type="submit" name="preregistro" @if($datos != NULL) @foreach ($datos as $dato) value="{{$dato->folio}}" @endforeach @endif class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button href="{{('home') }}" type="reset" value="reset" class="btn btn-danger"><a href="{{('home') }}" style="color:white">Cancelar</a></button>
                         </div>

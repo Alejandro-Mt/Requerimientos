@@ -7,6 +7,7 @@ use App\Models\estatu;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
+use App\Models\solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -17,14 +18,15 @@ class RecordController extends Controller
         
         $clases = clase::all();
         $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
+        $datos = null;
         $estatus = estatu::all();
         $id = registro::latest('id_registro')->first();
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $responsable = responsable::orderby('apellidos', 'asc')->get();
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
-        return view('formatos.requerimientos.new',compact('clases','cliente','estatus','id','registros','responsable','sistema','vacio'));
-        #dd($registros);
+        return view('formatos.requerimientos.new',compact('clases','cliente','datos','estatus','id','registros','responsable','sistema','vacio'));
+        #dd($datos);
     }
 
     /*public function __construct()
@@ -69,9 +71,13 @@ class RecordController extends Controller
             'id_arquitecto' => $data['id_arquitecto'],
             'id_clase' => $data['id_clase']
         ]);
-        
-    #dd($folio);
-    return redirect(route('Nuevo'))->with('alert', $folio);
+       if($data['preregistro'] != NULL){
+            $update = solicitud::where('folio',$data['preregistro'])->first();
+            $update->id_estatus= '21';
+            $update->save();
+       }
+        #dd($update);
+        return redirect(route('Nuevo'))->with('alert', $folio);
     }
     
     public function update($folio)

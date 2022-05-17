@@ -142,8 +142,8 @@ $("#complex_head_col").DataTable({
 //    Setting defaults                         //
 //=============================================//
 var defaults = {
-  searching: false,
-  ordering: false,
+  searching: true,
+  ordering: true,
 };
 
 $("#setting_defaults").dataTable($.extend(true, {}, defaults, {}));

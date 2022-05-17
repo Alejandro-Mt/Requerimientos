@@ -51,13 +51,13 @@
                         <span class="hide-menu">Requerimientos</span>
                     </a>
                 </li>
-                <!--<li class="sidebar-item"> 
+                <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link"
-                        href="tables.html" aria-expanded="false">
+                        href="{{route('Admsol')}}" aria-expanded="false">
                         <i class="mdi mdi-border-inside"></i>
-                        <span class="hide-menu">Bugs</span>
+                        <span class="hide-menu">Solicitud cliente</span>
                     </a>
-                </li>-->
+                </li>
                 <!--<li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="grid.html" aria-expanded="false">

@@ -108,7 +108,7 @@ class MenuController extends Controller
     public function comentar(Request $data){
         //validat datos
         $this->validate($data, [
-            'contenido' => 'required'
+            'contenido' => 'required|max:250',
         ]);
         //insertar 
         comentario::create([

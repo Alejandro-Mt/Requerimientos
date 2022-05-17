@@ -30,7 +30,7 @@
     @endif
     <div class="row">
         <div class="card">
-            <div class="btn-toolbar justify-content-between">
+            <div class="button-group col-md-6 col-lg-4 d-flex align-items-stretch">
                 @if (Auth::user()->id_puesto > 5)
                     <button id="pestana1" type="button" class="btn btn-light-primary text-primary px-4 rounded-pill font-medium collapsed">Análisis</button>
                     <button id="pestana2" type="button" class="btn btn-light-success text-success px-4 rounded-pill font-medium collapsed">Requerimientos</button>
