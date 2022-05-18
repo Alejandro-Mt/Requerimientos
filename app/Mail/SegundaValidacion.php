@@ -21,7 +21,9 @@ class SegundaValidacion extends Mailable
     public function __construct($folio)
     {
         //
-        $this->datos = registro::where('folio',$folio)->get();
+        $this->datos = registro::where('registros.folio',$folio)
+                        ->leftjoin('levantamientos as l','registros.folio','l.folio')
+                        ->get();
     }
 
     /**
@@ -31,12 +33,6 @@ class SegundaValidacion extends Mailable
      */
     public function build()
     {
-        foreach($this->datos as $validacion)
-        if ($validacion->fechades == NULL) {
-            return $this->markdown('correos.respuesta desarrollo.validar');
-        } else {
-            return $this->markdown('correos.respuesta desarrollo.novalidar');
-        }
-        #return dd($validacion->fechades);
+        return $this->markdown('correos.respuesta desarrollo.validar');
     }
 }
