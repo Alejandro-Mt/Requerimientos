@@ -12,7 +12,8 @@ class comentario extends Model
         'folio',
         'usuario',
         'contenido',
-        'respuesta'
+        'respuesta',
+        'id_estatus'
     ];
     
 }

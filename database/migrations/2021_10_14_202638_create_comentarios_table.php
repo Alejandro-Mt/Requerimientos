@@ -19,6 +19,7 @@ class CreateComentariosTable extends Migration
             $table->integer('usuario')->unsigned();
             $table->string('contenido');
             $table->string('respuesta')->nullable();
+            $table->string('id_estatus');
             $table->timestamps();
         });
     }

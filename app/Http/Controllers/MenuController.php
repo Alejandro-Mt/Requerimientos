@@ -96,7 +96,8 @@ class MenuController extends Controller
                                             'contenido',
                                             'p.puesto',
                                             'respuesta',
-                                            'comentarios.created_at')
+                                            'comentarios.created_at',
+                                            'id_estatus')
                                     ->leftjoin ('users as u','u.id','comentarios.usuario')
                                     ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
                                     ->where('folio',$folio)->get();
@@ -111,12 +112,16 @@ class MenuController extends Controller
             'contenido' => 'required|max:250',
         ]);
         //insertar 
+        $e = registro::select('id_estatus')->where('folio',$data['folio'])->get();
+        foreach ($e as $estatus)
+         
         comentario::create([
             'folio'=> $data['folio'],
             'pausa'=> '1',
             'usuario' => auth::user()->id ,
             'contenido' => $data['contenido'],
             'respuesta' => $data['respuesta'],
+            'id_estatus' => $estatus->id_estatus
         ]);
         //Redireccionar
         #$registros= registro::where('folio',$folio)->get();
