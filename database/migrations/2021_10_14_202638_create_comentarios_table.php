@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSolicitudesTable extends Migration
+class CreateComentariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateSolicitudesTable extends Migration
      */
     public function up()
     {
-        Schema::create('solicitudes', function (Blueprint $table) {
+        Schema::create('comentarios', function (Blueprint $table) {
             $table->id();
-            $table->string('solicitante')->length( 250);
-            $table->string('correo')->length( 250);
-            $table->integer('id_cliente')->length(10)->unsigned()->index();
-            $table->Integer('id_sistema')->length(10)->unsigned()->index();
-            $table->string('descripcion')->length( 250);
-            $table->string('folio')->length(50)->unique();
-            $table->Integer('id_estatus')->length(10)->unsigned();
-            $table->string('folior')->nullable()->length(50)->unique();
+            $table->string('folio');
+            $table->integer('usuario')->unsigned();
+            $table->string('contenido');
+            $table->string('respuesta')->nullable();
+            $table->string('id_estatus');
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ class CreateSolicitudesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('solicitudes');
+        Schema::dropIfExists('comentarios');
     }
 }
