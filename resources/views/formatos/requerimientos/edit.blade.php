@@ -374,6 +374,7 @@
                     </tbody>
                 </table>
             </div>
+            {{ $registros->links() }}
         </div>
     </div>
 </body>
