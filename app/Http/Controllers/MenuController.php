@@ -22,13 +22,6 @@ use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
-   
-    /*public function create()
-    {
-        return view('formatos.requerimientos.new');
-    }*/
-
-
     public function edit(){
         $subprocesos = subproceso::all();
         $estatus = estatu::join('registros as r','r.id_estatus','estatus.id_estatus')->groupby('estatus.id_estatus')->get();
@@ -36,8 +29,9 @@ class MenuController extends Controller
         $registros = registro::select('registros.*','e.*','l.fechaaut','l.fechades')
                             ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
                             ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
-                            ->orderby('registros.folio')
-                            ->get();
+                            ->orderby('registros.folio','desc')
+                            #->get()
+                            ->paginate(20);
         $pausa = pausa::select('r.folio',pausa::raw('max(pausas.pausa) as pausa'))->rightjoin('registros as r','r.folio', 'pausas.folio')->groupby('r.folio')->get();
         foreach ($pausa as $p);
         $vacio = pausa::count();
@@ -87,7 +81,6 @@ class MenuController extends Controller
         return redirect(route('Editar'));
         #dd($concluir);
     }
-    
     public function avance($folio){
         $registros= registro::where('folio',$folio)->get();
         $estatus = estatu::all();
@@ -115,6 +108,7 @@ class MenuController extends Controller
         //insertar 
         $e = registro::select('id_estatus')->where('folio',$data['folio'])->get();
         foreach ($e as $estatus)
+         
         comentario::create([
             'folio'=> $data['folio'],
             'pausa'=> '1',
@@ -123,7 +117,11 @@ class MenuController extends Controller
             'respuesta' => $data['respuesta'],
             'id_estatus' => $estatus->id_estatus
         ]);
+        //Redireccionar
+        #$registros= registro::where('folio',$folio)->get();
+        #$estatus = estatu::all();
         return redirect(route('Avance',$data->folio));
+        #dd($data->all());
     }
     public function store(){
         //validat datos
