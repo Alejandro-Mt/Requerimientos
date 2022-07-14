@@ -36,8 +36,9 @@ class MenuController extends Controller
         $registros = registro::select('registros.*','e.*','l.fechaaut','l.fechades')
                             ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
                             ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
-                            ->orderby('registros.folio')
-                            ->get();
+                            ->orderby('registros.folio','desc')
+                            #->get()
+                            ->paginate(20);
         $pausa = pausa::select('r.folio',pausa::raw('max(pausas.pausa) as pausa'))->rightjoin('registros as r','r.folio', 'pausas.folio')->groupby('r.folio')->get();
         foreach ($pausa as $p);
         $vacio = pausa::count();
