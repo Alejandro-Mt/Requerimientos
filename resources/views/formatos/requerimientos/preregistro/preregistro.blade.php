@@ -19,13 +19,21 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-body wizard-content">
-                <div class="box text-center">
-                <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
-                    <h3 class="text-dark">SOLICITAR REQUERIMIENTO</h3>
-                </div>
+                    <div class="box text-center">
+                    <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
+                        <h3 class="text-dark">SOLICITAR REQUERIMIENTO</h3>
+                    </div>
                     <form method="POST" action="{{route ('ClienteSol')}}" class="mt-5">
                         {{ csrf_field() }}
-                        <div>
+                            <div class="text-right">
+                                <li class="sidebar-item">
+                                    <a href="{{route('Estadistico')}}" class="text-dark">
+                                        <i class="fa fa-line-chart" aria-hidden="true">
+                                        <span class="hide-menu">Graficos</span>
+                                        </i>
+                                    </a>
+                                </li>
+                            </div>
                             <section>
                                 <div class="d-none">
                                     <div class="col-md-3">
@@ -124,7 +132,6 @@
                                     <button href="{{ url('/') }}" type="reset" value="reset" class="btn btn-danger"><a href="{{url('/') }}" style="color:white">Cancelar</a></button>
                                 </div>
                             </section>
-                        </div>
                         <!-- BEGIN MODAL -->
                         <div class="modal" id="collapseExample">
                             <div class="modal-dialog">
