@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\analisis;
+use App\Models\bitacora;
 use App\Models\desfase;
 use App\Models\informacion;
 use App\Models\planeacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnalisisController extends Controller
 {
@@ -66,6 +68,35 @@ class AnalisisController extends Controller
             ]);
         }
         else{
+            $previo = analisis::select('*')->where('folio',$data['folio'])->get();
+            foreach($previo as $fecha){
+                if(date('y/m/d', strtotime($fecha->fechaCompReqC)) <> $fechaCompReqC){
+                    if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
+                        bitacora::create([
+                            'id_user' => auth::user()->id,
+                            'usuario' => auth::user()->fullname,
+                            'id_estatus' => '9',
+                            'campo' => 'Fechas de análisis actualizadas'
+                        ]);
+                    }else{
+                        bitacora::create([
+                            'id_user' => auth::user()->id,
+                            'usuario' => auth::user()->fullname,
+                            'id_estatus' => '9',
+                            'campo' => 'Fecha compromiso cliente'
+                        ]);
+                    }
+                }else{
+                    if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
+                        bitacora::create([
+                            'id_user' => auth::user()->id,
+                            'usuario' => auth::user()->fullname,
+                            'id_estatus' => '9',
+                            'campo' => 'Fecha compromiso real'
+                        ]);
+                    }
+                }
+            }
             $update = analisis::select('*')->where('folio',$data['folio'])->first();
             $update->fechaCompReqC = $fechaCompReqC;
             $update->evidencia = $data['evidencia'];
