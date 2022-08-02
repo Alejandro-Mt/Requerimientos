@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\analisis;
+use App\Models\bitacora;
 use App\Models\construccion;
 use App\Models\cronograma;
 use App\Models\desfase;
@@ -15,6 +16,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use PHPUnit\Util\Json;
 
 class PlaneacionController extends Controller
@@ -50,7 +52,7 @@ class PlaneacionController extends Controller
             $this->validate($data, ['motivodesfase' => "required"]);
             $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
         }
-        foreach($registro as $fecha){$this->validate($data, ['fechaCompReqC' => "required|date|after_or_equal:$fecha->fechades"]);}
+        #foreach($registro as $fecha){$this->validate($data, ['fechaCompReqC' => "required|date|after_or_equal:$fecha->fechades"]);}
         $verificar = planeacion::where('folio',$data['folio'])->count();
         if($data['fechaCompReqC']<>NULL){$fechaCompReqC=date("y/m/d", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
         if($data['fechaCompReqR']<>NULL){
@@ -84,6 +86,36 @@ class PlaneacionController extends Controller
             ]);
         }
         else{
+            $nombre = auth::user()->nombre;
+            $previo = planeacion::select('*')->where('folio',$data['folio'])->get();
+            foreach($previo as $fecha){
+                if(date('y/m/d', strtotime($fecha->fechaCompReqC)) <> $fechaCompReqC){
+                    if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
+                        bitacora::create([
+                            'id_user' => auth::user()->id,
+                            'usuario' => auth::user()->fullname,
+                            'id_estatus' => $data['id_estatus'],
+                            'campo' => 'Fechas de planeación actualizadas'
+                        ]);
+                    }else{
+                        bitacora::create([
+                            'id_user' => auth::user()->id,
+                            'usuario' => auth::user()->fullname,
+                            'id_estatus' => $data['id_estatus'],
+                            'campo' => 'Fecha compromiso cliente'
+                        ]);
+                    }
+                }else{
+                    if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
+                        bitacora::create([
+                            'id_user' => auth::user()->id,
+                            'usuario' => auth::user()->fullname,
+                            'id_estatus' => $data['id_estatus'],
+                            'campo' => 'Fecha compromiso real'
+                        ]);
+                    }
+                }
+            }
             $update = planeacion::select('*')->where('folio',$data['folio'])->first();
             $update->fechaCompReqC = $fechaCompReqC;
             $update->evidencia = $data['evidencia'];
