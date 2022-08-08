@@ -177,4 +177,73 @@ class PreregistroController extends Controller
         $folio->id_estatus = 22;
         $folio->save();
     }
+
+    public function chart()
+    {
+        # chart
+        $estatus = db::table('registros as r')
+                    ->select('titulo')
+                    ->join('estatus as e','r.id_estatus','e.id_estatus')
+                    ->groupBy('e.id_estatus')
+                    ->orderBy('titulo')
+                    ->get();
+
+        $SxR = db::table('registros as r')
+                    ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),
+                            #db::raw("group_concat(r.id_cliente) as data")
+                            db::raw("count(r.id_responsable) as y"))
+                    ->join('responsables as re','r.id_responsable','re.id_responsable')
+                    ->groupBy('re.nombre_r')
+                    ->orderBy('re.nombre_r')
+                    ->get();
+        ### selects para grafico de responsables ###
+        $RxR = db::table('registros as r')
+                    ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),
+                            db::raw("group_concat(r.folio) as data"))
+                    ->join('responsables as re','r.id_responsable','re.id_responsable')
+                    ->groupBy('re.nombre_r')
+                    ->orderBy('re.nombre_r')
+                    ->get();
+        $clientes = db::table('registros as r')
+                    ->distinct()
+                    ->select('c.nombre_cl as categories')
+                    ->join('clientes as c','r.id_cliente','c.id_cliente')
+                    ->orderBy('c.nombre_cl')
+                    ->get();
+    ### selects para grafico de clientes ###
+        $RxC = db::table('registros as r')
+                    ->select(db::raw("nombre_cl as name"),
+                            db::raw("count(r.folio) as y"))
+                    ->join('clientes as c','r.id_cliente','c.id_cliente')
+                    ->groupBy('nombre_cl')
+                    ->orderBy('nombre_cl')
+                    ->get();
+        $RxS = db::table('registros as r')
+                    ->select(db::raw("nombre_s as name"),
+                            db::raw("count(folio) as y"))
+                    ->join('sistemas as s','r.id_sistema','s.id_sistema')
+                    ->groupBy('nombre_s')
+                    ->orderBy('nombre_s')
+                    ->get();
+        $ex = 
+            db::
+            table(
+                db::
+                table('registros as r')
+                ->select(db::raw('COUNT(nombre_cl) name'), 'c.nombre_cl', 'e.titulo')
+                ->join('clientes as c','c.id_cliente','r.id_cliente')
+                ->join('estatus as e', 'e.id_estatus', 'r.id_estatus')
+                ->groupBy('r.id_estatus', 'r.id_cliente'))->
+            select(db::raw('nombre_cl name, group_concat(name) data'))
+            ->groupBy('nombre_cl')
+            ->orderBy('titulo')->get();
+        $exa = db::
+            table('registros as r')
+            ->select(db::raw('count(id_registro) as total, e.titulo, c.nombre_cl'))
+            ->join('clientes as c','c.id_cliente','r.id_cliente')
+            ->join('estatus as e', 'e.id_estatus', 'r.id_estatus')
+            ->groupBy('r.id_estatus', 'r.id_cliente')
+            ->orderBy('nombre_cl')->get();
+        return view('cliente.estadistico',compact('clientes','estatus','ex','exa','RxR','RxC','RxS','SxR'));
+    }
 }

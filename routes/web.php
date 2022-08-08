@@ -151,3 +151,4 @@ route::get('preregistro.listado',[PreregistroController::class, 'store'])->name(
 route::get('preregistro.datos.{folio}',[PreregistroController::class, 'show'])->name('AA');
 route::get('requerimiento.nuevo.{folio}',[PreregistroController::class, 'edit'])->name('NR');
 route::post('preregistro.rechazo.{folio}',[PreregistroController::class, 'destroy'])->name('RechazoP');
+route::get('cliente.graficos',[PreregistroController::class, 'chart'])->name('Estadistico');

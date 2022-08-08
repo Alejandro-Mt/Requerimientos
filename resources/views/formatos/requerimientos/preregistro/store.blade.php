@@ -70,7 +70,11 @@
                       @if ($solicitud->id_estatus == 20)
                         <a href="{{route('NR',$solicitud->folio)}}" class="fw-bold link">{{$solicitud->folio}}</a>
                       @else
-                        <a class="fw-bold link">{{$solicitud->folio}}</a> 
+                        @if ($solicitud->folior == null)
+                          <a class="fw-bold link">{{$solicitud->folio}}</a> 
+                        @else
+                          <a class="fw-bold link">{{$solicitud->folior}}</a> 
+                        @endif
                       @endif
                     </td>
                     <td>
@@ -87,7 +91,7 @@
                         @if($solicitud->id_sistema == $sistema->id_sistema)
                           {{$sistema->nombre_s}}
                         @endif
-                      @endforeach{{$solicitud->id_sistema}}</td>
+                      @endforeach</td>
                   </tbody>
                   <!-- BEGIN MODAL -->
                   <div class="modal" id="estatus{{$loop->iteration}}">

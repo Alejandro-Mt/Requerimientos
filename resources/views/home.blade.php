@@ -93,8 +93,6 @@
     <script src="{{asset("assets/js/custom.min.js")}}"></script>
     <script src="{{asset("assets/libs/jquery-steps/build/jquery.steps.min.js")}}"></script>
     <script src="{{asset("assets/libs/jquery-validation/dist/jquery.validate.min.js")}}"></script>
-    <!-- Custom JavaScript -
-    <script src="{{asset("assets/libs/apexcharts/dist/apexcharts.min.js")}}"></script>
     <!--This page JavaScript -->
     <!-- <script src="{{asset("assets/js/pages/dashboards/dashboard1.js")}}"></script> -
     <script src="{{asset("assets/js/pages/dashboards/dashboard2.js")}}"></script>-->
