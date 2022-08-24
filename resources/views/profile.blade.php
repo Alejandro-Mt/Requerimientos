@@ -74,7 +74,7 @@
                 </div>
                 <!-- End Modal -->
             </div>
-            <div class="text-center bg-extra-light">
+            <!--<div class="text-center bg-extra-light">
               <div class="row">
                 <div class="col-6 p-3 border-right">
                   <h4 class="mb-0 font-weight-medium">1099</h4>
@@ -97,7 +97,7 @@
                 "
                 >Follow me</a
               >
-            </div>
+            </div>-->
           </div>
         </div>
         <div class="col-lg-6">
@@ -266,6 +266,69 @@
         <!-- -------------------------------------------------------------- -->
       </div>
       <!-- End Row -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="border-bottom title-part-padding">
+              <h4 class="card-title mb-0">Excel</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="fechas" class="table table-striped table-bordered display text-nowrap" style="width: 100%">
+                  <thead>
+                    <tr>
+                      <th class="header">FOLIO</th>
+                      <th class="header">REQUERIMIENTO</th>
+                      <th class="header">LEVANTAMIENTO</th>
+                      <th class="header">CONSTRUCCIÓN</th>
+                      <th class="header">LIBERACIÓN</th>
+                      <th class="header">IMPLEMENTACIÓN</th>
+                      <th class="header">TOTAL</th>
+                      <th class="header">SOLICITANTE</th>
+                      <th class="header">CLIENTE</th>
+                      <th class="header">SISTEMA</th>
+                      <th class="header">ESTATUS</th>
+                      <th class="header">RESPONSABLE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($fechas as $fecha)
+                      <tr>
+                        <td>{{$fecha->folio}}</td>
+                        <td>{{$fecha->req}}</td>
+                        <td>{{$fecha->levantamiento}}</td>
+                        <td>{{$fecha->construccion}}</td>
+                        <td>{{$fecha->liberacion}}</td>
+                        <td>{{$fecha->implementacion}}</td>
+                        <td>{{$fecha->total}}</td>
+                        <td>{{$fecha->solicitante}}</td>
+                        <td>{{$fecha->cliente}}</td>
+                        <td>{{$fecha->sistema}}</td>
+                        <td>{{$fecha->estatus}}</td>
+                        <td>{{$fecha->responsable}}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                  <tfoot>
+                    <th>FOLIO</th>
+                    <th>REQUERIMIENTO</th>
+                    <th>LEVANTAMIENTO</th>
+                    <th>CONSTRUCCIÓN</th>
+                    <th>LIBERACIÓN</th>
+                    <th>IMPLEMENTACIÓN</th>
+                    <th>TOTAL</th>
+                    <th>SOLICITANTE</th>
+                    <th>CLIENTE</th>
+                    <th>SISTEMA</th>
+                    <th>ESTATUS</th>
+                    <th>RESPONSABLE</th>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Start row -->
       <div class="row">
         <div class="col-lg-6">
@@ -1479,11 +1542,24 @@
     <!-- End Container fluid  -->
     <!-- -------------------------------------------------------------- -->
     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-    Dropzone.options.myAwesomeDropzone = {
-      paramName: "avatar", // Las imágenes se van a usar bajo este nombre de parámetro
-      maxFilesize: 3 // Tamaño máximo en MB
-    };
-
+      Dropzone.options.myAwesomeDropzone = {
+        paramName: "avatar", // Las imágenes se van a usar bajo este nombre de parámetro
+        maxFilesize: 3 // Tamaño máximo en MB
+      };
+    </script>
+    <script>
+      $(document).ready(function () {
+        $('#fechas').DataTable({
+          dom: "Bfrtip",
+          buttons: ["copy", "csv", "excel", "pdf", "print"],
+            scrollY: 200,
+            scrollX: true,
+        });
+      $(
+        ".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel"
+      ).addClass("btn btn-primary mr-1");
+      });
     </script>
 @endsection

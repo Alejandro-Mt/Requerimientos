@@ -20,7 +20,7 @@
             <a href="https://datatables.net/">Datatables</a>
           </h6>-->
           <div class="table-responsive">
-            <table id="file_export" class="table table-striped table-bordered display text-nowrap" style="width: 100%">
+            <table id="excel" class="table table-striped table-bordered display text-nowrap" style="width: 100%">
               <thead>
                 <tr>
                   <th class="header">*ID REQUERIMIENTO</th>
@@ -233,4 +233,18 @@
   </div>
   <!-- Custom JavaScript -->
   <script src="{{asset("assets/libs/apexcharts/dist/apexcharts.min.js")}}"></script>
+  
+  <script>
+    $(document).ready(function () {
+      $('#excel').DataTable({
+        dom: "Bfrtip",
+        buttons: ["copy", "csv", "excel", "pdf", "print"],
+          scrollY: 200,
+          scrollX: true,
+      });
+    $(
+      ".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel"
+    ).addClass("btn btn-primary mr-1");
+    });
+  </script>
 @endsection

@@ -122,9 +122,9 @@ class HomeController extends Controller
                     ->select('c.nombre_cl')
                     ->join('clientes as c','r.id_cliente','c.id_cliente')
                     ->orderBy('c.nombre_cl')
-                    ->get();
+                    ->get();                    
         return view('principal',compact('tabla','SxR','responsables','clientes'));
-        #dd($tabla);
+        #dd($fechas);
     }
 
 }

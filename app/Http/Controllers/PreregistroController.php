@@ -52,6 +52,9 @@ class PreregistroController extends Controller
         $registros = solicitud::where('folio','like',"$data[folio]%")->count();
         $registros = $registros + 1;
         $folio = "$data[folio]-$registros";
+        $this->validate($data, [
+            'descripcion' => "max:150",
+        ]);
         solicitud::create([
             'folio' => $folio,
             'solicitante' => $data['solicitante'],
