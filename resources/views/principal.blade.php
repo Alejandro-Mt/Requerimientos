@@ -11,18 +11,11 @@
           <h4 class="card-title mb-0">Excel</h4>
         </div>
         <div class="card-body">
-          <!-- <h6 class="card-subtitle mb-3">
-            Exporting data from a table can often be a key part of a
-            complex application. The Buttons extension for DataTables
-            provides three plug-ins that provide overlapping
-            functionality for data export. You can refer full
-            documentation from here
-            <a href="https://datatables.net/">Datatables</a>
-          </h6>-->
           <div class="table-responsive">
             <table id="excel" class="table table-striped table-bordered display text-nowrap" style="width: 100%">
               <thead>
                 <tr>
+                  <th class="header">LISTA</th>
                   <th class="header">*ID REQUERIMIENTO</th>
                   <th class="header">DESCRIPCIÓN</th>
                   <th class="header">*ESTATUS GENERAL</th>
@@ -86,6 +79,7 @@
               <tbody>
                 @foreach ($tabla as $registro)
                   <tr>
+                    <td>{{$registro->id_registro}}</td>
                     <td>{{$registro->folio}}</td>
                     <td>{{$registro->descripcion}}</td>
                     <td>{{$registro->titulo}}</td>
@@ -165,6 +159,7 @@
               </tbody>
               <tfoot>
                 <tr>
+                  <th>LISTA</th>
                   <th>*ID REQUERIMIENTO</th>
                   <th>DESCRIPCIÓN</th>
                   <th>*ESTATUS GENERAL</th>

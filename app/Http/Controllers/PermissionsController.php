@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\acceso;
 use App\Models\area;
 use App\Models\puesto;
+use App\Models\sistema;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,16 +16,29 @@ class PermissionsController extends Controller
     //
     public function ajustes(){
         $areas = area::all();
-        $equipo = user::where('id_area',Auth::user()->id_area)->get();
+        $equipo = 
+            user::distinct()
+                ->select('users.*')
+                ->join('accesos as acs','users.id','acs.id_user')
+                ->wherein(
+                    'acs.id_sistema',
+                    acceso::
+                        select('id_sistema')
+                        ->where('id_user',Auth::user()->id)
+                )
+                ->where('id_puesto','<=',Auth::user()->id_puesto)
+                ->get();
         $puestos = puesto::all();
         $usuarios = DB::table('users as u')
                      ->select('u.id_puesto', 'p.jerarquia')
                      ->leftjoin('puestos as p', 'u.id_puesto','p.id_puesto')
                      ->where('u.id', auth::user()->id)
                      ->get();
+        $accesos = acceso::all();
+        $sistemas = sistema::join('accesos as acs', 'sistemas.id_sistema','acs.id_sistema')->where('id_user',Auth::user()->id)->get();
         foreach($usuarios as $usuario){
-            return view('formatos.ajustes',compact('areas','equipo','puestos','usuario'));
-            #dd($usuario->id);
+            return view('formatos.ajustes',compact('accesos','areas','equipo','puestos','sistemas','usuario'));
+            #dd($equipo);
         };
     }
 

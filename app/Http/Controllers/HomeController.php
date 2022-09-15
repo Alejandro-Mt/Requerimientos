@@ -27,7 +27,9 @@ class HomeController extends Controller
     {
         
         $tabla = db::table('registros as r')
-                        ->select('r.folio',
+                        ->select(
+                            'r.id_registro',
+                            'r.folio',
                             'descripcion',
                             'e.titulo',
                             'cl.clase',
@@ -101,6 +103,7 @@ class HomeController extends Controller
                         ->leftJoin('desfases as dfi', 'i.motivoRetrasoInfo', 'dfi.id')
                         ->leftJoin('liberaciones as lib', 'r.folio', 'lib.folio')
                         ->leftJoin('implementaciones as imp', 'r.folio', 'imp.folio')
+                        ->orderBy('r.id_registro','asc')
                         ->get();
         $SxR = db::table('registros as r')
                     ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),

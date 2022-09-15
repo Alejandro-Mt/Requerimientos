@@ -145,10 +145,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="general"
-                            class="col-sm-2 text-end control-label col-form-label">Descripcion General del Requerimiento*</label>
+                        <label for="general" class="col-sm-2 text-end control-label col-form-label">Descripcion General del Requerimiento*</label>
                         <div class="col-md-8">
-                            <input name="general" type="text" class="required form-control  @error ('general') is-invalid @enderror" value="{{old('general')}}" placeholder="Se breve" required autofocus>
+                            <textarea name="general" type="text" class="required form-control  @error ('general') is-invalid @enderror" value="" placeholder="Se breve" required autofocus>{{old('general')}}</textarea>
                             @error('general')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -157,10 +156,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="detalle"
-                            class="col-sm-2 text-end control-label col-form-label">Descripcion Especifica del Requerimiento*</label>
+                        <label for="detalle" class="col-sm-2 text-end control-label col-form-label">Descripcion Especifica del Requerimiento*</label>
                         <div class="col-md-8">
-                            <input name="detalle" type="text" class="required form-control @error ('detalle') is-invalid @enderror" value="{{old('detalle')}}" placeholder="Se detallado" required autofocus>
+                            <textarea name="detalle" type="text" class="required form-control @error ('detalle') is-invalid @enderror" value="" placeholder="Se detallado" required autofocus>{{old('detalle')}}</textarea>
                             @error('detalle')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -169,8 +167,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="esperado"
-                            class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
+                        <label for="esperado" class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
                         <div class="col-md-8">
                             <textarea name="esperado" type="text" class="required form-control @error ('esperado') is-invalid @enderror" value="" placeholder="Que es lo que se espera" required autofocus>{{old('esperado')}}</textarea>
                             @error('esperado')

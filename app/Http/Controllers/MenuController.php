@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\acceso;
 use App\Models\archivo;
 use App\Models\area;
 use App\Models\Cliente;
@@ -19,6 +20,7 @@ use App\Models\subproceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Mpdf\Tag\Select;
 
 class MenuController extends Controller
 {
@@ -31,19 +33,88 @@ class MenuController extends Controller
 
     public function edit(){
         $subprocesos = subproceso::all();
-        $estatus = estatu::join('registros as r','r.id_estatus','estatus.id_estatus')->groupby('estatus.id_estatus')->get();
-        $sistemas = sistema::all();
-        $registros = registro::select('registros.*','e.*','l.fechaaut','l.fechades')
+        $sistemas = 
+            sistema::
+                join('registros as r','r.id_sistema','sistemas.id_sistema')
+                ->wherein('r.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                ->groupby('sistemas.id_sistema')
+                ->get();
+        $cliente = 
+            cliente::
+                join('registros as r','r.id_cliente','clientes.id_cliente')
+                ->groupby('clientes.id_cliente')
+                ->get();
+        $requerimiento = registro::select('registros.*','e.*','c.nombre_cl','l.fechaaut','l.fechades')
                             ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->join('clientes as c','c.id_cliente','registros.id_cliente')
                             ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
-                            ->orderby('registros.folio','desc')
-                            #->get()
-                            ->paginate(20);
+                            ->orderby('registros.id_registro','desc')
+                            ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                            ->where('registros.id_estatus','17')
+                            ->get();
+        $levantamiento = registro::select('registros.*','e.*','c.nombre_cl','l.fechaaut','l.fechades')
+                            ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->join('clientes as c','c.id_cliente','registros.id_cliente')
+                            ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
+                            ->orderby('registros.id_registro','desc')
+                            ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                            ->where(function ($query){
+                                $query->where('registros.id_estatus', '10')
+                                    ->orwhere('registros.id_estatus', '16');
+                            })
+                            ->get();
+        $construccion = registro::select('registros.*','e.*','c.nombre_cl','l.fechaaut','l.fechades')
+                            ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->join('clientes as c','c.id_cliente','registros.id_cliente')
+                            ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
+                            ->orderby('registros.id_registro','desc')
+                            ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                            ->where(function ($query){
+                                $query->where('registros.id_estatus', '11')
+                                    ->orwhere('registros.id_estatus', '9')
+                                    ->orwhere('registros.id_estatus','7');
+                            })
+                            ->get();
+        $liberacion = registro::select('registros.*','e.*','c.nombre_cl','l.fechaaut','l.fechades')
+                            ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->join('clientes as c','c.id_cliente','registros.id_cliente')
+                            ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
+                            ->orderby('registros.id_registro','desc')
+                            ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                            ->where('registros.id_estatus','8')
+                            ->get();
+        $implementacion = registro::select('registros.*','e.*','c.nombre_cl','l.fechaaut','l.fechades')
+                            ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->join('clientes as c','c.id_cliente','registros.id_cliente')
+                            ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
+                            ->orderby('registros.id_registro','desc')
+                            ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                            ->where('registros.id_estatus','2')
+                            ->get();
+        $implementado = registro::select('registros.*','e.*','c.nombre_cl','l.fechaaut','l.fechades')
+                            ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->join('clientes as c','c.id_cliente','registros.id_cliente')
+                            ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
+                            ->orderby('registros.id_registro','desc')
+                            ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                            ->where('registros.id_estatus','18')
+                            ->get();
+        $cancelado = registro::select('registros.*','e.*','c.nombre_cl','l.fechaaut','l.fechades')
+                            ->join('estatus as e','e.id_estatus', 'registros.id_estatus')
+                            ->join('clientes as c','c.id_cliente','registros.id_cliente')
+                            ->leftjoin('levantamientos as l','l.folio', 'registros.folio')
+                            ->orderby('registros.id_registro','desc')
+                            ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',auth::user()->id))
+                            ->where(function ($query){
+                                $query->where('registros.id_estatus', '14')
+                                    ->orwhere('registros.id_estatus', '13');
+                            })
+                            ->get();
         $pausa = pausa::select('r.folio',pausa::raw('max(pausas.pausa) as pausa'))->rightjoin('registros as r','r.folio', 'pausas.folio')->groupby('r.folio')->get();
         foreach ($pausa as $p);
         $vacio = pausa::count();
-        return view('formatos.requerimientos.edit',compact('estatus','pausa','registros','sistemas','subprocesos','vacio'));
-        #dd($pausa);
+        return view('formatos.requerimientos.edit',compact('cancelado','cliente','construccion','implementacion','implementado','levantamiento','liberacion','pausa','requerimiento','sistemas','subprocesos','vacio'));
+        #dd($requerimiento);
     }
     public function pause($folio){
         pausa::create([

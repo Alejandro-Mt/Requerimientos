@@ -5,7 +5,7 @@
       <!-- Row -->
       <div class="row">
         <!-- Titulo -->
-        <div class="d-md-flex align-items-center">
+        <!--<div class="d-md-flex align-items-center">
           <div>
             <h4 class="card-title">Place your Order</h4>
             <h5 class="card-subtitle">Buy and Sell Crypto as you Like</h5>
@@ -19,7 +19,7 @@
               </select>
             </div>
           </div>
-        </div>
+        </div>-->
         <!-- Contenido -->
         <div class="nav justify-content-center">
           <!-- Filtros -->

@@ -114,8 +114,8 @@
                                     <label for="descripcion"
                                         class="col-sm-4 text-end control-label col-form-label">Descripción*</label>
                                     <div class="col-md-8">
-                                        <input type="text" class="required form-control @error('descripcion') is-invalid @enderror" 
-                                            name="descripcion" placeholder="maximo 250 caracteres" required autofocus>
+                                        <textarea type="text" class="required form-control @error('descripcion') is-invalid @enderror" 
+                                            name="descripcion" placeholder="maximo 250 caracteres" required autofocus></textarea>
                                         @error('descripcion')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -203,4 +203,4 @@
             //console.log(selecteds.value);
         });
     </script>
-@endsection 
+@endsection

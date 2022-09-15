@@ -198,8 +198,8 @@
                                 class="col-sm-2 text-end control-label col-form-label">Descripción General del Requerimiento*</label>
                             <div class="col-md-8">
                                 @foreach ($levantamientos as $valor)
-                                <input name="general" type="text" class="required form-control  @error ('general') is-invvalid @enderror" 
-                                    value="{{$valor->general}}" placeholder="Se breve" required autofocus>
+                                <textarea name="general" type="text" class="required form-control  @error ('general') is-invvalid @enderror" 
+                                    placeholder="Se breve" required autofocus>{{$valor->general}}</textarea>
                                 @endforeach
                                 @error('general')
                                     <span class="invalid-feedback" role="alert">
@@ -209,12 +209,11 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="detalle"
-                                class="col-sm-2 text-end control-label col-form-label">Descripción Específica del Requerimiento*</label>
+                            <label for="detalle" class="col-sm-2 text-end control-label col-form-label">Descripción Específica del Requerimiento*</label>
                             <div class="col-md-8">
                                 @foreach ($levantamientos as $valor)
-                                    <input name="detalle" type="text" class="required form-control @error ('detalle') is-invvalid @enderror" 
-                                    value="{{$valor->detalle}}" placeholder="Se detallado" required autofocus>
+                                    <textarea name="detalle" type="text" class="required form-control @error ('detalle') is-invvalid @enderror" 
+                                     placeholder="Se detallado" required autofocus>{{$valor->detalle}}</textarea>
                                 @endforeach
                                 @error('detalle')
                                     <span class="invalid-feedback" role="alert">
@@ -224,14 +223,11 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <!-- ---------------------
-                                start Default Summernote Editor
-                            ---------------- -->
                             <label for="esperado" class="col-sm-2 text-end control-label col-form-label">Resultado Esperado*</label>
                             <div class="col-md-8">
                                 @foreach ($levantamientos as $valor)
                                     <textarea name="esperado" aria-placeholder="Que es lo que se espera" required autofocus rows="5"
-                                        class="required form-control @error ('esperado') is-invvalid @enderror">{!! nl2br(e($valor->esperado)) !!}
+                                        class="required form-control @error ('esperado') is-invvalid @enderror">{{$valor->esperado}}
                                     </textarea>
                                 @endforeach
                                 @error('esperado')
@@ -240,11 +236,6 @@
                                     </span>
                                 @enderror
                             </div>
-                            
-                            <!-- ---------------------
-                                end Default Summernote Editor
-                            ---------------- -->
-
                         </div>
                         <div class="form-group row">
                             <label for="involucrados"
