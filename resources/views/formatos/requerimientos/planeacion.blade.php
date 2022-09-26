@@ -29,15 +29,6 @@
                                             <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-success"><i
                                                     class="fa fa-circle text-success me-2"></i>Análisis de requerimientos
                                             </div>
-                                            <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-danger"><i
-                                                    class="fa fa-circle text-danger me-2"></i>Construcción
-                                            </div>
-                                            <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-warning"><i
-                                                    class="fa fa-circle text-warning me-2"></i>Liberación
-                                            </div>
-                                            <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-primary"><i
-                                                    class="fa fa-circle text-primary me-2"></i>Implementación
-                                            </div>
                                         </div>
                                         <!-- checkbox -->
                                         <div class="form-check">
@@ -139,7 +130,7 @@
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
                                 @foreach ($registros as $registro)
-                                    <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
+                                    <input id="folio" type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
                                 @endforeach
                             </div>
                         </div>
@@ -318,11 +309,6 @@
                         </div>
                         <input class="d-none" name="fechaEnvAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <input class="d-none" name="fechaAutAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                        <input class="d-none" name="fechaInConP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                        <input class="d-none" name="fechaInConR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                        <input class="d-none" name="FechaLibP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
-                        <input class="d-none" name="FechaLibR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy"> 
-                        <input class="d-none" name="FechaImpP" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <!--<input class="d-none" name="FechaImpR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">-->
                         <div class="card-body text-center">
                             <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>

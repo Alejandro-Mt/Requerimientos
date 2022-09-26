@@ -151,41 +151,41 @@
                     @endif
                   @break
                 @case(11)
-                  @if ($registro->fechades == null)
-                    <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100"><a data-bs-toggle="modal" data-bs-target="#Adjuntos{{$loop->iteration}}" style="color:white">Cargar autorización</a></button> 
-                    <!-- BEGIN MODAL -->
-                    <div class="modal" id="Adjuntos{{$loop->iteration}}">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header d-flex align-items-center">
-                            <h4 class="modal-title">
-                              <strong>Documentos adjuntos</strong>
-                            </h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <a href="index.html" class="text-danger">Una vez autorizado no se podrán cargar nuevos archivos</a>
-                            <form  class="dropzone" action="{{route('Adjuntos',$registro->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
-                            </form> 
-                          <button type="submit" class="btn btn-success waves-effect waves-light text-white">
-                            <a href="{{route('Aut',$registro->folio)}}" style="color:white"> Autorizar</a>
-                          </button>
-                          <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- End Modal -->
-                  @else
                     <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100">
                       <a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Planeación</a>
                     </button>
-                  @endif
                   @break
                 @case(9)
                   <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Analisis',$registro->folio)}}" style="color:white">Análisis de Desarrollo</a></button>
                   @break
                 @case(7)
+                @if ($registro->fechades == null)
+                  <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100"><a data-bs-toggle="modal" data-bs-target="#Adjuntos{{$loop->iteration}}" style="color:white">Cargar autorización</a></button> 
+                  <!-- BEGIN MODAL -->
+                  <div class="modal" id="Adjuntos{{$loop->iteration}}">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header d-flex align-items-center">
+                          <h4 class="modal-title">
+                            <strong>Documentos adjuntos</strong>
+                          </h4>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <a href="index.html" class="text-danger">Una vez autorizado no se podrán cargar nuevos archivos</a>
+                          <form  class="dropzone" action="{{route('Adjuntos',$registro->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
+                          </form> 
+                        <button type="submit" class="btn btn-success waves-effect waves-light text-white">
+                          <a href="{{route('Aut',$registro->folio)}}" style="color:white"> Autorizar</a>
+                        </button>
+                        <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- End Modal -->
+                @else
                   <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Construccion',$registro->folio)}}" style="color:white">Construcción</a></button>
+                @endif
                   @break
                 @case(8)
                   <button id="btn{{$loop->iteration}}" type="submit" class="btn btn-warning text-white w-100" ><a href="{{route('Liberacion',$registro->folio)}}" style="color:white">Liberación</a></button>

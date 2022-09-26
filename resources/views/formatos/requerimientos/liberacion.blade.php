@@ -25,7 +25,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="fecha_lib_a"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberación PIP*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Inicio de pruebas*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="fecha_lib_a" type="text" class="form-control mydatepicker required form-control @error('fecha_lib_a') is-invalid @enderror" required autofocus
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="fecha_lib_r" class="col-sm-2 text-end control-label col-form-label">Fecha Liberación Real*</label>
+                            <label for="fecha_lib_r" class="col-sm-2 text-end control-label col-form-label">Fin de pruebas*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="fecha_lib_r" type="text" class="form-control mydatepicker required form-control @error('fecha_lib_r') is-invalid @enderror"
@@ -77,7 +77,7 @@
                         <!-- Agregar candado de fecha, evitar fechas menores al Fecha entrega real-->
                         <div class="form-group row">
                             <label for="inicio_p_r"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Liberación Pruebas QA*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Fecha pase a produccion*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="inicio_p_r" type="text" class="form-control mydatepicker required form-control @error('inicio_p_r') is-invalid @enderror"
@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="inicio_lib"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Inicio Pruebas PIP*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Fecha pase a produccion efectiva*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
                                     <input name="inicio_lib" type="text" class="form-control mydatepicker required form-control @error('inicio_lib') is-invalid @enderror"

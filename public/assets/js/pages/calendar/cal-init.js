@@ -30,7 +30,7 @@
             
             var titulo = copiedEventObject.title;
             var color = copiedEventObject.className['0'];
-            var inicio = copiedEventObject.start.format("DD-MM-YYYY");
+            var inicio = copiedEventObject.start.format("DD-MM-YYYY HH:mm");
             var fin = copiedEventObject.start.format("DD-MM-YYYY HH:mm");
             var crsfToken = null;
             switch(titulo){
@@ -198,9 +198,14 @@
                 eventLimit: true, // allow "more" link when too many events
                 selectable: true,
                 validRange: function(nowDate) {
+                    if (document.getElementById('upload')) {
+                        console.log('comentario')
+                    } else {
                     return {
-                      start: nowDate,
+                      start: nowDate.add(-1,'day'),
                     };
+                        console.log('carga de datos')
+                    }
                 },
                 drop: function(date) { 
                     $this.onDrop($(this), date);
@@ -213,7 +218,7 @@
                     var back=event.backgroundColor;
                     var allDay=event.allDay;
                     if(event.end){
-                      var fin = event.end.format("DD-MM-YYYY");
+                      var fin = event.end.format("DD-MM-YYYY HH:mm");
                     }
                     switch(event.title){
                         case 'Definición de requerimientos':
@@ -234,9 +239,9 @@
                     }
                 },
                 eventDrop: function(event) {
-                    var inicio = event.start.format("DD-MM-YYYY");
+                    var inicio = event.start.format("DD-MM-YYYY HH:mm");
                     if(event.end){
-                        var fin = event.end.format("DD-MM-YYYY");
+                        var fin = event.end.format("DD-MM-YYYY HH:mm");
                     }
                     else{
                         var fin=inicio;

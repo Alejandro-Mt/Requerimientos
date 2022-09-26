@@ -80,7 +80,7 @@
                 @foreach ($tabla as $registro)
                   <tr>
                     <td>{{$registro->id_registro}}</td>
-                    <td>{{$registro->folio}}</td>
+                    <td><a href="{{route('Avance',$registro->folio)}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a></td>
                     <td>{{$registro->descripcion}}</td>
                     <td>{{$registro->titulo}}</td>
                     <td>{{$registro->clase}}</td>
