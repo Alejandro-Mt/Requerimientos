@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Indicadores</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/topicon.png")}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/new_logo_3ti.png")}}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{asset("assets/extra-libs/DataTables/css/dataTables.bootstrap4.css")}}"/>
     <link rel="stylesheet" href="{{asset("assets/libs/fullcalendar/dist/fullcalendar.min.css")}}"  />

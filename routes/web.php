@@ -20,6 +20,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\PlaneacionController;
 use App\Http\Controllers\PreregistroController;
+use App\Http\Controllers\PrioridadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\RecordController;
@@ -50,6 +51,10 @@ Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth'
 Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');
 Route::get('/profile/{id}', [ProfileController::class, 'edit'])->middleware('auth')->name('profile');
 Route::post('user.pass',[ProfileController::class, 'updatepass'])->middleware('auth')->name('UsrPass');
+#          prioridades         #
+Route::get('prioridad.solicitudes', [PrioridadController::class, 'index'])->name('AutP');
+Route::get('autorizacion.prioridad.{id}', [PrioridadController::class, 'update'])->name('AutR');
+
 #          Catalogo         #
 Route::get('/layouts.datos', [MenuController::class, 'store'])->middleware('auth')->name('Seguir');
 #          Area         #
@@ -151,6 +156,11 @@ route::get('preregistro',[PreregistroController::class, 'index'])->name('PreRegi
 route::post('preregistro.crear',[PreregistroController::class, 'create'])->name('ClienteSol');
 route::get('preregistro.carga.{folio}',[PreregistroController::class, 'upload'])->name('Plus');
 route::post('preregistro.archivos.{folio}',[PreregistroController::class,'data'])->name('Previsto');
+
+route::get('listado',[ClienteController::class, 'store'])->name('Lista');
+route::get('prioridad.{id_sistema}',[ClienteController::class, 'priority'])->name('Prioridad');
+route::get('documentacion.{folio}',[ClienteController::class, 'document'])->name('Documentos');
+route::post('solicitud.prioridades',[ClienteController::class, 'request'])->name('CPrioridad');
 
 route::get('preregistro.listado',[PreregistroController::class, 'store'])->name('Admsol');
 route::get('preregistro.datos.{folio}',[PreregistroController::class, 'show'])->name('AA');

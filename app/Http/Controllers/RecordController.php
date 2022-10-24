@@ -8,6 +8,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitud;
+use App\Models\solpri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -71,13 +72,18 @@ class RecordController extends Controller
             'id_arquitecto' => $data['id_arquitecto'],
             'id_clase' => $data['id_clase']
         ]);
-       if($data['preregistro'] != NULL){
+        if($data['preregistro'] != NULL){
             $update = solicitud::where('folio',$data['preregistro'])->first();
             $update->id_estatus= '21';
             $update->folior = $folio;
             $update->save();
-       }
-        #dd($update);
+        }
+        $listado = solpri::where([['estatus', 'autorizado'],['id_cliente',$data['id_cliente']]])->orderby('id','desc')->first();
+        if(($listado) != NULL){
+            $listado->orden = $listado->orden.','.$folio;
+            $listado->save();
+        }
+        #dd(($listado));
         return redirect(route('Nuevo'))->with('alert', $folio);
     }
     

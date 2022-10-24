@@ -12,9 +12,9 @@
               <b class="logo-icon">
                   <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                   <!-- Dark Logo icon -->
-                  <img src={{asset("assets/images/logo-icon.png")}} alt="homepage" class="dark-logo" width="40" height="60"/>
+                  <img src={{asset("assets/images/logo-icon-it.png")}} alt="homepage" class="dark-logo" width="40" height="60"/>
                   <!-- Light Logo icon -->
-                  <img src={{asset("assets/images/icon.png")}} alt="homepage" class="light-logo" width="40" height="50"/>
+                  <img src={{asset("assets/images/icon-it.png")}} alt="homepage" class="light-logo" width="40" height="50"/>
                   <!--End Logo icon -->
                   <!-- Logo text -->
               </b>
@@ -22,9 +22,9 @@
               <!-- Logo text -->
               <span class="logo-text">
                   <!-- dark Logo text -->
-                  <img src="{{asset("assets/images/logo-text2.png")}}" alt="homepage" class="dark-logo" width="110" height="70"/>
+                  <img src="{{asset("assets/images/logo-text-it.png")}}" alt="homepage" class="dark-logo" width="100" height="70"/>
                   <!-- Light Logo text -->
-                  <img src="{{asset("assets/images/logo-text.png")}}" class="light-logo" alt="homepage" width="110" height="70"/>
+                  <img src="{{asset("assets/images/text-it.png")}}" class="light-logo" alt="homepage" width="100" height="70"/>
               </span>
               <!--End Logo icon -->
           </a>
@@ -190,17 +190,24 @@
                             @endif
                           </div>
                           <div class="ms-2">
-                              <h4 class="mb-0 text-white">{{Auth::user()->nombre}}</h4>
+                              <h4 class="mb-0 text-white">{{Auth::user()->nombre}} {{Auth::user()->apaterno}}</h4>
                               <p class="mb-0">{{Auth::user()->email}}</p>
                           </div>
                       </div>
                       <a class="dropdown-item" href="{{route('profile',Auth::user()->id)}}">
                           <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i>
-                          {{ Auth::user()->nombre }}
+                          Perfil
                       </a>
-                      <!--<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet me-1 ms-1"></i>
-                          My Balance</a>
-                      <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email me-1 ms-1"></i>
+                      @if (Auth::user()->id_puesto > 3)
+                        <a class="dropdown-item" href="{{route('AutP')}}">
+                            <i class="feather-sm" data-feather="archive"></i>
+                            <div class="notify">
+                                <span class="heartbit"></span> <span class="point"></span>
+                            </div>
+                            Ajuste a prioridades
+                        </a>
+                      @endif
+                      <!--<a class="dropdown-item" href="javascript:void(0)"><i class="ti-email me-1 ms-1"></i>
                           Inbox</a>
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" href="javascript:void(0)"><i

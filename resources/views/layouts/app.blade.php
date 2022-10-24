@@ -9,20 +9,6 @@
 
     <title>{{ config('app.name', 'Indicadores PIP') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
-    <script src="{{asset("vendor/jquery/jquery-3.2.1.min.js")}}"></script>
-    <script src="{{asset("vendor/bootstrap/js/popper.js")}}"></script>
-    <script src="{{asset("vendor/select2/select2.min.js")}}"></script>
-    <script src="{{asset("vendor/tilt/tilt.jquery.min.js")}}"></script>
-    <script >
-        $('.js-tilt').tilt({
-            scale: 1.1
-        })
-    </script>
-    <script src="{{asset("js/main.js")}}"></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -30,14 +16,20 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/new_logo_3ti.png")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/bootstrap/css/bootstrap.min.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("fonts/font-awesome-4.7.0/css/font-awesome.min.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/animate/animate.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/css-hamburgers/hamburgers.min.css")}}">
-    <link rel="stylesheet" type="text/css" href="{{asset("vendor/select2/select2.min.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("css/util.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("css/main.css")}}">
+    
+    <!-- Custom CSS --
+    <link rel="stylesheet" href="{{asset("assets/extra-libs/DataTables/css/dataTables.bootstrap4.css")}}"/>-->
+    <link rel="stylesheet" href="{{asset("assets/libs/fullcalendar/dist/fullcalendar.min.css")}}"  />
+    <link rel="stylesheet" href="{{asset("assets/extra-libs/calendar/calendar.css")}}" />
+    <!--<link rel="stylesheet" href="{{asset("assets/libs/bootstrap/dist/css/bootstrap.min.css")}}">-->
 </head>
 <body>
     <div id="app">
@@ -71,9 +63,17 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Registrar') }}</a>
                                 </li>
                             @endif
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('PreRegistro') }}">{{ __('Cliente') }}</a>
-                                </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ __('Cliente') }}
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('PreRegistro') }}">{{ __('Nueva solicitud') }}</a>
+                                    <a class="dropdown-item" href="{{ route('Lista') }}">{{ __('Prioridades') }}</a>
+                                </div>
+                            </li>
+                                
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -103,4 +103,25 @@
         </main>
     </div>
 </body>
+
+<!-- Scripts --
+<script src="{{ asset('js/app.js') }}" defer></script>   app no permite la carga de calendar --> 
+
+<script src="{{asset("assets/libs/jquery/dist/jquery.min.js")}}"></script>
+<script src="{{asset("vendor/tilt/tilt.jquery.min.js")}}"></script>
+<script src="{{asset("js/main.js")}}"></script>
+
+<script src="{{asset("assets/libs/jquery/dist/jquery.min.js")}}"></script>
+<!-- Bootstrap tether Core JavaScript -->
+<script src="{{asset("assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}"></script>
+<!-- slimscrollbar scrollbar JavaScript -->
+<script src="{{asset("assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js")}}"></script>
+<script src="{{asset("assets/extra-libs/sparkline/sparkline.js")}}"></script>
+<!--Custom JavaScript -->
+<script src="{{asset("assets/js/feather.min.js")}}"></script>
+<script src="{{asset("assets/js/custom.min.js")}}"></script>
+<script src="{{asset("assets/libs/moment/min/moment.min.js")}}"></script>
+<script src="{{asset("assets/libs/fullcalendar/dist/fullcalendar.min.js")}}"></script>
+<script src="{{asset("assets/libs/fullcalendar/dist/locale/es.js")}}"></script>
+<script src="{{asset("assets/js/pages/calendar/cal-init.js")}}"></script>
 </html>
