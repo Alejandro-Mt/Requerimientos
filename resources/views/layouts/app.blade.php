@@ -124,4 +124,7 @@
 <script src="{{asset("assets/libs/fullcalendar/dist/fullcalendar.min.js")}}"></script>
 <script src="{{asset("assets/libs/fullcalendar/dist/locale/es.js")}}"></script>
 <script src="{{asset("assets/js/pages/calendar/cal-init.js")}}"></script>
+<script src="{{asset("assets/extra-libs/block-ui/jquery.blockUI.js")}}"></script>
+<script src="{{asset("assets/extra-libs/block-ui/block-ui.js")}}"></script>
+
 </html>

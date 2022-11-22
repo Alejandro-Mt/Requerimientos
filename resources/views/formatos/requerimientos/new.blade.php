@@ -29,24 +29,17 @@
                 {{ csrf_field() }}
                 <div>
                     <section>
-                        <!--<div class="form-group row">
-                            <label for="id_registro"
-                                class="col-sm-2 text-end control-label col-form-label">{{__('ID')}}</label>
-                            <div class="col-md-3">
-                                @if ($vacio == 0)
-                                    <input id="id_registro" type="text" class="required form-control" 
-                                        placeholder="{{1}}" readonly="readonly"> 
-                                @else
-                                    <input id="id_registro" type="text" class="required form-control" 
-                                        placeholder="{{$id->id_registro+1}}" readonly="readonly">
-                                @endif
-                            </div>
-                        </div>--
+                        <div class="d-none col-sm-3">
+                            <input  type="text" class="required form-control" name="folio" value={{$registros+1}} readonly="readonly">
+                        </div>
                         <div class="form-group row">
-                            <label for="folio"
-                                    class="col-sm-2 text-end control-label col-form-label">Folio</label>-->
-                            <div class="d-none col-sm-3">
-                                    <input  type="text" class="required form-control" name="folio" value={{$registros+1}} readonly="readonly">
+                            <label class="col-sm-2 text-end form-check-label" for="proyecto">Es proyecto</label>
+                            <div class="col-md-2">
+                                <input type="checkbox" class="form-check-input" id="proyecto" name="es_pr" value="1" onchange="showContent()">
+                            </div>
+                            <label class="col-sm-2 text-end form-check-label" for="emergente">Emergente</label>
+                            <div class="col-md-2">
+                                <input type="checkbox" class="form-check-input" id="emergente" name="es_em" value="1">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -193,15 +186,26 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="d-none">
-                            @foreach ($estatus as $estatus)
-                                <input type="text" name="id_area" value="6" visible="false">
-                            @endforeach 
+                        <div id="content">
+                            <div class="form-group row">
+                                <label for="folio_pr"
+                                    class="col-sm-2 text-end control-label col-form-label">Proyecto</label>
+                                <div class="col-md-8">
+                                        
+                                <select class="form-select @error('folio_pr') is-invalid @enderror" 
+                                style="width: 100%; height:36px;" name="folio_pr" aria-hidden="true">
+                                <option value={{null}}>Selección</option>
+                                @foreach ($proyectos as $proyecto):
+                                    <option value = {{ $proyecto->folio }}>{{$proyecto->descripcion}}</option>;
+                                @endforeach                     
+                            </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="d-none">
+                        <!--<div class="d-none">
                             <input type="text" name="id_estatus" value="17" visible="false">
                             <input type="text" name="id_area" value="6" visible="false">
-                        </div>
+                        </div>-->
                         <div class="card-body text-center">
                             <button type="submit" name="preregistro" @if($datos != NULL) @foreach ($datos as $dato) value="{{$dato->folio}}" @endforeach @endif class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
@@ -217,6 +221,18 @@
     <h5>*Campos obligatorios</h5>
     <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
     <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
+    <script type="text/javascript">
+        function showContent() {
+            element = document.getElementById("content");
+            check = document.getElementById("proyecto");
+            if (check.checked) {
+                element.style.display='none'
+            }
+            else {
+                element.style.display='block'
+            }
+        }
+    </script>
 
 
 @endsection 

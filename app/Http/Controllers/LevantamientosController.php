@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Interno\NuevoProyecto;
 use App\Models\area;
 use App\Models\departamento;
 use App\Models\levantamiento;
@@ -9,6 +10,8 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class LevantamientosController extends Controller
 {
@@ -56,11 +59,17 @@ class LevantamientosController extends Controller
             'esperado' => $data['esperado'],
             'involucrados'=> implode(',', $data['involucrados'])
         ]);
-        $estatus = registro::select()->where('folio', $data->folio)->first();
+        $destino = db::table('responsables')->wherein('id_responsable',$data['involucrados'])->get();
+        $estatus = registro::where('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();  
+        foreach ($destino as $correo) {
+            if ($estatus->es_proyecto){
+                mail::to($correo->email)->send(new NuevoProyecto($data,$correo->nombre_r));
+            }
+        }
         return redirect(route('Editar'));
-        dd($data);
+        #dd($data['relaciones']);
 
     }
 

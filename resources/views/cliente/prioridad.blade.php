@@ -5,43 +5,52 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{{asset("assets/extra-libs/prism/prism.css")}}"/>
 <link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dragula/dist/dragula.min.css")}}"/>
-<div class="row">
-  <div class="col-lg-4">
+  <select id="clientes" class="select2 form-control custom-select" style="width: 100%; height: 36px">
+    <option>Cliente</option>
+    @foreach($clientes as $cl)
+      <option value="{{$cl->id_cliente}}">{{$cl->nombre_cl}}</option>
+    @endforeach
+  </select>
+<div class="row col-lg-12 col-md-12"> 
+  <div class="col-md-4">
     <div class="row">
       <div class="card">
         <div class="card-header d-flex bg-warning">
           <h4 class="mb-0 text-white">Pendientes</h4>
-          <a class="btn btn-success btn-sm ml-auto text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <!--<a class="btn btn-success btn-sm ml-auto text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Solicitar Ajuste de prioridades
-          </a>
+          </a>-->
+          <button class="btn btn-sm ml-auto waves-effect waves-light btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Solicitar Ajuste de prioridades
+          </button>
         </div>
         <div class="card-body">
           <div class="row draggable-cards" id="card-colors">
             @if ($validar == 0)
-                  @foreach($pendientes as $pendiente)
-              <div class="col-md-12 col-sm-12" id="{{$pendiente->folio}}" >
-                <div class="d-none" id="{{$pendiente->id_cliente}}"></div>
-                <!-- ---------------------start Special title treatment---------------- -->
-                <div class="card card-hover">
-                  <div class="card-header">
-                    <h5 class="mb-0 text-dark">{{$pendiente->folio}}</h5>
+              @foreach($pendientes as $pendiente)
+                <div class="col-md-12 col-sm-12 filter cliente-{{$pendiente->id_cliente}} sistema-{{$pendiente->id_sistema}}" id="{{$pendiente->folio}}" >
+                  <div class="d-none" id="{{$pendiente->id_sistema}}"></div>
+                  <!-- ---------------------start Special title treatment---------------- -->
+                  <div class="card card-hover">
+                    <div class="card-header">
+                      <h5 class="mb-0 text-dark">{{$pendiente->folio}}</h5>
+                    </div>
+                    <div class="card-body sistemas">
+                      <h6 class="card-title">{{$pendiente->descripcion}}</h6>
+                      <p class="card-text filtro">
+                        {{$pendiente->nombre_cl}}
+                      </p>
+                      <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
+                    </div>
                   </div>
-                  <div class="card-body">
-                    <h6 class="card-title">{{$pendiente->descripcion}}</h6>
-                    <p class="card-text">
-                      {{$pendiente->nombre_s}}
-                    </p>
-                    <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
-                  </div>
+                  <!-- --------------------- end Special title treatment ---------------- -->
                 </div>
-                <!-- --------------------- end Special title treatment ---------------- -->
-              </div>
-                  @endforeach
+              @endforeach
             @else
               @foreach ($orden as $folio)
                 @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $folio->orden ))); $i++)
-                  <div class="col-md-12 col-sm-12" id="{{explode( ',', str_replace(' ', '', $folio->orden ))[$i]}}" >
-                    <div class="d-none" id="{{$folio->id_cliente}}"></div>
+                  <div class="col-md-12 col-sm-12 filter cliente-{{$folio->id_cliente}} sistema-{{$folio->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $folio->orden ))[$i]}}" >
+                    <div class="d-none" id="{{$folio->id_sistema}}"></div>
                     <!-- ---------------------start Special title treatment---------------- -->
                     <div class="card card-hover">
                       <div class="card-header">
@@ -51,8 +60,8 @@
                         @foreach($pendientes as $pendiente)
                           @if (explode( ',', str_replace(' ', '', $folio->orden ))[$i] == $pendiente->folio)
                             <h6 class="card-title">{{$pendiente->descripcion}}</h6>
-                            <p class="card-text">
-                              {{$pendiente->nombre_s}}
+                            <p class="card-text filtro">
+                              {{$pendiente->nombre_cl}}
                             </p>
                             <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
                           @endif
@@ -72,7 +81,7 @@
     </div>
   </div>
 
-  <div class="col-lg-4">
+  <div class="col-md-4">
     <div class="card">
       <div class="card-header bg-danger">
         <h4 class="mb-0 text-white">Pospuestos</h4>
@@ -80,7 +89,7 @@
       <div class="card-body">
         <div class="row draggable-cards" id="draggable-area">
           @foreach ($pospuestos as $pospuesto)
-            <div class="col-md-12 col-sm-12">
+            <div class="col-md-12 col-sm-12 filter cliente-{{$pospuesto->id_cliente}}">
               <!-- ---------------------
                                 start Special title treatment
                             ---------------- -->
@@ -90,8 +99,8 @@
                 </div>
                 <div class="card-body">
                   <h6 class="card-title">{{$pospuesto->descripcion}}</h6>
-                  <p class="card-text">
-                    {{$pospuesto->nombre_s}}
+                  <p class="card-text filtro">
+                    {{$pospuesto->nombre_cl}}
                   </p>
                   <a href={{route('Documentos',$pospuesto->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
                 </div>
@@ -106,7 +115,7 @@
     </div>
   </div>
 
-  <div class="col-lg-4">
+  <div class="col-md-4">
     <div class="card">
       <div class="card-header bg-success">
         <h4 class="mb-0 text-white">Implementados</h4>
@@ -114,7 +123,7 @@
       <div class="card-body">
         <div class="row draggable-cards" id="draggable-area">
           @foreach ($implementados as $implementado)
-            <div class="col-md-12 col-sm-12">
+            <div class="col-md-12 col-sm-12 filter cliente-{{$implementado->id_cliente}}">
               <!-- ---------------------
                                 start Special title treatment
                             ---------------- -->
@@ -124,8 +133,8 @@
                 </div>
                 <div class="card-body">
                   <h6 class="card-title">{{$implementado->descripcion}}</h6>
-                  <p class="card-text">
-                    {{$implementado->nombre_s}}
+                  <p class="card-text filtro">
+                    {{$implementado->nombre_cl}}
                   </p>
                   <a href={{route('Documentos',$implementado->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
                 </div>
@@ -150,14 +159,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          
           <p>
             Si se autoriza enviar los datos, se debera esperar a que un coordinador autorice los ajustes
           </p>
           <div class="form-group row">
             <label for="solicitante" class="col-sm-12 text-end control-label col-form-label">Quien solicita</label>
             <div class="col-md-12">
-              <input id="solicitante" type="text" class="required form-control  @error ('solicitante') is-invvalid @enderror" placeholder="Nombre completo">
+              <input id="solicitante" type="text" class="required form-control  @error ('solicitante') is-invvalid @enderror" placeholder="ej. Juan Pérez González">
               @error('solicitante')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
@@ -170,14 +178,14 @@
           <button type="button" class="btn btn-light-danger text-danger font-medium waves-effect text-start" data-bs-dismiss="modal">
             Cancelar
           </button>
-          <button id="solicitar" type="button" class="btn btn-success" data-bs-dismiss="modal">Enviar</button>
+          <button id="solicitar" type="button" class="btn btn-success d-block block-modal">Enviar</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 <style>
-  .card-body{
+  .card-body,.overflow-auto{
     overflow-y: auto;
     max-height: 500px;
   }
@@ -212,7 +220,7 @@
         {
           moves: function (e, t, n) {
             return n.classList.contains('handle');
-            console.log(n.classList.contains('titleArea'));
+            //console.log(n.classList.contains('titleArea'));
           },
         },
       ),
@@ -232,35 +240,52 @@
 <script>
   $(document).ready(function () {
     $('#solicitar').on('click', function (){
+      var cliente = $('#clientes').val();
       var lista = document.getElementById('card-colors');
-      var cliente = $('.d-none').attr("id");
+      var sistema = $('.d-none').attr("id");
       var solicitante = $('#solicitante').val();
-      var orden = '';
+      let orden = [];
       for(var i = 0; i<lista.children.length; i++){
-        if (i < lista.children.length-1) {
-          orden += lista.children[i].id + ',';
-        }else{
-          orden += lista.children[i].id;
+        if(lista.children[i].classList[3] == 'cliente-' + cliente){
+          console.log()
+          if (i < lista.children.length) {
+            orden.push(lista.children[i].id);
+          }
         }
       }
-      $.ajax({
-        headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-        type: 'POST',
-        url: "solicitud.prioridades",
-        data: { id_cliente: cliente, orden: orden, solicitante: solicitante},
-        success: function (response) {
-          window.location.href = "prioridad." + cliente;
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) { 
-          //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-          if (XMLHttpRequest.status === 422) {
-            //alert('Not connect: Verify Network.');
-            alert("Se requiere el nombre del solicitante");
-          } 
-        }
-      });
+          console.log(orden)
+      if(orden.length > 1){
+        $.ajax({
+          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+          type: 'POST',
+          url: "solicitud.prioridades",
+          data: { id_cliente: cliente, orden: orden, id_sistema: sistema, solicitante: solicitante},
+          success: function (response) {
+            window.location.href = "prioridad." + sistema;
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+            if (XMLHttpRequest.status === 422) {
+              //alert('Not connect: Verify Network.');
+              alert("Se requiere el nombre del solicitante");
+            } 
+          }
+        });
+      }
     }) 
 
   })
 </script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.filter').hide();
+    $('#clientes').on('change', function(){
+      var value = $(this).val();
+      $('.filter').hide();
+      $('.cliente-' + value ).show();
+      
+    });
+  });
+  </script>
 @endsection

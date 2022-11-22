@@ -12,6 +12,7 @@ class solpri extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'id_cliente',
+        'id_sistema',
         'orden',
         'solicitante',
         'id_user'

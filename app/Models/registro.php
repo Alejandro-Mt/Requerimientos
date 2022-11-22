@@ -19,6 +19,9 @@ class registro extends Model
         'id_estatus',
         'id_area',
         'id_arquitecto',
-        'id_clase'
+        'id_clase',
+        'folio_pr',
+        'es_proyecto',
+        'es_emergente'
     ];
 }

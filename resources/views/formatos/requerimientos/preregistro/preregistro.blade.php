@@ -25,7 +25,7 @@
                     </div>
                     <form method="POST" action="{{route ('ClienteSol')}}" class="mt-5">
                         {{ csrf_field() }}
-                            <div class="text-right">
+                            <!--<div class="text-right">
                                 <li class="sidebar-item">
                                     <a href="{{route('Estadistico')}}" class="text-dark">
                                         <i class="fa fa-line-chart" aria-hidden="true">
@@ -33,7 +33,7 @@
                                         </i>
                                     </a>
                                 </li>
-                            </div>
+                            </div>-->
                             <section>
                                 <div class="d-none">
                                     <div class="col-md-3">
@@ -125,7 +125,7 @@
                                 </div>
                                 <p>(*) Campos Obligatorios</p>
                                 <div class="card-body text-center">
-                                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                     Guardar
                                     </button>
                                     <label> </label> 
@@ -138,7 +138,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header d-flex align-items-center">
                                         <h4 class="modal-title"><strong>Documentos adjuntos</strong></h4>
-                                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <a href="index.html" class="">Desea agregar archivos como referencia a este reporte</a>

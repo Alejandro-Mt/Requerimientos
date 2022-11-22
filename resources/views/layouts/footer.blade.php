@@ -1,4 +1,4 @@
 <footer class="footer text-center">
-    Infraestructura . Comunicación . Desarrollo 
-    <a href="https://e-learning.triplei.mx/PORTALTI/" target="_blank">3TI</a>.
+    <p>Infraestructura . Comunicación . Desarrollo</p>
+    <a href="https://e-learning.triplei.mx/PORTALTI/" target="_blank">It-Strategy</a>.
 </footer>

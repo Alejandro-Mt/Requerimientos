@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Interno\ActualizacionPrioridades;
 use App\Models\archivo;
 use App\Models\Cliente;
 use App\Models\comentario;
@@ -14,6 +15,8 @@ use App\Models\solpri;
 use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ClienteController extends Controller
 {
@@ -58,11 +61,11 @@ class ClienteController extends Controller
         
         $proyectos = 
             registro::
-                select('registros.id_cliente','nombre_cl')->
-                join('clientes as cl','registros.id_cliente','cl.id_cliente')->
+                select('registros.id_sistema','nombre_s')->
+                join('sistemas as s','registros.id_sistema','s.id_sistema')->
                 wherenotin('id_estatus',[18])->
                 distinct()->
-                orderby('nombre_cl','asc')->
+                orderby('nombre_s','asc')->
                 get();
         
         return view('cliente.clientes',compact('proyectos'));
@@ -145,45 +148,72 @@ class ClienteController extends Controller
         //
         $orden = solpri::where([['estatus', 'autorizado'],['id_cliente',$id]])->orderby('id','desc')->limit(1)->get();
         $validar = solpri::where([['estatus', 'autorizado'],['id_cliente',$id]])->count();
+        $clientes = 
+            registro::
+                select('cl.id_cliente','cl.nombre_cl')->
+                join('clientes as cl', 'registros.id_cliente','cl.id_cliente')->
+                where('registros.id_sistema',$id)->
+                orderby('cl.nombre_cl')->
+                distinct()->
+                get();
         $pendientes = 
             registro::
-                join('sistemas as s','s.id_sistema','registros.id_sistema')
+                join('clientes as cl','cl.id_cliente','registros.id_cliente')
                 ->wherenotin('registros.id_estatus',[13,14,18])
                 ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
-                ->where('registros.id_cliente', $id)
+                ->where('registros.id_sistema', $id)
                 ->get();
         $implementados = 
             registro::
-                join('sistemas as s','s.id_sistema','registros.id_sistema')
+                join('clientes as cl','cl.id_cliente','registros.id_cliente')
                 ->where('registros.id_estatus','18')
-                ->where('registros.id_cliente', $id)
+                ->where('registros.id_sistema', $id)
                 ->get();
         $pospuestos = 
             registro::
-                join('sistemas as s','s.id_sistema','registros.id_sistema')
+                join('clientes as cl','cl.id_cliente','registros.id_cliente')
                 ->wherein(
                     'folio',
                     pausa::select('folio')
                     ->where('pausa',2)
-                    ->where('registros.id_cliente', $id)
+                    ->where('registros.id_sistema', $id)
                     ->distinct()
                 )
                 ->orwhere('registros.id_estatus',13)
-                ->where('registros.id_cliente', $id)
+                ->where('registros.id_sistema', $id)
                 ->get();
-        return view('cliente.prioridad',compact('implementados','orden','pendientes','pospuestos','validar'));
-        dd($validar);
+        $sistemas = 
+            registro::
+                select('registros.id_sistema','nombre_s')->
+                join('sistemas as s','registros.id_sistema','s.id_sistema')->
+                wherenotin('id_estatus',[18])->
+                distinct()->
+                orderby('nombre_s','asc')->
+                get();
+        return view('cliente.prioridad',compact('clientes','implementados','orden','pendientes','pospuestos','validar','sistemas'));
+        //dd($validar);
     }
     public function request(Request $data)
     {
         $this->validate($data, [
-            'solicitante' => 'required'
+            'solicitante' => 'required',
+            'id_sistema' => 'required'
         ]);
         solpri::create([
             'id_cliente' => $data['id_cliente'],
-            'orden' => $data['orden'],
-            'solicitante' => $data['solicitante']
+            'orden' => implode(',', $data['orden']),
+            'solicitante' => $data['solicitante'],
+            'id_sistema' => $data['id_sistema']
         ]);
+        $destino = 
+            db::
+                table('users as u')->
+                select('email')->
+                join('accesos as a','u.id','a.id_user')->
+                where([['a.id_sistema','=',$data['id_sistema']],['u.id_puesto','>',3]])->get();
+        foreach($destino as $correo){  
+            mail::to($correo->email)->send(new ActualizacionPrioridades($data)); 
+        } 
         #return redirect(route('Prioridad',$data['id_cliente']));
     }
 }
