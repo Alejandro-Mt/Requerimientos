@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Interno\ActualizacionPrioridades;
+use App\Mail\Interno\PrioridadCliente;
 use App\Models\archivo;
 use App\Models\Cliente;
 use App\Models\comentario;
 use App\Models\estatu;
 use App\Models\levantamiento;
 use App\Models\pausa;
+use App\Models\pricli;
 use App\Models\registro;
 use App\Models\sistema;
 use App\Models\solpri;
@@ -216,4 +218,47 @@ class ClienteController extends Controller
         } 
         #return redirect(route('Prioridad',$data['id_cliente']));
     }
+
+    public function importance()
+    {
+        //
+        $proyectos = 
+            sistema::
+                orderby('nombre_s')->get();
+        
+        $listado = 
+            registro::
+                select('registros.id_cliente','nombre_cl','id_sistema')->
+                join('clientes as cl','registros.id_cliente','cl.id_cliente')->
+                wherenotin('id_estatus',[18])->
+                distinct()->
+                get();
+        
+        return view('cliente.importancia',compact('listado','proyectos'));
+        //dd($validar);
+    }
+    public function updimp(request $data)
+    {
+        $this->validate($data, [
+            'id_sistema' => 'required'
+        ]);
+        pricli::create([
+            'id_sistema' => $data['id_sistema'],
+            'orden' => implode(',', $data['orden']),
+            'id_user' => Auth::user()->id
+        ]);
+        $destino = 
+            db::
+            table('users as u')->
+            select('email')->
+            join('accesos as a','u.id','a.id_user')->
+            where([['a.id_sistema','=',$data['id_sistema']],['u.id_puesto','>',5]])->
+            get();
+        foreach($destino as $correo){  
+            mail::to($correo->email)->send(new PrioridadCliente($data)); 
+        } 
+        dd($data);
+
+    }
+
 }

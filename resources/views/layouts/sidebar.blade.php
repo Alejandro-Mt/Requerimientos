@@ -36,14 +36,14 @@
                             </a>
                         </li>
                     </ul>
-                </li>-->
+                </li>
                 <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{route('Editar')}}" aria-expanded="false">
                         <i class="mdi mdi-chart-bar"></i>
                         <span class="hide-menu">Análisis</span>
                     </a>
-                </li>
+                </li>-->
                 <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{route('Editar')}}" aria-expanded="false">

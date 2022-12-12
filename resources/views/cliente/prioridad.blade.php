@@ -271,7 +271,7 @@
             } 
           }
         });
-      }
+      }else{alert("Tines que seleccionar un cliente con mas de un requerimiento")}
     }) 
 
   })
@@ -279,7 +279,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.filter').hide();
     $('#clientes').on('change', function(){
       var value = $(this).val();
       $('.filter').hide();

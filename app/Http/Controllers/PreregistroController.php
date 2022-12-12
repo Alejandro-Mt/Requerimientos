@@ -11,7 +11,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitud;
-use App\Models\user;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -53,7 +53,7 @@ class PreregistroController extends Controller
         $registros = $registros + 1;
         $folio = "$data[folio]-$registros";
         $this->validate($data, [
-            'descripcion' => "max:150",
+            'descripcion' => "max:250",
         ]);
         solicitud::create([
             'folio' => $folio,
@@ -64,7 +64,7 @@ class PreregistroController extends Controller
             'id_estatus' => 20,
             'descripcion' => $data['descripcion']
         ]);
-        $coordinacion = user:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
+        $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
         $solicitud = solicitud::where('folio',$folio)->get();
         $archivos = archivo::where ('folio', $folio)->get();
         foreach ($coordinacion as $c){
@@ -147,7 +147,8 @@ class PreregistroController extends Controller
         $clases = clase::all();
         $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
         $estatus = estatu::all();
-        $id = registro::latest('id_registro')->first();
+        $proyectos = registro::where('folio', 'like', 'PR-PIP%')->get();
+        #$id = registro::latest('id_registro')->first();
         $registros = registro::where('folio', 'like', 'PIP%')->count();
         $responsable = responsable::orderby('apellidos', 'asc')->get();
         $sistema = sistema::all();

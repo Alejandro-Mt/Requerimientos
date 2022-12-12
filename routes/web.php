@@ -162,6 +162,9 @@ route::get('prioridad.{id_sistema}',[ClienteController::class, 'priority'])->nam
 route::get('documentacion.{folio}',[ClienteController::class, 'document'])->name('Documentos');
 route::post('solicitud.prioridades',[ClienteController::class, 'request'])->name('CPrioridad');
 
+route::get('clientes',[ClienteController::class, 'importance'])->name('Importancia')->middleware('auth');
+route::post('clientes.prioridades',[ClienteController::class, 'updimp'])->name('CImportancia');
+
 route::get('preregistro.listado',[PreregistroController::class, 'store'])->name('Admsol');
 route::get('preregistro.datos.{folio}',[PreregistroController::class, 'show'])->name('AA');
 route::get('requerimiento.nuevo.{folio}',[PreregistroController::class, 'edit'])->name('NR');

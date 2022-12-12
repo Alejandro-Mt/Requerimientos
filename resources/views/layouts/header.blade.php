@@ -203,9 +203,16 @@
               Perfil
             </a>
             @if (Auth::user()->id_puesto > 3)
+              <a class="dropdown-item d-flex d-block" href="{{route('Importancia')}}">
+                <i class="fas fa-sitemap"></i>
+                  <span class="ms-1">Prioridad de clientes</span>
+                  @if (Auth::noti() > 0)
+                    <span class="mb-1 badge rounded-pill ms-auto bg-danger">{{Auth::noti()}}</span>
+                  @endif
+              </a>
               <a class="dropdown-item d-flex d-block" href="{{route('AutP')}}">
                 <i class="feather-icon" data-feather="archive"></i>
-                  <span class="ms-1">Ajuste a prioridades</span>
+                  <span class="ms-1">Autorización a prioridades</span>
                   @if (Auth::noti() > 0)
                     <span class="mb-1 badge rounded-pill ms-auto bg-danger">{{Auth::noti()}}</span>
                   @endif
