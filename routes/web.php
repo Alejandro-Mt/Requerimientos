@@ -137,6 +137,7 @@ Route::post('/formatos.subproceso',[MenuController::class, 'sub'])->name('Sub');
 route::get('formatos.maquetado.new',[MaquetadoController::class, 'index'])->middleware('auth')->name('NuevaMaqueta');
 route::post('formatos.maquetado.new',[MaquetadoController::class, 'create'])->name('NRegistro');
 ##  metodos para Comentarios ##
+route::post('formatos.link',[PlaneacionController::class, 'update'])->name('ULink');
 route::get('formatos.comentarios.{folio}',[MenuController::class, 'avance'])->middleware('auth')->name('Avance');
 route::post('formatos.comentarios',[MenuController::class, 'comentar'])->name('Comentar');
 ##  metodos para Soporte ##

@@ -12,6 +12,7 @@ use App\Models\estatu;
 use App\Models\funcionalidad;
 use App\Models\levantamiento;
 use App\Models\pausa;
+use App\Models\planeacion;
 use App\Models\puesto;
 use App\Models\registro;
 use App\Models\responsable;
@@ -175,8 +176,10 @@ class MenuController extends Controller
                                     ->where('folio',$folio)->get();
         $archivos = archivo::where('folio',$folio)->get();
         $formatos = levantamiento::where('folio',$folio)->count();
-        return view('formatos.comentarios',compact('archivos','comentarios','estatus','folio','formatos','registros'));
-        #dd($formatos);
+        $reg = planeacion::where('folio',$folio)->exists();
+        if($reg){$link = planeacion::select('evidencia')->where('folio',$folio)->first();}else{$link = NULL;}
+        return view('formatos.comentarios',compact('archivos','comentarios','estatus','folio','formatos','link','registros'));
+        #dd($link);
     }
     public function comentar(Request $data){
         //validat datos

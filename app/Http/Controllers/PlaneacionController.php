@@ -197,9 +197,24 @@ class PlaneacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $data)
     {
-        //
+        //validar datos
+        $this->validate($data, [
+            'evidencia' => 'required'
+        ]);
+        $verificar = planeacion::where('folio',$data['folio'])->count();
+        if($verificar == 0){
+            planeacion::create([
+                'folio' => $data['folio'],
+                'evidencia' => $data['evidencia']
+            ]);
+        }
+        else{
+            $update = planeacion::where('folio',$data['folio'])->first();
+            $update->evidencia = $data['evidencia'];
+            $update->save();
+        }
     }
 
     /**

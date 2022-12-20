@@ -7,7 +7,7 @@
         <div class="card-body wizard-content">
           <div class="form-group row">
             <div class="col-md-6">
-              <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" readonly="readonly" value="{{$avance->folio}}"> 
+              <input id="folio" name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" readonly="readonly" value="{{$avance->folio}}"> 
             </div>
             <div class="col-md-6">
               <input name="descripcion" type="text" class="required form-control" readonly="readonly" value="{{$avance->descripcion}}">  
@@ -100,16 +100,61 @@
                 <div class="row">
                   <div class="col-xl-2 col-md-6 col-lg-10 d-flex align-items-center border-bottom">
                     <h4 class="card-title">
-                      <span class="lstick d-inline-block align-middle"></span><strong>{{ __('DOCUMENTACIÓN') }}</strong>
+                      @if ($link != NULL)
+                        <a href="{{$link->evidencia}}" class="text-dark">
+                          <span class="lstick d-inline-block align-middle"></span>
+                          <strong>{{ __('DOCUMENTACIÓN') }}</strong>
+                        </a>
+                      @else
+                        @foreach ($registros as $registro)
+                          <a data-bs-toggle="modal" data-bs-target="#link" class="text-dark">
+                            <span class="lstick d-inline-block align-middle"></span>
+                            <strong>{{ __('DOCUMENTACIÓN') }}</strong>
+                          </a>
+                        @endforeach
+                      @endif
                     </h4>
                   </div>
                   <div class="col-xl-2 col-md-6 col-lg-2 d-flex align-items-center border-bottom">
+                    <button type="button" class="btn waves-effect waves-light btn-outline-info">
+                      <a data-bs-toggle="modal" data-bs-target="#link">
+                        <i class="feather-sm" data-feather="link"></i>
+                      </a>
+                    </button>
                     <button id="upload" type="button" class="btn waves-effect waves-light btn-outline-success">
                       <a data-bs-toggle="modal" data-bs-target="#Adjuntos">
                         <i class="feather-sm" data-feather="upload-cloud"></i>
                       </a>
                     </button>
+                  </div><!-- BEGIN MODAL LINK -->
+                  <div class="modal" id="link">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header d-flex align-items-center">
+                          <h4 class="modal-title"><strong>Adjuntar Link</strong></h4>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group row">
+                            <label for="evidencia" class="col-sm-2 text-end control-label col-form-label">Link</label>
+                              <div class="col-md-8">
+                                <input id="evidencia" type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
+                                      name="evidencia" placeholder="evidencia" required autofocus>
+                                  @error('evidencia')
+                                    <span class="invalid-feedback" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                    </span>
+                                  @enderror
+                              </div>
+                          </div>
+                          <button type="button" class="btn btn-success waves-effect waves-light text-white link">
+                            <i style="color:white"> Actualizar</i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                  <!-- End Modal -->
                   <!-- BEGIN MODAL -->
                   <div class="modal" id="Adjuntos">
                     <div class="modal-dialog">
@@ -368,7 +413,28 @@
           $('#'+parent).hide("slow");
         }               
       });
-    });                 
+    }); 
+    $('.link').on('click', function(){
+      var link = $('#evidencia').val();
+      var folio = $('#folio').val();
+      $.ajax({
+          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+          type: 'POST',
+          url: "formatos.link",
+          data: { folio: folio, evidencia: link},
+          success: function (response) {
+            window.location.href = "formatos.comentarios." + folio;
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+            if (XMLHttpRequest.status === 422) {
+              //alert('Not connect: Verify Network.');
+              alert("Aun no capturas el Link");
+            } 
+          }
+        });
+    });
   });    
 </script>
+
 @endsection
