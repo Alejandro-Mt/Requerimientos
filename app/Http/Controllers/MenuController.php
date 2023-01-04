@@ -17,6 +17,7 @@ use App\Models\puesto;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
+use App\Models\solicitante;
 use App\Models\subproceso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -228,8 +229,8 @@ class MenuController extends Controller
         $puestos = puesto::all();
         $responsables = responsable::select('id_responsable','nombre_r','apellidos','email','responsables.id_area','area')->leftjoin('areas as a','responsables.id_area','a.id_area')->get();
         $sistemas = sistema::all();
-
-        return view('/layouts.datos',compact('areas','clientes','departamentos','estatus','funcionalidad','puestos','responsables','sistemas'));
+        $solicitantes = solicitante::all();
+        return view('/layouts.datos',compact('areas','clientes','departamentos','estatus','funcionalidad','puestos','responsables','sistemas','solicitantes'));
         #dd($responsables);
     }
     public function posponer($folio){

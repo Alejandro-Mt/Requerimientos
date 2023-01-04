@@ -26,18 +26,51 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="solicitante"
-                                class="col-sm-2 text-end control-label col-form-label">Solicitante*</label>
+                            <label for="id_solicitante"class="col-sm-2 text-end control-label col-form-label">Solicitante*</label>
                             <div class="col-md-8">
-                                @foreach ($levantamientos as $valor)
-                                    <input type="text" class="required form-control @error('solicitante') is-invalid @enderror" 
-                                    name="solicitante" placeholder="Quien Solicita" required autofocus value={{$valor->solicitante}}>
-                                @endforeach
-                                @error('solicitante')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <select class="form-select @error ('id_solicitante') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_solicitante" tabindex="-1" aria-hidden="true" required autofocus>
+                                    @foreach ($levantamientos as $valor)
+                                        <option value={{$valor->id_solicitante}}>
+                                            @foreach ($solicitantes as $solicitante) 
+                                                @if ($valor->id_solicitante == $solicitante->id_solicitante)
+                                                    {{"$solicitante->a_pat  $solicitante->a_mat $solicitante->nombre"}}
+                                                @endif
+                                            @endforeach
+                                        </option>                                        
+                                    @endforeach
+                                    @foreach ($solicitantes as $solicitante)
+                                        <option value = {{ $solicitante->id_solicitante }}>{{"$solicitante->a_pat  $solicitante->a_mat $solicitante->nombre"}}</option>;
+                                    @endforeach
+                                    @error('id_solicitante')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror                      
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="id_division"class="col-sm-2 text-end control-label col-form-label">División*</label>
+                            <div class="col-md-8">
+                                <select class="form-select @error ('id_division') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_division" tabindex="-1" aria-hidden="true" required autofocus>
+                                    @foreach ($levantamientos as $valor)
+                                    <option value={{$valor->id_division}}>
+                                        @foreach ($divisiones as $division) 
+                                            @if ($valor->id_division == $division->id_division)
+                                                {{$division->division}}
+                                            @endif
+                                        @endforeach
+                                    </option>                                        
+                                    @endforeach
+                                    @foreach ($divisiones as $division)
+                                        <option value = {{ $division->id_division }}>{{$division->division}}</option>;
+                                    @endforeach
+                                    @error('id_division')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror                      
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -66,34 +99,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
-                            <label for="jefe_departamento"
-                                class="col-sm-2 text-end control-label col-form-label">Jefe de Departamento</label>
-                            <div class="col-md-8">  
-                                <select class="form-select @error('jefe_departamento') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="jefe_departamento" tabindex="-1" aria-hidden="true" required autofocus>
-                                    @foreach ($levantamientos as $valor)
-                                        <option value={{$valor->jefe_departamento}}>
-                                            @foreach ($responsables as $previo) 
-                                                @if ($valor->jefe_departamento == $previo->id_responsable)
-                                                    {{$previo->apellidos}} {{$previo->nombre_r}}
-                                                @endif
-                                            @endforeach
-                                        </option>                                        
-                                    @endforeach
-                                    @foreach ($responsables as $ejecutivo)
-                                        @if ($ejecutivo ->id_area == 2)
-                                            <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->nombre_r}}</option>;
-                                        @endif
-                                    @endforeach                     
-                                </select>
-                                @error('jefe_departamento')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>-->
                         <div class="form-group row">
                             <!-- ID Autoriza -->
                             <label for="autorizacion"
@@ -105,7 +110,7 @@
                                     <option value={{$valor->autorizacion}}>
                                         @foreach ($responsables as $previo) 
                                             @if ($valor->autorizacion == $previo->id_responsable)
-                                                {{$previo->nombre_r}}
+                                                {{"$previo->apellidos $previo->nombre_r"}}
                                             @endif
                                         @endforeach
                                     </option>                                        

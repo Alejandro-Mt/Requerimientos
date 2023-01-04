@@ -25,6 +25,8 @@ class levantamiento extends Model
         'areas',
         'esperado',
         'involucrados',
-        'estatusAut'
+        'estatusAut',
+        'id_solicitante',
+        'id_division'
     ];
 }

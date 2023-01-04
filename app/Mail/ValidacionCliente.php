@@ -36,7 +36,7 @@ class ValidacionCliente extends Mailable
                                     'r.descripcion',
                                     'l.created_at as fsol',
                                     'a.area',
-                                    'l.solicitante',
+                                    db::raw("concat(sol.nombre,' ',sol.a_pat,' ',ifnull(sol.a_mat,' ')) as solicitante"),
                                     'd.departamento',
                                     'jd.nombre_r as j_dep',
                                     's.nombre_s',
@@ -59,6 +59,7 @@ class ValidacionCliente extends Mailable
                           ->leftJoin('sistemas as s','r.id_sistema', 's.id_sistema')
                           ->leftJoin('clientes as c','c.id_cliente','r.id_cliente')
                           ->leftJoin('responsables as au','l.autorizacion','au.id_responsable')
+                          ->leftJoin('solicitantes as sol','sol.id_solicitante','l.id_solicitante')
                           ->where('l.folio', $folio)->get();
         $this->sistemas = sistema::all();
         $this->responsables = responsable::all();

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Mail\Interno\NuevoProyecto;
 use App\Models\area;
 use App\Models\departamento;
+use App\Models\division;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
+use App\Models\solicitante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -24,10 +26,12 @@ class LevantamientosController extends Controller
     protected function formato($id_registro){
         $areas = area::all();
         $departamentos = departamento::all();
+        $divisiones = division::all();
         $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
         $responsables = responsable::orderby('apellidos', 'asc')->get();
         $sistemas = sistema::all();
-        return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros','departamentos','areas')); 
+        $solicitantes = solicitante::all();
+        return view('formatos/requerimientos/formato',compact('solicitantes','sistemas','responsables','registros','divisiones','departamentos','areas')); 
     }
 
 
@@ -39,9 +43,7 @@ class LevantamientosController extends Controller
     
     protected function levantamiento(request $data){
         $this->validate($data, [
-            'problema' => "max:250",
-            'general' => "max:250",
-            'detalle' => "max:250"
+            'problema' => "max:250"
         ]);
         levantamiento::create([
             'folio' => $data['folio'],
@@ -57,7 +59,9 @@ class LevantamientosController extends Controller
             'relaciones' => implode(',', $data['relaciones']),
             'areas' => implode(',', $data['areas']),
             'esperado' => $data['esperado'],
-            'involucrados'=> implode(',', $data['involucrados'])
+            'involucrados'=> implode(',', $data['involucrados']),
+            'id_solicitante' => $data['id_solicitante'],
+            'id_division' => $data['id_division']
         ]);
         $destino = db::table('responsables')->wherein('id_responsable',$data['involucrados'])->get();
         $estatus = registro::where('folio', $data->folio)->first();
@@ -95,6 +99,8 @@ class LevantamientosController extends Controller
         $update->areas = implode(',', $data['areas']);
         $update->esperado = $data['esperado'];
         $update->involucrados = implode(',', $data['involucrados']);
+        $update->id_solicitante = $data['id_solicitante'];
+        $update->id_division = $data['id_division'];
         $estatus = registro::select()-> where ('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
@@ -129,11 +135,13 @@ class LevantamientosController extends Controller
         $levantamientos = levantamiento::findOrFail($registros);
         $departamentos = departamento::all();
         $areas = area::all();
+        $solicitantes = solicitante::all();
+        $divisiones = division::all();
         foreach($levantamientos as $valor);
         $involucrados = explode(',',$valor->involucrados);
         $relaciones = explode(',',$valor->relaciones);
         $areasr = explode(',',$valor->areas);
-        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamientos','involucrados','departamentos','areasr','areas'));
+        return view('formatos/requerimientos/levantamiento',compact('solicitantes','sistemas','responsables','relaciones','registros','levantamientos','involucrados','divisiones','departamentos','areasr','areas'));
         #dd($relaciones);
     }
 

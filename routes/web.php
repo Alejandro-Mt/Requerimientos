@@ -26,6 +26,7 @@ use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\ResponsableController;
 use App\Http\Controllers\SistemaController;
+use App\Http\Controllers\Solicitantescontroller;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -85,6 +86,10 @@ Route::delete('responsable.Borrar.{id_responsable}', [ResponsableController::cla
 Route::post('sistema.nuevo', [SistemaController::class, 'create'])->name('NSistema');
 Route::post('sistema.actualizar.{id_sistema}', [SistemaController::class, 'update'])->name('USistema');
 Route::delete('sistema.Borrar.{id_sistema}', [SistemaController::class, 'destroy'])->name('DSistema');
+#          Solicitante         #
+Route::post('solicitante.nuevo', [Solicitantescontroller::class, 'create'])->name('NSolicitante');
+Route::post('solicitante.actualizar.{id_sistema}', [Solicitantescontroller::class, 'update'])->name('USolicitante');
+Route::delete('solicitante.Borrar.{id_sistema}', [Solicitantescontroller::class, 'destroy'])->name('DSolicitante');
 #          Proceso Requerimiento         #
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');

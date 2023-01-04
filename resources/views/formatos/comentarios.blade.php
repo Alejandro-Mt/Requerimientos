@@ -323,6 +323,10 @@
                                   @else
                                     @if($comentario->id_estatus == 13)
                                       @include('layouts.comentario')
+                                    @else
+                                      @if($comentario->id_estatus == 18)
+                                        @include('layouts.comentario')
+                                      @endif
                                     @endif
                                   @endif
                                 @endif
