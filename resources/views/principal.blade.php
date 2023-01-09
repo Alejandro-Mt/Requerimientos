@@ -20,7 +20,6 @@
                   <th class="header">DESCRIPCIÓN</th>
                   <th class="header">*ESTATUS GENERAL</th>
                   <th class="header">*CLASIFICACIÓN</th>
-                  <th class="header">*SUBPROCESO</th>
                   <th class="header">*SISTEMA</th>
                   <th class="header">*RESPONSABLE DESARROLLO</th>
                   <th class="header">*CLIENTE</th>
@@ -84,7 +83,6 @@
                     <td>{{$registro->descripcion}}</td>
                     <td>{{$registro->titulo}}</td>
                     <td>{{$registro->clase}}</td>
-                    <td>{{$registro->subproceso}}</td>
                     <td>{{$registro->nombre_s}}</td>
                     <td>{{$registro->Arquitecto}}</td>
                     <td>{{$registro->nombre_cl}}</td>
@@ -164,7 +162,6 @@
                   <th>DESCRIPCIÓN</th>
                   <th>*ESTATUS GENERAL</th>
                   <th>*CLASIFICACIÓN</th>
-                  <th>*SUBPROCESO</th>
                   <th>*SISTEMA</th>
                   <th>*RESPONSABLE DESARROLLO</th>
                   <th>*CLIENTE</th>

@@ -31,14 +31,13 @@ class HomeController extends Controller
                             'r.id_registro',
                             'r.folio',
                             'descripcion',
-                            'e.titulo',
+                            db::raw("if(pa.pausa = '2','POSPUESTO',e.titulo) as titulo"),
                             'cl.clase',
-                            'subproceso',
                             'l.impacto',
                             'nombre_s',
-                            db::raw("ifnull(ar.nombre_r,'NO ASIGNADO') as Arquitecto"),
+                            db::raw("ifnull(CONCAT(ar.nombre_r,' ', ar.apellidos),'NO ASIGNADO') as Arquitecto"),
                             'nombre_cl',
-                            're.nombre_r',
+                            db::raw("CONCAT(re.nombre_r,' ', re.apellidos) as nombre_r"),
                             db::raw("CONCAT(r.folio,' ', descripcion) as Bitrix"),
                             'r.created_at as solicitud',
                             'l.created_at as formato',
@@ -62,7 +61,6 @@ class HomeController extends Controller
                             db::raw("ifnull(TIMESTAMPDIFF(day,an.fechaCompReqC,ifnull(an.fechaCompReqR,now())),0) as diasAut"),
                             'co.fechaCompReqC as fechaConst',
                             'dfc.motivo as motivoDC',
-                            #db::raw("ifnull(TIMESTAMPDIFF(day,an.fechaCompReqC,ifnull(an.fechaCompReqR,now())),0) as diasAut")
                             'i.solInfopip',
                             'i.solInfoC',
                             'i.respuesta',
@@ -92,7 +90,6 @@ class HomeController extends Controller
                         ->leftJoin('clases as cl', 'cl.id_clase','r.id_clase')
                         ->leftjoin('responsables as ar','r.id_arquitecto','ar.id_responsable')
                         ->leftjoin('levantamientos as l','r.folio','l.folio')
-                        ->leftJoin('subprocesos as sub','r.folio','sub.folio')
                         ->leftJoin('planeacion as p', 'r.folio','p.folio')
                         ->leftjoin('desfases as df', 'p.motivodesfase', 'df.id')
                         ->leftJoin('analisis as an', 'r.folio', 'an.folio')
@@ -103,6 +100,7 @@ class HomeController extends Controller
                         ->leftJoin('desfases as dfi', 'i.motivoRetrasoInfo', 'dfi.id')
                         ->leftJoin('liberaciones as lib', 'r.folio', 'lib.folio')
                         ->leftJoin('implementaciones as imp', 'r.folio', 'imp.folio')
+                        ->leftJoin('pausas as pa', 'r.folio', 'pa.folio')
                         ->orderBy('r.id_registro','asc')
                         ->get();
         $SxR = db::table('registros as r')

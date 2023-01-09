@@ -205,11 +205,11 @@
                         @foreach ($pausa as $p)
                             @if ($p->pausa == '1' and $p->folio==$registro->folio)
                                 <div class="col-md-2 col-lg-2 f-icon">
-                                    <a id="play{{$loop->iteration}}" class="fas fa-play" style="color:green" href="{{route('Play',$registro->folio)}}"></a>
+                                    <a id="play{{$loop->parent->iteration}}" class="fas fa-play" style="color:green" href="{{route('Play',$registro->folio)}}"></a>
                                 </div>
                             @elseif ($p->pausa <> '1' and $p->folio==$registro->folio)
                                 <div class="col-md-2 col-lg-2 f-icon">
-                                    <a id="play{{$loop->iteration}}"class="fas fa-pause"  style="color:red" href="{{route('Pausa',$registro->folio)}}"></a>
+                                    <a id="play{{$loop->parent->iteration}}"class="fas fa-pause"  style="color:red" href="{{route('Pausa',$registro->folio)}}"></a>
                                 </div>
                             @endif
                         @endforeach
