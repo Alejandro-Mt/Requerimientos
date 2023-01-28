@@ -92,7 +92,7 @@ class PreregistroController extends Controller
         $clientes = Cliente::all();
         $estatus = estatu::all();
         $sistemas = sistema::all();
-        $solicitudes = solicitud::select('solicitudes.*',db::raw('if(a.folio = solicitudes.folio,"si","no") as adjunto'))->leftjoin('archivos as a','solicitudes.folio','a.folio')->distinct()->get();
+        $solicitudes = solicitud::select('solicitudes.*',db::raw('if(a.folio = solicitudes.folio,"si","no") as adjunto'))->leftjoin('archivos as a','solicitudes.folio','a.folio')->where(db::raw('EXTRACT(year FROM solicitudes.created_at)', 'EXTRACT(year FROM now())'))->distinct()->get();
         return view('formatos.requerimientos.preregistro.store',compact('archivos','clientes','estatus','sistemas','solicitudes'));
     }
 
@@ -153,7 +153,7 @@ class PreregistroController extends Controller
         $responsable = responsable::orderby('apellidos', 'asc')->get();
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
-        return view('formatos.requerimientos.new',compact('clases','cliente','datos','estatus','id','registros','responsable','sistema','vacio'));
+        return view('formatos.requerimientos.new',compact('clases','cliente','datos','estatus','proyectos','registros','responsable','sistema','vacio'));
         #dd($registros);
     }
 

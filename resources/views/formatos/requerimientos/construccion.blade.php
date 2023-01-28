@@ -39,10 +39,10 @@
                                                 id="drop-remove">
                                             <label class="form-check-label" for="drop-remove">Uso Único</label>
                                         </div>
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event" 
+                                        <!--<a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event" 
                                             class="btn mt-3 btn-info w-100 waves-effect waves-light d-flex justify-content-center align-items-center">
                                         <i data-feather="plus" class="feather-sm"></i> Nuevo Evento
-                                        </a>
+                                        </a>-->
                                     </div>
                                 </div>
                             </div>

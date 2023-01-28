@@ -61,11 +61,11 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <!--<li><a class="dropdown-item" href="{{('formatos.new')}}">Bug</a></li>
-            <li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>-->
-            <li><a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('NuevaMaqueta')}}">Maquetado</a></li>
+            <li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>
+            <li><a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('NuevaMaqueta')}}">Maquetado</a></li>-->
             <li><a class="dropdown-item mdi mdi-content-paste" href="{{route('Nuevo')}}">Requerimiento</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item mdi mdi-developer-board" href="{{route('Editar')}}">Seguimiento</a></li>
+            <!--<li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item mdi mdi-developer-board" href="{{route('Editar')}}">Seguimiento</a></li>-->
           </ul>
         </li>
         <!-- ============================================================== -->

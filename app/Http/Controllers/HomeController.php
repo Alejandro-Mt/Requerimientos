@@ -102,6 +102,7 @@ class HomeController extends Controller
                         ->leftJoin('implementaciones as imp', 'r.folio', 'imp.folio')
                         ->leftJoin('pausas as pa', 'r.folio', 'pa.folio')
                         ->orderBy('r.id_registro','asc')
+                        ->groupBy('r.folio')
                         ->get();
         $SxR = db::table('registros as r')
                     ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),

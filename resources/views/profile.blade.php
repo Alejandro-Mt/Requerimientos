@@ -334,7 +334,7 @@
           </div>
         </div>
       </div>
-      <!-- Start row -->
+      <!-- Start row --
       <div class="row">
         <div class="col-lg-6">
           <div class="card">
@@ -355,14 +355,14 @@
                 </div>
               </div>
 
-              <!-- -------------------------------------------------------------- -->
+              <!-- -------------------------------------------------------------- --
               <!-- To do list widgets -->
-              <!-- -------------------------------------------------------------- -->
+              <!-- -------------------------------------------------------------- --
               <div
                 class="to-do-widget mt-3 common-widget scrollable"
                 style="height: 410px"
               >
-                <!-- .modal for add task -->
+                <!-- .modal for add task --
                 <div
                   class="modal fade"
                   id="myModal"
@@ -419,37 +419,19 @@
                     </div>
                     <!-- /.modal-content -->
                   </div>
-                  <!-- /.modal-dialog -->
+                  <!-- /.modal-dialog --
                 </div>
-                <!-- /.modal -->
-                <ul
-                  class="list-task todo-list list-group mb-0"
-                  data-role="tasklist"
-                >
-                  <li
-                    class="list-group-item border-0 mb-0 py-3 pe-3 ps-0"
-                    data-role="task"
-                  >
+                <!-- /.modal --
+                <ul class="list-task todo-list list-group mb-0" data-role="tasklist">
+                  <li class="list-group-item border-0 mb-0 py-3 pe-3 ps-0" data-role="task">
                     <div class="form-check form-check-inline w-100">
-                      <input
-                        type="checkbox"
-                        class="form-check-input danger check-light-danger"
-                        id="inputSchedule"
-                        name="inputCheckboxesSchedule"
-                      />
-                      <label
-                        for="inputSchedule"
-                        class="form-check-label font-weight-medium"
-                      >
-                        <span>Schedule meeting with</span
-                        ><span class="badge bg-danger badge-pill ms-1"
-                          >Today</span
-                        >
+                      <input type="checkbox" class="form-check-input danger check-light-danger" id="inputSchedule" name="inputCheckboxesSchedule"/>
+                      <label for="inputSchedule" class="form-check-label font-weight-medium">
+                        <span>Schedule meeting with</span>
+                        <span class="badge bg-danger badge-pill ms-1">Today</span>
                       </label>
                     </div>
-                    <ul
-                      class="assignedto list-style-none m-0 ps-4 ms-1 mt-1"
-                    >
+                    <ul class="assignedto list-style-none m-0 ps-4 ms-1 mt-1">
                       <li class="d-inline-block border-0 me-1">
                         <img
                           src="../../assets/images/users/1.jpg"
@@ -694,7 +676,7 @@
               style="height: 514px"
             >
               <div class="card-body">
-                <!-- Activity item-->
+                <!-- Activity item--
                 <div class="activity-item mb-4 d-flex">
                   <div class="me-3">
                     <img
@@ -727,8 +709,8 @@
                     </div>
                   </div>
                 </div>
-                <!-- Activity item-->
-                <!-- Activity item-->
+                <!-- Activity item--
+                <!-- Activity item--
                 <div class="activity-item mb-4 d-flex">
                   <div class="me-3">
                     <img
@@ -817,8 +799,8 @@
                     </span>
                   </div>
                 </div>
-                <!-- Activity item-->
-                <!-- Activity item-->
+                <!-- Activity item--
+                <!-- Activity item--
                 <div class="activity-item mb-4 d-flex">
                   <div class="me-3">
                     <img
@@ -852,8 +834,8 @@
                     </span>
                   </div>
                 </div>
-                <!-- Activity item-->
-                <!-- Activity item-->
+                <!-- Activity item--
+                <!-- Activity item--
                 <div class="activity-item d-flex mb-2">
                   <div class="me-3">
                     <img
@@ -881,14 +863,14 @@
                     </p>
                   </div>
                 </div>
-                <!-- Activity item-->
+                <!-- Activity item--
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <!-- End row -->
-      <!-- Start row -->
+      <!-- Start row --
       <div class="row">
         <div class="col-lg-6">
           <div class="card">
@@ -970,7 +952,7 @@
                       >
                     </div>
                   </a>
-                  <!-- Message -->
+                  <!-- Message --
                   <a
                     href="javascript:void(0)"
                     class="
@@ -1009,7 +991,7 @@
                       >
                     </div>
                   </a>
-                  <!-- Message -->
+                  <!-- Message --
                   <a
                     href="javascript:void(0)"
                     class="
@@ -1048,7 +1030,7 @@
                       >
                     </div>
                   </a>
-                  <!-- Message -->
+                  <!-- Message --
                   <a
                     href="javascript:void(0)"
                     class="
@@ -1087,7 +1069,7 @@
                       >
                     </div>
                   </a>
-                  <!-- Message -->
+                  <!-- Message --
                   <a
                     href="javascript:void(0)"
                     class="
@@ -1126,7 +1108,7 @@
                       >
                     </div>
                   </a>
-                  <!-- Message -->
+                  <!-- Message --
                   <a
                     href="javascript:void(0)"
                     class="message-item d-flex align-items-center p-3"
@@ -1475,7 +1457,7 @@
         </div>
       </div>
       <!-- End row -->
-      <!-- Start row -->
+      <!-- Start row --
       <div class="row">
         <div class="col-lg-4">
           <div class="card bg-info text-white">
