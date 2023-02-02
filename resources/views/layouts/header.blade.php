@@ -178,11 +178,6 @@
             @else
               <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="profile-pic rounded-circle" width="30"/>    
             @endif
-            @if (Auth::noti() > 0)
-              <div class="notify">
-                <span class="heartbit"></span> <span class="point"></span>
-              </div>
-            @endif
           </a>
           <div class="dropdown-menu dropdown-menu-end user-dd animated flipInY">
             <div class="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
@@ -206,16 +201,10 @@
               <a class="dropdown-item d-flex d-block" href="{{route('Importancia')}}">
                 <i class="fas fa-sitemap"></i>
                   <span class="ms-1">Prioridad de clientes</span>
-                  @if (Auth::noti() > 0)
-                    <span class="mb-1 badge rounded-pill ms-auto bg-danger">{{Auth::noti()}}</span>
-                  @endif
               </a>
               <a class="dropdown-item d-flex d-block" href="{{route('AutP')}}">
                 <i class="feather-icon" data-feather="archive"></i>
-                  <span class="ms-1">Autorización a prioridades</span>
-                  @if (Auth::noti() > 0)
-                    <span class="mb-1 badge rounded-pill ms-auto bg-danger">{{Auth::noti()}}</span>
-                  @endif
+                <span class="ms-1">Autorización a prioridades</span>
               </a>
             @endif
             <!--<a class="dropdown-item" href="javascript:void(0)"><i class="ti-email me-1 ms-1"></i>Inbox</a>
