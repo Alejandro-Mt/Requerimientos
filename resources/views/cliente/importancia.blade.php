@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset("assets/extra-libs/prism/prism.css")}}"/>
 <link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dragula/dist/dragula.min.css")}}"/>
 <div class="row col-lg-12 col-md-12"> 
+  {{ method_field('POST') }}
   <div class="col-md-12">
     <div class="row">
       <div class="card">
