@@ -92,7 +92,7 @@ class PreregistroController extends Controller
         $clientes = Cliente::all();
         $estatus = estatu::all();
         $sistemas = sistema::all();
-        $solicitudes = solicitud::select('solicitudes.*',db::raw('if(a.folio = solicitudes.folio,"si","no") as adjunto'))->leftjoin('archivos as a','solicitudes.folio','a.folio')->where(db::raw('EXTRACT(year FROM solicitudes.created_at)', 'EXTRACT(year FROM now())'))->distinct()->get();
+        $solicitudes = solicitud::select('solicitudes.*',db::raw('if(a.folio = solicitudes.folio,"si","no") as adjunto'))->leftjoin('archivos as a','solicitudes.folio','a.folio')->where(db::raw('EXTRACT(year FROM solicitudes.created_a)'), db::raw('EXTRACT(year FROM now())'))->distinct()->get();
         return view('formatos.requerimientos.preregistro.store',compact('archivos','clientes','estatus','sistemas','solicitudes'));
     }
 
