@@ -153,6 +153,13 @@ $(function () {
       { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
     );
   });
+  $("#null-data-toast").on("click", function () {
+    toastr.warning(
+      "Para poder continuar por favor regresa y llena los datos pendientes",
+      "¡DATOS INCOMPLETOS!",
+      {progressBar: true, showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+    );
+  });
   //  mensaje de folio  //
   $("#slide-folio-pip").on("load", function () {
     toastr.success(

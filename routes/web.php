@@ -25,6 +25,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\ResponsableController;
+use App\Http\Controllers\RondaController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\Solicitantescontroller;
 use Illuminate\Support\Facades\Auth;
@@ -91,14 +92,18 @@ Route::post('solicitante.nuevo', [Solicitantescontroller::class, 'create'])->nam
 Route::post('solicitante.actualizar.{id_sistema}', [Solicitantescontroller::class, 'update'])->name('USolicitante');
 Route::delete('solicitante.Borrar.{id_sistema}', [Solicitantescontroller::class, 'destroy'])->name('DSolicitante');
 #          Proceso Requerimiento         #
+  #    \\      Proceso nuevo      //   #
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->middleware('auth')->name('Editar');
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
+
+  #    \\      Proceso extras      //   #
 Route::get('/posponer/{folio}', [MenuController::class,'posponer'])->name('Posponer');
 Route::get('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
+#    \\      Proceso levantamiento      //   #
 Route::get('/formatos.requerimientos.formato.{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');
 Route::post('/formatos.requerimientos.formato', [LevantamientosController::class, 'actualiza'])->name('Actualizar');
 Route::get('/formatos.requerimientos.levantamiento.{id_registro}', [LevantamientosController::class, 'edit'])->middleware('auth')->name('Levantamiento');
@@ -129,6 +134,9 @@ Route::post('/formatos.requerimientos.construccion',[ConstruccionController::cla
 ##  metodos para liberacion ##
 Route::get('/formatos.requerimientos.liberacion.{folio}',[LiberacionController::class, 'index'])->name('Liberacion');
 Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');
+#    \\      Proceso Requerimiento      //   #
+Route::get('ronda.registro.{folio}', [RondaController::class, 'index'])->name('Ronda')->middleware('auth');
+Route::post('ronda.crear', [RondaController::class, 'create'])->name('CRonda');
 ##  metodos para implementacion ##
 Route::get('/formatos.requerimientos.implementacion.{folio}',[ImplementacionController::class, 'index'])->name('Implementacion');
 Route::post('/formatos.requerimientos.implementacion',[ImplementacionController::class, 'create'])->name('Implementar');

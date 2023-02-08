@@ -132,7 +132,7 @@
                             <div class="col-md-6">
                                 <input type="checkbox" class="form-check-input" id="retraso" name="retraso" value="1" onchange="javascript:showContent()">
                             </div>
-                        </div>-->
+                        </div>--
                         <div class="form-group row">
                             <label for="t_pruebas"
                                 class="col-sm-2 text-end control-label col-form-label">Total Pruebas*</label>
@@ -192,7 +192,7 @@
                                 <input type="text" name="estatus" value="Información" visible="false">
                         </div>
                         <div class="card-body text-center">
-                            <button type="submit" name="id_estatus" value="2" class="btn btn-primary text-white">Guardar y Continuar</button>
+                            <button type="button" class="btn btn-primary text-white"><a href="{{route('Ronda',$registro->folio)}}" style="color:white">Ronda</a></button>
                             <button type="submit" name="id_estatus" value="8" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
