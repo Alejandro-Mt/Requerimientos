@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\area;
 use App\Models\desfase;
 use App\Models\planeacion;
-use App\Models\informacion;
 use App\Models\liberacion;
 use App\Models\registro;
-use App\Models\responsable;
 use App\Models\ronda;
-use App\Models\sistema;
-use App\Models\solicitante;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class RondaController extends Controller
 {
@@ -25,14 +18,15 @@ class RondaController extends Controller
      */
     public function index($folio)
     {
-        $desfases = desfase::all();
         $id = registro::select('folio')->where('folio',$folio)->first();
-        $previo = planeacion::select('*')->where('folio',$folio)->get();
         $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
         $ronda = ronda::where('folio',$folio)->count();
-        $solinf = liberacion::where('folio',$folio)->whereNULL('inicio_lib')->count();
+        $solinf = liberacion::where('folio',$folio)->whereNotNull('inicio_lib')->count();
+        /*if($solinf === 0){
+            $solinf = 1;
+        }*/
         $vacio = planeacion:: select('*')->where('folio',$folio)->count();
-        return view('formatos.requerimientos.seguimiento.pruebas.rondas',compact('desfases','id','previo','registros','ronda','solinf','vacio'));
+        return view('formatos.requerimientos.seguimiento.pruebas.rondas',compact('id','registros','ronda','solinf','vacio'));
     }
 
     /**

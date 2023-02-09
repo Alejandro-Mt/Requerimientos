@@ -70,9 +70,9 @@
           @endif
           <div class="card-body text-center">
             @if ($solinf == 0)
-              <button type="submit" class="btn btn-primary text-white">Guardar</button>
-            @else
               <button type="button" class="btn btn-primary text-white" id="null-data-toast">Guardar</button>
+            @else
+              <button type="submit" class="btn btn-primary text-white">Guardar</button>
             @endif
             <label> </label> 
             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
