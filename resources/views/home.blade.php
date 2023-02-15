@@ -170,7 +170,13 @@
           titleTemplate: '<span class="step">#index#</span> #title#'
         });
     </script>
-
+    <script>
+      $(function(){
+        $('form').submit(function(){
+          $(':submit').attr('disabled', 'disabled');
+        })
+      });
+    </script>
 </body>
 
 </html>
