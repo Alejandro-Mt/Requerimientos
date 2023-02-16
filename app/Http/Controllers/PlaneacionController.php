@@ -153,7 +153,8 @@ class PlaneacionController extends Controller
         $estatus = registro::select()-> where ('folio', $data->folio)->first();
         $estatus->id_estatus = $data->input('id_estatus');
         $estatus->save();
-        return redirect(route('Editar'));
+        #return redirect(route('Editar'));
+        dd($data);
     }
 
     /**
