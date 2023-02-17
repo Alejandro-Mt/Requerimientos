@@ -41,6 +41,7 @@ class PlaneacionController extends Controller
     public function create(request $data)
     #se comentan las actualizaciones de Calendario
     {
+        if($data['id_estatus'] == NULL){$data['id_estatus'] = 2;}
         $registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);

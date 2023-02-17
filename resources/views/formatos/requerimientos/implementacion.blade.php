@@ -114,11 +114,17 @@
                                     name="comentarios" placeholder="Hasta 250 caracteres">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
+                            <div class="col-md-8">
+                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="2">
+                            </div>
+                        </div>
                         <!--<div class="d-none"> 
                                 <input type="text" name="estatus" value="" visible="false">
                         </div>-->
                         <div class="card-body text-center">
-                            <button type="submit" name="id_estatus" value="18" class="btn btn-primary text-white">Guardar y Continuar</button>
+                            <button id="next" type="submit" name="id_estatus" value="18" class="btn btn-primary text-white" disabled>Guardar y Continuar</button>
                             <button type="submit" name="id_estatus" value="2" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
@@ -132,17 +138,31 @@
     <form class="form-horizontal" action="" method="post">
     <h5>*Campos obligatorios</h5>
 
-<script type="text/javascript">
-    function showContent() {
-        element = document.getElementById("content");
-        check = document.getElementById("cronograma");
-        if (check.checked) {
-            element.style.display='block'
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function showContent() {
+            element = document.getElementById("content");
+            check = document.getElementById("cronograma");
+            if (check.checked) {
+                element.style.display='block'
+            }
+            else {
+                element.style.display='none'
+            }
         }
-        else {
-            element.style.display='none'
-        }
-    }
-</script>
+        $(document).ready(function () {
+                $('#id_estatus').on('click', function () {
+                    if ($(this).is(':checked')) {
+                    console.log($(this));
+                        $('#next').removeAttr('disabled');
+                        $('#id_estatus').val('18');
+                    } else {
+                    console.log($(this));
+                        $('#next').prop('disabled',true);
+                        $('#id_estatus').val('2');
+                    }
+                });
+            });
+    </script>
 
 @endsection 

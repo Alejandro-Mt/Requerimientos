@@ -31,6 +31,7 @@ class ImplementacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){ 
+        if($data['id_estatus'] == NULL){$data['id_estatus'] = 2;}
         $val = liberacion::select('fecha_lib_r')->where('folio',$data['folio'])->get();
         foreach($val as $fecha){$this->validate($data, ['f_implementacion' => "required|date|after_or_equal:$fecha->fecha_lib_r"]);}
         $verificar = implementacion::where('folio',$data['folio'])->count();
