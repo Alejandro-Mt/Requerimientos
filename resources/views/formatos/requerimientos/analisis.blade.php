@@ -199,17 +199,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
+                            <div class="col-md-8">
+                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="9">
+                            </div>
+                        </div>
                         <div class="card-body text-center">
                             <div class="card-body text-center">
                                 <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
                                 <a style='text-align: center'>Solicitar Información</a>
                             </div>
                             @if ($solinf == 0)
-                                <button type="submit" name="id_estatus" value="7" class="btn btn-primary text-white">Guardar y Continuar</button>
+                                <button id="next" type="submit" value="7" class="btn btn-primary text-white" disabled>Guardar y Continuar</button>
                             @else
                                 <button type="button" id="slide-toast" class="btn btn-primary text-white">Guardar y Continuar</button>
                             @endif
-                            <button type="submit" name="id_estatus" value="9" class="btn btn-success text-white">Guardar</button>
+                            <button type="submit" value="9" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
                         </div>
@@ -255,6 +261,19 @@
                 }
             }
         }
+        $(document).ready(function () {
+            $('#id_estatus').on('click', function () {
+                if ($(this).is(':checked')) {
+                console.log($(this));
+                    $('#next').removeAttr('disabled');
+                    $('#id_estatus').val('7');
+                } else {
+                console.log($(this));
+                    $('#next').prop('disabled',true);
+                    $('#id_estatus').val('9');
+                }
+            });
+        });
     </script>
 
 @endsection 

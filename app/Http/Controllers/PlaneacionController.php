@@ -42,6 +42,7 @@ class PlaneacionController extends Controller
     #se comentan las actualizaciones de Calendario
     {
         $registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
+        if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
             $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
@@ -151,10 +152,9 @@ class PlaneacionController extends Controller
             }*/
         }
         $estatus = registro::select()-> where ('folio', $data->folio)->first();
-        $estatus->id_estatus = $data->input('id_estatus');
+        $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
-        #return redirect(route('Editar'));
-        dd($data);
+        return redirect(route('Editar'));
     }
 
     /**

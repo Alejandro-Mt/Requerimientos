@@ -36,6 +36,7 @@ class AnalisisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
+        if($data['id_estatus'] == NULL){$data['id_estatus'] = 9;}
         $val = planeacion::select('fechaCompReqR')->where('folio',$data['folio'])->get();
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
@@ -112,7 +113,7 @@ class AnalisisController extends Controller
             $update->save(); 
         }
         $update = registro::select()-> where ('folio', $data->folio)->first();
-        $update->id_estatus = $data->input('id_estatus');
+        $update->id_estatus = $data['id_estatus'];
         $update->save();
         return redirect(route('Editar'));
         #dd($fechareact);

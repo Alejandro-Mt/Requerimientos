@@ -38,6 +38,7 @@ class ConstruccionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
+        if($data['id_estatus'] == NULL){$data['id_estatus'] = 7;}
         $val = analisis::select('fechaCompReqR')->where('folio',$data['folio'])->get();
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
