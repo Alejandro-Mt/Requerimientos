@@ -202,12 +202,11 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="d-none">
-                            <input type="text" name="id_estatus" value="17" visible="false">
-                            <input type="text" name="id_area" value="6" visible="false">
+                        <div class="d-none">
+                            <input type="text" name="preregistro"  @if($datos != NULL) @foreach ($datos as $dato) value="{{$dato->folio}}" @endforeach @endif visible="false">
                         </div>-->
                         <div class="card-body text-center">
-                            <button type="submit" name="preregistro" @if($datos != NULL) @foreach ($datos as $dato) value="{{$dato->folio}}" @endforeach @endif class="btn btn-success text-white">Guardar</button>
+                            <button type="submit" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button href="{{('home') }}" type="reset" value="reset" class="btn btn-danger"><a href="{{('home') }}" style="color:white">Cancelar</a></button>
                         </div>
