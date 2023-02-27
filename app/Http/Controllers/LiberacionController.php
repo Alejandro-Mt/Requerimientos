@@ -78,12 +78,12 @@ class LiberacionController extends Controller
             $update->t_pruebas = $data['t_pruebas'];
             $update->evidencia_p = $data['evidencia_p'];
             $estatus = registro::select()-> where ('folio', $data->folio)->first();
-            $estatus->id_estatus = $data['id_estatus'];
+            $estatus->id_estatus = 8;
             $estatus->save();
             $update->save(); 
         }
         $update = registro::select()-> where ('folio', $data->folio)->first();
-        $update->id_estatus = $data->input('id_estatus');
+        $update->id_estatus = 8;
         $update->save();
         return redirect(route('Editar'));
         #dd($update);
