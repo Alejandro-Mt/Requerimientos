@@ -31,7 +31,7 @@ class HomeController extends Controller
                             'r.id_registro',
                             'r.folio',
                             'descripcion',
-                            db::raw("if(pa.pausa = '2','POSPUESTO',e.titulo) as titulo"),
+                            db::raw("if(r.id_estatus != 14,if(pa.pausa = '2','POSPUESTO',e.titulo),e.titulo) as titulo"),
                             'cl.clase',
                             'l.impacto',
                             'nombre_s',

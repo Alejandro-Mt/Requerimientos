@@ -307,6 +307,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
+                            <div class="col-md-8">
+                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="11">
+                            </div>
+                        </div>
                         <input class="d-none" name="fechaEnvAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <input class="d-none" name="fechaAutAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <!--<input class="d-none" name="FechaImpR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">-->
@@ -316,11 +322,11 @@
                         </div>
                         <div class="card-body text-center">
                             @if ($solinf == 0)
-                                <button type="submit" name="id_estatus" value="9" class="btn btn-primary text-white">Guardar y Continuar</button>
+                                <button id="next" type="submit" class="btn btn-primary text-white" disabled>Guardar y Continuar</button>
                             @else
                                 <button type="button" id="slide-toast" class="btn btn-primary text-white">Guardar y Continuar</button>
                             @endif
-                            <button type="submit" name="id_estatus" value="11" class="btn btn-success text-white">Guardar</button>
+                            <button type="submit" class="btn btn-success text-white">Guardar</button>
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
@@ -362,6 +368,19 @@
                 }
             }
         }
+        $(document).ready(function () {
+            $('#id_estatus').on('click', function () {
+                if ($(this).is(':checked')) {
+                console.log($(this));
+                    $('#next').removeAttr('disabled');
+                    $('#id_estatus').val('9');
+                } else {
+                console.log($(this));
+                    $('#next').prop('disabled',true);
+                    $('#id_estatus').val('11');
+                }
+            });
+        });
     </script>
 
 @endsection 

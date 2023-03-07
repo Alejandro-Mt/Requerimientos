@@ -12,9 +12,9 @@
         <b class="logo-icon">
           <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
           <!-- Dark Logo icon -->
-          <img src={{asset("assets/images/logo-icon-it.png")}} alt="homepage" class="dark-logo" width="40" height="60"/>
+          <img src={{asset("assets/images/logo-icon-it.png")}} alt="homepage" class="dark-logo" width="50" height="50"/>
           <!-- Light Logo icon -->
-          <img src={{asset("assets/images/icon-it.png")}} alt="homepage" class="light-logo" width="40" height="50"/>
+          <img src={{asset("assets/images/icon-it.png")}} alt="homepage" class="light-logo" width="50" height="50"/>
           <!--End Logo icon -->
           <!-- Logo text -->
         </b>
