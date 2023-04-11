@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\SolicitudRequerimiento;
+use App\Models\acceso;
 use App\Models\archivo;
 use App\Models\clase;
 use App\Models\estatu;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 
 class PreregistroController extends Controller
 {
@@ -55,14 +57,16 @@ class PreregistroController extends Controller
         $this->validate($data, [
             'descripcion' => "max:250",
         ]);
+        
         solicitud::create([
             'folio' => $folio,
-            'solicitante' => $data['solicitante'],
-            'correo' => $data['correo'],
+            'solicitante' => Auth::user()->nombre.' '.Auth::user()->apaterno.' '.Auth::user()->amaterno,
+            'correo' => Auth::user()->mail,
             'id_cliente' => $data['id_cliente'],
             'id_sistema' => $data['id_sistema'],
             'id_estatus' => 20,
-            'descripcion' => $data['descripcion']
+            'descripcion' => $data['descripcion'],
+            'planteamiento' => $data['planteamiento']
         ]);
         $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
         $solicitud = solicitud::where('folio',$folio)->get();
@@ -92,7 +96,16 @@ class PreregistroController extends Controller
         $clientes = Cliente::all();
         $estatus = estatu::all();
         $sistemas = sistema::all();
-        $solicitudes = solicitud::select('solicitudes.*',db::raw('if(a.folio = solicitudes.folio,"si","no") as adjunto'))->leftjoin('archivos as a','solicitudes.folio','a.folio')->where(db::raw('EXTRACT(year FROM solicitudes.created_at)'), db::raw('EXTRACT(year FROM now())'))->distinct()->get();
+        $solicitudes = solicitud::
+            select('solicitudes.*',db::raw('if(a.folio = solicitudes.folio,"si","no") as adjunto'))
+            ->leftjoin('archivos as a','solicitudes.folio','a.folio')
+            ->where(
+                db::raw('EXTRACT(year FROM solicitudes.created_at)'), 
+                db::raw('EXTRACT(year FROM now())')
+            )
+            ->wherein('id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+            ->distinct()
+            ->get();
         return view('formatos.requerimientos.preregistro.store',compact('archivos','clientes','estatus','sistemas','solicitudes'));
     }
 

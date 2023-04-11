@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('home')
 @section('content')
   <div class="row">
     <div class="col-lg-12">
@@ -95,81 +95,158 @@
         <!-- Start row -->
           <div class="row">
             <div class="col-lg-6">
-              <div class="card">
-                <div class="card-body">  
-                  <div class="row">
-                    <div class="col-xl-2 col-md-6 col-lg-10 d-flex align-items-center border-bottom">
-                      <h4 id="upload" class="card-title">
-                        <span class="lstick d-inline-block align-middle"></span><strong>{{ __('DOCUMENTACIÓN') }}</strong>
-                      </h4>
-                    </div>
-                    <div class="col-md-12">
-                      @foreach($archivos as $archivo)
-                        <form id="{{$loop->iteration}}" action="{{route('dfile',pathinfo($archivo->url, PATHINFO_FILENAME))}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone"> 
-                          @switch(pathinfo($archivo->url, PATHINFO_EXTENSION))
-                            @case('xlsx')
-                              <div class="d-flex align-items-center">
-                                <img src="{{asset("assets/images/icons/xls.png")}}" alt="user" width="32" class="shadow col-sm-1"/>  
-                                <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
-                                <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
-                                  <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
-                                </button>
+              <div class="d-flex align-items-stretch">
+                <div class="card w-100">
+                  <div class="card-body">
+                    <h4 class="card-title">Avance</h4>
+                    <h6 class="card-subtitle mb-0"></h6>
+                  </div>
+                  <div>
+                    <ul class="feeds ps-0">
+                      @foreach ($registros as $registro)
+                        @if ($registro->posicion > 1)
+                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                            <div class="border-start border-2 border-info d-md-flex">
+                              <div class="d-flex align-items-start">
+                                <a class="ms-3 btn btn-light-info text-info btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                  <i data-feather="bell" class="feather-sm"></i>
+                                </a>
+                                <div class="ms-3">
+                                  <span class="text-dark font-weight-medium">LEVANTAMIENTO</span>
+                                  @foreach ($estatus as $limite)
+                                    @if(($limite->posicion < 6) and ($limite->posicion != NULL))
+                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
+                                        <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                          <span class="fs-2 text-muted">
+                                            @switch($limite->posicion)
+                                              @case(1)
+                                                {{date("d/M",strtotime($registro->solicitud))}}
+                                                @break
+                                              @case(2)
+                                                {{date("d/M",strtotime($registro->autorizado))}}
+                                                @break
+                                              @case(3)
+                                                {{date("d/M",strtotime($registro->planteamiento))}}
+                                                @break
+                                              @default   
+                                                {{date("d/M",strtotime($registro->correo))}}
+                                                @break  
+                                            @endswitch
+                                          </span>
+                                        </div>
+                                      </div>
+                                    @endif
+                                  @endforeach
+                                </div>
                               </div>
-                              @break
-                            @case('docx')
-                              <div class="d-flex align-items-center">
-                                <img src="{{asset("assets/images/icons/doc.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
-                                <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
-                                <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
-                                  <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
-                                </button>
+                              <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                <span class="fs-2 text-muted">{{date("d/M",strtotime($registro->solicitud))}}</span>
                               </div>
-                              @break
-                            @case('txt')
-                              <div class="d-flex align-items-center">
-                                <img src="{{asset("assets/images/icons/txt.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
-                                <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
-                                <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
-                                  <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
-                                </button>
-                              </div>
-                              @break
-                            @case('pdf')
-                              <div class="d-flex align-items-center">
-                                <img src="{{asset("assets/images/icons/pdf.png")}}" alt="user" width="32" class="shadow col-sm-1"/> 
-                                <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
-                                <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
-                                  <a href="{{asset("$archivo->url")}}">
-                                    <i class="feather-sm"  href="{{asset("$archivo->url")}}" data-feather="download-cloud"></i>
-                                  </a>
-                                </button>
-                              </div>
-                              @break
-                            @default
-                              <div class="d-flex align-items-center">
-                                <img src="{{asset("$archivo->url")}}" alt="user" width="24" class="shadow col-sm-1"/> 
-                                <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
-                                <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
-                                  <a href="{{asset("$archivo->url")}}">
-                                    <i class="feather-sm"  href="{{asset("$archivo->url")}}" data-feather="download-cloud"></i>
-                                  </a>
-                                </button>
-                              </div>
-                          @endswitch
-                        </form> 
-                      @endforeach
-                      @foreach($registros as $format)
-                        @if($formatos <> 0)
-                          <div class="d-flex align-items-center">
-                            <img src="{{asset("assets/images/icons/pdf.png")}}" alt="user" width="32" class="shadow col-sm-1"/>  
-                            <h6 class="modal-title col-sm-9"><strong>{{"$format->folio $format->descripcion"}}</strong></h6>
-                            <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
-                              <a href="{{route("Archivo",$format->folio)}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
-                            </button>
+                            </div>
                           </div>
                         @endif
-                      @endforeach  
-                    </div>
+                        @if ($registro->posicion > 6)
+                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                            <div class="border-start border-2 border-warning d-md-flex">
+                              <div class="d-flex align-items-start">
+                                <a class="ms-3 btn btn-light-warning text-warning btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                  <i data-feather="shopping-cart" class="feather-sm"></i>
+                                </a>
+                                <div class="ms-3">
+                                  <span class="text-dark font-weight-medium">CONSTRUCCIÓN</span>
+                                  @foreach ($estatus as $limite)
+                                    @if(($limite->posicion > 5) and ($limite->posicion < 9) and ($limite->posicion != NULL))
+                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
+                                        <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                          <span class="fs-2 text-muted">
+                                            @switch($limite->posicion)
+                                              @case(6)
+                                                {{date("d/M",strtotime($registro->planeacion))}}
+                                                @break
+                                              @case(7)
+                                                {{date("d/M",strtotime($registro->analisis))}}
+                                                @break
+                                              @case(8)
+                                                {{date("d/M",strtotime($registro->construccion))}}
+                                                @break
+                                              @default 
+                                            @endswitch
+                                          </span>
+                                        </div>
+                                      </div>
+                                    @endif
+                                  @endforeach
+                                </div>
+                              </div>
+                              <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                <span class="fs-2 text-muted">{{date("d/M",strtotime($registro->construccion))}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        @endif
+                        @if ($registro->posicion > 8)
+                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                            <div class="border-start border-2 border-danger d-md-flex">
+                              <div class="d-flex align-items-start">
+                                <a class="ms-3 btn btn-light-danger text-danger btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                  <i data-feather="users" class="feather-sm"></i>
+                                </a>
+                                <div class="ms-3">
+                                  <span class="text-dark font-weight-medium">LIBERACIÓN</span>
+                                  @foreach ($estatus as $limite)
+                                    @if(($limite->posicion == 9) and ($limite->posicion != NULL))
+                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
+                                        <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                          <span class="fs-2 text-muted">
+                                            {{date("d/M",strtotime($registro->liberacion))}}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    @endif
+                                  @endforeach
+                                </div>
+                              </div>
+                              <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                <span class="fs-2 text-muted">{{date("d/M",strtotime($registro->liberacion))}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        @endif
+                        @if ($registro->posicion > 9)
+                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                            <div class="border-start border-2 border-primary d-md-flex">
+                              <div class="d-flex align-items-start">
+                                <a class="ms-3 btn btn-light-primary text-primary btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                  <i data-feather="users" class="feather-sm"></i>
+                                </a>
+                                <div class="ms-3">
+                                  <span class="text-dark font-weight-medium">
+                                    EN IMPLEMENTACIÓN
+                                  </span>
+                                  @foreach ($estatus as $limite)
+                                    @if(($limite->posicion == 10) and ($limite->posicion != NULL))
+                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
+                                        <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                          <span class="fs-2 text-muted">
+                                            {{date("d/M",strtotime($registro->implementacion))}}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    @endif
+                                  @endforeach
+                                </div>
+                              </div>
+                              <div class="justify-content-end ms-5 ms-md-auto ps-4 ps-md-0">
+                                <span class="fs-2 text-muted">{{date("d/M",strtotime($registro->implementacion))}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        @endif
+                      @endforeach
                   </div>
                 </div>
               </div>
@@ -197,6 +274,43 @@
             </div>
           </div>
           <!-- End row -->
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">  
+        <div class="row">
+          <div class="col-xl-2 col-md-12 col-lg-12 d-flex align-items-center border-bottom">
+            <h4 id="upload" class="card-title">
+              <span class="lstick d-inline-block align-middle"></span><strong>{{ __('DOCUMENTACIÓN') }}</strong>
+            </h4>
+          </div>
+          <div class="col-md-12">
+            @foreach($archivos as $archivo)
+              <form id="{{$loop->iteration}}" action="{{route('dfile',pathinfo($archivo->url, PATHINFO_FILENAME))}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone">
+                    <div class="d-flex align-items-center">
+                      <div class="icon"><i class="feather-sm" data-feather="file"></i></div>
+                      <h6 class="modal-title col-sm-9"><strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong></h6>
+                      <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                        <a href="{{asset("$archivo->url")}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                      </button>
+                    </div>
+              </form> 
+            @endforeach
+            @foreach($registros as $format)
+              @if($formatos <> 0)
+                <div class="d-flex align-items-center">
+                  <div class="icon">
+                    <i class="feather-sm" data-feather="file"></i>
+                  </div> 
+                  <h6 class="modal-title col-sm-9"><strong>{{"$format->folio $format->descripcion"}}</strong></h6>
+                  <button id="download" type="button" class="btn waves-effect waves-light btn-outline-info">
+                    <a href="{{route("Archivo",$format->folio)}}"><i class="feather-sm" data-feather="download-cloud"></i></a>
+                  </button>
+                </div>
+              @endif
+            @endforeach  
+          </div>
+        </div>
       </div>
     </div>
   </div>

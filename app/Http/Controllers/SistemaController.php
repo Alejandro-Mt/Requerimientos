@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\sistema;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SistemaController extends Controller
 {
@@ -24,12 +25,18 @@ class SistemaController extends Controller
      */
     public function create(Request $data)
     {
+        $rename = $data->nombre_s.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $data->validate(['logo'=>'required']);{
+            $file = Storage::putFileAs("public/sistemas", $data->file('logo'),$rename);
+            $url = Storage::url($file);
+        }
         sistema::create([
-            'nombre_s' => $data['nombre_s'], 
-            'dispercion'=> $data['dispercion']
+            'nombre_s' => $data['nombre_s'],
+            'dispercion'=> $data['dispercion'],
+            'logo'=> $url
         ]);
         return redirect(route('Seguir'));
-        #dd($data);
+        #dd($url);
     }
 
     /**
@@ -74,11 +81,16 @@ class SistemaController extends Controller
      */
     public function update(Request $data, $id_sistema)
     {
+        $rename = $data->nombre_s.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $file = Storage::putFileAs("public/sistemas", $data->file('logo'),$rename);
+        $url = Storage::url($file);
         $update = sistema::FindOrFail($id_sistema);
-        $update->nombre_s = $data['nombre_s']; 
+        $update->nombre_s = $data['nombre_s'];
         $update->dispercion= $data['dispercion']; 
+        $update->logo= $url;
         $update->save();  
         return redirect(route('Seguir'));
+        #dd($rename);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\Interno\ActualizacionPrioridades;
 use App\Mail\Interno\PrioridadCliente;
+use App\Models\acceso;
 use App\Models\archivo;
 use App\Models\Cliente;
 use App\Models\comentario;
@@ -19,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class ClienteController extends Controller
 {
@@ -39,9 +41,15 @@ class ClienteController extends Controller
      */
     public function create(Request $data)
     {
+        $rename = $data->nombre_cl.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $data->validate(['logo'=>'required']);{
+            $file = Storage::putFileAs("public/clientes", $data->file('logo'),$rename);
+            $url = Storage::url($file);
+        }
         Cliente::create([
             'nombre_cl' => $data['nombre_cl'],
             'abreviacion' => $data['abreviacion'],
+            'logo' => $url,
         ]);
         return redirect(route('Seguir'));
         #dd($data);
@@ -104,9 +112,13 @@ class ClienteController extends Controller
      */
     public function update(Request $data, $id_cliente)
     {
+        $rename = $data->nombre_cl.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
+        $file = Storage::putFileAs("public/clientes", $data->file('logo'),$rename);
+        $url = Storage::url($file);
         $update = Cliente::FindOrFail($id_cliente);
         $update->nombre_cl = $data['nombre_cl'];
         $update->abreviacion = $data['abreviacion'];
+        $update->logo = $url;
         $update->save();  
         return redirect(route('Seguir'));
     }
@@ -126,8 +138,30 @@ class ClienteController extends Controller
 
     public function document($folio)
     {
-        $registros= registro::where('folio',$folio)->get();
-        $estatus = estatu::all();
+        $registros= registro::
+            select('registros.*',
+              'es.titulo',
+              'es.posicion',
+              db::raw('ifnull(s.created_at,registros.created_at) as solicitud'),
+              db::raw('if(s.folior = NULL, s.updated_at, NULL) as autorizado'),
+              'l.created_at as planteamiento',
+              'l.updated_at as correo',
+              'p.created_at as planeacion',
+              'a.created_at as analisis',
+              'c.created_at as construccion',
+              'li.created_at as liberacion',
+              'i.created_at as implementacion')->
+            join('estatus as es','es.id_estatus','registros.id_estatus')->
+            leftjoin('solicitudes as s','registros.folio','s.folio')-> 
+            leftjoin('levantamientos as l','registros.folio','l.folio')->
+            leftjoin('planeacion as p','registros.folio','p.folio')->
+            leftjoin('analisis as a','registros.folio','a.folio')->
+            leftjoin('construccion as c','registros.folio','c.folio')->
+            leftjoin('liberaciones as li','registros.folio','li.folio')->
+            leftjoin('implementaciones as i','registros.folio','i.folio')->
+            where('registros.folio',$folio)->
+            get();
+        $estatus = estatu::orderby('posicion','asc')->get();;
         $comentarios = comentario::select ('nombre',
                                             'apaterno',
                                             'folio',
@@ -155,6 +189,7 @@ class ClienteController extends Controller
                 select('cl.id_cliente','cl.nombre_cl')->
                 join('clientes as cl', 'registros.id_cliente','cl.id_cliente')->
                 where('registros.id_sistema',$id)->
+                wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
                 orderby('cl.nombre_cl')->
                 distinct()->
                 get();
@@ -164,12 +199,14 @@ class ClienteController extends Controller
                 ->wherenotin('registros.id_estatus',[13,14,18])
                 ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
                 ->where('registros.id_sistema', $id)
+                ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
         $implementados = 
             registro::
                 join('clientes as cl','cl.id_cliente','registros.id_cliente')
                 ->where('registros.id_estatus','18')
                 ->where('registros.id_sistema', $id)
+                ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
         $pospuestos = 
             registro::
@@ -183,6 +220,7 @@ class ClienteController extends Controller
                 )
                 ->orwhere('registros.id_estatus',13)
                 ->where('registros.id_sistema', $id)
+                ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
         $sistemas = 
             registro::

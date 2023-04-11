@@ -49,16 +49,18 @@
                       <i class="ri-edit-2-fill"></i>
                     </a>
                   </li>
-                  <li class="list-inline-item">
-                    <a href="{{route('Ajustes')}}">
-                      <i class="ri-user-settings-line"></i>
-                    </a>
-                  </li>
-                  <li class="list-inline-item">
-                    <a href="{{route('Seguir')}}">
-                      <i class="ri-settings-5-line"></i>
-                    </a>
-                  </li>
+                  @if(Auth::user()->id_puesto == 7)
+                    <li class="list-inline-item">
+                      <a href="{{route('Ajustes')}}">
+                        <i class="ri-user-settings-line"></i>
+                      </a>
+                    </li>
+                    <li class="list-inline-item">
+                      <a href="{{route('Seguir')}}">
+                        <i class="ri-settings-5-line"></i>
+                      </a>
+                    </li>
+                  @endif
                   <!--<li class="list-inline-item">
                     <a href="javascript:void(0)">
                       <i class="ri-google-fill"></i>

@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\solicitante;
+use App\Models\User;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class Solicitantescontroller extends Controller
 {
+use RegistersUsers;
+#protected $redirectTo = route('Seguir');
+
     /**
      * Display a listing of the resource.
      *
@@ -15,6 +23,20 @@ class Solicitantescontroller extends Controller
     public function index()
     {
         //
+    }
+
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'nombre' => ['required', 'string', 'max:255'],
+            'email' => [
+                'required', 
+                'string', 
+                'email', 'ends_with:triplei.mx,it-strategy.mx,zacatepromotion.mx,idmkt.mx,stlog.mx',
+                'max:255', 
+                'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
     }
 
     /**
@@ -26,11 +48,28 @@ class Solicitantescontroller extends Controller
     {
         solicitante::create([
             'nombre' => $data['nombre'], 
-            'a_pat'=> $data['a_pat'], 
-            'a_mat'=> $data['a_mat'], 
+            'a_pat'=> $data['apaterno'], 
+            'a_mat'=> $data['amaterno'], 
             'email' => $data['email'], 
         ]);
+        User::create([
+            'nombre' => $data['nombre'],
+            'apaterno'=>$data['apaterno'],
+            'amaterno'=>$data['amaterno'],
+            'email' => $data['email'],
+            'id_puesto' => 1,
+            'id_area' => $data['id_area'],
+            'password' => Hash::make($data['password']),
+        ]);
         return redirect(route('Seguir'));
+        /*return redirect(route('uscr'))
+            ->with($data['nombre'])
+            ->with($data['apaterno'])
+            ->with($data['amaterno'])
+            ->with($data['email'])
+            ->with($data['password'])
+            ->with($data['password_confirmation'])
+            ->with($data['id_area']);*/
         #dd($data);
     }
 

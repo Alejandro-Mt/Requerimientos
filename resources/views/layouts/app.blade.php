@@ -17,7 +17,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/new_logo_3ti.png")}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/logo-icon-it.png")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/bootstrap/css/bootstrap.min.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("fonts/font-awesome-4.7.0/css/font-awesome.min.css")}}">
     <link rel="stylesheet" type="text/css" href="{{asset("vendor/animate/animate.css")}}">
@@ -63,7 +63,7 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Registrar') }}</a>
                                 </li>
                             @endif
-                            <li class="nav-item dropdown">
+                            <!--<li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ __('Cliente') }}
                                 </a>
@@ -72,7 +72,7 @@
                                     <a class="dropdown-item" href="{{ route('PreRegistro') }}">{{ __('Nueva solicitud') }}</a>
                                     <a class="dropdown-item" href="{{ route('Lista') }}">{{ __('Prioridades') }}</a>
                                 </div>
-                            </li>
+                            </li>-->
                                 
                         @else
                             <li class="nav-item dropdown">

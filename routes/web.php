@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\AnalisisController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BuildController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConstruccionController;
@@ -46,6 +47,7 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 auth::routes(['verify'=>true]);
+
 #          Pagina Principal         #
 Route::get('/', [HomeController::class, 'index'])->middleware('verified')->name('home');
 Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth')->name('principal');
@@ -173,7 +175,7 @@ route::post('preregistro.archivos.{folio}',[PreregistroController::class,'data']
 
 route::get('listado',[ClienteController::class, 'store'])->name('Lista');
 route::get('prioridad.{id_sistema}',[ClienteController::class, 'priority'])->name('Prioridad');
-route::get('documentacion.{folio}',[ClienteController::class, 'document'])->name('Documentos');
+route::get('documentacion.{folio}',[ClienteController::class, 'document'])->name('Documentos')->middleware('auth');
 route::post('solicitud.prioridades',[ClienteController::class, 'request'])->name('CPrioridad');
 
 route::get('clientes',[ClienteController::class, 'importance'])->name('Importancia')->middleware('auth');

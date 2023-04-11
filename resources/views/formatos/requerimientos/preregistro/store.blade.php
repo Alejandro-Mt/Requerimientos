@@ -32,12 +32,11 @@
                                       {{$e->titulo}}
                                     </span>
                                   </button>
+                                  @if(Auth::user()->id_area <> 3)
                                   <div class="dropdown-menu" aria-labelledby="est{{$loop->iteration}}">
-                                    <!--@foreach ($estatus as $est)
-                                      <a class="dropdown-item" href="#">{{$est->titulo}}</a>href="{{route('RechazoP',$solicitud->folio)}}"
-                                    @endforeach-->
                                       <a id="{{$solicitud->folio}}" class="dropdown-item rechazar">RECHAZAR</a>
                                   </div>
+                                  @endif
                               </div>
                             </div>
                             @else
@@ -67,7 +66,7 @@
                         @endif
                     </td>
                     <td>
-                      @if ($solicitud->id_estatus == 20)
+                      @if ($solicitud->id_estatus == 20 and Auth::user()->id_area <> 3)
                         <a href="{{route('NR',$solicitud->folio)}}" class="fw-bold link">{{$solicitud->folio}}</a>
                       @else
                         @if ($solicitud->folior == null)

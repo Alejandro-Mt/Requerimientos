@@ -16,6 +16,7 @@ class solicitud extends Model
         'id_cliente',
         'id_sistema',
         'descripcion',
-        'id_estatus'
+        'id_estatus',
+        'planteamiento'
     ];
 }

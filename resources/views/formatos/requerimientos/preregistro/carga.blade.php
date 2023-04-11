@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('home')
 @section('content')
 <link rel="stylesheet" type="text/css" href="{{asset("vendor/bootstrap/css/bootstrap.min.css")}}">
     
@@ -8,14 +8,14 @@
   <!-- -------------------------------------------------------------- -->
   <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6">
+        <!--<div class="col-lg-6">
             <div class="card-body little-profile text-center">
                 <div class="my-3" data-tilt>
                     <img src="images/img-01.png" alt="IMG">
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4">
+        </div>-->
+        <div class="">
           <div class="card">
             <div class="border-bottom title-part-padding">
               <h4 class="card-title mb-0">{{$folio}}</h4>
@@ -25,7 +25,7 @@
               <form  class="dropzone" action="{{route('Previsto',$folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
                 {{ csrf_field() }}
               </form>
-              <button type="button" class="login100-form-btn">
+              <button type="button" class="btn waves-effect waves-light btn-rounded btn-light-success text-success">
                 <a href="{{url('/') }}" style="color:white"> Finalizar</a>
               </button>
             </div>
@@ -46,7 +46,7 @@
       maxFilesize: 150, // Tamaño máximo en MB
       addRemoveLinks: true,
       dictRemoveFile: "Remover",
-      dictDefaultMessage: "Archivos de muestra",
+      dictDefaultMessage: "Para agregar archivos puedes arrastrarlos o dar click en este texto",
       removedfile: function(file) {
         var name = file.name;        
         $.ajax({

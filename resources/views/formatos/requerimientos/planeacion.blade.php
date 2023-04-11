@@ -310,7 +310,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
                             <div class="col-md-8">
-                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="11">
+                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="9">
                             </div>
                         </div>
                         <input class="d-none" name="fechaEnvAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">

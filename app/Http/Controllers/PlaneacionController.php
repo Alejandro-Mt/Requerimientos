@@ -41,6 +41,7 @@ class PlaneacionController extends Controller
     public function create(request $data)
     #se comentan las actualizaciones de Calendario
     {
+        if($data['id_estatus']==NULL){$data['id_estatus'] = 11;}
         $registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         if($data['desfase'] == '1'){
@@ -151,7 +152,7 @@ class PlaneacionController extends Controller
                 $updateCA->save();
             }*/
         }
-        $estatus = registro::select()-> where ('folio', $data->folio)->first();
+        $estatus = registro::select()->where('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
         return redirect(route('Editar'));

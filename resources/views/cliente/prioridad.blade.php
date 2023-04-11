@@ -1,22 +1,56 @@
-@extends('layouts.app')
+@extends('home')
 @section('content')
 
 <!-- Incluir complemento -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="{{asset("assets/extra-libs/prism/prism.css")}}"/>
 <link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dragula/dist/dragula.min.css")}}"/>
-  <select id="clientes" class="select2 form-control custom-select" style="width: 100%; height: 36px">
-    <option>Cliente</option>
-    @foreach($clientes as $cl)
-      <option value="{{$cl->id_cliente}}">{{$cl->nombre_cl}}</option>
-    @endforeach
-  </select>
+  <!-- Start Row -->
+  <div class="tab-content">
+    <div id="draggable-area" class="note-has-grid row">
+      @foreach ($clientes as $cliente)
+        <div class="col-md-4 single-note-item all-category">
+          <a class="clientes" id="{{$cliente->id_cliente}}">
+            <div class="card card-body">
+              <span class="side-stick"></span>
+              <h5 class="note-title text-truncate w-75 mb-0">
+                {{$cliente->nombre_cl}}
+                <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1"></i>
+              </h5>
+              
+                  <p class="note-date fs-2 text-muted">
+                    <span>Total de solicitudes</span>
+                    <span class="badge bg-light text-dark">*</span>
+                  </p>
+            </div>
+          </a>
+        </div>
+      @endforeach
+      <div class="col-md-4 single-note-item all-category">
+        <a id="reset">
+          <div class="card card-body">
+            <span class="side-stick"></span>
+            <h5 class="note-title text-truncate w-75 mb-0">
+              GENERAL
+              <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1"></i>
+            </h5>
+            
+                <p class="note-date fs-2 text-muted">
+                  <span>Total de solicitudes</span>
+                  <span class="badge bg-light text-dark">*</span>
+                </p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- End Row -->
 <div class="row col-lg-12 col-md-12"> 
-  <div class="col-md-4">
+  <div class="col-md-12">
     <div class="row">
       <div class="card">
         <div class="card-header d-flex bg-warning">
-          <h4 class="mb-0 text-white">Pendientes</h4>
+          <h4 class="mb-0 col-lg-9 text-white">Activos</h4>
           <!--<a class="btn btn-success btn-sm ml-auto text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Solicitar Ajuste de prioridades
           </a>-->
@@ -28,7 +62,7 @@
           <div class="row draggable-cards" id="card-colors">
             @if ($validar == 0)
               @foreach($pendientes as $pendiente)
-                <div class="col-md-12 col-sm-12 filter cliente-{{$pendiente->id_cliente}} sistema-{{$pendiente->id_sistema}}" id="{{$pendiente->folio}}" >
+                <div class="col-md-4 col-sm-4 filter cliente-{{$pendiente->id_cliente}} sistema-{{$pendiente->id_sistema}}" id="{{$pendiente->folio}}" >
                   <div class="d-none" id="{{$pendiente->id_sistema}}"></div>
                   <!-- ---------------------start Special title treatment---------------- -->
                   <div class="card card-hover">
@@ -49,7 +83,7 @@
             @else
               @foreach ($orden as $folio)
                 @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $folio->orden ))); $i++)
-                  <div class="col-md-12 col-sm-12 filter cliente-{{$folio->id_cliente}} sistema-{{$folio->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $folio->orden ))[$i]}}" >
+                  <div class="col-md-4 col-sm-4 filter cliente-{{$folio->id_cliente}} sistema-{{$folio->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $folio->orden ))[$i]}}" >
                     <div class="d-none" id="{{$folio->id_sistema}}"></div>
                     <!-- ---------------------start Special title treatment---------------- -->
                     <div class="card card-hover">
@@ -81,7 +115,7 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-12">
     <div class="card">
       <div class="card-header bg-danger">
         <h4 class="mb-0 text-white">Pospuestos</h4>
@@ -89,7 +123,7 @@
       <div class="card-body">
         <div class="row draggable-cards" id="draggable-area">
           @foreach ($pospuestos as $pospuesto)
-            <div class="col-md-12 col-sm-12 filter cliente-{{$pospuesto->id_cliente}}">
+            <div class="col-md-4 col-sm-4 filter cliente-{{$pospuesto->id_cliente}}">
               <!-- ---------------------
                                 start Special title treatment
                             ---------------- -->
@@ -115,7 +149,7 @@
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-12">
     <div class="card">
       <div class="card-header bg-success">
         <h4 class="mb-0 text-white">Implementados</h4>
@@ -123,7 +157,7 @@
       <div class="card-body">
         <div class="row draggable-cards" id="draggable-area">
           @foreach ($implementados as $implementado)
-            <div class="col-md-12 col-sm-12 filter cliente-{{$implementado->id_cliente}}">
+            <div class="col-md-4 col-sm-4 filter cliente-{{$implementado->id_cliente}}">
               <!-- ---------------------
                                 start Special title treatment
                             ---------------- -->
@@ -163,7 +197,7 @@
             Si se autoriza enviar los datos, se debera esperar a que un coordinador autorice los ajustes
           </p>
           <div class="form-group row">
-            <label for="solicitante" class="col-sm-12 text-end control-label col-form-label">Quien solicita</label>
+            <label for="solicitante" class="col-sm-12 control-label col-form-label">Quien solicita</label>
             <div class="col-md-12">
               <input id="solicitante" type="text" class="required form-control  @error ('solicitante') is-invvalid @enderror" placeholder="ej. Juan Pérez González">
               @error('solicitante')
@@ -279,8 +313,12 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#clientes').on('change', function(){
-      var value = $(this).val();
+    $('#reset').click(function(){
+        $('.filter').show();
+    });
+    $('.clientes').click(function(){
+      var value = $(this).attr('id');
+      console.log(value)
       $('.filter').hide();
       $('.cliente-' + value ).show();
       

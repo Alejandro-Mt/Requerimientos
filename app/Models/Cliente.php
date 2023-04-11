@@ -11,6 +11,7 @@ class cliente extends Model
     protected $primaryKey = 'id_cliente';
     protected $fillable = [
         'nombre_cl',
-        'abreviacion'
+        'abreviacion',
+        'logo'
     ];
 }

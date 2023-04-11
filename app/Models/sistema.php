@@ -12,6 +12,7 @@ class sistema extends Model
     protected $fillable = [
         'nombre_s', 
         'dispercion',
+        'logo'
     ];
     
 }

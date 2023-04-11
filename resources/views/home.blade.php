@@ -17,6 +17,7 @@
     <link href="{{asset("assets/libs/jquery-steps/jquery.steps.css")}}"/>
     <link rel="stylesheet" href="{{asset("assets/libs/jquery-steps/steps.css")}}"/>
     <link rel="stylesheet" href="{{asset("assets/css/style.min.css")}}">
+    <link rel="stylesheet" href="{{asset("assets/extra-libs/prism/prism.css")}}" />
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -160,6 +161,7 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     <script src="{{asset("assets/js/pages/datatable/datatable-advanced.init.js")}}"></script>
+    <script src="{{asset("assets/extra-libs/prism/prism.js")}}"></script>
     <script>  
         var form = $("#example-advanced-form").show();
         //Custom design form example

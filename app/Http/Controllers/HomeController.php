@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\acceso;
 use App\Models\cliente;
 use App\Models\registro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
@@ -104,13 +106,40 @@ class HomeController extends Controller
                         ->orderBy('r.id_registro','asc')
                         ->groupBy('r.folio')
                         ->get();
+                        
+        $requerimientos = db::table('solicitudes as s')->select('id_sistema', db::raw('COUNT(folio) as total'))->where('s.correo',Auth::user()->email)->groupBy('id_sistema')->get();
+        if(Auth::user()->id_puesto == 3){
+          $sistemas = 
+            db::table('solicitudes as s')->
+            join('sistemas as si','si.id_sistema','s.id_sistema')->
+            where('s.correo',Auth::user()->email)->
+            groupBy('si.id_sistema')->
+            get();
+        }else{
+          $sistemas = 
+            db::table('solicitudes as s')->
+            join('sistemas as si','si.id_sistema','s.id_sistema')->
+            wherein('s.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
+            groupBy('si.id_sistema')->
+            get();
+        }
         $SxR = db::table('registros as r')
-                    ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),
-                            #db::raw("group_concat(r.id_cliente) as data")
-                            db::raw("count(r.id_responsable) as y"))
-                    ->join('responsables as re','r.id_responsable','re.id_responsable')
-                    ->groupBy('re.nombre_r')
-                    ->orderBy('re.nombre_r')
+                    ->select("s.nombre_s",
+                        db::raw("count(r.id_sistema) as total"))
+                    ->join('sistemas as s','r.id_sistema','s.id_sistema')
+                    ->wherenotin('r.id_estatus',['18','14'])
+                    ->wherein('s.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+                    ->groupBy('s.nombre_s')
+                    ->orderBy('s.nombre_s')
+                    ->get();
+        $cerrado = db::table('registros as r')
+                    ->select("s.nombre_s",
+                        db::raw("count(r.id_sistema) as total"))
+                    ->join('sistemas as s','r.id_sistema','s.id_sistema')
+                    ->wherein('r.id_estatus',['18'])
+                    ->wherein('s.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+                    ->groupBy('s.nombre_s')
+                    ->orderBy('s.nombre_s')
                     ->get();
         $responsables = db::table('registros as r')
                     ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),
@@ -120,13 +149,12 @@ class HomeController extends Controller
                     ->orderBy('re.nombre_r')
                     ->get();
         $clientes = db::table('registros as r')
-                    ->distinct()
                     ->select('c.nombre_cl')
                     ->join('clientes as c','r.id_cliente','c.id_cliente')
                     ->orderBy('c.nombre_cl')
                     ->get();                    
-        return view('principal',compact('tabla','SxR','responsables','clientes'));
-        #dd($fechas);
+        return view('principal',compact('tabla','SxR','responsables','clientes','requerimientos','sistemas','cerrado'));
+        #dd($sistemas);
     }
 
 }
