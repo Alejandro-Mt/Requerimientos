@@ -17,12 +17,16 @@
                 <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1"></i>
               </h5>
               @foreach($requerimientos as $requerimiento)
-                @if($solicitudes->id_sistema == $requerimiento->id_sistema)
-                  <p class="note-date fs-2 text-muted">
-                    <span>Total de solicitudes</span>
-                    <span class="badge bg-light text-dark">{{$requerimiento->total}}</span>
-                  </p>
-                @endif
+                <p class="note-date fs-2 text-muted">
+                  <span>Total de solicitudes</span>
+                  @if($solicitudes->id_sistema == $requerimiento->id_sistema)
+                    <span class="badge bg-light text-dark">
+                      {{$requerimiento->total}}
+                    </span>
+                  @else
+                    <span class="badge bg-light text-muted">0</span>
+                  @endif
+                </p>
               @endforeach
             </div>
           </a>
@@ -299,7 +303,12 @@
             Requerimientos
           </h4>
           <div id="Visit-Separation" style="height: 290px; width: 100%" class="d-flex justify-content-center align-items-center"></div>
-          <table class="table v-middle fs-3 mb-1">
+          <table class="table v-middle fs-3 mb-1 d-none">
+            <tr>
+              <td class="font-weight-medium border-0">Sistema</td>
+              <td class="font-weight-medium border-0">Abierto</td>
+              <td class="font-weight-medium border-0">Cerrado</td>
+            </tr>
             @foreach($SxR as $datos)
               <tr id="tr{{$loop->iteration-1}}">
                 <td id="w{{$loop->iteration-1}}" class="visit">{{$datos->nombre_s}}</td>

@@ -290,7 +290,7 @@ class ClienteController extends Controller
             table('users as u')->
             select('email')->
             join('accesos as a','u.id','a.id_user')->
-            where([['a.id_sistema','=',$data['id_sistema']],['u.id_puesto','>',5]])->
+            where([['a.id_sistema','=',$data['id_sistema']],['u.id_puesto','=',3]])->
             get();
         foreach($destino as $correo){  
             mail::to($correo->email)->send(new PrioridadCliente($data)); 

@@ -51,11 +51,8 @@
       <div class="card">
         <div class="card-header d-flex bg-warning">
           <h4 class="mb-0 col-lg-9 text-white">Activos</h4>
-          <!--<a class="btn btn-success btn-sm ml-auto text-white" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Solicitar Ajuste de prioridades
-          </a>-->
           <button class="btn btn-sm ml-auto waves-effect waves-light btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Solicitar Ajuste de prioridades
+            <a data-bs-toggle="tooltip" data-bs-placement="left" title="Recuerda seleccionar algún cliente un cliente">Solicitar Ajuste de prioridades</a>
           </button>
         </div>
         <div class="card-body">
@@ -63,7 +60,7 @@
             @if ($validar == 0)
               @foreach($pendientes as $pendiente)
                 <div class="col-md-4 col-sm-4 filter cliente-{{$pendiente->id_cliente}} sistema-{{$pendiente->id_sistema}}" id="{{$pendiente->folio}}" >
-                  <div class="d-none" id="{{$pendiente->id_sistema}}"></div>
+                  <div class="s d-none" id="{{$pendiente->id_sistema}}"></div>
                   <!-- ---------------------start Special title treatment---------------- -->
                   <div class="card card-hover">
                     <div class="card-header">
@@ -84,7 +81,7 @@
               @foreach ($orden as $folio)
                 @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $folio->orden ))); $i++)
                   <div class="col-md-4 col-sm-4 filter cliente-{{$folio->id_cliente}} sistema-{{$folio->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $folio->orden ))[$i]}}" >
-                    <div class="d-none" id="{{$folio->id_sistema}}"></div>
+                    <div class="s d-none" id="{{$folio->id_sistema}}"></div>
                     <!-- ---------------------start Special title treatment---------------- -->
                     <div class="card card-hover">
                       <div class="card-header">
@@ -192,7 +189,12 @@
           </h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="icon text-sm-start">
+          <i class="feather-sm h6" data-feather="info"></i>
+          <small>El envio de la solicitud solo es posible si seleccionaste un cliente</small>
+        </div>
         <div class="modal-body">
+          <div class="fixed-top">...</div>
           <p>
             Si se autoriza enviar los datos, se debera esperar a que un coordinador autorice los ajustes
           </p>
@@ -272,57 +274,53 @@
   });
 </script>
 <script>
-  $(document).ready(function () {
-    $('#solicitar').on('click', function (){
-      var cliente = $('#clientes').val();
-      var lista = document.getElementById('card-colors');
-      var sistema = $('.d-none').attr("id");
-      var solicitante = $('#solicitante').val();
-      let orden = [];
-      for(var i = 0; i<lista.children.length; i++){
-        if(lista.children[i].classList[3] == 'cliente-' + cliente){
-          console.log()
-          if (i < lista.children.length) {
-            orden.push(lista.children[i].id);
-          }
-        }
-      }
-          console.log(orden)
-      if(orden.length > 1){
-        $.ajax({
-          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-          type: 'POST',
-          url: "solicitud.prioridades",
-          data: { id_cliente: cliente, orden: orden, id_sistema: sistema, solicitante: solicitante},
-          success: function (response) {
-            window.location.href = "prioridad." + sistema;
-          },
-          error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-            if (XMLHttpRequest.status === 422) {
-              //alert('Not connect: Verify Network.');
-              alert("Se requiere el nombre del solicitante");
-            } 
-          }
-        });
-      }else{alert("Tines que seleccionar un cliente con mas de un requerimiento")}
-    }) 
-
-  })
-</script>
-
-<script type="text/javascript">
+  
   $(document).ready(function(){
     $('#reset').click(function(){
         $('.filter').show();
     });
     $('.clientes').click(function(){
-      var value = $(this).attr('id');
-      console.log(value)
+      var filtro = $(this).attr('id');
       $('.filter').hide();
-      $('.cliente-' + value ).show();
-      
+      $('.cliente-' + filtro ).show();
+      $('#solicitar').on('click', function (){
+        var cliente = filtro;
+        var lista = document.getElementById('card-colors');
+        var sistema = $('.s').attr('id');
+        var solicitante = $('#solicitante').val();
+        let orden = [];
+        for(var i = 0; i<lista.children.length; i++){
+          if(lista.children[i].classList[3] == 'cliente-' + cliente){
+            console.log()
+            if (i < lista.children.length) {
+              orden.push(lista.children[i].id);
+            }
+          }
+        }
+        if(orden.length > 1){
+            console.log($('.s'));
+            console.log(sistema);
+          $.ajax({
+            headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+            type: 'POST',
+            url: "solicitud.prioridades",
+            data: { id_cliente: cliente, orden: orden, id_sistema: sistema, solicitante: solicitante},
+            success: function (response) {
+              window.location.href = "prioridad." + sistema;
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+              //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+              if (XMLHttpRequest.status === 422) {
+                //alert('Not connect: Verify Network.');
+                alert("Se requiere el nombre del solicitante");
+              } 
+            }
+          });
+        }
+      });
     });
   });
-  </script>
+  
+</script>
+
 @endsection

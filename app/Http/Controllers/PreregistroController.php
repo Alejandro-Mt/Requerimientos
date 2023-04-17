@@ -57,22 +57,22 @@ class PreregistroController extends Controller
         $this->validate($data, [
             'descripcion' => "max:250",
         ]);
-        
+        $data['email'] = Auth::user()->email;
         solicitud::create([
             'folio' => $folio,
             'solicitante' => Auth::user()->nombre.' '.Auth::user()->apaterno.' '.Auth::user()->amaterno,
-            'correo' => Auth::user()->mail,
+            'correo' => $data['email'] ,
             'id_cliente' => $data['id_cliente'],
             'id_sistema' => $data['id_sistema'],
             'id_estatus' => 20,
             'descripcion' => $data['descripcion'],
             'planteamiento' => $data['planteamiento']
         ]);
-        $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
+        $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 3)->get();
         $solicitud = solicitud::where('folio',$folio)->get();
         $archivos = archivo::where ('folio', $folio)->get();
         foreach ($coordinacion as $c){
-            mail::to($data['correo'])
+            mail::to($data['email'])
                 ->cc(explode(',', $c->email))
                 ->send(new SolicitudRequerimiento($folio));
             #dd($c->email);
