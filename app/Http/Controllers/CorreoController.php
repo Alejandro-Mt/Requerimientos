@@ -7,6 +7,7 @@ use App\Mail\ValidacionCliente;
 use App\Mail\ValidacionRequerimiento;
 use App\Models\archivo;
 use App\Models\levantamiento;
+use App\Models\liberacion;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
@@ -35,10 +36,10 @@ class CorreoController extends Controller
             $estatus->id_estatus = $data->input('id_estatus');
             $estatus->save();
 			$a = "El Correo ha sido enviado "; 
-            return redirect('formatos.requerimientos.edit')->with('alert', $a);
+            return redirect(route('Documentos',$data->folio))->with('alert', $a);
 		}else{
 			$b ='No se pudo enviar el correo. Vuelve a intentarlo. ';
-            return redirect('formatos.requerimientos.edit')->with('alert', $b);
+            return redirect(route('Documentos',$data->folio))->with('alert', $b);
 		} 
     }
 
@@ -119,7 +120,7 @@ class CorreoController extends Controller
         }
     }
 
-    protected function libera($folio){
+    protected function impacto($folio,$impacto){
         $hora = levantamiento::findOrFail($folio);
         $fol = registro::select('res.email')
                       ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
@@ -127,6 +128,7 @@ class CorreoController extends Controller
                       ->get();
         if($hora->fechades == NULL){ 
             $hora -> fechades = now();
+            $hora -> impacto = $impacto;
             $hora -> save();
             foreach($fol as $correo){
                 mail::to($correo->email)
@@ -137,9 +139,11 @@ class CorreoController extends Controller
             return ('Ya ha sido autorizado');
             #dd($hora);
         }
+        dd($impacto);
+        
     }
 
-    public function requiere($folio){
+    /*public function requiere($folio){
         $fol = registro::select('res.email')
                       ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
                       ->where('folio',$folio)
@@ -155,13 +159,23 @@ class CorreoController extends Controller
         } else{
           return ('Este folio ya ha sido contestado');
         }
-    }
+    }*/
 
     public function segval ($folio){
-        $update = levantamiento::FindOrFail($folio);
-        $update->fechades = now(); 
-        $update->save();
-        return redirect(route('Editar'));
+        $estatus = registro::select('id_estatus')->where('folio',$folio)->first();
+        switch($estatus->id_estatus){
+            case 7:
+                $update = levantamiento::FindOrFail($folio);
+                $update->fechades = now(); 
+                $update->save();
+            break;
+            case 2:
+                $update = liberacion::FindOrFail($folio);
+                $update->evidencia_p = true; 
+                $update->save();
+            break;
+        }
+        return redirect(route('Documentos',$folio));;
         #return ($update);
     }
 

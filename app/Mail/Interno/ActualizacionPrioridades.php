@@ -2,7 +2,7 @@
 
 namespace App\Mail\Interno;
 
-use App\Models\cliente;
+use App\Models\Cliente;
 use App\Models\sistema;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

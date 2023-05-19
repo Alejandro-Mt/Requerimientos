@@ -8,9 +8,11 @@ use App\Models\acceso;
 use App\Models\archivo;
 use App\Models\Cliente;
 use App\Models\comentario;
+use App\Models\desfase;
 use App\Models\estatu;
 use App\Models\levantamiento;
 use App\Models\pausa;
+use App\Models\planeacion;
 use App\Models\pricli;
 use App\Models\registro;
 use App\Models\sistema;
@@ -138,21 +140,49 @@ class ClienteController extends Controller
 
     public function document($folio)
     {
+        $archivos = archivo::where('folio',$folio)->get();
+        $comentarios = 
+          comentario::select ('nombre',
+            'apaterno',
+            'folio',
+            'contenido',
+            'p.puesto',
+            'respuesta',
+            'comentarios.created_at',
+            'id_estatus')
+          ->leftjoin ('users as u','u.id','comentarios.usuario')
+          ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
+          ->where('folio',$folio)->get();
+        $desfases = desfase::all();
+        $estatus = estatu::orderby('posicion','asc')->get();
+        $formatos = levantamiento::where('folio',$folio)->count();
+        $pausa = pausa::select('r.folio',pausa::raw('ifnull(max(pausas.pausa),0) as pausa'),'d.motivo')
+          ->rightjoin('registros as r','r.folio', 'pausas.folio')
+          ->leftjoin('desfases as d','d.id', 'pausas.id_motivo')
+          ->where('R.folio',$folio)
+          ->groupby('r.folio')
+          ->first();
         $registros= registro::
             select('registros.*',
               'es.titulo',
               'es.posicion',
               db::raw('ifnull(s.created_at,registros.created_at) as solicitud'),
-              db::raw('if(s.folior = NULL, s.updated_at, NULL) as autorizado'),
+              db::raw('if(s.folior IS NULL, NULL, s.updated_at) as autorizado'),
+              'fechaaut',
+              'prioridad',
+              'fechades',
               'l.created_at as planteamiento',
               'l.updated_at as correo',
               'p.created_at as planeacion',
               'a.created_at as analisis',
               'c.created_at as construccion',
               'li.created_at as liberacion',
-              'i.created_at as implementacion')->
+              'li.evidencia_p as evidencia',
+              'i.created_at as implementacion',
+              'l.impacto'
+            )->
             join('estatus as es','es.id_estatus','registros.id_estatus')->
-            leftjoin('solicitudes as s','registros.folio','s.folio')-> 
+            leftjoin('solicitudes as s','registros.folio','s.folior')-> 
             leftjoin('levantamientos as l','registros.folio','l.folio')->
             leftjoin('planeacion as p','registros.folio','p.folio')->
             leftjoin('analisis as a','registros.folio','a.folio')->
@@ -160,22 +190,10 @@ class ClienteController extends Controller
             leftjoin('liberaciones as li','registros.folio','li.folio')->
             leftjoin('implementaciones as i','registros.folio','i.folio')->
             where('registros.folio',$folio)->
-            get();
-        $estatus = estatu::orderby('posicion','asc')->get();;
-        $comentarios = comentario::select ('nombre',
-                                            'apaterno',
-                                            'folio',
-                                            'contenido',
-                                            'p.puesto',
-                                            'respuesta',
-                                            'comentarios.created_at',
-                                            'id_estatus')
-                                    ->leftjoin ('users as u','u.id','comentarios.usuario')
-                                    ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
-                                    ->where('folio',$folio)->get();
-        $archivos = archivo::where('folio',$folio)->get();
-        $formatos = levantamiento::where('folio',$folio)->count();
-        return view('cliente.documentacion',compact('archivos','comentarios','estatus','folio','formatos','registros'));
+            first();
+        $reg = planeacion::where('folio',$folio)->exists();
+        if($reg){$link = planeacion::select('evidencia')->where('folio',$folio)->first();}else{$link = NULL;}
+        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link','pausa','registros'));
         #dd($formatos);
     }
 
@@ -196,6 +214,7 @@ class ClienteController extends Controller
         $pendientes = 
             registro::
                 join('clientes as cl','cl.id_cliente','registros.id_cliente')
+                ->join('estatus as e','e.id_estatus','registros.id_estatus')
                 ->wherenotin('registros.id_estatus',[13,14,18])
                 ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
                 ->where('registros.id_sistema', $id)

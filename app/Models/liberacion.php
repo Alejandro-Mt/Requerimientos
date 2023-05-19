@@ -9,6 +9,7 @@ class liberacion extends Model
 {
     use HasFactory;
     protected $table = 'liberaciones';
+    protected $primaryKey = 'folio';
     protected $fillable = [
         'folio',
         'fecha_lib_a',

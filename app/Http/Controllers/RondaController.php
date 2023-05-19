@@ -47,7 +47,7 @@ class RondaController extends Controller
         $estatus = registro::select()->where('folio', $data['folio'])->first();
         if ($data['rechazadas'] == 0){$estatus->id_estatus = 2;}else{$estatus->id_estatus = 8;}
         $estatus->save();
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$data['folio']));
         #dd($data);
     }
 

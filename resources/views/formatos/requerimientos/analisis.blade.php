@@ -58,7 +58,7 @@
                                 class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
                             <div class="col-md-8">
                                 <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                    name="evidencia" @if ($vacio == 0) value="{{ old('evidencia') }}" @endif @foreach ($previo as $ant) @if($ant->evidencia == NULL) value="{{ old('evidencia') }}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
+                                    name="evidencia" @if ($vacio == 0) value="{{ old('evidencia') }}" @endif @foreach ($previo as $ant) @if($ant->evidencia == NULL || $ant->evidencia == 'null') value="{{ old('evidencia') }}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
                                 @error('evidencia')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="desfase">Se Generó desfase</label>
                             <div class="col-md-8">
                                 <input type="checkbox" class="form-check-input" id="desfase" name="desfase" {{ (! empty(old('desfase')) ? 'checked' : '') }} @foreach ($previo as $ant) @if ($ant->desfase==1) checked="true" @endif @endforeach onchange="javascript:showContent()">
@@ -121,11 +121,11 @@
                                         @foreach ( $desfases as  $desfase)
                                             <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
                                         @endforeach 
-                                        <!--@error('motivodesfase')
+                                        @error('motivodesfase')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror -->                         
+                                        @enderror                      
                                     </select>
                                 </div>
                             </div>
@@ -136,11 +136,11 @@
                                     <div class="col-md-8">
                                         <input type="text" class="required form-control @error('motivopausa') is-invalid @enderror" 
                                             name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Motivo" autofocus>
-                                        <!--@error('motivopausa')
+                                        @error('motivopausa')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror-->
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -149,11 +149,11 @@
                                     <div class="col-md-8">
                                         <input type="text" class="required form-control @error('evpausa') is-invalid @enderror" 
                                             name="evpausa" @foreach ($previo as $ant) value="{{$ant->evPausa}}" @endforeach placeholder="Link de Evidencia" autofocus>
-                                        <!--@error('evpausa')
+                                        @error('evpausa')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror-->
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -164,11 +164,11 @@
                                     <div class="col-md-8">
                                         <input type="text" class="required form-control @error('otromotivo') is-invalid @enderror" 
                                             name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Otro Motivo" autofocus>
-                                        <!--@error('otromotivo')
+                                        @error('otromotivo')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror-->
+                                        @enderror
                                     </div>
                                 </div>
                             </div>  
@@ -198,7 +198,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
                             <div class="col-md-8">

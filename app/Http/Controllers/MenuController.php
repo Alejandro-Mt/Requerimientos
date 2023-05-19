@@ -123,13 +123,13 @@ class MenuController extends Controller
             'folio'=> $folio,
             'pausa'=> '1'   
         ]);
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$folio));
     }
     public function play($folio){
         $reaunudar = pausa::select('*')-> where ('folio', $folio)->orderby('created_at','desc')->first();
         $reaunudar->pausa = '0';
         $reaunudar->save();  
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$folio));
         #dd($registros->all());
     }
     public function subproceso($folio){
@@ -151,14 +151,14 @@ class MenuController extends Controller
         #$registros = registro::select('*')-> where ('folio', $data->folio)->first();
         #$registros->id_estatus = $data->input('id_estatus');
         #$registros->save();  
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$data['folio']));
         #dd($registros->all());
     }
     public function close($folioS){
         $concluir = subproceso::select('*')-> where ('subproceso', $folioS)->first();
         $concluir->estatus = 'Concluido';
         $concluir->save();
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$folioS));
         #dd($concluir);
     }
     public function avance($folio){
@@ -202,7 +202,7 @@ class MenuController extends Controller
         //Redireccionar
         #$registros= registro::where('folio',$folio)->get();
         #$estatus = estatu::all();
-        return redirect(route('Avance',$data->folio));
+        return redirect(route('Documentos',$data->folio));
         #dd($data->all());
     }
     public function store(){
@@ -233,11 +233,13 @@ class MenuController extends Controller
         return view('/layouts.datos',compact('areas','clientes','departamentos','estatus','funcionalidad','puestos','responsables','sistemas','solicitantes'));
         #dd($responsables);
     }
-    public function posponer($folio){
+    public function posponer($folio,$id_motivo,$id_estatus){
         pausa::create([
             'folio'=> $folio,
-            'pausa'=> '2'   
+            'pausa'=> '2',
+            'id_motivo'=>$id_motivo,
+            'id_estatus'=>$id_estatus
         ]);
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$folio));
     }
 }

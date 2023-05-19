@@ -35,7 +35,7 @@ class HomeController extends Controller
                             'descripcion',
                             db::raw("if(r.id_estatus != 14,if(pa.pausa = '2','POSPUESTO',e.titulo),e.titulo) as titulo"),
                             'cl.clase',
-                            'l.impacto',
+                            'l.prioridad',
                             'nombre_s',
                             db::raw("ifnull(CONCAT(ar.nombre_r,' ', ar.apellidos),'NO ASIGNADO') as Arquitecto"),
                             'nombre_cl',

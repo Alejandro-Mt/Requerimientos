@@ -172,20 +172,6 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="Prioridad"
-                                class="col-sm-2 text-end control-label col-form-label">Impacto*</label>
-                            <div class="col-md-8">
-                                <select class="form-select"   style="width: 100%; height:36px;" id="prioridad" tabindex="-1" aria-hidden="true">
-                                    <option data-select2-id="0">Selección</option>
-                                    <option value='1'>Baja</option>
-                                    <option value='2'>Media</option>
-                                    <option value='3'>Alta</option>
-                                    <option value='4'>Crítica</option> 
-                                    <option value='5'>Nula</option>                        
-                                </select>
-                            </div>
-                        </div>
                         <div id="content">
                             <div class="form-group row">
                                 <label for="folio_pr"
@@ -204,7 +190,7 @@
                         </div>
                         <div class="d-none">
                             <input type="text" name="preregistro"  @if($datos != NULL) @foreach ($datos as $dato) value="{{$dato->folio}}" @endforeach @endif visible="false">
-                        </div>-->
+                        </div>
                         <div class="card-body text-center">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 

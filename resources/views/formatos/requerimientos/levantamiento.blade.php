@@ -164,22 +164,22 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="impacto"
+                            <label for="prioridad"
                                 class="col-sm-2 text-end control-label col-form-label">Impacto en la Operación*</label>
                             <div class="col-md-8">
-                                <select name="impacto" class="form-select @error ('impacto') is-invvalid @enderror" style="height: 36px;width: 100%;" required autofocus>
+                                <select name="prioridad" class="form-select @error ('prioridad') is-invvalid @enderror" style="height: 36px;width: 100%;" required autofocus>
                                     @foreach ($levantamientos as $valor)
-                                        <option value={{$valor->impacto}}>
-                                                @if ($valor->impacto == 1)
+                                        <option value={{$valor->prioridad}}>
+                                                @if ($valor->prioridad == 1)
                                                     {{('Baja')}}
                                                 @else
-                                                    @if ($valor->impacto ==2)
+                                                    @if ($valor->prioridad ==2)
                                                     {{('Media')}}
                                                     @else
-                                                        @if ($valor->impacto ==3)
+                                                        @if ($valor->prioridad ==3)
                                                             {{('Alta')}}
                                                         @else
-                                                            @if ($valor->impacto ==4)
+                                                            @if ($valor->prioridad ==4)
                                                                 {{('Critica')}}
                                                             @endif
                                                         @endif
@@ -191,7 +191,7 @@
                                     <option value='3'>Alta</option>
                                     <option value='4'>Critica</option>                         
                                 </select>
-                                @error('impacto')
+                                @error('prioridad')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

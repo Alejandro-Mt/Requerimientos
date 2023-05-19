@@ -151,17 +151,17 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="impacto"
+                        <label for="prioridad"
                             class="col-sm-2 text-end control-label col-form-label">Impacto en la Operacion*</label>
                         <div class="col-md-8">
-                            <select name="impacto" class="form-select @error ('impacto') is-invalid @enderror" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="prioridad" class="form-select @error ('prioridad') is-invalid @enderror" style="height: 36px;width: 100%;" required autofocus>
                                 <option value={{null}}>Seleccion</option>
-                                <option value='1' {{old('impacto')==1 ? 'selected' : ''}}>Baja</option>
-                                <option value='2' {{old('impacto')==2 ? 'selected' : ''}}>Media</option>
-                                <option value='3' {{old('impacto')==3 ? 'selected' : ''}}>Alta</option>
-                                <option value='4' {{old('impacto')==4 ? 'selected' : ''}}>Critica</option>                         
+                                <option value='1' {{old('prioridad')==1 ? 'selected' : ''}}>Baja</option>
+                                <option value='2' {{old('prioridad')==2 ? 'selected' : ''}}>Media</option>
+                                <option value='3' {{old('prioridad')==3 ? 'selected' : ''}}>Alta</option>
+                                <option value='4' {{old('prioridad')==4 ? 'selected' : ''}}>Critica</option>                         
                             </select>
-                            @error('impacto')
+                            @error('prioridad')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

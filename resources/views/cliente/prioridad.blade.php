@@ -13,15 +13,14 @@
           <a class="clientes" id="{{$cliente->id_cliente}}">
             <div class="card card-body">
               <span class="side-stick"></span>
-              <h5 class="note-title text-truncate w-75 mb-0">
+              <h5 class="note-title text-truncate text-black w-75 mb-0">
                 {{$cliente->nombre_cl}}
                 <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1"></i>
               </h5>
-              
-                  <p class="note-date fs-2 text-muted">
-                    <span>Total de solicitudes</span>
-                    <span class="badge bg-light text-dark">*</span>
-                  </p>
+                <p class="note-date fs-2 text-muted">
+                  <span>Total de solicitudes</span>
+                  <span class="badge bg-light text-dark">*</span>
+                </p>
             </div>
           </a>
         </div>
@@ -63,15 +62,56 @@
                   <div class="s d-none" id="{{$pendiente->id_sistema}}"></div>
                   <!-- ---------------------start Special title treatment---------------- -->
                   <div class="card card-hover">
-                    <div class="card-header">
-                      <h5 class="mb-0 text-dark">{{$pendiente->folio}}</h5>
+                    @if(($pendiente->posicion < 6) and ($pendiente->posicion != NULL))
+                    <div class="card-header bg-danger">
+                      <h5 class="mb-0 text-dark" data-bs-toggle="tooltip" data-bs-placement="right" title="LEVANTAMIENTO">
+                        {{$pendiente->folio}}
+                        @if($pendiente->es_emergente == 1)
+                          <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1 text-light-danger">Emergente</i>
+                        @endif
+                      </h5>
                     </div>
-                    <div class="card-body sistemas">
+                    @elseif(($pendiente->posicion > 5) and ($pendiente->posicion < 9) and ($pendiente->posicion != NULL)) 
+                    <div class="card-header bg-primary">
+                      <h5 class="mb-0 text-dark" data-bs-toggle="tooltip" data-bs-placement="right" title="CONSTRUCCIÓN">
+                        {{$pendiente->folio}}
+                        @if($pendiente->es_emergente == 1)
+                          <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1 text-light-info">Emergente</i>
+                        @endif
+                      </h5>
+                    </div>
+                    @elseif(($pendiente->posicion == 9) and ($pendiente->posicion != NULL)) 
+                    <div class="card-header bg-success" data-bs-toggle="tooltip" data-bs-placement="right" title="LIBERACIÓN">
+                      <h5 class="mb-0 text-dark">
+                        {{$pendiente->folio}}
+                        @if($pendiente->es_emergente == 1)
+                          <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1 text-light-success">Emergente</i>
+                        @endif
+                      </h5>
+                    </div>
+                    @elseif(($pendiente->posicion == 10) and ($pendiente->posicion != NULL)) 
+                    <div class="card-header bg-orange">
+                      <h5 class="mb-0 text-dark" data-bs-toggle="tooltip" data-bs-placement="right" title="IMPLEMENTACIÓN">
+                        {{$pendiente->folio}}
+                        @if($pendiente->es_emergente == 1)
+                          <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1 text-light-warning">Emergente</i>
+                        @endif
+                      </h5>
+                    </div>
+                    @endif
+                    <div @if($pendiente->posicion < 6) class="card-body sistemas bg-light-danger" @elseif(($pendiente->posicion > 5) and ($pendiente->posicion < 9) and ($pendiente->posicion != NULL)) class="card-body sistemas bg-light-primary" @elseif(($pendiente->posicion == 9) and ($pendiente->posicion != NULL)) class="card-body sistemas bg-light-success" @elseif(($pendiente->posicion == 10) and ($pendiente->posicion != NULL)) class="card-body sistemas bg-light-warning" @endif>
                       <h6 class="card-title">{{$pendiente->descripcion}}</h6>
-                      <p class="card-text filtro">
-                        {{$pendiente->nombre_cl}}
-                      </p>
-                      <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
+                      <p class="card-text filtro">{{$pendiente->titulo}}</p>
+                      <p class="card-text filtro">{{$pendiente->nombre_cl}}</p>
+                      @if(($pendiente->posicion < 6) and ($pendiente->posicion != NULL))
+                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-danger text-danger">Documentacion</a>
+                      @elseif(($pendiente->posicion > 5) and ($pendiente->posicion < 9) and ($pendiente->posicion != NULL))
+                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
+                      @elseif(($pendiente->posicion == 9) and ($pendiente->posicion != NULL))
+                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-success text-success">Documentacion</a>
+                      @elseif(($pendiente->posicion == 10) and ($pendiente->posicion != NULL))
+                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-warning text-warning">Documentacion</a>
+                      @endif
                     </div>
                   </div>
                   <!-- --------------------- end Special title treatment ---------------- -->

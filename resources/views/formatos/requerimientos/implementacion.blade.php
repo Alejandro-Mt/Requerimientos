@@ -18,9 +18,7 @@
                             <label for="Folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                @foreach ($registros as $registro)
-                                    <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-                                @endforeach
+                                <input type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -100,7 +98,7 @@
                         </div>
                         <div class="form-group row">
                             <label for="seguimiento"
-                                class="col-sm-2 text-end control-label col-form-label">Seguimiento*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Seguimiento</label>
                             <div class="col-md-8">
                                 <input type="text" class="required form-control" 
                                     name="seguimiento" placeholder="Presenta Fallas?">
@@ -108,17 +106,20 @@
                         </div>
                         <div class="form-group row">
                             <label for="comentarios"
-                                class="col-sm-2 text-end control-label col-form-label">Comentarios*</label>
+                                class="col-sm-2 text-end control-label col-form-label">Comentarios</label>
                             <div class="col-md-8">
                                 <input type="text" class="required form-control" 
                                     name="comentarios" placeholder="Hasta 250 caracteres">
                             </div>
                         </div>
-                        <!--<div class="d-none"> 
-                                <input type="text" name="estatus" value="" visible="false">
-                        </div>-->
+                        <div class="form-group row">
+                            <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
+                            <div class="col-md-8">
+                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="18" data-bs-toggle="modal" data-bs-target="#Auto2">
+                            </div>
+                              
+                        </div>
                         <div class="card-body text-center">
-                            <button type="submit" name="id_estatus" value="18" class="btn btn-primary text-white">Guardar y Continuar</button>
                             <button type="submit" name="id_estatus" value="2" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
@@ -128,7 +129,7 @@
             </form>
         </div>
     </div>
-
+    @include('formatos.requerimientos.desplegables.archivos')
     <form class="form-horizontal" action="" method="post">
     <h5>*Campos obligatorios</h5>
 

@@ -113,4 +113,12 @@ class BuildController extends Controller
         #$id->delete();
         return redirect(route('Seguir'));
     }
+    public function soporte(Request $data, $folio){
+        $col = $data['columna'];
+        $upd=db::table($data['tabla'])->where('folio',$folio)->first();
+        $upd->$col = $data['dato'];
+        $upd->save();
+        #return redirect(route('Documentos',$folio));
+        dd($upd);
+    }
 }

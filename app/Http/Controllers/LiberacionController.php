@@ -85,7 +85,7 @@ class LiberacionController extends Controller
         $update = registro::select()-> where ('folio', $data->folio)->first();
         $update->id_estatus = 8;
         $update->save();
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$data['folio']));
         #dd($update);
 
     }

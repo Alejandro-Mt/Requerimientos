@@ -206,8 +206,9 @@ _____________________________________________________
 <td>@component('mail::button', ['url' => route('Respuesta',$dato->folio)])Autorizar @endcomponent</td> 
 </tr> 
 @else
-<td>@component('mail::button', ['url' => route('Requiere',$dato->folio)])Con MT @endcomponent</td>
-<td>@component('mail::button', ['url' => route('Libera',$dato->folio)])Sin MT @endcomponent</td>
+<td>@component('mail::button', ['url' => route('DPrioridad',[$dato->folio,'1'])])Baja @endcomponent</td>
+<td>@component('mail::button', ['url' => route('DPrioridad',[$dato->folio,'2'])])Media @endcomponent</td>
+<td>@component('mail::button', ['url' => route('DPrioridad',[$dato->folio,'3'])])Alta @endcomponent</td>
 @endif
 </table>
 @endforeach

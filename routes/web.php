@@ -10,6 +10,7 @@ use App\Http\Controllers\ConstruccionController;
 use App\Http\Controllers\CorreoController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\FuncionalidadController;
+use App\Http\Controllers\GoogleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImplementacionController;
@@ -29,7 +30,9 @@ use App\Http\Controllers\ResponsableController;
 use App\Http\Controllers\RondaController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\Solicitantescontroller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 
 /*
@@ -44,7 +47,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 #Route::get('/', function () {return view('auth.login');});
-
+Route::get('auth/google', [GoogleController::class,'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [GoogleController::class,'handleGoogleCallback']);
 Auth::routes();
 auth::routes(['verify'=>true]);
 
@@ -101,7 +105,7 @@ Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->mi
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
 
   #    \\      Proceso extras      //   #
-Route::get('/posponer/{folio}', [MenuController::class,'posponer'])->name('Posponer');
+Route::get('/posponer.{folio}.{id_motivo}.{id_estatus}', [MenuController::class,'posponer'])->name('Posponer');
 Route::get('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
@@ -115,8 +119,9 @@ Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name
 Route::get('/correos.contenido.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
 Route::get('/correos.{folio}',[CorreoController::class, 'rechazo'])->name('Rechazo');
 ##  metodos para correo  autorizacion 2 ##
-Route::get('libera.{folio}', [CorreoController::class, 'libera'])->name('Libera');
-Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('Requiere');
+Route::get('impacto.{folio}.{impacto}', [CorreoController::class, 'impacto'])->name('DPrioridad');
+#Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PMedia');
+#Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PAlta');
 Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut');
 Route::get('archivos.{folio}',[CorreoController::class,'libera']);
 Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
@@ -134,13 +139,13 @@ Route::post('/formatos.requerimientos.analisis', [AnalisisController::class, 'cr
 Route::get('/formatos.requerimientos.construccion.{folio}',[ConstruccionController::class, 'index'])->middleware('auth')->name('Construccion');
 Route::post('/formatos.requerimientos.construccion',[ConstruccionController::class, 'create'])->name('Construir');
 ##  metodos para liberacion ##
-Route::get('/formatos.requerimientos.liberacion.{folio}',[LiberacionController::class, 'index'])->name('Liberacion');
+Route::get('/formatos.requerimientos.liberacion.{folio}',[LiberacionController::class, 'index'])->name('Liberacion')->middleware('auth');
 Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');
 #    \\      Proceso Requerimiento      //   #
 Route::get('ronda.registro.{folio}', [RondaController::class, 'index'])->name('Ronda')->middleware('auth');
 Route::post('ronda.crear', [RondaController::class, 'create'])->name('CRonda');
 ##  metodos para implementacion ##
-Route::get('/formatos.requerimientos.implementacion.{folio}',[ImplementacionController::class, 'index'])->name('Implementacion');
+Route::get('/formatos.requerimientos.implementacion.{folio}',[ImplementacionController::class, 'index'])->name('Implementacion')->middleware('auth');
 Route::post('/formatos.requerimientos.implementacion',[ImplementacionController::class, 'create'])->name('Implementar');
 ##  metodos para solicitar informacion ##
 Route::get('/formatos.requerimientos.informacion.{folio}',[InfoController::class, 'index'])->middleware('auth')->name('Informacion');
@@ -156,7 +161,7 @@ route::post('formatos.link',[PlaneacionController::class, 'update'])->name('ULin
 route::get('formatos.comentarios.{folio}',[MenuController::class, 'avance'])->middleware('auth')->name('Avance');
 route::post('formatos.comentarios',[MenuController::class, 'comentar'])->name('Comentar');
 ##  metodos para Soporte ##
-route::get('soporte.nuevo',[BuildController::class, 'index'])->middleware('auth')->name('Soporte');
+route::post('soporte.{folio}',[BuildController::class, 'soporte'])->middleware('auth')->name('Soporte');
 route::post('soporte.ajustes',[BuildController::class, 'edit'])->name('SUser');
 ##  seg  ##
 route::get('soporte.niveles',[BuildController::class, 'edit'])->middleware('auth')->name('Seg');

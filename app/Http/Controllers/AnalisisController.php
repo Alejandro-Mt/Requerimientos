@@ -115,7 +115,7 @@ class AnalisisController extends Controller
         $update = registro::select()-> where ('folio', $data->folio)->first();
         $update->id_estatus = $data['id_estatus'];
         $update->save();
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$data['folio']));
         #dd($fechareact);
     }
 

@@ -10,5 +10,8 @@ class pausa extends Model
     use HasFactory;
     protected $fillable = [
         'folio',
-        'pausa'];
+        'pausa',
+        'id_motivo',
+        'id_estatus'
+    ];
 }

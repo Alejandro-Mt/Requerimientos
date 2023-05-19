@@ -9,7 +9,7 @@
     <div id="note-full-container" class="note-has-grid row">
       @foreach ($sistemas as $solicitudes)
         <div class="col-md-4 single-note-item all-category">
-          <a href="{{route('Prioridad',$solicitudes->id_sistema)}}">
+          <a class="text-dark" href="{{route('Prioridad',$solicitudes->id_sistema)}}">
             <div class="card card-body">
               <span class="side-stick"></span>
               <h5 class="note-title text-truncate w-75 mb-0">
@@ -121,7 +121,7 @@
                       <td>{{$registro->nombre_r}}</td>
                       <th>{{$registro->Bitrix}}</th>
                       <td>
-                        @switch($registro->impacto)
+                        @switch($registro->prioridad)
                             @case(1)
                                 BAJA
                                 @break

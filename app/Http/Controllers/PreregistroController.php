@@ -103,7 +103,7 @@ class PreregistroController extends Controller
                 db::raw('EXTRACT(year FROM solicitudes.created_at)'), 
                 db::raw('EXTRACT(year FROM now())')
             )
-            ->wherein('id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+            ->wherein('id_sistema',acceso::select('id_sistema'))
             ->distinct()
             ->get();
         return view('formatos.requerimientos.preregistro.store',compact('archivos','clientes','estatus','sistemas','solicitudes'));

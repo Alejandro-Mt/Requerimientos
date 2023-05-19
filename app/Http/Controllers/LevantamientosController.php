@@ -53,7 +53,7 @@ class LevantamientosController extends Controller
             'autorizacion' => $data['autorizacion'],
             'previo' => $data['previo'],
             'problema' => $data['problema'],
-            'impacto' => $data['impacto'],
+            'prioridad' => $data['impacto'],
             'general' => $data['general'],
             'detalle' => $data['detalle'],
             'relaciones' => implode(',', $data['relaciones']),
@@ -72,7 +72,7 @@ class LevantamientosController extends Controller
                 mail::to($correo->email)->send(new NuevoProyecto($data,$correo->nombre_r));
             }
         }
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$data['folio']));
         #dd($data['relaciones']);
 
     }
@@ -106,7 +106,7 @@ class LevantamientosController extends Controller
         $estatus->save();
         $update->save();  
         #dd($data);
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$data['folio']));
 
     }
 

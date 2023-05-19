@@ -121,7 +121,7 @@ class RecordController extends Controller
         $registro = registro::where('folio',$folio)->first();
         $registro->id_estatus= 14;
         $registro->save();
-        return redirect(route('Editar'));
+        return redirect(route('Documentos',$folio));
     }
 
 }

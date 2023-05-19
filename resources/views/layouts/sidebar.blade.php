@@ -51,7 +51,7 @@
                         <span class="hide-menu">Solicitud cliente</span>
                     </a>
                 </li>
-                @if(Auth::user()->id_area == 6)
+                <!--@if(Auth::user()->id_area == 6)
                 <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="{{route('Editar')}}" aria-expanded="false">
@@ -60,7 +60,7 @@
                     </a>
                 </li>
                 @endif
-                <!--<li class="sidebar-item"> 
+                <li class="sidebar-item"> 
                     <a class="sidebar-link waves-effect waves-dark sidebar-link"
                         href="grid.html" aria-expanded="false">
                         <i class="mdi mdi-blur-linear"></i>
