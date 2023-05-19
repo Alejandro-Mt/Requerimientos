@@ -159,7 +159,7 @@ class ClienteController extends Controller
         $pausa = pausa::select('r.folio',pausa::raw('ifnull(max(pausas.pausa),0) as pausa'),'d.motivo')
           ->rightjoin('registros as r','r.folio', 'pausas.folio')
           ->leftjoin('desfases as d','d.id', 'pausas.id_motivo')
-          ->where('R.folio',$folio)
+          ->where('r.folio',$folio)
           ->groupby('r.folio')
           ->first();
         $registros= registro::
