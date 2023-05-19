@@ -92,7 +92,7 @@
                         <a class="dropdown-item" href="{{route('Play',$registro->folio)}}">{{$registro->titulo}}</a>
                         <a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#confc{{$loop->parent->iteration}}">CANCELAR</a>
                       @else
-                        <a class="dropdown-item" href="{{route('Posponer',$registro->folio)}}">POSPONER</a>
+                        <a class="dropdown-item" href="">POSPONER</a>
                         <a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#confc{{$loop->parent->iteration}}">CANCELAR</a>
                       @endif
                     </div>
