@@ -6,7 +6,7 @@
         <div class="card-body wizard-content">
           <div class="form-group row">
             <div class="col-md-6">
-              <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" readonly="readonly" value="{{$registros->folio}}"> 
+              <input id="folio" name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" readonly="readonly" value="{{$registros->folio}}"> 
             </div>
             <div class="col-md-6">
               <input name="descripcion" type="text" class="required form-control" readonly="readonly" value="{{$registros->descripcion}}">
@@ -609,26 +609,5 @@
           });
       });
     }); 
-    
-    $('.link').on('click', function(){
-      var link = $('#evidencia').val();
-      var folio = $('#folio').val();
-      $.ajax({
-          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-          type: 'POST',
-          url: "formatos.link",
-          data: { folio: folio, evidencia: link},
-          success: function (response) {
-            window.location.href = "formatos.comentarios." + folio;
-          },
-          error: function(XMLHttpRequest, textStatus, errorThrown) { 
-            //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-            if (XMLHttpRequest.status === 422) {
-              //alert('Not connect: Verify Network.');
-              alert("Aun no capturas el Link");
-            } 
-          }
-        });
-    });   
   </script>
 @endsection

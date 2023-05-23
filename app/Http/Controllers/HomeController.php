@@ -107,19 +107,30 @@ class HomeController extends Controller
                         ->groupBy('r.folio')
                         ->get();
                         
-        $requerimientos = db::table('solicitudes as s')->select('id_sistema', db::raw('COUNT(folio) as total'))->where('s.correo',Auth::user()->email)->groupBy('id_sistema')->get();
+        $requerimientos = 
+            db::table('solicitudes as s')->
+            select('id_sistema', db::raw('COUNT(folio) as total'))->
+            where('s.correo',Auth::user()->email)->
+            groupBy('id_sistema')->
+            get();
         if(Auth::user()->id_puesto == 3){
           $sistemas = 
             db::table('solicitudes as s')->
+            select('s.*', db::raw('COUNT(s.id_sistema) as total'))->
             join('sistemas as si','si.id_sistema','s.id_sistema')->
+            leftjoin('registros as r','r.folio','s.folior')->
             where('s.correo',Auth::user()->email)->
+            whereNotIn('r.id_estatus',['14','18'])->
             groupBy('si.id_sistema')->
             get();
         }else{
           $sistemas = 
             db::table('solicitudes as s')->
+            select('*', db::raw('COUNT(s.id_sistema) as total'))->
             join('sistemas as si','si.id_sistema','s.id_sistema')->
+            leftjoin('registros as r','r.folio','s.folior')->
             wherein('s.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
+            whereNotIn('r.id_estatus',['14','18'])->
             groupBy('si.id_sistema')->
             get();
         }
