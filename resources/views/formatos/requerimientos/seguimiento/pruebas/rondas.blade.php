@@ -88,22 +88,24 @@
   var input = document.getElementById('falla');
   miBoton.addEventListener('click', function() {
     if (input.value != '0') {
+        miBoton.setAttribute('type', 'submit');
         miBoton.removeAttribute('data-bs-toggle');
         miBoton.removeAttribute('data-bs-target');
-        miBoton.setAttribute('type', 'submit');
     }
-    //var enlace = document.querySelector('a');
-    var enlaces = document.getElementsByTagName('a');
-    for (var i = 0; i < enlaces.length; i++) {
-      var enlace = enlaces[i];
-      if (enlace.getAttribute('style') == 'color:white') {
-        enlace.removeAttribute('href');
-        enlace.setAttribute('data-bs-dismiss','modal');
-        enlace.addEventListener('click', function() {
-          miBoton.removeAttribute('data-bs-toggle');
-          miBoton.removeAttribute('data-bs-target');
-          miBoton.setAttribute('type', 'submit');
-        }); // Hacer algo con el enlace que cumple la condición
+    if(input.value == '0'){
+      //var enlace = document.querySelector('a');
+      var enlaces = document.getElementsByTagName('a');
+      for (var i = 0; i < enlaces.length; i++) {
+        var enlace = enlaces[i];
+        if (enlace.getAttribute('style') == 'color:white') {
+          enlace.removeAttribute('href');
+          enlace.setAttribute('data-bs-dismiss','modal');
+          enlace.addEventListener('click', function() {
+            miBoton.removeAttribute('data-bs-toggle');
+            miBoton.removeAttribute('data-bs-target');
+            miBoton.setAttribute('type', 'submit');
+          }); // Hacer algo con el enlace que cumple la condición
+        }
       }
     }
   });
