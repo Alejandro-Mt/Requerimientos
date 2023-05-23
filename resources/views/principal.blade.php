@@ -300,7 +300,7 @@
             Requerimientos
           </h4>
           <div id="Visit-Separation" style="height: 290px; width: 100%" class="d-flex justify-content-center align-items-center"></div>
-          <table class="table v-middle fs-3 mb-1">
+          <table class="table v-middle fs-3 mb-1 d-none">
             <tr>
               <td class="font-weight-medium border-0">Sistema</td>
               <td class="font-weight-medium border-0">Abierto</td>
