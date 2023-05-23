@@ -12,16 +12,14 @@
     <!--<h3>Liberación</h3>-->
     <p>(*) Campos Obligatorios</p>
     <h6 class="card-subtitle"></h6>
-    <form method="POST" action="{{route ('CRonda')}}" class="mt-5">
+    <form id="round" method="POST" action="{{route ('CRonda')}}" class="mt-5">
       {{ csrf_field() }}
       <div>
         <section>
           <div class="form-group row">
             <label for="Folio" class="col-sm-2 text-end control-label col-form-label">Folio</label>
             <div class="col-sm-3">
-              @foreach ($registros as $registro)
-                <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-              @endforeach
+              <input type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
             </div>
           </div>
           <div class="form-group row">
@@ -45,7 +43,7 @@
           </div><div class="form-group row">
             <label for="rechazadas" class="col-sm-2 text-end control-label col-form-label">Pruebas declinadas*</label>
             <div class="col-md-8">
-              <input type="number" name="rechazadas" class="required form-control
+              <input  id="falla" type="number" name="rechazadas" class="required form-control
               @error('rechazadas') is-invalid @enderror"
               placeholder="Pruebas con errores" required autofocus>
               @error('rechazadas')
@@ -72,10 +70,10 @@
             @if ($solinf == 0)
               <button type="button" class="btn btn-primary text-white" id="null-data-toast">Guardar</button>
             @else
-              <button type="submit" class="btn btn-primary text-white">Guardar</button>
+              <button id="btn" type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#Auto2">Guardar</button>
             @endif
             <label> </label> 
-            <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
+              <a class="btn btn-danger" href="{{route('Documentos',$registros->folio) }}">Cancelar</a>
           </div>
         </section>
       </div>
@@ -83,20 +81,32 @@
   </div>
 </div>
 
-<form class="form-horizontal" action="" method="post">
-<h5>*Campos obligatorios</h5>
-
-<script type="text/javascript">
-    function showContent() {
-        element = document.getElementById("content");
-        check = document.getElementById("retraso");
-        if (check.checked) {
-            element.style.display='block';
-        }
-        else {
-            element.style.display='none';
-        }
+<!-- BEGIN MODAL -->
+@include('formatos.requerimientos.desplegables.archivos')
+<script>
+  var miBoton = document.getElementById('btn');
+  var input = document.getElementById('falla');
+  miBoton.addEventListener('click', function() {
+    if (input.value != '0') {
+        miBoton.removeAttribute('data-bs-toggle');
+        miBoton.removeAttribute('data-bs-target');
+        miBoton.setAttribute('type', 'submit');
     }
+    //var enlace = document.querySelector('a');
+    var enlaces = document.getElementsByTagName('a');
+    for (var i = 0; i < enlaces.length; i++) {
+      var enlace = enlaces[i];
+      if (enlace.getAttribute('style') == 'color:white') {
+        enlace.removeAttribute('href');
+        enlace.setAttribute('data-bs-dismiss','modal');
+        enlace.addEventListener('click', function() {
+          miBoton.removeAttribute('data-bs-toggle');
+          miBoton.removeAttribute('data-bs-target');
+          miBoton.setAttribute('type', 'submit');
+        }); // Hacer algo con el enlace que cumple la condición
+      }
+    }
+  });
 </script>
 <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
 <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>

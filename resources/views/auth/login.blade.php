@@ -9,7 +9,7 @@
       <!-- -------------------------------------------------------------- -->
       <!-- Login box.scss -->
       <!-- -------------------------------------------------------------- -->
-      <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: url({{asset('assets/images/bg_log_in.png')}}) no-repeat center center">
+      <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-image" style="background: url({{asset('assets/images/bg_log_in.png')}}) no-repeat center center">
         <div class="auth-box card">
           <div id="loginform">
             <div class="logo">

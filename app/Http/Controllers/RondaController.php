@@ -19,7 +19,7 @@ class RondaController extends Controller
     public function index($folio)
     {
         $id = registro::select('folio')->where('folio',$folio)->first();
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
+        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->first();
         $ronda = ronda::where('folio',$folio)->count();
         $solinf = liberacion::where('folio',$folio)->whereNotNull('inicio_lib')->count();
         /*if($solinf === 0){
@@ -44,8 +44,14 @@ class RondaController extends Controller
             'evidencia' => $data['evidencia'],
             'efectividad' => ($data['aprobadas']/($data['aprobadas']+$data['rechazadas']))*100,
         ]);
+        $liberacion = liberacion::where('folio', $data['folio'])->first();
         $estatus = registro::select()->where('folio', $data['folio'])->first();
-        if ($data['rechazadas'] == 0){$estatus->id_estatus = 2;}else{$estatus->id_estatus = 8;}
+        if ($data['rechazadas'] == 0){
+            $estatus->id_estatus = 2;
+            $liberacion->evidencia_p=true;
+            $liberacion->save();
+        }else{
+            $estatus->id_estatus = 8;}
         $estatus->save();
         return redirect(route('Documentos',$data['folio']));
         #dd($data);

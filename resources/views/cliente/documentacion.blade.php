@@ -608,6 +608,27 @@
             }
           });
       });
-    });    
+    }); 
+    
+    $('.link').on('click', function(){
+      var link = $('#evidencia').val();
+      var folio = $('#folio').val();
+      $.ajax({
+          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+          type: 'POST',
+          url: "formatos.link",
+          data: { folio: folio, evidencia: link},
+          success: function (response) {
+            window.location.href = "formatos.comentarios." + folio;
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+            if (XMLHttpRequest.status === 422) {
+              //alert('Not connect: Verify Network.');
+              alert("Aun no capturas el Link");
+            } 
+          }
+        });
+    });   
   </script>
 @endsection
