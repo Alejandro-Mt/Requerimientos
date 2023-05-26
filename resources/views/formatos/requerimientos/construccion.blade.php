@@ -29,9 +29,9 @@
                                             <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-warning"><i
                                                     class="fa fa-circle text-warning me-2"></i>Liberación
                                             </div>
-                                            <div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-primary"><i
+                                            <!--<div class="calendar-events mb-3 d-flex align-items-center" data-class="bg-primary"><i
                                                     class="fa fa-circle text-primary me-2"></i>Implementación
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <!-- checkbox -->
                                         <div class="form-check">
