@@ -18,12 +18,9 @@
               </h5>
                 <p class="note-date fs-2 text-muted">
                   <span>Total de solicitudes</span>
-                      <span class="badge bg-light text-dark">
-                        
-                        {{
-                          $solicitudes->total
-                        }}
-                      </span>
+                  <span class="badge bg-light text-dark">
+                    {{$solicitudes->total}}
+                  </span>
                 </p>
             </div>
           </a>
@@ -108,7 +105,7 @@
                   @foreach ($tabla as $registro)
                     <tr>
                       <td>{{$registro->id_registro}}</td>
-                      <td><a href="{{route('Avance',$registro->folio)}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a></td>
+                      <td><a href="{{route('Documentos',$registro->folio)}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a></td>
                       <td>{{$registro->descripcion}}</td>
                       <td>{{$registro->titulo}}</td>
                       <td>{{$registro->clase}}</td>

@@ -116,7 +116,7 @@ class HomeController extends Controller
         if(Auth::user()->id_puesto == 3){
           $sistemas = 
             db::table('solicitudes as s')->
-            select('s.*', db::raw('COUNT(s.id_sistema) as total'))->
+            select('*', db::raw('COUNT(s.id_sistema) as total'))->
             join('sistemas as si','si.id_sistema','s.id_sistema')->
             leftjoin('registros as r','r.folio','s.folior')->
             where('s.correo',Auth::user()->email)->

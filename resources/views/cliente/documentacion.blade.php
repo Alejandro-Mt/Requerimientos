@@ -597,7 +597,7 @@
             url: "formatos.link",
             data: { folio: folio, evidencia: link},
             success: function (response) {
-              window.location.href = "formatos.comentarios." + folio;
+              window.location.href = "documentacion." + folio;
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
               //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
