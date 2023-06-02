@@ -46,7 +46,7 @@
                             <label for="descripcion"
                                 class="col-sm-2 text-end control-label col-form-label">Descripción*</label>
                             <div class="col-md-8">
-                                <input type="text" class="required form-control @error('descripcion') is-invalid @enderror" name="descripcion" placeholder="Descripción" required autofocus
+                                <input maxlength="250" type="text" class="required form-control @error('descripcion') is-invalid @enderror" name="descripcion" placeholder="Descripción" required autofocus
                                     @if ($datos != NULL)
                                         @foreach ($datos as $dato)
                                             value="{{$dato->descripcion}}"

@@ -77,7 +77,7 @@
                                         <label for="titulo" class="col-sm-2 text-end control-label col-form-label red-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="Coloca el título con el que se identificara tu requerimiento">Titulo*</label>
                                         <div class="col-md-8">
                                             <textarea type="text" class="required form-control @error('descripcion') is-invalid @enderror" 
-                                                name="descripcion" placeholder="maximo 250 caracteres" required autofocus></textarea>
+                                                name="descripcion" placeholder="maximo 250 caracteres" required autofocus maxlength="250"></textarea>
                                             @error('descripcion')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -89,7 +89,7 @@
                                         <label for="planteamiento" class="col-sm-2 text-end control-label col-form-label red-tooltip"  data-bs-toggle="tooltip" data-bs-placement="right" title="Describe con un resumen el alcance deseado para tu requerimiento">Descripción*</label>
                                         <div class="col-md-8">
                                             <textarea type="text" class="required form-control @error('planteamiento') is-invalid @enderror" 
-                                                name="planteamiento" placeholder="maximo 250 caracteres" required autofocus></textarea>
+                                                name="planteamiento" placeholder="maximo 250 caracteres" required autofocus maxlength="250"></textarea>
                                             @error('planteamiento')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>

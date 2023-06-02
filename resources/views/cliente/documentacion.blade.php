@@ -85,6 +85,11 @@
               @endswitch
               @if($pausa->pausa == 2)Motivo: {{$pausa->motivo}} @else Avance @endif
             </span>
+
+            <div class="ms-auto">
+              <strong>Días activo: </strong>{{$registros->activo}}
+            </div>
+
             <div class="ms-auto">
               @foreach ($estatus as $e)
                 @if ($e->id_estatus == $registros->id_estatus)
@@ -128,16 +133,32 @@
                                             <span class="fs-2 text-muted">
                                               @switch($limite->posicion)
                                                 @case(1)
-                                                  {{date("d/M",strtotime($registros->solicitud))}}
+                                                  @if($registros->solicitud <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->solicitud))}}
+                                                  @endif
                                                   @break
                                                 @case(2)
-                                                  {{date("d/M",strtotime($registros->autorizado))}}
+                                                  @if($registros->autorizado <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->autorizado))}}
+                                                  @endif
                                                   @break
                                                 @case(3)
-                                                  {{date("d/M",strtotime($registros->planteamiento))}}
+                                                  @if($registros->planteamiento <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->planteamiento))}}
+                                                  @endif
+                                                  @break
+                                                @case(4)
+                                                  @if($registros->fechaaut <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->fechaaut))}}
+                                                  @endif
+                                                  @break
+                                                @case(5)
+                                                  @if($registros->fechades <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->fechades))}}
+                                                  @endif
                                                   @break
                                                 @default   
-                                                  {{date("d/M",strtotime($registros->correo))}}
+                                                  {{date("d/M/y",strtotime($registros->correo))}}
                                                   @break  
                                               @endswitch
                                             </span>
@@ -147,8 +168,21 @@
                                     @endforeach
                                   </div>
                                 </div>
+                                <div class="position-absolute start-50">
+                                  <a class="text-danger">
+                                    <strong>{{$registros->lev}} Días</strong> / 
+                                    @if($registros->posicion == 1) 1
+                                    @elseif($registros->posicion == 2) 2
+                                    @elseif($registros->posicion == 3) 3
+                                    @elseif($registros->posicion == 4) 4
+                                    @elseif($registros->posicion > 4) 5
+                                    @endif de 5
+                                  </a>
+                                </div>
                                 <div class="position-absolute end-0">
-                                  <span class="fs-2 text-muted">{{date("d/M",strtotime($registros->solicitud))}}</span>
+                                  @if($registros->posicion > 5)
+                                    <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->solicitud))}}</span>
+                                  @endif
                                 </div>
                               </div>
                             </div>
@@ -170,13 +204,19 @@
                                             <span class="fs-2 text-muted">
                                               @switch($limite->posicion)
                                                 @case(6)
-                                                  {{date("d/M",strtotime($registros->planeacion))}}
+                                                  @if($registros->planeacion <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->planeacion))}}
+                                                  @endif
                                                   @break
                                                 @case(7)
-                                                  {{date("d/M",strtotime($registros->analisis))}}
+                                                  @if($registros->analisis <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->analisis))}}
+                                                  @endif
                                                   @break
                                                 @case(8)
-                                                  {{date("d/M",strtotime($registros->construccion))}}
+                                                  @if($registros->construccion <> NULL)
+                                                    {{date("d/M/y",strtotime($registros->construccion))}}
+                                                  @endif
                                                   @break
                                                 @default 
                                               @endswitch
@@ -187,8 +227,19 @@
                                     @endforeach
                                   </div>
                                 </div>
+                                <div class="position-absolute start-50">
+                                  <a class="text-info">
+                                    <strong>{{$registros->cons}} Días</strong> / 
+                                    @if ($registros->posicion == 6) 1 
+                                    @elseif($registros->posicion == 7) 2
+                                    @elseif($registros->posicion > 7) 3
+                                    @endif de 3
+                                  </a>
+                                </div>
                                 <div class="position-absolute end-0">
-                                  <span class="fs-2 text-muted">{{date("d/M",strtotime($registros->construccion))}}</span>
+                                  @if($registros->posicion > 7)
+                                  <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->construccion))}}</span>
+                                  @endif
                                 </div>
                               </div>
                             </div>
@@ -208,7 +259,9 @@
                                           <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                           <div class="position-absolute end-0">
                                             <span class="fs-2 text-muted">
-                                              {{date("d/M",strtotime($registros->liberacion))}}
+                                              @if($registros->liberacion <> NULL)
+                                                {{date("d/M/y",strtotime($registros->liberacion))}}
+                                              @endif
                                             </span>
                                           </div>
                                         </div>
@@ -216,8 +269,13 @@
                                     @endforeach
                                   </div>
                                 </div>
+                                <div class="position-absolute start-50">
+                                  <a class="text-success"><strong>{{$registros->lib}} Días</strong> / @if ($registros->posicion > 9) 1 @else {{$registros->posicion - 9}} @endif de 1</a>
+                                </div>
                                 <div class="position-absolute end-0">
-                                  <span class="fs-2 text-muted">{{date("d/M",strtotime($registros->liberacion))}}</span>
+                                  @if($registros->posicion > 9)
+                                  <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->liberacion))}}</span>
+                                  @endif
                                 </div>
                               </div>
                             </div>
@@ -231,7 +289,7 @@
                                   </a>
                                   <div class="ms-3">
                                     <span class="text-dark font-weight-medium">
-                                      EN IMPLEMENTACIÓN
+                                      IMPLEMENTACIÓN
                                     </span>
                                     @foreach ($estatus as $limite)
                                       @if(($limite->posicion == 10) and ($limite->posicion != NULL))
@@ -239,7 +297,9 @@
                                           <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                           <div class="position-absolute end-0">
                                             <span class="fs-2 text-muted">
-                                              {{date("d/M",strtotime($registros->implementacion))}}
+                                              @if($registros->implementacion <> NULL)
+                                                {{date("d/M/y",strtotime($registros->implementacion))}}
+                                              @endif
                                             </span>
                                           </div>
                                         </div>
@@ -247,8 +307,13 @@
                                     @endforeach
                                   </div>
                                 </div>
+                                <div class="position-absolute start-50">
+                                  <a class="text-orange"><strong>{{$registros->imp}} Días</strong> / @if ($registros->posicion > 10) 1 @else {{$registros->posicion - 10}} @endif de 1</a>
+                                </div>
                                 <div class="position-absolute end-0">
-                                  <span class="fs-2 text-muted">{{date("d/M",strtotime($registros->implementacion))}}</span>
+                                  @if($registros->posicion > 10)
+                                  <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->implementacion))}}</span>
+                                  @endif
                                 </div>
                               </div>
                             </div>
@@ -511,9 +576,7 @@
                               @if($comentario->id_estatus == 13)
                                 @include('layouts.comentario')
                               @else
-                                @if($comentario->id_estatus == 18)
                                   @include('layouts.comentario')
-                                @endif
                               @endif
                             @endif
                           @endif

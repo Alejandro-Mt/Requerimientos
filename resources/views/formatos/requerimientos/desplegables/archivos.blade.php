@@ -10,7 +10,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <a class="text-danger">Una vez autorizado no se podrán cargar nuevos archivos</a>
+          <a class="text-danger">Una vez autorizado no se podrán cargar nuevos archivos.</a><br> 
+          @if($registros->id_estatus == 8)
+          <a>Recuerda Que debes cargar: <strong>Matriz de pruebas</strong> y <strong>Acta de validacion</strong></a>
+          @elseif($registros->id_estatus == 2)
+          <a>Recuerda Que debes cargar: <strong>Acta de cierre</strong></a>
+          @endif
           <form  class="dropzone" action="{{route('Adjuntos',$registros->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
           </form> 
         </div>

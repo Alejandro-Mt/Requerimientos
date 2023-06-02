@@ -2,10 +2,10 @@
 @if ($comentario->respuesta == 'No')
   <div class="d-flex flex-row comment-row border-bottom p-3">
     <div class="p-2">
-      @if (Auth::user()->avatar == NULL)
+      @if ($comentario->avatar == NULL)
         <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="50" class="rounded-circle"/> 
       @else
-        <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="50" class="rounded-circle"/>    
+        <img src="{{$comentario->avatar}}" alt="user" width="50" class="rounded-circle"/>    
       @endif
     </div>
     <div class="comment-text w-100">
@@ -28,10 +28,10 @@
           <input type="text" class="d-none" name="respuesta" value="SI">
           <div class="row">
             <div class="p-2 col-1">
-              @if (Auth::user()->avatar == NULL)
+              @if ($comentario->avatar == NULL)
                 <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="40" class="rounded-circle"/> 
               @else
-                <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="40" class="rounded-circle"/>    
+                <img src="{{$comentario->avatar}}" alt="user" width="40" class="rounded-circle"/>    
               @endif
             </div>
             <div class="col-6">
@@ -51,10 +51,10 @@
 @else
   <div class="d-flex flex-row comment-row border-bottom p-3" style="margin-left: 50">
     <div class="p-2">
-      @if (Auth::user()->avatar == NULL)
+      @if ($comentario->avatar == NULL)
         <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" width="40" class="rounded-circle"/> 
       @else
-        <img src="{{asset(Auth::user()->avatar)}}" alt="user" width="40" class="rounded-circle"/>    
+        <img src="{{$comentario->avatar}}" alt="user" width="40" class="rounded-circle"/>    
       @endif
     </div>
     <div class="comment-text w-100">

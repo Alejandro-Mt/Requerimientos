@@ -53,19 +53,6 @@
               @enderror
             </div>
           </div>
-          @if($ronda == '0')
-            <div class="form-group row">
-              <label for="evidencia" class="col-sm-2 text-end control-label col-form-label">Documentacion*</label>
-              <div class="col-md-8">
-                <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" name="evidencia"  placeholder="evidencia" required autofocus>
-                @error('evidencia')
-                  <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-                @enderror
-              </div>
-            </div>
-          @endif
           <div class="card-body text-center">
             @if ($solinf == 0)
               <button type="button" class="btn btn-primary text-white" id="null-data-toast">Guardar</button>

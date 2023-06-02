@@ -16,7 +16,9 @@ use App\Models\planeacion;
 use App\Models\pricli;
 use App\Models\registro;
 use App\Models\sistema;
+use App\Models\solicitud;
 use App\Models\solpri;
+use Carbon\Carbon;
 use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -149,7 +151,8 @@ class ClienteController extends Controller
             'p.puesto',
             'respuesta',
             'comentarios.created_at',
-            'id_estatus')
+            'id_estatus',
+            'avatar')
           ->leftjoin ('users as u','u.id','comentarios.usuario')
           ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
           ->where('folio',$folio)->get();
@@ -179,9 +182,15 @@ class ClienteController extends Controller
               'li.created_at as liberacion',
               'li.evidencia_p as evidencia',
               'i.created_at as implementacion',
+              'i.updated_at as implementado',
+              db::raw('DATEDIFF(ifnull(l.fechades, now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(l.fechades, now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(l.fechades,now())) = 6 THEN 1 ELSE 0 END AS lev'),
+              db::raw('DATEDIFF(ifnull(li.created_at,now()), p.created_at)  - (DATEDIFF(ifnull(li.created_at,now()), p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(li.created_at,now())) = 6 THEN 1 ELSE 0 END AS cons'),
+              db::raw('DATEDIFF(ifnull(i.created_at,now()), li.created_at) - (DATEDIFF(ifnull(i.created_at,now()), li.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(li.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.created_at,now())) = 6 THEN 1 ELSE 0 END AS lib'),
+              db::raw('DATEDIFF(ifnull(i.updated_at,now()), i.created_at) - (DATEDIFF(ifnull(i.updated_at,now()), i.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(i.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS imp'),
+              db::raw('DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) + 1 - (DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS activo'),
               'l.impacto'
             )->
-            join('estatus as es','es.id_estatus','registros.id_estatus')->
+            leftjoin('estatus as es','es.id_estatus','registros.id_estatus')->
             leftjoin('solicitudes as s','registros.folio','s.folior')-> 
             leftjoin('levantamientos as l','registros.folio','l.folio')->
             leftjoin('planeacion as p','registros.folio','p.folio')->
