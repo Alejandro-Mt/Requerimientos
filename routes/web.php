@@ -182,7 +182,7 @@ route::post('preregistro.archivos.{folio}',[PreregistroController::class,'data']
 route::get('listado',[ClienteController::class, 'store'])->name('Lista');
 route::get(Crypt::encryptString('prioridad').'{id_sistema}',[ClienteController::class, 'priority'])->name('Prioridad')->middleware('auth');
 
-route::get(Crypt::encryptString('documentacion').'{folio}',[ClienteController::class, 'document'])->name('Documentos')->middleware('auth');
+route::get('documentacion.{folio}',[ClienteController::class, 'document'])->name('Documentos')->middleware('auth');
 route::post('solicitud.prioridades',[ClienteController::class, 'request'])->name('CPrioridad');
 
 route::get('clientes',[ClienteController::class, 'importance'])->name('Importancia')->middleware('auth');
