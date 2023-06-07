@@ -20,10 +20,7 @@
                             <label for="Folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                @foreach ($registros as $registro)
-                                    <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-                            
-                                @endforeach
+                                <input type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -93,112 +90,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
-                            <label class="col-sm-2 text-end form-check-label" for="desfase">Se Generó desfase</label>
-                            <div class="col-md-8">
-                                <input type="checkbox" class="form-check-input" id="desfase" name="desfase" {{ (! empty(old('desfase')) ? 'checked' : '') }} @foreach ($previo as $ant) @if ($ant->desfase==1) checked="true" @endif @endforeach onchange="javascript:showContent()">
-                            </div>
-                        </div>
-                        <div id="content" @if($vacio <> 0) @foreach ($previo as $ant) @if ($ant->desfase == 1) style="display: block;" @else style="display: none;" @endif @endforeach @else style='display: none;' @endif>
-                            <div class="form-group row">
-                                <label for="motivodesfase"
-                                    class="col-sm-2 text-end control-label col-form-label">Motivo de desfase*</label>
-                                <div class="col-md-8">
-                                    <select class="form-select @error ('motivodesfase') is-invalid @enderror" style="width: 100%; height:36px;"
-                                        id="motivodesfase" name="motivodesfase" tabindex="-1" aria-hidden="true" autofocus onchange="javascript:showPause()">
-                                        @foreach ($previo as $ant)    
-                                            @if ($ant->motivodesfase <> null)
-                                                <option value={{$ant->motivodesfase}}>
-                                                    @foreach ($desfases as $desfase)
-                                                        @if($desfase->id == $ant->motivodesfase)
-                                                            {{$desfase->motivo}}
-                                                        @endif
-                                                    @endforeach
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                        <option value={{null}}>Selección</option>
-                                        @foreach ( $desfases as  $desfase)
-                                            <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
-                                        @endforeach 
-                                        @error('motivodesfase')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror                      
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="pause"  @if($vacio <> 0) @foreach ($previo as $ant) @if($ant->motivodesfase <> 6) style="display: none;" @endif @endforeach @else style='display: none;' @endif>
-                                <div class="form-group row">
-                                    <label for="motivopausa"
-                                        class="col-sm-2 text-end control-label col-form-label">Motivo de Pausa</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="required form-control @error('motivopausa') is-invalid @enderror" 
-                                            name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Motivo" autofocus>
-                                        @error('motivopausa')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="evpausa"
-                                        class="col-sm-2 text-end control-label col-form-label">Evidencia de Pausa</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="required form-control @error('evpausa') is-invalid @enderror" 
-                                            name="evpausa" @foreach ($previo as $ant) value="{{$ant->evPausa}}" @endforeach placeholder="Link de Evidencia" autofocus>
-                                        @error('evpausa')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="other" @if($vacio <> 0) @foreach ($previo as $ant) @if($ant->motivodesfase <> 7) style="display: none;" @endif @endforeach @else style='display: none;' @endif>
-                                <div class="form-group row">
-                                    <label for="otromotivo"
-                                        class="col-sm-2 text-end control-label col-form-label">Motivo</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="required form-control @error('otromotivo') is-invalid @enderror" 
-                                            name="motivopausa" @foreach ($previo as $ant) value="{{$ant->motivopausa}}" @endforeach placeholder="Otro Motivo" autofocus>
-                                        @error('otromotivo')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>  
-                            <div class="form-group row">
-                                <label for="fechareact"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha de Reactivación</label>
-                                <div class= 'col-md-8'>
-                                    <div class="input-group">
-                                        <input name="fechareact"  type="text" class="form-control mydatepicker required form-control @error('fechareact') is-invalid @enderror"placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"
-                                            @foreach ($previo as $ant)
-                                                @if ($ant->fechareact <> NULL)
-                                                    value="{{date('d-m-20y',strtotime($ant->fechareact))}}" 
-                                                @else
-                                                    value="{{ old('fechareact') }}"
-                                                @endif 
-                                            @endforeach>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text h-100">
-                                                <i class="fa fa-calendar"></i>
-                                            </span>
-                                        </div>
-                                        @error('fechareact')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
                             <div class="col-md-8">
@@ -207,7 +98,7 @@
                         </div>
                         <div class="card-body text-center">
                             <div class="card-body text-center">
-                                <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
+                                <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registros->folio)}}"></a>
                                 <a style='text-align: center'>Solicitar Información</a>
                             </div>
                             @if ($solinf == 0)
@@ -217,7 +108,7 @@
                             @endif
                             <button type="submit" value="9" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
-                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
+                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',$registros->folio)}}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
                 </div>

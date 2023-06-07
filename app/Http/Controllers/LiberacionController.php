@@ -7,6 +7,7 @@ use App\Models\desfase;
 use App\Models\liberacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class LiberacionController extends Controller
 {
@@ -18,9 +19,9 @@ class LiberacionController extends Controller
     public function index($folio){
         $desfases = desfase::all();
         $id = registro::latest('id_registro')->first();
-        $previo = liberacion::select('*')->where('folio',$folio)->get();
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
-        $vacio = liberacion:: select('*')->where('folio',$folio)->count();
+        $previo = liberacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
+        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+        $vacio = liberacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
         return view('formatos.requerimientos.liberacion',compact('desfases','id','previo','registros','vacio'));
     }
 

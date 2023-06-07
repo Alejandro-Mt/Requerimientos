@@ -19,10 +19,7 @@
                             <label for="folio"
                                 class="col-sm-2 text-end control-label col-form-label">Folio/ID</label>
                             <div class="col-md-3">
-                                @foreach ($registros as $registro)
-                                    <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" 
-                                        value={{$registro->folio}} readonly="readonly">                                  
-                                @endforeach
+                                <input name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" value={{$registros->folio}} readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -329,7 +326,7 @@
                         <div class="card-body text-center">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
-                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Editar') }}" style="color:white">Cancelar</a></button>
+                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',$registros->folio)}}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
                 </div>

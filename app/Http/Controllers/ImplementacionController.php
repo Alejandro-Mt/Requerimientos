@@ -7,6 +7,7 @@ use App\Models\implementacion;
 use App\Models\liberacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 class ImplementacionController extends Controller
@@ -19,9 +20,9 @@ class ImplementacionController extends Controller
   public function index($folio){
     $desfases = db::table('estatus_funcionalidad')->select('*')->get();
     $id = registro::latest('id_registro')->first();
-    $previo = implementacion::select('*')->where('folio',$folio)->get();
-    $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->first();
-    $vacio = implementacion:: select('*')->where('folio',$folio)->count();
+    $previo = implementacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
+    $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+    $vacio = implementacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
     return view('formatos.requerimientos.implementacion',compact('desfases','id','previo','registros','vacio'));
   }
 

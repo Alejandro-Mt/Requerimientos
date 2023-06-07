@@ -12,6 +12,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -22,8 +23,8 @@ class CorreoController extends Controller
     //
     
     public function send($folio){
-        $registros = registro::where ('folio', $folio)->get();
-        $archivos = archivo::where ('folio', $folio)->get();
+        $registros = registro::where ('folio', Crypt::decrypt($folio))->get();
+        $archivos = archivo::where ('folio', Crypt::decrypt($folio))->get();
         return view('layouts.correo',compact('registros','folio','archivos'));
         #dd($registros);
     }
@@ -71,14 +72,14 @@ class CorreoController extends Controller
                           ->leftJoin('clientes as c','c.id_cliente','r.id_cliente')
                           ->leftJoin('responsables as au','l.autorizacion','au.id_responsable')
                           ->leftJoin('solicitantes as sol','sol.id_solicitante','l.id_solicitante')
-                          ->where('l.folio', $folio)->get();
+                          ->where('l.folio', Crypt::decrypt($folio))->get();
         $sistemas = sistema::all();
         $responsables = responsable::all();
         foreach($formato as $fold){
             $relaciones = explode(',',$fold->relaciones);
             $involucrados = explode(',',$fold->involucrados);
             $pdf = PDF::loadView('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
-            return $pdf -> stream ("$folio $fold->descripcion.pdf");
+            return $pdf -> stream ("Crypt::decrypt($folio) $fold->descripcion.pdf");
             #return view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
         }
     }

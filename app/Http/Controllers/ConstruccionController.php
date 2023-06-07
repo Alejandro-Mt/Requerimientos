@@ -13,6 +13,7 @@ use App\Models\registro;
 use App\Models\informacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class ConstruccionController extends Controller
 {
@@ -22,12 +23,12 @@ class ConstruccionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function index($folio){
-    $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
+    $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
     $id = registro::latest('id_registro')->first();
     $desfases = desfase::all();
-    $previo = construccion::select('*')->where('folio',$folio)->get();
-    $vacio = construccion:: select('*')->where('folio',$folio)->count();
-    $solinf = informacion::where('folio',$folio)->whereNULL('respuesta')->count();
+    $previo = construccion::select('*')->where('folio',Crypt::decrypt($folio))->get();
+    $vacio = construccion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
+    $solinf = informacion::where('folio',Crypt::decrypt($folio))->whereNULL('respuesta')->count();
     return view('formatos.requerimientos.construccion',compact('registros','id','desfases','previo','vacio','solinf'));
     dd($previo);
   }

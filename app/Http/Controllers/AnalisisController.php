@@ -10,6 +10,7 @@ use App\Models\planeacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class AnalisisController extends Controller
 {
@@ -19,12 +20,12 @@ class AnalisisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($folio){
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
+        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
         $id = registro::latest('id_registro')->first();
         $desfases = desfase::all();
-        $previo = analisis::select('*')->where('folio',$folio)->get();
-        $vacio = analisis:: select('*')->where('folio',$folio)->count();
-        $solinf = informacion::where('folio',$folio)->whereNULL('respuesta')->count();
+        $previo = analisis::select('*')->where('folio',Crypt::decrypt($folio))->get();
+        $vacio = analisis:: select('*')->where('folio',Crypt::decrypt($folio))->count();
+        $solinf = informacion::where('folio',Crypt::decrypt($folio))->whereNULL('respuesta')->count();
         return view('formatos.requerimientos.analisis',compact('registros','id','desfases','previo','vacio','solinf'));
         #dd($solinf);
         #dd($previo);

@@ -12,6 +12,7 @@ use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,7 +28,7 @@ class LevantamientosController extends Controller
         $areas = area::all();
         $departamentos = departamento::all();
         $divisiones = division::all();
-        $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
+        $registros = registro::select('folio')-> where ('id_registro', Crypt::decrypt($id_registro))->first();
         $responsables = responsable::orderby('apellidos', 'asc')->get();
         $sistemas = sistema::all();
         $solicitantes = solicitante::all();
@@ -129,7 +130,7 @@ class LevantamientosController extends Controller
      */
     
     protected function edit($id_registro){
-        $registros = registro::select('folio')-> where ('id_registro', $id_registro)->get();
+        $registros = registro::select('folio')-> where ('id_registro', Crypt::decrypt($id_registro))->first();
         $sistemas = sistema::all();
         $responsables = responsable::orderby('apellidos', 'asc')->get();
         $levantamientos = levantamiento::findOrFail($registros);

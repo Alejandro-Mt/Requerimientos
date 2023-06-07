@@ -344,50 +344,50 @@
                             @switch($registros->id_estatus)
                               @case(17)
                                 @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Formato',$registros->id_registro)}}" id="btn" type="button" class="btn btn-outline-purple">Llenar Solicitud</a>
+                                  <a href="{{route('Formato',Crypt::encrypt($registros->id_registro))}}" id="btn" type="button" class="btn btn-outline-purple">Llenar Solicitud</a>
                                 @endif
                               @break
                               @case(10)
                                 @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Enviar',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Enviar Reporte</a>
+                                  <a href="{{route('Enviar',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Enviar Reporte</a>
                                 @endif
                               @break
                               @case(16)
                                 @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Levantamiento',$registros->id_registro)}}" type="button" class="btn btn-outline-cyan">Revisión de Datos</a>
+                                  <a href="{{route('Levantamiento',Crypt::encrypt($registros->id_registro))}}" type="button" class="btn btn-outline-cyan">Revisión de Datos</a>
                                   @if($registros->fechaaut <> null)
-                                    <a href="{{route('Enviar',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Confirmación</a>
+                                    <a href="{{route('Enviar',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Confirmación</a>
                                   @endif
                                 @endif
                               @break
                               @case(11)
                                 @if($registros->impacto == 1)
                                   @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                    <a href="{{route('Planeacion',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
+                                    <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
                                   @endif
                                 @elseif($registros->impacto == 3)
                                   @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
                                     <a href="{{route('Planeacion',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
                                   @endif
                                 @elseif($registros->impacto == 2)
-                                  <a href="{{route('Planeacion',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
+                                  <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
                                 @endif
                               @break
                               @case(9)
                                 @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Analisis',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Análisis de Desarrollo</a>
+                                  <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Análisis de Desarrollo</a>
                                 @endif
                               @break
                               @case(7)
                                 @if ($registros->fechades == null)
                                   <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
                                 @elseif(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Construccion',$registros->folio)}}" id="" type="button" class="btn btn-outline-purple">Construcción</a>
+                                  <a href="{{route('Construccion',Crypt::encrypt($registros->folio))}}" id="" type="button" class="btn btn-outline-purple">Construcción</a>
                                 @endif
                               @break
                               @case(8)
                                 @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Liberacion',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Liberación</a>
+                                  <a href="{{route('Liberacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Liberación</a>
                                 @endif
                               @break
                               @case(2)
@@ -395,7 +395,7 @@
                                   @if ($registros->evidencia <> 1)
                                     <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
                                   @else
-                                    <a href="{{route('Implementacion',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Implementación</a>
+                                    <a href="{{route('Implementacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Implementación</a>
                                   @endif
                                 @endif
                               @break

@@ -20,10 +20,7 @@
                         <label for="folio"
                             class="col-sm-2 text-end control-label col-form-label">Folio/ID</label>
                         <div class="col-md-3">
-                            @foreach ($registros as $registro)
-                                <input name="folio" type="text" class="required form-control  @error ('folio') is-invalid @enderror" 
-                                    value={{$registro->folio}} readonly="readonly">                                  
-                            @endforeach
+                            <input name="folio" type="text" class="required form-control  @error ('folio') is-invalid @enderror" value={{$registros->folio}} readonly="readonly">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -80,26 +77,6 @@
                             @enderror
                         </div>
                     </div>
-                    <!--<div class="form-group row">
-                        <label for="jefe_departamento"
-                            class="col-sm-2 text-end control-label col-form-label">Jefe de Departamento</label>
-                        <div class="col-md-8">  
-                            <select class="form-select @error('jefe_departamento') is-invalid @enderror" 
-                                style="width: 100%; height:36px;" name="jefe_departamento" tabindex="-1" aria-hidden="true" required autofocus>
-                                <option value={{null}}>Seleccion</option>
-                                @foreach ($responsables as $ejecutivo):
-                                    @if ($ejecutivo ->id_area == 2)
-                                        <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->apellidos}} {{$ejecutivo->nombre_r}}</option>;
-                                    @endif
-                                @endforeach                     
-                            </select>
-                            @error('jefe_departamento')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>-->
                     <div class="form-group row">
                         <label for="autorizacion"
                             class="col-sm-2 text-end control-label col-form-label">Autorizo</label>
@@ -255,7 +232,7 @@
                     <div class="card-body text-center">
                         <button type="submit" class="btn btn-success text-white">Guardar</button>
                         <label> </label> 
-                        <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Editar') }}" style="color:white">Cancelar</a></button>
+                        <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',$registros->folio) }}" style="color:white">Cancelar</a></button>
                     </div>
                 </section>
             </div>

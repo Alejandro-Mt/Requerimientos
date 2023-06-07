@@ -129,9 +129,7 @@
                             <label for="Folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                @foreach ($registros as $registro)
-                                    <input id="folio" type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-                                @endforeach
+                                    <input id="folio" type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -317,7 +315,7 @@
                         <input class="d-none" name="fechaAutAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <!--<input class="d-none" name="FechaImpR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">-->
                         <div class="card-body text-center">
-                            <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registro->folio)}}"></a>
+                            <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registros->folio)}}"></a>
                             <a style='text-align: center'>Solicitar Información</a>
                         </div>
                         <div class="card-body text-center">
@@ -327,7 +325,7 @@
                                 <button type="button" id="slide-toast" class="btn btn-primary text-white">Guardar y Continuar</button>
                             @endif
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
-                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
+                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',$registros->folio)}}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
                 </div>

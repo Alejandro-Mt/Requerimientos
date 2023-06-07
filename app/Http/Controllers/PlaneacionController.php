@@ -12,6 +12,7 @@ use App\Models\planeacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class PlaneacionController extends Controller
 {
@@ -22,12 +23,12 @@ class PlaneacionController extends Controller
      */
     public function index($folio)
     {
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
+        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
         $id = registro::latest('id_registro')->first();
         $desfases = desfase::all();
-        $previo = planeacion::select('*')->where('folio',$folio)->get();
-        $vacio = planeacion:: select('*')->where('folio',$folio)->count();
-        $solinf = informacion::where('folio',$folio)->whereNULL('respuesta')->count();
+        $previo = planeacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
+        $vacio = planeacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
+        $solinf = informacion::where('folio',Crypt::decrypt($folio))->whereNULL('respuesta')->count();
         return view('formatos.requerimientos.planeacion',compact('desfases','id','previo','solinf','registros','vacio'));
         #dd($solinf);
         #return $dc;

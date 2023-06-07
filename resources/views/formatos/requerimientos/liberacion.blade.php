@@ -18,9 +18,7 @@
                             <label for="Folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                @foreach ($registros as $registro)
-                                    <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">
-                                @endforeach
+                                <input type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -127,75 +125,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
-                            <label class="col-sm-2 text-end form-check-label" for="retraso">Retaraso en Información</label>
-                            <div class="col-md-6">
-                                <input type="checkbox" class="form-check-input" id="retraso" name="retraso" value="1" onchange="javascript:showContent()">
-                            </div>
-                        </div>--
-                        <div class="form-group row">
-                            <label for="t_pruebas"
-                                class="col-sm-2 text-end control-label col-form-label">Total Pruebas*</label>
-                            <div class="col-md-8">
-                                <input type="text" name="t_pruebas" 
-                                  class="required form-control @error('t_pruebas') is-invalid @enderror"
-                                  @foreach ($previo as $ant) value="{{$ant->t_pruebas}}" @endforeach 
-                                  placeholder="Pruebas Realizadas" required autofocus>
-                                @error('t_pruebas')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="evidencia_p"
-                                class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
-                            <div class="col-md-8">
-                                <input type="text" class="required form-control @error('evidencia_p') is-invalid @enderror" 
-                                    name="evidencia_p" @foreach ($previo as $ant) @if($ant->evidencia_p == 'null') value="{{NULL}}" @else value="{{$ant->evidencia_p}}" @endif @endforeach placeholder="evidencia_p" required autofocus>
-                                @error('evidencia_p')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-                        <!--<div id="content" style="display: none;">
-                            <div class="form-group row">
-                                <label for="motivodesfase"
-                                    class="col-sm-2 text-end control-label col-form-label">Motivo de desfase*</label>
-                                <div class="col-md-8">
-                                    <select class="form-select @error ('motivodesfase') is-invalid @enderror" style="width: 100%; height:36px;"
-                                        id="motivodesfase" name="motivodesfase" aria-hidden="true" autofocus>
-                                        @foreach ($previo as $ant)    
-                                            @if ($ant->motivodesfase <> null)
-                                                <option value={{$ant->motivodesfase}}>
-                                                    @foreach ($desfases as $desfase)
-                                                        @if($desfase->id == $ant->motivodesfase)
-                                                            {{$desfase->motivo}}
-                                                        @endif
-                                                    @endforeach
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                        
-                                        <option value={{null}}>Selección</option>
-                                        @foreach ( $desfases as  $desfase)
-                                            <option value={{ $desfase->id}}>{{ $desfase->motivo}}</option>
-                                        @endforeach                         
-                                    </select>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="d-none"> 
                                 <input type="text" name="estatus" value="Información" visible="false">
                         </div>
                         <div class="card-body text-center">
-                            <button type="button" class="btn btn-primary text-white"><a href="{{route('Ronda',$registro->folio)}}" style="color:white">Ronda</a></button>
+                            <button type="button" class="btn btn-primary text-white"><a href="{{route('Ronda',$registros->folio)}}" style="color:white">Ronda</a></button>
                             <button type="submit" name="id_estatus" value="8" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
-                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{('formatos.requerimientos.edit') }}" style="color:white">Cancelar</a></button>
+                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',$registros->folio)}}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
                 </div>
