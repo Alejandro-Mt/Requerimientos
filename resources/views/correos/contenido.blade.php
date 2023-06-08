@@ -199,7 +199,7 @@ _____________________________________________________
 </tr>
 </table>
 <table>
-<tr align="right">@component('mail::button', ['url' => route('Archivo',$dato->folio)])Ver PDF @endcomponent</tr>
+<tr align="right">@component('mail::button', ['url' => route('Archivo',Crypt::encrypt($dato->folio))])Ver PDF @endcomponent</tr>
 @if ($dato->estatus == 10)
 <tr>
 <td>@component('mail::button', ['url' => route('Rechazo',$dato->folio)])Rechazar @endcomponent</td>

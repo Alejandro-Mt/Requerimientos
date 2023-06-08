@@ -177,7 +177,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form  class="dropzone" action="{{route('Adjuntos',$folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone"></form> 
+          <form  class="dropzone" action="{{route('Adjuntos',Crypt::decrypt($folio))}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone"></form> 
           <button type="submit" class="btn btn-success waves-effect waves-light text-white">
             <a href="{{route('Documentos',$folio)}}" style="color:white"> Actualizar</a>
           </button>

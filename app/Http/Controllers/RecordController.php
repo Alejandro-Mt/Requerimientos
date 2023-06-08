@@ -13,6 +13,7 @@ use App\Models\solpri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
 class RecordController extends Controller
@@ -121,7 +122,7 @@ class RecordController extends Controller
         $registro = registro::where('folio',$folio)->first();
         $registro->id_estatus= 14;
         $registro->save();
-        return redirect(route('Documentos',$folio));
+        return redirect(route('Documentos',Crypt::encrypt($folio)));
     }
 
 }

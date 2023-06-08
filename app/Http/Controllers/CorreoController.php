@@ -37,10 +37,10 @@ class CorreoController extends Controller
             $estatus->id_estatus = $data->input('id_estatus');
             $estatus->save();
 			$a = "El Correo ha sido enviado "; 
-            return redirect(route('Documentos',$data->folio))->with('alert', $a);
+            return redirect(route('Documentos',Crypt::encrypt($data->folio)))->with('alert', $a);
 		}else{
 			$b ='No se pudo enviar el correo. Vuelve a intentarlo. ';
-            return redirect(route('Documentos',$data->folio))->with('alert', $b);
+            return redirect(route('Documentos',Crypt::encrypt($data->folio)))->with('alert', $b);
 		} 
     }
 
@@ -176,10 +176,9 @@ class CorreoController extends Controller
                 $update->save();
             break;
         }
-        return redirect(route('Documentos',$folio));;
+        return redirect(route('Documentos',Crypt::encrypt($folio)));
         #return ($update);
     }
-
     function store(Request $data,$folio){ 
         $rename = $data->file('adjunto')->getClientOriginalName();
         $data->validate(['adjunto'=>'required']);{
@@ -187,7 +186,7 @@ class CorreoController extends Controller
         $url = Storage::url($files);
         if(archivo::where('url', 'like', '%' . $rename . '%')->count() == 0)
             archivo::create([
-                'folio'=>$folio,
+                'folio'=>$data->folio,
                 'url'=>$url
             ]);
         }

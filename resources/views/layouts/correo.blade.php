@@ -108,7 +108,7 @@
         <div class="row">
             <label for="doc" class="col-sm-2 text-end control-label col-form-label">{{ __('Documentos adjuntos') }}</label>
             <div class="col-md-6">
-                    <form  class="dropzone" action="{{route('Adjuntos',$folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
+                    <form  class="dropzone" action="{{route('Adjuntos',Crypt::decrypt($folio))}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
                     </form>   
             </div>
         </div>

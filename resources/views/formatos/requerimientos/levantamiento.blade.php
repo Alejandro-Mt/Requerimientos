@@ -326,7 +326,7 @@
                         <div class="card-body text-center">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
-                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',$registros->folio)}}" style="color:white">Cancelar</a></button>
+                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',Crypt::encrypt($registros->folio))}}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
                 </div>

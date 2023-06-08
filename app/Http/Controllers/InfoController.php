@@ -6,7 +6,7 @@ use App\Models\desfase;
 use App\Models\informacion;
 use App\Models\registro;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Crypt;
 
 class InfoController extends Controller
 {
@@ -20,9 +20,9 @@ class InfoController extends Controller
         //
         $desfases = desfase::all();
         $id = registro::latest('id_registro')->first();
-        $previo = informacion::select('*')->where('folio',$folio)->get();
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->get();
-        $vacio = informacion:: select('*')->where('folio',$folio)->count();
+        $previo = informacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
+        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+        $vacio = informacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
         #$info = informacion::raw('select');
         return view('formatos.requerimientos.informacion',compact('desfases','id','previo','registros','vacio'));
         #dd($id);
@@ -83,7 +83,7 @@ class InfoController extends Controller
                 $vista = 'Construccion';
             }
         }
-        return redirect(route($vista,$data->folio));
+        return redirect(route($vista,Crypt::encrypt($data->folio)));
         #dd($vista);
     }
 

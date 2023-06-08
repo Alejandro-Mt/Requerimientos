@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -142,7 +143,7 @@ class ClienteController extends Controller
 
     public function document($folio)
     {
-        $archivos = archivo::where('folio',$folio)->get();
+        $archivos = archivo::where('folio',Crypt::decrypt($folio))->get();
         $comentarios = 
           comentario::select ('nombre',
             'apaterno',
@@ -155,14 +156,14 @@ class ClienteController extends Controller
             'avatar')
           ->leftjoin ('users as u','u.id','comentarios.usuario')
           ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
-          ->where('folio',$folio)->get();
+          ->where('folio',Crypt::decrypt($folio))->get();
         $desfases = desfase::all();
         $estatus = estatu::orderby('posicion','asc')->get();
-        $formatos = levantamiento::where('folio',$folio)->count();
+        $formatos = levantamiento::where('folio',Crypt::decrypt($folio))->count();
         $pausa = pausa::select('r.folio',pausa::raw('ifnull(max(pausas.pausa),0) as pausa'),'d.motivo')
           ->rightjoin('registros as r','r.folio', 'pausas.folio')
           ->leftjoin('desfases as d','d.id', 'pausas.id_motivo')
-          ->where('r.folio',$folio)
+          ->where('r.folio',Crypt::decrypt($folio))
           ->groupby('r.folio')
           ->first();
         $registros= registro::
@@ -198,24 +199,24 @@ class ClienteController extends Controller
             leftjoin('construccion as c','registros.folio','c.folio')->
             leftjoin('liberaciones as li','registros.folio','li.folio')->
             leftjoin('implementaciones as i','registros.folio','i.folio')->
-            where('registros.folio',$folio)->
+            where('registros.folio',Crypt::decrypt($folio))->
             first();
-        $reg = planeacion::where('folio',$folio)->exists();
-        if($reg){$link = planeacion::select('evidencia')->where('folio',$folio)->first();}else{$link = NULL;}
+        $reg = planeacion::where('folio',Crypt::decrypt($folio))->exists();
+        if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link','pausa','registros'));
-        #dd($formatos);
+        #dd(Crypt::decrypt($folio) );
     }
 
     public function priority($id)
     {
         //
-        $orden = solpri::where([['estatus', 'autorizado'],['id_cliente',$id]])->orderby('id','desc')->limit(1)->get();
-        $validar = solpri::where([['estatus', 'autorizado'],['id_cliente',$id]])->count();
+        $orden = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->orderby('id','desc')->limit(1)->get();
+        $validar = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->count();
         $clientes = 
             registro::
                 select('cl.id_cliente','cl.nombre_cl')->
                 join('clientes as cl', 'registros.id_cliente','cl.id_cliente')->
-                where('registros.id_sistema',$id)->
+                where('registros.id_sistema',Crypt::decrypt($id))->
                 wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
                 orderby('cl.nombre_cl')->
                 distinct()->
@@ -226,14 +227,14 @@ class ClienteController extends Controller
                 ->join('estatus as e','e.id_estatus','registros.id_estatus')
                 ->wherenotin('registros.id_estatus',[13,14,18])
                 ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
-                ->where('registros.id_sistema', $id)
+                ->where('registros.id_sistema', Crypt::decrypt($id))
                 ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
         $implementados = 
             registro::
                 join('clientes as cl','cl.id_cliente','registros.id_cliente')
                 ->where('registros.id_estatus','18')
-                ->where('registros.id_sistema', $id)
+                ->where('registros.id_sistema', Crypt::decrypt($id))
                 ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
         $pospuestos = 
@@ -243,11 +244,11 @@ class ClienteController extends Controller
                     'folio',
                     pausa::select('folio')
                     ->where('pausa',2)
-                    ->where('registros.id_sistema', $id)
+                    ->where('registros.id_sistema', Crypt::decrypt($id))
                     ->distinct()
                 )
                 ->orwhere('registros.id_estatus',13)
-                ->where('registros.id_sistema', $id)
+                ->where('registros.id_sistema', Crypt::decrypt($id))
                 ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
         $sistemas = 

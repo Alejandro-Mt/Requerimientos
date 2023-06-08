@@ -9,7 +9,7 @@
     <div id="note-full-container" class="note-has-grid row">
       @foreach ($sistemas as $solicitudes)
         <div class="col-md-4 single-note-item all-category">
-          <a class="text-dark" href="{{route('Prioridad',$solicitudes->id_sistema)}}">
+          <a class="text-dark" href="{{route('Prioridad',Crypt::encrypt($solicitudes->id_sistema))}}">
             <div class="card card-body">
               <span class="side-stick"></span>
               <h5 class="note-title text-truncate w-75 mb-0">
@@ -105,7 +105,7 @@
                   @foreach ($tabla as $registro)
                     <tr>
                       <td>{{$registro->id_registro}}</td>
-                      <td><a href="{{route('Documentos',$registro->folio)}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a></td>
+                      <td><a href="{{route('Documentos',Crypt::encrypt($registro->folio))}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a></td>
                       <td>{{$registro->descripcion}}</td>
                       <td>{{$registro->titulo}}</td>
                       <td>{{$registro->clase}}</td>

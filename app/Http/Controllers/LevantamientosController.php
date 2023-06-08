@@ -73,7 +73,7 @@ class LevantamientosController extends Controller
                 mail::to($correo->email)->send(new NuevoProyecto($data,$correo->nombre_r));
             }
         }
-        return redirect(route('Documentos',$data['folio']));
+        return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
         #dd($data['relaciones']);
 
     }
@@ -107,7 +107,7 @@ class LevantamientosController extends Controller
         $estatus->save();
         $update->save();  
         #dd($data);
-        return redirect(route('Documentos',$data['folio']));
+        return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
 
     }
 

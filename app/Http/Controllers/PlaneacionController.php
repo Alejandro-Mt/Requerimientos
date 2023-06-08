@@ -156,7 +156,7 @@ class PlaneacionController extends Controller
         $estatus = registro::select()->where('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
-        return redirect(route('Documentos',$data['folio']));
+        return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
     }
 
     /**

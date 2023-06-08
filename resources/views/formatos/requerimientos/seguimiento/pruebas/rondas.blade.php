@@ -60,7 +60,7 @@
               <button id="btn" type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#Auto2">Guardar</button>
             @endif
             <label> </label> 
-              <a class="btn btn-danger" href="{{route('Documentos',$registros->folio) }}">Cancelar</a>
+              <a class="btn btn-danger" href="{{route('Documentos',Crypt::encrypt($registros->folio)) }}">Cancelar</a>
           </div>
         </section>
       </div>

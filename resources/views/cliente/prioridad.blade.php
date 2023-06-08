@@ -104,13 +104,13 @@
                       <p class="card-text filtro">{{$pendiente->titulo}}</p>
                       <p class="card-text filtro">{{$pendiente->nombre_cl}}</p>
                       @if(($pendiente->posicion < 6) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-danger text-danger">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-danger text-danger">Documentacion</a>
                       @elseif(($pendiente->posicion > 5) and ($pendiente->posicion < 9) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
                       @elseif(($pendiente->posicion == 9) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-success text-success">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-success text-success">Documentacion</a>
                       @elseif(($pendiente->posicion == 10) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-warning text-warning">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-warning text-warning">Documentacion</a>
                       @endif
                     </div>
                   </div>
@@ -134,7 +134,7 @@
                             <p class="card-text filtro">
                               {{$pendiente->nombre_cl}}
                             </p>
-                            <a href={{route('Documentos',$pendiente->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
+                            <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
                           @endif
                         @endforeach
                       </div>
@@ -173,7 +173,7 @@
                   <p class="card-text filtro">
                     {{$pospuesto->nombre_cl}}
                   </p>
-                  <a href={{route('Documentos',$pospuesto->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
+                  <a href={{route('Documentos',Crypt::encrypt($pospuesto->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
                 </div>
               </div>
               <!-- ---------------------
@@ -207,7 +207,7 @@
                   <p class="card-text filtro">
                     {{$implementado->nombre_cl}}
                   </p>
-                  <a href={{route('Documentos',$implementado->folio)}} class="btn btn-light-primary text-primary">Documentacion</a>
+                  <a href={{route('Documentos',Crypt::encrypt($implementado->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
                 </div>
               </div>
               <!-- ---------------------

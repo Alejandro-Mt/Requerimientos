@@ -14,9 +14,7 @@
                             <label for="Folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                            @foreach ($registros as $registro)
-                                <input type="text" class="required form-control" name="folio" value="{{$registro->folio}}" readonly="readonly">                        
-                            @endforeach
+                                <input type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly"> 
                             </div>
                         </div>
                         <div class="form-group row">
@@ -73,19 +71,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
-                            <label for="evidencia"
-                                class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
-                            <div class="col-md-8">
-                                <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                    name="evidencia" placeholder="evidencia" required autofocus>
-                                @error('evidencia')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>-->
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="retraso">Retaraso en Informacion</label>
                             <div class="col-md-6">
@@ -150,7 +135,7 @@
                             <button type="submit" name="id_estatus" value="" class="btn btn-primary text-white">Guardar Y Continuar</button>
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
-                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Planeacion',$registro->folio)}}" style="color:white">Cancelar</a></button>
+                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',Crypt::encrypt($registros->folio))}}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
                 </div>

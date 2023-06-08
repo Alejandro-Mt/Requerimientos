@@ -660,7 +660,8 @@
             url: "formatos.link",
             data: { folio: folio, evidencia: link},
             success: function (response) {
-              window.location.href = "documentacion." + folio;
+              //window.location.href = "documentacion." + Crypt::encryptString(folio);
+              location.reload(true);
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
               //alert("Status: " + textStatus); alert("Error: " + errorThrown); 

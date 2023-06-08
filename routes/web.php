@@ -58,7 +58,7 @@ Route::get('/', [HomeController::class, 'index'])->middleware('verified')->name(
 Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth')->name('principal');
 #          Perfil         #
 Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');
-Route::get(Crypt::encryptString('/profile').'{id}', [ProfileController::class, 'edit'])->middleware('auth')->name('profile');
+Route::get(substr(Crypt::encryptString('/profile'), 0, 3).'{id}', [ProfileController::class, 'edit'])->middleware('auth')->name('profile');
 Route::post('user.pass',[ProfileController::class, 'updatepass'])->middleware('auth')->name('UsrPass');
 #          prioridades         #
 Route::get('prioridad.solicitudes', [PrioridadController::class, 'index'])->name('AutP');
@@ -100,7 +100,7 @@ Route::post('solicitante.actualizar.{id_sistema}', [Solicitantescontroller::clas
 Route::delete('solicitante.Borrar.{id_sistema}', [Solicitantescontroller::class, 'destroy'])->name('DSolicitante');
 #          Proceso Requerimiento         #
   #    \\      Proceso nuevo      //   #
-Route::get(Crypt::encryptString('/formatos.requerimientos.new'), [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
+Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->middleware('auth')->name('Editar');
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
@@ -111,12 +111,12 @@ Route::get('/cancelar/{folio}', [RecordController::class,'update'])->name('Cance
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
 #    \\      Proceso levantamiento      //   #
-Route::get('/formatos.requerimientos.formato.{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.formato'), 10, 5).'{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');
 Route::post('/formatos.requerimientos.formato', [LevantamientosController::class, 'actualiza'])->name('Actualizar');
-Route::get('/formatos.requerimientos.levantamiento.{id_registro}', [LevantamientosController::class, 'edit'])->middleware('auth')->name('Levantamiento');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.levantamiento'), 15, 5).'{id_registro}', [LevantamientosController::class, 'edit'])->middleware('auth')->name('Levantamiento');
 Route::post('/formatos.requerimientos.edit', [LevantamientosController::class, 'levantamiento'])->name('Guardar');
 ##  metodos para correo ##
-Route::get('/correos.Plantilla.{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
+Route::get(substr(Crypt::encryptString('/correos.Plantilla'), 20, 5).'{folio}', [CorreoController::class, 'PDF'])->name('Archivo');
 Route::get('/correos.contenido.{folio}', [CorreoController::class, 'respuesta'])->name('Respuesta');
 Route::get('/correos.{folio}',[CorreoController::class, 'rechazo'])->name('Rechazo');
 ##  metodos para correo  autorizacion 2 ##
@@ -127,29 +127,29 @@ Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut')
 Route::get('archivos.{folio}',[CorreoController::class,'libera']);
 Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
 Route::delete('file.borrar.{id}', [CorreoController::class, 'destroy'])->name('dfile');
-Route::get('/layouts.correo.{folio}',[CorreoController::class, 'send'])->middleware('auth')->name('Enviar');
+Route::get(substr(Crypt::encryptString('/layouts.correo'), 25, 5).'{folio}',[CorreoController::class, 'send'])->middleware('auth')->name('Enviar');
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 ##  metodos para Construccion ##
-Route::get('/formatos.requerimientos.planeacion.{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.planeacion'), 30, 5).'{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
 Route::get('/show.{folio}',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
 Route::post('/formatos.requerimientos.planeacion', [PlaneacionController::class, 'create'])->name('Plan');
 
-Route::get('/formatos.requerimientos.analisis.{folio}',[AnalisisController::class, 'index'])->middleware('auth')->name('Analisis');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.analisis'), 35, 5).'{folio}',[AnalisisController::class, 'index'])->middleware('auth')->name('Analisis');
 Route::post('/formatos.requerimientos.analisis', [AnalisisController::class, 'create'])->name('Propuesta');
 
-Route::get('/formatos.requerimientos.construccion.{folio}',[ConstruccionController::class, 'index'])->middleware('auth')->name('Construccion');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.construccion'), 40, 5).'{folio}',[ConstruccionController::class, 'index'])->middleware('auth')->name('Construccion');
 Route::post('/formatos.requerimientos.construccion',[ConstruccionController::class, 'create'])->name('Construir');
 ##  metodos para liberacion ##
-Route::get('/formatos.requerimientos.liberacion.{folio}',[LiberacionController::class, 'index'])->name('Liberacion')->middleware('auth');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.liberacion'), 45, 5).'{folio}',[LiberacionController::class, 'index'])->name('Liberacion')->middleware('auth');
 Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');
 #    \\      Proceso Requerimiento      //   #
-Route::get(Crypt::encryptString('ronda.registro').'{folio}', [RondaController::class, 'index'])->name('Ronda')->middleware('auth');
+Route::get(substr(Crypt::encryptString('ronda.registro'), 50, 5).'{folio}', [RondaController::class, 'index'])->name('Ronda')->middleware('auth');
 Route::post('ronda.crear', [RondaController::class, 'create'])->name('CRonda');
 ##  metodos para implementacion ##
-Route::get('/formatos.requerimientos.implementacion.{folio}',[ImplementacionController::class, 'index'])->name('Implementacion')->middleware('auth');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.implementacion'), 55, 5).'{folio}',[ImplementacionController::class, 'index'])->name('Implementacion')->middleware('auth');
 Route::post('/formatos.requerimientos.implementacion',[ImplementacionController::class, 'create'])->name('Implementar');
 ##  metodos para solicitar informacion ##
-Route::get('/formatos.requerimientos.informacion.{folio}',[InfoController::class, 'index'])->middleware('auth')->name('Informacion');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.informacion'), 60, 1).'{folio}',[InfoController::class, 'index'])->middleware('auth')->name('Informacion');
 Route::post('/formatos.requerimientos.informacion',[InfoController::class, 'create'])->name('Solicitud');
 ##  metodos para Subprocesos ##
 Route::get('/formatos.subproceso.{folio}',[MenuController::class, 'subproceso'])->middleware('auth')->name('Subproceso');
@@ -174,22 +174,22 @@ route::post('accesos.{id_user}.{id_sistema}',[AccesoController::class, 'create']
 route::get('accesos.update.{id_user}.{id_sistema}',[AccesoController::class, 'update'])->name('DAcUser');
 
 ##  metodos para registro previo  ##
-route::get(Crypt::encryptString('preregistro'),[PreregistroController::class, 'index'])->name('PreRegistro');
+route::get(substr(Crypt::encryptString('preregistro'), 65, 5),[PreregistroController::class, 'index'])->name('PreRegistro');
 route::post('preregistro.crear',[PreregistroController::class, 'create'])->name('ClienteSol');
 route::get('preregistro.carga.{folio}',[PreregistroController::class, 'upload'])->name('Plus');
 route::post('preregistro.archivos.{folio}',[PreregistroController::class,'data'])->name('Previsto');
 
 route::get('listado',[ClienteController::class, 'store'])->name('Lista');
-route::get(Crypt::encryptString('prioridad').'{id_sistema}',[ClienteController::class, 'priority'])->name('Prioridad')->middleware('auth');
+route::get(substr(Crypt::encryptString('prioridad'), 70, 5).'{id_sistema}',[ClienteController::class, 'priority'])->name('Prioridad')->middleware('auth');
 
-route::get(Crypt::encryptString('documentacion').'{folio}',[ClienteController::class, 'document'])->name('Documentos')->middleware('auth');
+route::get(substr(Crypt::encryptString('documentacion'), 75, 5).'{folio}',[ClienteController::class, 'document'])->name('Documentos')->middleware('auth');
 route::post('solicitud.prioridades',[ClienteController::class, 'request'])->name('CPrioridad');
 
 route::get('clientes',[ClienteController::class, 'importance'])->name('Importancia')->middleware('auth');
 route::post('clientes.prioridades',[ClienteController::class, 'updimp'])->name('CImportancia');
 
 route::get('preregistro.listado',[PreregistroController::class, 'store'])->name('Admsol')->middleware('auth');
-route::get(Crypt::encryptString('preregistro.datos').'{folio}',[PreregistroController::class, 'show'])->name('AA');
-route::get(Crypt::encryptString('requerimiento.nuevo').'{folio}',[PreregistroController::class, 'edit'])->name('NR');
+route::get(substr(Crypt::encryptString('preregistro.datos'), 80, 5).'{folio}',[PreregistroController::class, 'show'])->name('AA');
+route::get(substr(Crypt::encryptString('requerimiento.nuevo'), 85, 5).'{folio}',[PreregistroController::class, 'edit'])->name('NR');
 route::post('preregistro.rechazo.{folio}',[PreregistroController::class, 'destroy'])->name('RechazoP');
 route::get('cliente.graficos',[PreregistroController::class, 'chart'])->name('Estadistico');

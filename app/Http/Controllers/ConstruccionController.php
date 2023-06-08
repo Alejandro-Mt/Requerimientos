@@ -167,7 +167,7 @@ class ConstruccionController extends Controller
     $update = registro::select()-> where ('folio', $data->folio)->first();
     $update->id_estatus = $data->input('id_estatus');
     $update->save();
-    return redirect(route('Documentos',$data['folio']));
+    return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
   }
 
   /**

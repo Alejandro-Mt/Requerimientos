@@ -315,7 +315,7 @@
                         <input class="d-none" name="fechaAutAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
                         <!--<input class="d-none" name="FechaImpR" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">-->
                         <div class="card-body text-center">
-                            <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',$registros->folio)}}"></a>
+                            <a class="fas fa-diagnoses fa-2x" style="text-align: center;color:rgb(44,52,91); display: inline-block; width: 100%;" href="{{route('Informacion',Crypt::encrypt($registros->folio))}}"></a>
                             <a style='text-align: center'>Solicitar Información</a>
                         </div>
                         <div class="card-body text-center">
@@ -325,7 +325,7 @@
                                 <button type="button" id="slide-toast" class="btn btn-primary text-white">Guardar y Continuar</button>
                             @endif
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
-                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',$registros->folio)}}" style="color:white">Cancelar</a></button>
+                            <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',Crypt::encrypt($registros->folio))}}" style="color:white">Cancelar</a></button>
                         </div>
                     </section>
                 </div>

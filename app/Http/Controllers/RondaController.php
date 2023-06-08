@@ -8,6 +8,7 @@ use App\Models\liberacion;
 use App\Models\registro;
 use App\Models\ronda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class RondaController extends Controller
 {
@@ -18,14 +19,14 @@ class RondaController extends Controller
      */
     public function index($folio)
     {
-        $id = registro::select('folio')->where('folio',$folio)->first();
-        $registros = registro::select('folio', 'id_estatus')->where('folio',$folio)->first();
-        $ronda = ronda::where('folio',$folio)->count();
-        $solinf = liberacion::where('folio',$folio)->whereNotNull('inicio_lib')->count();
+        $id = registro::select('folio')->where('folio',Crypt::decrypt($folio))->first();
+        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+        $ronda = ronda::where('folio',Crypt::decrypt($folio))->count();
+        $solinf = liberacion::where('folio',Crypt::decrypt($folio))->whereNotNull('inicio_lib')->count();
         /*if($solinf === 0){
             $solinf = 1;
         }*/
-        $vacio = planeacion:: select('*')->where('folio',$folio)->count();
+        $vacio = planeacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
         return view('formatos.requerimientos.seguimiento.pruebas.rondas',compact('id','registros','ronda','solinf','vacio'));
     }
 
@@ -53,7 +54,7 @@ class RondaController extends Controller
         }else{
             $estatus->id_estatus = 8;}
         $estatus->save();
-        return redirect(route('Documentos',$data['folio']));
+        return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
         #dd($data);
     }
 
