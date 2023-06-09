@@ -68,7 +68,7 @@ class PreregistroController extends Controller
             'descripcion' => $data['descripcion'],
             'planteamiento' => $data['planteamiento']
         ]);
-        $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 3)->get();
+        $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 4)->get();
         $solicitud = solicitud::where('folio',$folio)->get();
         $archivos = archivo::where ('folio', $folio)->get();
         foreach ($coordinacion as $c){
