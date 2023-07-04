@@ -2,8 +2,10 @@
     <!-- customizer Panel -->
     <!-- -------------------------------------------------------------- -->
     <aside class="customizer">
-      <a href="javascript:void(0)" class="service-panel-toggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings feather-sm fa fa-spin"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></a>
-      <div class="customizer-body ps-container ps-theme-default" data-ps-id="8d54544e-ed80-b8d1-9999-4ca12146f036">
+      <a class="service-panel-toggle">
+        <i data-feather="settings" class="feather-sm fa fa-spin"></i>
+      </a>
+      <div class="customizer-body ps-container" data-ps-id="8d54544e-ed80-b8d1-9999-4ca12146f036">
         <ul class="nav customizer-tab" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="ri-tools-fill fs-6"></i></a>
@@ -22,31 +24,31 @@
               <!-- Sidebar -->
               <h5 class="font-weight-medium mb-2 mt-2">Layout Settings</h5>
               <div class="form-check mt-3">
-                <input type="checkbox" name="theme-view" class="form-check-input" id="theme-view">
+                <input type="checkbox" name="theme-view" class="form-check-input" id="theme-view" @if(Auth::user()->theme == 1) checked @endif>
                 <label class="form-check-label" for="theme-view">
                   <span>Dark Theme</span>
                 </label>
               </div>
               <div class="form-check mt-2">
-                <input type="checkbox" class="sidebartoggler form-check-input" name="collapssidebar" id="collapssidebar">
+                <input type="checkbox" class="sidebartoggler form-check-input" name="collapssidebar" id="collapssidebar" @if(Auth::user()->sidebar == 1) checked @endif>
                 <label class="form-check-label" for="collapssidebar">
                   <span>Collapse Sidebar</span>
                 </label>
               </div>
               <div class="form-check mt-2">
-                <input type="checkbox" name="sidebar-position" class="form-check-input" id="sidebar-position">
+                <input type="checkbox" name="sidebar-position" class="form-check-input" id="sidebar-position" @if(Auth::user()->fix_sidebar == 1) checked @endif>
                 <label class="form-check-label" for="sidebar-position">
                   <span>Fixed Sidebar</span>
                 </label>
               </div>
               <div class="form-check mt-2">
-                <input type="checkbox" name="header-position" class="form-check-input" id="header-position">
+                <input type="checkbox" name="header-position" class="form-check-input" id="header-position" @if(Auth::user()->fix_head == 1) checked @endif>
                 <label class="form-check-label" for="header-position">
                   <span>Fixed Header</span>
                 </label>
               </div>
               <div class="form-check mt-2">
-                <input type="checkbox" name="boxed-layout" class="form-check-input" id="boxed-layout">
+                <input type="checkbox" name="boxed-layout" class="form-check-input" id="boxed-layout" @if(Auth::user()->box == 1) checked @endif>
                 <label class="form-check-label" for="boxed-layout">
                   <span>Boxed Layout</span>
                 </label>
@@ -103,7 +105,7 @@
               <!-- Navbar BG -->
             </div>
             <div class="p-3 border-bottom">
-              <!-- Logo BG -->
+              <!-- Sigebar BG -->
               <h5 class="font-weight-medium mb-2 mt-2">Sidebar Backgrounds</h5>
               <ul class="theme-color m-0 p-0">
                 <li class="theme-item list-inline-item me-1">
@@ -125,12 +127,141 @@
                   <a href="javascript:void(0)" class="theme-link rounded-circle d-block" data-sidebarbg="skin6"></a>
                 </li>
               </ul>
-              <!-- Logo BG -->
+              <!-- Sidebar BG -->
             </div>
           </div>
           <!-- End Tab 1 -->
         </div>
-      <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+          <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+          <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+        </div>
+      </div>
     </aside>
     
     <div class="chat-windows"></div>
+    <script>
+      $(document).ready(function() {
+        var theme;
+        var sidebar;
+        var fix_sidebar;
+        var fix_head;
+        var box;
+        var logo_color;
+        var nav_color;
+        var sidebar_color;
+
+        $('#theme-view').click(function() {
+          console.log($(this).prop('checked'))
+          if($(this).prop('checked')){theme = 1}else{theme = 0};
+          // Función para enviar la solicitud AJAX
+          $.ajax({
+            url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+            type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+            data: {var: 'theme', val: theme},
+            error: function(xhr, status, error) {
+              // Se ejecuta si ocurre un error en la solicitud AJAX
+              console.error('Ha ocurrido un error', );
+            }
+          });
+        });
+    
+        $('#collapssidebar').click(function() {
+          if($(this).prop('checked')){sidebar = 1}else{sidebar = 0};
+          // Función para enviar la solicitud AJAX
+          $.ajax({
+            url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+            type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+            data: {var: 'sidebar', val: sidebar},
+            error: function(xhr, status, error) {
+              // Se ejecuta si ocurre un error en la solicitud AJAX
+              console.error('Ha ocurrido un error');
+            }
+          });
+        });
+    
+        $('#sidebar-position').click(function() {
+          if($(this).prop('checked')){fix_sidebar = 1}else{fix_sidebar = 0};
+          // Función para enviar la solicitud AJAX
+          $.ajax({
+            url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+            type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+            data: {var: 'fix_sidebar', val: fix_sidebar},
+            error: function(xhr, status, error) {
+              // Se ejecuta si ocurre un error en la solicitud AJAX
+              console.error('Ha ocurrido un error');
+            }
+          });
+        });
+    
+        $('#header-position').click(function() {
+          if($(this).prop('checked')){fix_head = 1}else{fix_head = 0};
+          // Función para enviar la solicitud AJAX
+          $.ajax({
+            url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+            type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+            data: {var: 'fix_head', val: fix_head},
+            error: function(xhr, status, error) {
+              // Se ejecuta si ocurre un error en la solicitud AJAX
+              console.error('Ha ocurrido un error');
+            }
+          });
+        });
+    
+        $('#boxed-layout').click(function() {
+          if($(this).prop('checked')){box = 1}else{box = 0};
+          // Función para enviar la solicitud AJAX
+          $.ajax({
+            url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+            type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+            data: {var: 'box', val: box},
+            error: function(xhr, status, error) {
+              // Se ejecuta si ocurre un error en la solicitud AJAX
+              console.error('Ha ocurrido un error');
+            }
+          });
+        });
+    
+        $('.theme-link').click(function(event) {
+          logo_color = $(this).attr('data-logobg');
+          nav_color = $(this).attr('data-navbarbg');
+          sidebar_color = $(this).attr('data-sidebarbg');
+          if (logo_color) {
+            $.ajax({
+              url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+              type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+              data: {var: 'logo_color', val: logo_color},
+              error: function(xhr, status, error) {
+                // Se ejecuta si ocurre un error en la solicitud AJAX
+                console.error('Ha ocurrido un error');
+              }
+            });
+          }
+          if (nav_color) {
+            $.ajax({
+              url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+              type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+              data: {var: 'nav_color', val: nav_color},
+              error: function(xhr, status, error) {
+                // Se ejecuta si ocurre un error en la solicitud AJAX
+                console.error('Ha ocurrido un error');
+              }
+            });
+          }
+
+          if (sidebar_color) {
+            $.ajax({
+              url: 'configuracion', // URL a la que se enviará la solicitud AJAX
+              type: 'GET', // Método de la solicitud (puede ser GET, POST, PUT, DELETE, etc.)
+              data: {var: 'sidebar_color', val: sidebar_color},
+              error: function(xhr, status, error) {
+                // Se ejecuta si ocurre un error en la solicitud AJAX
+                console.error('Ha ocurrido un error');
+              }
+            });
+          }
+        });
+      });
+    </script>    

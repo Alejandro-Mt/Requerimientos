@@ -26,6 +26,7 @@ use App\Http\Controllers\PrioridadController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\RecordController;
+use App\Http\Controllers\RedefinisionController;
 use App\Http\Controllers\ResponsableController;
 use App\Http\Controllers\RondaController;
 use App\Http\Controllers\SistemaController;
@@ -60,6 +61,7 @@ Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth'
 Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');
 Route::get(substr(Crypt::encryptString('/profile'), 0, 3).'{id}', [ProfileController::class, 'edit'])->middleware('auth')->name('profile');
 Route::post('user.pass',[ProfileController::class, 'updatepass'])->middleware('auth')->name('UsrPass');
+Route::get('configuracion', [ProfileController::class, 'settings']);
 #          prioridades         #
 Route::get('prioridad.solicitudes', [PrioridadController::class, 'index'])->name('AutP');
 Route::get('autorizacion.prioridad.{id}', [PrioridadController::class, 'update'])->name('AutR');
@@ -139,6 +141,8 @@ Route::post('/formatos.requerimientos.analisis', [AnalisisController::class, 'cr
 
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.construccion'), 40, 5).'{folio}',[ConstruccionController::class, 'index'])->middleware('auth')->name('Construccion');
 Route::post('/formatos.requerimientos.construccion',[ConstruccionController::class, 'create'])->name('Construir');
+
+Route::post('Ajuste.Definision.{folio}',[RedefinisionController::class, 'create'])->name('ReDef');
 ##  metodos para liberacion ##
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.liberacion'), 45, 5).'{folio}',[LiberacionController::class, 'index'])->name('Liberacion')->middleware('auth');
 Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');

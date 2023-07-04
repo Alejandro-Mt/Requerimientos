@@ -84,52 +84,54 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form  action={{route('Soporte',$registros->folio)}} method="post">
+        <form action={{route('ReDef',$registros->folio)}} method="post">
           {{ csrf_field() }}
           <div class="form-group row">
-            <label for="tabla" class="col-sm-2 text-end control-label col-form-label">Tabla*</label>
+            <label for="motivo" class="col-sm-4 text-end control-label col-form-label">Motivo de Reajuste*</label>
             <div class="col-md-8">
-              <input type="text" class="required form-control @error('tabla') is-invalid @enderror" name="tabla" placeholder="Tabla" required autofocus>
-              @error('tabla')
+              <input type="text" class="required form-control @error('motivo') is-invalid @enderror" name="motivo" placeholder="Cual es el alcance" required autofocus>
+              @error('motivo')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
                 </span>
               @enderror
             </div>
           </div>
-          <div class="form-group row">
-            <label for="tabla" class="col-sm-2 text-end control-label col-form-label">Columna*</label>
+          <div @if($registros->posicion > 5) class="form-group row" @else class="form-group row d-none" @endif>
+            <label for="definision" class="col-sm-4 text-end control-label col-form-label">Definision*</label>
             <div class="col-md-8">
-              <input type="text" class="required form-control @error('columna') is-invalid @enderror" name="columna" placeholder="Columna" required autofocus>
-              @error('columna')
+              <input type="text" class="required form-control mydatepicker @error('definision') is-invalid @enderror" name="definision" placeholder="Nueva fecha de entrega" required autofocus>
+              @error('definision')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
                 </span>
               @enderror
             </div>
           </div>
-          <div class="form-group row">
-            <label for="dato" class="col-sm-2 text-end control-label col-form-label">Dato*</label>
+          <div @if($registros->posicion > 6) class="form-group row" @else class="form-group row d-none" @endif>
+            <label for="analisis" class="col-sm-4 text-end control-label col-form-label">Planeacion*</label>
             <div class="col-md-8">
-              <input type="text" class="required form-control @error('dato') is-invalid @enderror" name="dato" placeholder="Dato" required autofocus>
-              @error('dato')
+              <input type="text" class="required form-control mydatepicker @error('analisis') is-invalid @enderror" name="analisis" placeholder="Nueva fecha de entrega" required autofocus>
+              @error('analisis')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
                 </span>
               @enderror
             </div>
           </div>
-          <!--<div class="form-group row">
-            <label for="tabla" class="col-sm-2 text-end control-label col-form-label">Columna*</label>
-            <div class="col-md-8">
-              <input type="text" class="required form-control @error('columna') is-invalid @enderror" name="columna" placeholder="Columna" required autofocus>
-              @error('columna')
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-              @enderror
+          @if($registros->posicion > 7)
+            <div class="form-group row">
+              <label for="construccion" class="col-sm-4 text-end control-label col-form-label">Construcción*</label>
+              <div class="col-md-8">
+                <input type="text" class="required form-control mydatepicker @error('construccion') is-invalid @enderror" name="construccion" placeholder="Nueva fecha de entrega" required autofocus>
+                @error('construccion')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
             </div>
-          </div>-->
+          @endif
           <button type="submit" class="btn btn-success waves-effect waves-light text-white">
             <a style="color:white"> Autorizar</a>
           </button>

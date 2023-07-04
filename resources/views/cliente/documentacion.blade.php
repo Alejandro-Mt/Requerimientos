@@ -332,7 +332,7 @@
                                 <i class="feather-sm" data-feather="pause"></i>
                               </a>
                             @endif
-                            @if(Auth::user()->id_puesto == 7)
+                            @if((Auth::user()->id_puesto == 7 || Auth::user()->id_area == 12) && ($registros->posicion == 7 || $registros->posicion == 8))
                               <a class="justify-content-center btn btn-rounded btn-light-info text-info align-items-center" data-bs-toggle="modal" data-bs-target="#Soporte">
                                 <i class="feather-sm" data-feather="edit"></i>
                               </a>
@@ -367,7 +367,7 @@
                                   @endif
                                 @elseif($registros->impacto == 3)
                                   @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                    <a href="{{route('Planeacion',$registros->folio)}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
+                                    <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
                                   @endif
                                 @elseif($registros->impacto == 2)
                                   <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>

@@ -1,6 +1,6 @@
 <header class="topbar">
   <nav class="navbar top-navbar navbar-expand-md">
-    <div class="navbar-header"> 
+    <div class="navbar-header"id="nav-header" data-logobg={{Auth::user()->logo_color}}> 
       <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
         <i class="ri-close-line fs-6 ri-menu-2-line"></i>
       </a> 
@@ -41,7 +41,7 @@
     <!-- ============================================================== -->
     <!-- End Logo -->
     <!-- ============================================================== -->
-    <div class="navbar-collapse collapse" id="navbarSupportedContent">
+    <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg={{Auth::user()->nav_color}}>
       <!-- ============================================================== -->
       <!-- toggle and nav items -->
       <!-- ============================================================== -->
@@ -192,7 +192,7 @@
               </div>
               <div class="ms-2">
                 <h4 class="mb-0 text-white">{{Auth::user()->nombre}} {{Auth::user()->apaterno}}</h4>
-                <p class="mb-0">{{Auth::user()->email}}</p>
+                <p id="id" class="mb-0">{{Auth::user()->email}}</p>
               </div>
             </div>
             <a class="dropdown-item" href="{{route('profile',Auth::user()->id)}}">

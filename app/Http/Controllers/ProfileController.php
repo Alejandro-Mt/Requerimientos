@@ -107,6 +107,7 @@ class ProfileController extends Controller
         return redirect(route('profile',$user->id));
         #return $data->avatar;
     }
+
     public function updatePass(Request $data){
       $data->validate([
         'oldpass' => 'required',
@@ -122,5 +123,10 @@ class ProfileController extends Controller
         return redirect(route('profile',Auth::user()->id))->with('danger','Estas credenciales no coinciden con nuestros registros.');
       }
       #dd($data['password']);
+    }
+    
+    public function settings(Request $data){
+      User::where('id', Auth::user()->id)->update([$data['var'] => $data['val']]);
+      #return $data->avatar;
   }
 }

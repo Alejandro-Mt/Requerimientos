@@ -26,8 +26,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-
-<body>
+<body @if(Auth::user()->theme == 1) data-theme="dark" @endif>
 	<!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -69,6 +68,7 @@
         <!-- ============================================================== -->
         <!-- End Page wrapper -->
         <!-- ============================================================== -->
+        @include('layouts.rightbar')
         
         @include('layouts.footer')
 	</div>
