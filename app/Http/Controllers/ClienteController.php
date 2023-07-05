@@ -210,7 +210,7 @@ class ClienteController extends Controller
     public function priority($id)
     {
         //
-        $orden = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->orderby('id','desc')->limit(1)->get();
+        $orden = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->orderby('id','desc')->first();
         $validar = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->count();
         $clientes = 
             registro::
@@ -218,10 +218,22 @@ class ClienteController extends Controller
                 join('clientes as cl', 'registros.id_cliente','cl.id_cliente')->
                 where('registros.id_sistema',Crypt::decrypt($id))->
                 wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
-                orderby('cl.nombre_cl')->
                 distinct()->
                 get();
-        $pendientes = 
+        if($validar == 0){
+            $pendientes = 
+                registro::
+                    join('clientes as cl','cl.id_cliente','registros.id_cliente')
+                    ->join('estatus as e','e.id_estatus','registros.id_estatus')
+                    ->wherenotin('registros.id_estatus',[13,14,18])
+                    ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
+                    ->where('registros.id_sistema', Crypt::decrypt($id))
+                    ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+                    ->orderby('registros.id_cliente')
+                    ->get();
+        }else{
+            $ordenArray = explode(',', $orden->orden);
+            $pendientes = 
             registro::
                 join('clientes as cl','cl.id_cliente','registros.id_cliente')
                 ->join('estatus as e','e.id_estatus','registros.id_estatus')
@@ -229,7 +241,10 @@ class ClienteController extends Controller
                 ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
                 ->where('registros.id_sistema', Crypt::decrypt($id))
                 ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+                ->orderby('registros.id_cliente')
+                ->orderbyRaw("FIELD(registros.folio,'" . implode("','", $ordenArray) . "')")
                 ->get();
+        }
         $implementados = 
             registro::
                 join('clientes as cl','cl.id_cliente','registros.id_cliente')
@@ -260,7 +275,7 @@ class ClienteController extends Controller
                 orderby('nombre_s','asc')->
                 get();
         return view('cliente.prioridad',compact('clientes','implementados','orden','pendientes','pospuestos','validar','sistemas'));
-        //dd($validar);
+        #dd($validar);
     }
     public function request(Request $data)
     {

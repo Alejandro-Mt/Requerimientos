@@ -64,7 +64,7 @@ Route::post('user.pass',[ProfileController::class, 'updatepass'])->middleware('a
 Route::get('configuracion', [ProfileController::class, 'settings']);
 #          prioridades         #
 Route::get('prioridad.solicitudes', [PrioridadController::class, 'index'])->name('AutP');
-Route::get('autorizacion.prioridad.{id}', [PrioridadController::class, 'update'])->name('AutR');
+Route::get('autorizacion.prioridad.{id}.{respuesta}', [PrioridadController::class, 'update'])->name('AutR');
 
 #          Catalogo         #
 Route::get('/layouts.datos', [MenuController::class, 'store'])->middleware('auth')->name('Seguir');

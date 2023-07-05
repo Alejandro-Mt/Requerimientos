@@ -22,6 +22,7 @@ class PrioridadController extends Controller
             solpri::
                 join('clientes as c','c.id_cliente','act_pri.id_cliente')->
                 where('estatus',NULL)->
+                groupby('nombre_cl')->
                 get();
         $pendientes = 
             registro::
@@ -33,15 +34,15 @@ class PrioridadController extends Controller
         //dd($clientes);
     }
 
-    public function update(Request $data,$id)
+    public function update($id,$respuesta)
     {
         #dd($data);
         $autoriza = solpri::findOrFail($id);
-        $autoriza->estatus = $data['estatus'];
+        $autoriza->estatus = $respuesta;
         $autoriza->id_user = Auth::user()->id;
         $autoriza->save();
         return redirect(route('AutP'));
-        //dd($clientes);
+       # dd($respuesta);
 }
 
 }

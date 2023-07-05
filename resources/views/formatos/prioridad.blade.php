@@ -76,12 +76,14 @@
                   </p>
                 </div>
                 <div class="modal-footer">
-                  <form action="{{route ('AutR',$solicitud->id)}}">
+                  <form>
                     {{ csrf_field() }}
-                    <button name="estatus" value="rechazado" type="submit" class="btn btn-light-danger text-danger font-medium waves-effect text-start">
-                      Rechazar
-                    </button>
-                    <button name="estatus" value="autorizado" id="solicitar" type="submit" class="btn btn-success">Autorizar</button>
+                      <a href={{route ('AutR',[$solicitud->id,"rechazado"])}} class="btn btn-light-danger text-danger font-medium waves-effect text-start">
+                        Rechazar
+                      </a>
+                      <a href={{route ('AutR',[$solicitud->id,"autorizado"])}} id="solicitar" type="submit" class="btn btn-success">
+                        Autorizar
+                      </a>
                   </form>
                 </div>
               </div>

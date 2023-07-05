@@ -118,18 +118,17 @@
                 </div>
               @endforeach
             @else
-              @foreach ($orden as $folio)
-                @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $folio->orden ))); $i++)
-                  <div class="col-md-4 col-sm-4 filter cliente-{{$folio->id_cliente}} sistema-{{$folio->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $folio->orden ))[$i]}}" >
-                    <div class="s d-none" id="{{$folio->id_sistema}}"></div>
+                @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $orden->orden ))); $i++)
+                  <div class="col-md-4 col-sm-4 filter cliente-{{$orden->id_cliente}} sistema-{{$orden->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $orden->orden ))[$i]}}" >
+                    <div class="s d-none" id="{{$orden->id_sistema}}"></div>
                     <!-- ---------------------start Special title treatment---------------- -->
                     <div class="card card-hover">
                       <div class="card-header">
-                        <h5 class="mb-0 text-dark">{{explode( ',', str_replace(' ', '', $folio->orden ))[$i]}}</h5>
+                        <h5 class="mb-0 text-dark">{{explode( ',', str_replace(' ', '', $orden->orden ))[$i]}}</h5>
                       </div>
                       <div class="card-body">
                         @foreach($pendientes as $pendiente)
-                          @if (explode( ',', str_replace(' ', '', $folio->orden ))[$i] == $pendiente->folio)
+                          @if (explode( ',', str_replace(' ', '', $orden->orden ))[$i] == $pendiente->folio)
                             <h6 class="card-title">{{$pendiente->descripcion}}</h6>
                             <p class="card-text filtro">
                               {{$pendiente->nombre_cl}}
@@ -144,7 +143,6 @@
                                   ---------------- -->
                   </div>
                 @endfor
-              @endforeach
             @endif
           </div>
         </div>
