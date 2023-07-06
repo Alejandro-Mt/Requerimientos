@@ -24,12 +24,12 @@
         @foreach ($solicitudes as $solicitud)
           <div class=" row collapse" id="{{str_replace(' ', '', $solicitud->nombre_cl)}}">
             <div class="card-body overflow-auto">
-              <div class="card">
-                <div class="card-header d-flex">
+              <div class="row">
+                <div class="card-header">
                   <h4 class="mb-0">{{$solicitud->nombre_cl}}</h4>
                 </div>
                 @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $solicitud->orden ))); $i++)
-                  <div class="col-md-12 col-sm-12" id="{{$solicitud->folio}}" >
+                  <div class="col-md-4 col-sm-4 " id="{{$solicitud->folio}}" >
                     <!-- ---------------------start Special title treatment---------------- -->
                     <div class="card card-hover">
                       <div class="card-header">

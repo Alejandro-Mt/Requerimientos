@@ -289,15 +289,6 @@ class ClienteController extends Controller
             'solicitante' => $data['solicitante'],
             'id_sistema' => $data['id_sistema']
         ]);
-        $destino = 
-            db::
-                table('users as u')->
-                select('email')->
-                join('accesos as a','u.id','a.id_user')->
-                where([['a.id_sistema','=',$data['id_sistema']],['u.id_puesto','>',3]])->get();
-        foreach($destino as $correo){  
-            mail::to($correo->email)->send(new ActualizacionPrioridades($data)); 
-        } 
         #return redirect(route('Prioridad',$data['id_cliente']));
     }
 
@@ -329,16 +320,6 @@ class ClienteController extends Controller
             'orden' => implode(',', $data['orden']),
             'id_user' => Auth::user()->id
         ]);
-        $destino = 
-            db::
-            table('users as u')->
-            select('email')->
-            join('accesos as a','u.id','a.id_user')->
-            where([['a.id_sistema','=',$data['id_sistema']],['u.id_puesto','=',3]])->
-            get();
-        foreach($destino as $correo){  
-            mail::to($correo->email)->send(new PrioridadCliente($data)); 
-        } 
         dd($data);
 
     }

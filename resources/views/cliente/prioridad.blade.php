@@ -344,7 +344,7 @@
             url: "solicitud.prioridades",
             data: { id_cliente: cliente, orden: orden, id_sistema: sistema, solicitante: solicitante},
             success: function (response) {
-              window.location.href = "prioridad." + sistema;
+              window.location.href = window.location.href;
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
               //alert("Status: " + textStatus); alert("Error: " + errorThrown); 
