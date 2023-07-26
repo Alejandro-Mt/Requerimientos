@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Cliente\DefinisionRequerimiento;
+use App\Mail\Cliente\DefinicionRequerimiento;
 use App\Models\analisis;
 use App\Models\bitacora;
 use App\Models\cronograma;
@@ -49,7 +49,7 @@ class PlaneacionController extends Controller
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         else{
             $destino = solicitud::where('folior',$data->folio)->select('correo')->first();
-            Mail::to($destino->correo)->send(new DefinisionRequerimiento($data->folio));
+            Mail::to('alejandro.martinez@it-strategy.mx')->send(new DefinicionRequerimiento($data->folio));
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
@@ -154,7 +154,7 @@ class PlaneacionController extends Controller
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
-        //dd($destino->correo);
+        #dd($destino->correo);
     }
 
     /**

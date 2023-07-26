@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class DefinisionRequerimiento extends Mailable
+class DefinicionRequerimiento extends Mailable
 {
     use Queueable, SerializesModels;
     public $datos;
