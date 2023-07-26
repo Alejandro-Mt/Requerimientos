@@ -26,14 +26,14 @@ class SistemaController extends Controller
     public function create(Request $data)
     {
         $rename = $data->nombre_s.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
-        $data->validate(['logo'=>'required']);{
+        /*$data->validate(['logo'=>'required']);{
             $file = Storage::putFileAs("public/sistemas", $data->file('logo'),$rename);
             $url = Storage::url($file);
-        }
+        }*/
         sistema::create([
             'nombre_s' => $data['nombre_s'],
             'dispercion'=> $data['dispercion'],
-            'logo'=> $url
+            //'logo'=> $url
         ]);
         return redirect(route('Seguir'));
         #dd($url);

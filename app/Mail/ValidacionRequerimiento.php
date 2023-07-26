@@ -24,7 +24,7 @@ class ValidacionRequerimiento extends Mailable
         $this->datos = registro::where('l.folio',$folio)
                                 ->leftjoin('levantamientos as l', 'registros.folio', 'l.folio')
                                 ->leftjoin('responsables as au','l.autorizacion','au.id_responsable')
-                                ->get();
+                                ->first();
     }
 
     /**

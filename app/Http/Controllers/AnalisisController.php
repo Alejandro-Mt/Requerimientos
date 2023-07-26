@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\Fase;
 use App\Models\analisis;
 use App\Models\bitacora;
 use App\Models\desfase;
 use App\Models\informacion;
+use App\Models\levantamiento;
 use App\Models\planeacion;
+use App\Models\puesto;
 use App\Models\registro;
+use App\Models\solicitud;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class AnalisisController extends Controller
 {
@@ -55,7 +61,22 @@ class AnalisisController extends Controller
             $fechaCompReqR=NULL;
         }
         if($data['fechareact']<>NULL){$fechareact=date("y/m/d", strtotime($data['fechareact']));}else{$fechareact=NULL;}
-        if($data['id_estatus'] == 7){$this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);}
+        if($data['id_estatus'] == 7){
+            $this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
+            $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+                ->where('folio', $data->folio)
+                ->select('s.email')
+                ->first();
+            $gerencia = User::
+                join('puestos as p','p.id_puesto','users.id_puesto')
+                ->where('id_area', 6)
+                ->whereIn('jerarquia',[4,5])
+                ->select('email')
+                ->get();
+            if($email){
+                Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '7'));
+            }
+        }
         if($verificar == 0){
             analisis::create([
             'folio' => $data['folio'],
@@ -108,16 +129,16 @@ class AnalisisController extends Controller
             $update->motivopausa = $data['motivopausa'];
             $update->evpausa = $data['evpausa'];
             $update->fechareact = $fechareact;
-            $estatus = registro::select()-> where ('folio', $data->folio)->first();
-            $estatus->id_estatus = '9';
-            $estatus->save();
             $update->save(); 
         }
-        $update = registro::select()-> where ('folio', $data->folio)->first();
-        $update->id_estatus = $data['id_estatus'];
-        $update->save();
+        $estatus = registro::select()-> where ('folio', $data->folio)->first();
+        $estatus->id_estatus = $data['id_estatus'];
+        $estatus->save();
+        #$update = registro::select()-> where ('folio', $data->folio)->first();
+        #$update->id_estatus = $data['id_estatus'];
+        #$update->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
-        #dd($fechareact);
+        #dd($data->id_estatus);
     }
 
     /**

@@ -125,11 +125,11 @@ class HomeController extends Controller
             get();
         }else{
           $sistemas = 
-            db::table('solicitudes as s')->
-            select('*', db::raw('COUNT(s.id_sistema) as total'))->
-            join('sistemas as si','si.id_sistema','s.id_sistema')->
-            leftjoin('registros as r','r.folio','s.folior')->
-            wherein('s.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
+            db::table('registros as r')->
+            select('*', db::raw('COUNT(r.id_sistema) as total'))->
+            join('sistemas as si','si.id_sistema','r.id_sistema')->
+            #leftjoin('registros as r','r.folio','s.folior')->
+            wherein('r.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
             whereNotIn('r.id_estatus',['14','18'])->
             groupBy('si.id_sistema')->
             get();

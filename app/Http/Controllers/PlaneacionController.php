@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\DefinisionRequerimiento;
 use App\Models\analisis;
 use App\Models\bitacora;
 use App\Models\cronograma;
@@ -10,9 +11,11 @@ use App\Models\informacion;
 use App\Models\levantamiento;
 use App\Models\planeacion;
 use App\Models\registro;
+use App\Models\solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class PlaneacionController extends Controller
 {
@@ -42,9 +45,12 @@ class PlaneacionController extends Controller
     public function create(request $data)
     #se comentan las actualizaciones de Calendario
     {
-        if($data['id_estatus']==NULL){$data['id_estatus'] = 11;}
         $registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
+        else{
+            $destino = solicitud::where('folior',$data->folio)->select('correo')->first();
+            Mail::to($destino->correo)->send(new DefinisionRequerimiento($data->folio));
+        }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
             $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
@@ -142,21 +148,13 @@ class PlaneacionController extends Controller
                     'evidencia' => 'null',
                     'fechaCompReqR' => date("y/m/d H:i:s", strtotime($data['fechaAutAn'])),
                 ]);
-            }/*else{
-                $updateA = analisis::where('folio',$data['folio'])->first();;
-                $updateA->fechaCompReqC = date("y/m/d H:i:s", strtotime($data['fechaEnvAn']));
-                $updateA->fechaCompReqR = date("y/m/d H:i:s", strtotime($$data['fechaAutAn']));
-                $updateA->save();
-                $updateCA = cronograma::where('folio',$data['folio'])->orwhere('titulo','Analisis de requerimientos')->first();
-                $updateCA->inicio = date('y/m/d',strtotime($data('fechaEnvAn')));
-                $updateCA->fin = date('y/m/d',strtotime($data('fechaAutAn')));
-                $updateCA->save();
-            }*/
+            }
         }
         $estatus = registro::select()->where('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
+        //dd($destino->correo);
     }
 
     /**

@@ -8,7 +8,7 @@
   <div class="tab-content">
     <div id="note-full-container" class="note-has-grid row">
       @foreach ($sistemas as $solicitudes)
-        <div class="col-md-4 single-note-item all-category">
+        <div class="col-md-3 single-note-item all-category">
           <a class="text-dark" href="{{route('Prioridad',Crypt::encrypt($solicitudes->id_sistema))}}">
             <div class="card card-body">
               <span class="side-stick"></span>

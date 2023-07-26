@@ -2,6 +2,8 @@
 
 namespace App\Mail\Interno;
 
+use App\Models\cliente;
+use App\Models\registro;
 use App\Models\sistema;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,18 +15,26 @@ class PrioridadCliente extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $usuario;
+    public $cliente;
+    public $orden;
     public $sistema;
+    public $solicitante;
+    public $usuario;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($autoriza)
     {
         //
-        $this->sistema = sistema::where('id_sistema',$data['id_sistema'])->first();
-        $this->usuario = Auth::user()->nombre.' '.Auth::user()->apellidos;
+        $this->solicitante = $autoriza->solicitante;
+        $this->cliente = cliente::where('id_cliente',$autoriza->id_cliente)->first();
+        $this->sistema = sistema::where('id_sistema',$autoriza->id_sistema)->first();
+        $folios = explode(',', $autoriza->orden);
+        $this->orden = registro::wherein('folio', $folios)->get();
+        $this->usuario = Auth::user()->nombre.' '.Auth::user()->apaterno;
+        
     }
 
     /**

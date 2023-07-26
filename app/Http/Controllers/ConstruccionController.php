@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\Fase;
 use App\Models\analisis;
 use App\Models\bitacora;
 use App\Models\construccion;
@@ -11,9 +12,13 @@ use App\Models\implementacion;
 use App\Models\liberacion;
 use App\Models\registro;
 use App\Models\informacion;
+use App\Models\levantamiento;
+use App\Models\solicitud;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class ConstruccionController extends Controller
 {
@@ -58,7 +63,22 @@ class ConstruccionController extends Controller
       $fechaCompReqR=NULL;
     }
     if($data['fechareact']<>NULL){$fechareact=date("y/m/d H:i:s", strtotime($data['fechareact']));}else{$fechareact=NULL;}
-    if($data['id_estatus'] == 8){$this->validate($data, ['fechaInConR' => "required|date|after_or_equal:$data[fechaInConP]"]);}
+    if($data['id_estatus'] == 8){
+      $this->validate($data, ['fechaInConR' => "required|date|after_or_equal:$data[fechaInConP]"]);
+      $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+          ->where('folio', $data->folio)
+          ->select('s.email')
+          ->first();
+      $gerencia = User::
+            join('puestos as p','p.id_puesto','users.id_puesto')
+            ->where('id_area', 6)
+            ->whereIn('jerarquia',[4,5])
+            ->select('email')
+            ->get();
+      if($email){
+        Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '8'));
+      }
+    }
     if($verificar == 0){
       construccion::create([
         'folio' => $data['folio'],

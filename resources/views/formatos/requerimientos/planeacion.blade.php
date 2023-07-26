@@ -31,12 +31,12 @@
                                             </div>
                                         </div>
                                         <!-- checkbox -->
-                                        <div class="form-check">
+                                        <!--<div class="form-check">
                                             <input type="checkbox" class="form-check-input"
                                                 id="drop-remove">
                                             <label class="form-check-label" for="drop-remove">Uso Único</label>
                                         </div>
-                                        <!--<a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event" 
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#add-new-event" 
                                             class="btn mt-3 btn-info w-100 waves-effect waves-light d-flex justify-content-center align-items-center">
                                         <i data-feather="plus" class="feather-sm"></i> Nuevo Evento
                                         </a>-->
@@ -72,9 +72,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-backdrop bckdrop hide"></div>
+            <!--<div class="modal-backdrop bckdrop hide"></div>-->
             <!-- Modal Agregar Categoria -->
-            <div class="modal" id="add-new-event">
+            <!--<div class="modal" id="add-new-event">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header d-flex align-items-center">
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- END MODAL -->
         </section>
         <div class="card-body wizard-content">
@@ -308,7 +308,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
                             <div class="col-md-8">
-                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="9">
+                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="9" data-bs-toggle="modal" data-bs-target="#Auto2">
                             </div>
                         </div>
                         <input class="d-none" name="fechaEnvAn" value="{{null}}" type="text" class="form-control" data-date-format="dd-mm-yyyy">
@@ -332,6 +332,7 @@
             </form> 
         </div>
     </div>
+    @include('formatos.requerimientos.desplegables.archivos')
 
     <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
     <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>

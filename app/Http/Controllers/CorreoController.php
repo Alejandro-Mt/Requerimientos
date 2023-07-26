@@ -86,19 +86,24 @@ class CorreoController extends Controller
 
     protected function respuesta($folio){
         $hora = levantamiento::findOrFail($folio);
-        $fol = registro::select('res.email')
-                      ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
-                      ->where('registros.folio',$folio)
-                      ->get();
+        $fol = registro::
+                leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
+                ->where('registros.folio',$folio)
+                ->first();
         if($hora->fechaaut == NULL){ 
             $hora -> fechaaut = now();
             $hora -> save();
-            foreach($fol as $correo){
-                mail::to($correo->email)
+                mail::to($fol->email)
                     ->send(new ValidacionRequerimiento($folio));
                 return 'Se ha autorizado satisfactoriamente';   
-            }     
-        } else{
+        }else{
+            if($fol->id_estatus == 11 && $hora->fechades == NULL){
+                $hora -> fechades = now();
+                $hora -> save();
+                mail::to($fol->email)
+                    ->send(new ValidacionRequerimiento($folio));
+                return 'Se ha autorizado satisfactoriamente';   
+            }else
             return ('Ya ha sido autorizado');
         }
     }
@@ -123,19 +128,17 @@ class CorreoController extends Controller
 
     protected function impacto($folio,$impacto){
         $hora = levantamiento::findOrFail($folio);
-        $fol = registro::select('res.email')
+        $correo = registro::select('res.email')
                       ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
                       ->where('folio',$folio)
-                      ->get();
+                      ->first();
         if($hora->fechades == NULL){ 
-            $hora -> fechades = now();
+            #$hora -> fechades = now();
             $hora -> impacto = $impacto;
             $hora -> save();
-            foreach($fol as $correo){
-                mail::to($correo->email)
-                    ->send(new SegundaValidacion($folio));
-                return 'Se ha enviado la respuesta, gracias.'; 
-            }      
+            mail::to($correo->email)
+                ->send(new SegundaValidacion($folio));
+            return 'Se ha enviado la respuesta, gracias.';     
         } else{
             return ('Ya ha sido autorizado');
             #dd($hora);

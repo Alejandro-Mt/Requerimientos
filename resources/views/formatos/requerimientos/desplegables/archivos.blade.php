@@ -15,13 +15,15 @@
           <a>Recuerda Que debes cargar: <strong>Matriz de pruebas</strong> y <strong>Acta de validacion</strong></a>
           @elseif($registros->id_estatus == 2)
           <a>Recuerda Que debes cargar: <strong>Acta de cierre</strong></a>
+          @elseif($registros->id_estatus == 11)
+          <a>Para avanzar debes cargar: <strong>Definición de requerimientos</strong></a>
           @endif
           <form  class="dropzone" action="{{route('Adjuntos',$registros->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
           </form> 
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success waves-effect waves-light text-white">
-                <a @if($registros->id_estatus == 2) data-bs-dismiss="modal" @else href="{{route('Aut',$registros->folio)}}" @endif style="color:white"> Autorizar</a>
+                <a @if($registros->id_estatus == 2 || $registros->id_estatus == 11) data-bs-dismiss="modal" @else href="{{route('Aut',$registros->folio)}}" @endif style="color:white"> Autorizar</a>
             </button>
             <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
         </div>

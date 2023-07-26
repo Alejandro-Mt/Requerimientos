@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\Fase;
 use App\Mail\Interno\NuevoProyecto;
 use App\Models\clase;
 use App\Models\estatu;
+use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitud;
 use App\Models\solpri;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -122,6 +125,19 @@ class RecordController extends Controller
         $registro = registro::where('folio',$folio)->first();
         $registro->id_estatus= 14;
         $registro->save();
+        $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+            ->where('folio', $folio)
+            ->select('s.email')
+            ->first();
+        $gerencia = User::
+            join('puestos as p','p.id_puesto','users.id_puesto')
+            ->where('id_area', 6)
+            ->whereIn('jerarquia',[4,5])
+            ->select('email')
+            ->get();
+        if($email){
+            Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($folio,'14'));
+        }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
     }
 

@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\Fase;
 use App\Models\desfase;
+use App\Models\levantamiento;
 use App\Models\planeacion;
 use App\Models\liberacion;
 use App\Models\registro;
 use App\Models\ronda;
+use App\Models\solicitud;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 
 class RondaController extends Controller
 {
@@ -51,8 +56,20 @@ class RondaController extends Controller
             $estatus->id_estatus = 2;
             $liberacion->evidencia_p=true;
             $liberacion->save();
+            $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+                ->where('folio', $data->folio)
+                ->select('s.email')
+                ->first();
+            $gerencia = User::
+                join('puestos as p','p.id_puesto','users.id_puesto')
+                ->where('id_area', 6)
+                ->whereIn('jerarquia',[4,5])
+                ->select('email')
+                ->get();
+            if($email){Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '2'));}
         }else{
-            $estatus->id_estatus = 8;}
+            $estatus->id_estatus = 8;
+        }
         $estatus->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
         #dd($data);

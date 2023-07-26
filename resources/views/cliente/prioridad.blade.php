@@ -6,10 +6,10 @@
 <link rel="stylesheet" type="text/css" href="{{asset("assets/extra-libs/prism/prism.css")}}"/>
 <link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dragula/dist/dragula.min.css")}}"/>
   <!-- Start Row -->
-  <div class="tab-content">
+  <!--<div class="tab-content">
     <div id="draggable-area" class="note-has-grid row">
       @foreach ($clientes as $cliente)
-        <div class="col-md-4 single-note-item all-category">
+        <div class="col-md-2 single-note-item all-category">
           <a class="clientes" id="{{$cliente->id_cliente}}">
             <div class="card card-body">
               <span class="side-stick"></span>
@@ -18,14 +18,14 @@
                 <i class="point ri-checkbox-blank-circle-fill ms-1 fs-1"></i>
               </h5>
                 <p class="note-date fs-2 text-muted">
-                  <span>Total de solicitudes</span>
+                  <span>Solicitudes</span>
                   <span class="badge bg-light text-dark">*</span>
                 </p>
             </div>
           </a>
         </div>
       @endforeach
-      <div class="col-md-4 single-note-item all-category">
+      <div class="col-md-2 single-note-item all-category">
         <a id="reset">
           <div class="card card-body">
             <span class="side-stick"></span>
@@ -35,19 +35,27 @@
             </h5>
             
                 <p class="note-date fs-2 text-muted">
-                  <span>Total de solicitudes</span>
+                  <span>Solicitudes</span>
                   <span class="badge bg-light text-dark">*</span>
                 </p>
           </div>
         </a>
       </div>
     </div>
-  </div>
+  </div>-->
   <!-- End Row -->
 <div class="row col-lg-12 col-md-12"> 
   <div class="col-md-12">
     <div class="row">
       <div class="card">
+        <br>
+        <select id="sistemas" class="select2 form-control custom-select" style="width: 100%; height: 36px">
+          <option value="reset">Clientes</option>
+          @foreach($clientes as $cliente)
+            <option value="{{$cliente->id_cliente}}">{{$cliente->nombre_cl}}</option>
+          @endforeach
+        </select>
+        <br>
         <div class="card-header d-flex bg-warning">
           <h4 class="mb-0 col-lg-9 text-white">Activos</h4>
           <button class="btn btn-sm ml-auto waves-effect waves-light btn-outline-dark" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -61,7 +69,7 @@
                 <div class="col-md-4 col-sm-4 filter cliente-{{$pendiente->id_cliente}} sistema-{{$pendiente->id_sistema}}" id="{{$pendiente->folio}}" >
                   <div class="s d-none" id="{{$pendiente->id_sistema}}"></div>
                   <!-- ---------------------start Special title treatment---------------- -->
-                  <div class="card card-hover">
+                  <div class="card card-hover ">
                     @if(($pendiente->posicion < 6) and ($pendiente->posicion != NULL))
                     <div class="card-header bg-danger">
                       <h5 class="mb-0 text-dark" data-bs-toggle="tooltip" data-bs-placement="right" title="LEVANTAMIENTO">
@@ -100,17 +108,17 @@
                     </div>
                     @endif
                     <div @if($pendiente->posicion < 6) class="card-body sistemas bg-light-danger" @elseif(($pendiente->posicion > 5) and ($pendiente->posicion < 9) and ($pendiente->posicion != NULL)) class="card-body sistemas bg-light-primary" @elseif(($pendiente->posicion == 9) and ($pendiente->posicion != NULL)) class="card-body sistemas bg-light-success" @elseif(($pendiente->posicion == 10) and ($pendiente->posicion != NULL)) class="card-body sistemas bg-light-warning" @endif>
-                      <h6 class="card-title">{{$pendiente->descripcion}}</h6>
-                      <p class="card-text filtro">{{$pendiente->titulo}}</p>
+                      <h6 class="card-title text-truncate">{{$pendiente->descripcion}}</h6>
+                      <p class="card-text filtro text-truncate">{{$pendiente->titulo}}</p>
                       <p class="card-text filtro">{{$pendiente->nombre_cl}}</p>
                       @if(($pendiente->posicion < 6) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-danger text-danger">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-danger text-danger">Documentación</a>
                       @elseif(($pendiente->posicion > 5) and ($pendiente->posicion < 9) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-primary text-primary">Documentación</a>
                       @elseif(($pendiente->posicion == 9) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-success text-success">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-success text-success">Documentación</a>
                       @elseif(($pendiente->posicion == 10) and ($pendiente->posicion != NULL))
-                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-warning text-warning">Documentacion</a>
+                        <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-warning text-warning">Documentación</a>
                       @endif
                     </div>
                   </div>
@@ -122,18 +130,18 @@
                   <div class="col-md-4 col-sm-4 filter cliente-{{$orden->id_cliente}} sistema-{{$orden->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $orden->orden ))[$i]}}" >
                     <div class="s d-none" id="{{$orden->id_sistema}}"></div>
                     <!-- ---------------------start Special title treatment---------------- -->
-                    <div class="card card-hover">
+                    <div class="card card-hover ">
                       <div class="card-header">
                         <h5 class="mb-0 text-dark">{{explode( ',', str_replace(' ', '', $orden->orden ))[$i]}}</h5>
                       </div>
                       <div class="card-body">
                         @foreach($pendientes as $pendiente)
                           @if (explode( ',', str_replace(' ', '', $orden->orden ))[$i] == $pendiente->folio)
-                            <h6 class="card-title">{{$pendiente->descripcion}}</h6>
-                            <p class="card-text filtro">
+                            <h6 class="card-title text-truncate">{{$pendiente->descripcion}}</h6>
+                            <p class="card-text filtro text-truncate">
                               {{$pendiente->nombre_cl}}
                             </p>
-                            <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
+                            <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-primary text-primary">Documentación</a>
                           @endif
                         @endforeach
                       </div>
@@ -162,16 +170,16 @@
               <!-- ---------------------
                                 start Special title treatment
                             ---------------- -->
-              <div class="card card-hover">
+              <div class="card card-hover ">
                 <div class="card-header">
                   <h5 class="mb-0 text-dark">{{$pospuesto->folio}}</h5>
                 </div>
                 <div class="card-body">
-                  <h6 class="card-title">{{$pospuesto->descripcion}}</h6>
+                  <h6 class="card-title text-truncate">{{$pospuesto->descripcion}}</h6>
                   <p class="card-text filtro">
                     {{$pospuesto->nombre_cl}}
                   </p>
-                  <a href={{route('Documentos',Crypt::encrypt($pospuesto->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
+                  <a href={{route('Documentos',Crypt::encrypt($pospuesto->folio))}} class="btn btn-light-primary text-primary">Documentación</a>
                 </div>
               </div>
               <!-- ---------------------
@@ -196,16 +204,16 @@
               <!-- ---------------------
                                 start Special title treatment
                             ---------------- -->
-              <div class="card card-hover">
+              <div class="card card-hover ">
                 <div class="card-header">
                   <h5 class="mb-0 text-dark">{{$implementado->folio}}</h5>
                 </div>
                 <div class="card-body">
-                  <h6 class="card-title">{{$implementado->descripcion}}</h6>
+                  <h6 class="card-title text-truncate">{{$implementado->descripcion}}</h6>
                   <p class="card-text filtro">
                     {{$implementado->nombre_cl}}
                   </p>
-                  <a href={{route('Documentos',Crypt::encrypt($implementado->folio))}} class="btn btn-light-primary text-primary">Documentacion</a>
+                  <a href={{route('Documentos',Crypt::encrypt($implementado->folio))}} class="btn btn-light-primary text-primary">Documentación</a>
                 </div>
               </div>
               <!-- ---------------------
@@ -312,8 +320,7 @@
   });
 </script>
 <script>
-  
-  $(document).ready(function(){
+  /*$(document).ready(function(){
     $('#reset').click(function(){
         $('.filter').show();
     });
@@ -321,23 +328,35 @@
       var filtro = $(this).attr('id');
       $('.filter').hide();
       $('.cliente-' + filtro ).show();
+    });
+  });*/
+  $(document).ready(function(){
+   // $('.filter').hide();
+    $('#sistemas').on('change', function(){
+      var value = $(this).val();
+      if(value == 'reset'){
+        $('.filter').show();
+      }else{
+        $('.filter').hide();
+      }
+      $('.cliente-' + value ).show();
       $('#solicitar').on('click', function (){
-        var cliente = filtro;
+        var cliente = value;
         var lista = document.getElementById('card-colors');
         var sistema = $('.s').attr('id');
         var solicitante = $('#solicitante').val();
         let orden = [];
         for(var i = 0; i<lista.children.length; i++){
           if(lista.children[i].classList[3] == 'cliente-' + cliente){
-            console.log()
+            //console.log()
             if (i < lista.children.length) {
               orden.push(lista.children[i].id);
             }
           }
         }
         if(orden.length > 1){
-            console.log($('.s'));
-            console.log(sistema);
+            //console.log($('.s'));
+            //console.log(sistema);
           $.ajax({
             headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
             type: 'POST',
@@ -358,7 +377,6 @@
       });
     });
   });
-  
 </script>
 
 @endsection

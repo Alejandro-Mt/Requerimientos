@@ -212,6 +212,7 @@ class ClienteController extends Controller
         //
         $orden = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->orderby('id','desc')->first();
         $validar = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->count();
+        $listado = solpri::where('id_sistema', Crypt::decrypt($id))->where('estatus', 'autorizado')->selectRaw('GROUP_CONCAT(orden) as listado')->first();
         $clientes = 
             registro::
                 select('cl.id_cliente','cl.nombre_cl')->
@@ -220,7 +221,20 @@ class ClienteController extends Controller
                 wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
                 distinct()->
                 get();
-        if($validar == 0){
+        if($listado->listado){
+            $ordenArray = explode(',', $listado->listado);
+            $pendientes = 
+            registro::
+                join('clientes as cl','cl.id_cliente','registros.id_cliente')
+                ->join('estatus as e','e.id_estatus','registros.id_estatus')
+                ->wherenotin('registros.id_estatus',[13,14,18])
+                ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
+                ->where('registros.id_sistema', Crypt::decrypt($id))
+                ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+                ->orderbyRaw("FIELD(registros.folio,'" . implode("','", $ordenArray) . "') desc")
+                ->orderby('registros.id_cliente')
+                ->get();
+        }else{
             $pendientes = 
                 registro::
                     join('clientes as cl','cl.id_cliente','registros.id_cliente')
@@ -230,20 +244,8 @@ class ClienteController extends Controller
                     ->where('registros.id_sistema', Crypt::decrypt($id))
                     ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                     ->orderby('registros.id_cliente')
+                    ->orderby('e.posicion', 'desc')
                     ->get();
-        }else{
-            $ordenArray = explode(',', $orden->orden);
-            $pendientes = 
-            registro::
-                join('clientes as cl','cl.id_cliente','registros.id_cliente')
-                ->join('estatus as e','e.id_estatus','registros.id_estatus')
-                ->wherenotin('registros.id_estatus',[13,14,18])
-                ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
-                ->where('registros.id_sistema', Crypt::decrypt($id))
-                ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
-                ->orderby('registros.id_cliente')
-                ->orderbyRaw("FIELD(registros.folio,'" . implode("','", $ordenArray) . "')")
-                ->get();
         }
         $implementados = 
             registro::
@@ -275,7 +277,7 @@ class ClienteController extends Controller
                 orderby('nombre_s','asc')->
                 get();
         return view('cliente.prioridad',compact('clientes','implementados','orden','pendientes','pospuestos','validar','sistemas'));
-        #dd($validar);
+        #dd($listado->listado);
     }
     public function request(Request $data)
     {
@@ -290,6 +292,13 @@ class ClienteController extends Controller
             'id_sistema' => $data['id_sistema']
         ]);
         #return redirect(route('Prioridad',$data['id_cliente']));
+        $destino = 
+            db::
+                table('users as u')->
+                select('email')->
+                join('accesos as a','u.id','a.id_user')->
+                where([['a.id_sistema','=',$data['id_sistema']],['u.id_puesto','>',3]])->get(); 
+        #mail::to($destino->plick('email'))->send(new ActualizacionPrioridades($data)); 
     }
 
     public function importance()
@@ -308,7 +317,7 @@ class ClienteController extends Controller
                 get();
         
         return view('cliente.importancia',compact('listado','proyectos'));
-        //dd($validar);
+        //dd($listado);
     }
     public function updimp(request $data)
     {

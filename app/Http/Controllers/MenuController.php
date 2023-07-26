@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\Fase;
 use App\Models\acceso;
 use App\Models\archivo;
 use App\Models\area;
@@ -18,11 +19,14 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitante;
+use App\Models\solicitud;
 use App\Models\subproceso;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Mpdf\Tag\Select;
 
 class MenuController extends Controller
@@ -130,8 +134,21 @@ class MenuController extends Controller
         $reaunudar = pausa::select('*')-> where ('folio', $folio)->orderby('created_at','desc')->first();
         $reaunudar->pausa = '0';
         $reaunudar->save();  
+        $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+            ->where('folio', $folio)
+            ->select('s.email')
+            ->first();
+        $gerencia = User::
+            join('puestos as p','p.id_puesto','users.id_puesto')
+            ->where('id_area', 6)
+            ->whereIn('jerarquia',[4,5])
+            ->select('email')
+            ->get();
+        if($email){
+            Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($folio, 'REANUDAR'));
+        }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
-        #dd($registros->all());
+        #dd($email->correo);
     }
     public function subproceso($folio){
         $registros = registro::select('*')-> where ('folio', $folio)->get();
@@ -241,6 +258,20 @@ class MenuController extends Controller
             'id_motivo'=>$id_motivo,
             'id_estatus'=>$id_estatus
         ]);
+        $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+            ->where('folio', $folio)
+            ->select('s.email')
+            ->first();
+        $gerencia = User::
+            join('puestos as p','p.id_puesto','users.id_puesto')
+            ->where('id_area', 6)
+            ->whereIn('jerarquia',[4,5])
+            ->select('email')
+            ->get();
+        if($email){
+            Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($folio, 'POSPUESTO'));
+        }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
+        #dd($email->email);
     }
 }
