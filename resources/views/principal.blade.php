@@ -29,7 +29,7 @@
     </div>
   </div>
   <!-- End Row -->
-  @if(Auth::user()->id_puesto > 4)
+  @if(Auth::user()->id_puesto > 3)
     <div class="row">
       <div class="col-12">
         <div class="card">

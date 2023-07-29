@@ -49,7 +49,9 @@ class PlaneacionController extends Controller
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         else{
             $destino = solicitud::where('folior',$data->folio)->select('correo')->first();
-            Mail::to($destino)->send(new DefinicionRequerimiento($data->folio));
+            if($destino){
+                Mail::to($destino)->send(new DefinicionRequerimiento($data->folio));
+            }
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);

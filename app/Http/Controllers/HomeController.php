@@ -113,7 +113,7 @@ class HomeController extends Controller
             where('s.correo',Auth::user()->email)->
             groupBy('id_sistema')->
             get();
-        if(Auth::user()->id_puesto == 3){
+        if(Auth::user()->id_area == 3){
           $sistemas = 
             db::table('solicitudes as s')->
             select('*', db::raw('COUNT(s.id_sistema) as total'))->
