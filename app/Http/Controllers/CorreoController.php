@@ -78,8 +78,9 @@ class CorreoController extends Controller
         foreach($formato as $fold){
             $relaciones = explode(',',$fold->relaciones);
             $involucrados = explode(',',$fold->involucrados);
+            $titulo = Crypt::decrypt($folio);
             $pdf = PDF::loadView('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
-            return $pdf -> stream ("Crypt::decrypt($folio) $fold->descripcion.pdf");
+            return $pdf -> stream ("$titulo $fold->descripcion.pdf");
             #return view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
         }
     }
