@@ -491,7 +491,7 @@
                       <i class="feather-sm" data-feather="file"></i>
                     </div> 
                     <h6 class="modal-title col-sm-10"><strong>{{"$registros->folio $registros->descripcion"}}</strong></h6>
-                    <a class="btn waves-effect waves-light btn-outline-info col-sm-auto" href="{{route("Archivo",$registros->folio)}}">
+                    <a class="btn waves-effect waves-light btn-outline-info col-sm-auto" href="{{route("Archivo",Crypt::encrypt($registros->folio))}}">
                       <i class="feather-sm" data-feather="download-cloud"></i>
                     </a>
                   </div>
