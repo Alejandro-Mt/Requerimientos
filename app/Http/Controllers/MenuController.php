@@ -9,6 +9,7 @@ use App\Models\area;
 use App\Models\Cliente;
 use App\Models\comentario;
 use App\Models\departamento;
+use App\Models\division;
 use App\Models\estatu;
 use App\Models\funcionalidad;
 use App\Models\levantamiento;
@@ -242,13 +243,14 @@ class MenuController extends Controller
         $areas = area::all();
         $clientes = Cliente::all();
         $departamentos = departamento::all();
+        $divisiones = division::all();
         $estatus = estatu::all();
         $funcionalidad = funcionalidad::all();
         $puestos = puesto::all();
         $responsables = responsable::select('id_responsable','nombre_r','apellidos','email','responsables.id_area','area')->leftjoin('areas as a','responsables.id_area','a.id_area')->get();
         $sistemas = sistema::all();
-        $solicitantes = solicitante::all();
-        return view('/layouts.datos',compact('areas','clientes','departamentos','estatus','funcionalidad','puestos','responsables','sistemas','solicitantes'));
+        $solicitantes = solicitante::leftjoin('division as d','solicitantes.id_division','d.id_division')->get();
+        return view('/layouts.datos',compact('areas','clientes','departamentos','divisiones','estatus','funcionalidad','puestos','responsables','sistemas','solicitantes'));
         #dd($responsables);
     }
     public function posponer($folio,$id_motivo,$id_estatus){

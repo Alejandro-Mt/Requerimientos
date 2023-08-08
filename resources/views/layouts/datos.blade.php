@@ -1595,20 +1595,20 @@
                                             <div class="row">
                                               <div class="col-md-6">
                                                 <div class="mb-3 contact-location">
-                                                  <label type="text" class="form-control">Correo</label>
+                                                  <label type="text" class="form-control">Division</label>
                                                 </div>
                                               </div>
                                               <div class="col-md-6">
                                                 <div class="mb-3 contact-phone">
-                                                  <select class="form-select @error ('id_area') is-invvalid @enderror" 
-                                                      style="width: 100%; height:36px;" name="id_area" tabindex="-1" aria-hidden="true" required autofocus>
-                                                    <option value={{$responsable->id_area}}>
-                                                        {{$responsable->area}}
+                                                  <select class="form-select @error ('id_division') is-invvalid @enderror" 
+                                                      style="width: 100%; height:36px;" name="id_division" tabindex="-1" aria-hidden="true" required autofocus>
+                                                    <option value={{$solicitante->id_division}}>
+                                                        {{$solicitante->division}}
                                                     </option> 
-                                                    @foreach ($areas as $area)
-                                                      <option value="{{$area->id_area}}">{{$area->area}}</option>
+                                                    @foreach ($divisiones as $div)
+                                                      <option value="{{$div->id_division}}">{{$div->division}}</option>
                                                     @endforeach
-                                                    @error('autorizacion')
+                                                    @error('id_division')
                                                       <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                       </span>

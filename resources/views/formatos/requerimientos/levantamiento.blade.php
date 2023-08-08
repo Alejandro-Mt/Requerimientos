@@ -26,43 +26,15 @@
                             <label for="id_solicitante"class="col-sm-2 text-end control-label col-form-label">Solicitante*</label>
                             <div class="col-md-8">
                                 <select class="form-select @error ('id_solicitante') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_solicitante" tabindex="-1" aria-hidden="true" required autofocus>
-                                    @foreach ($levantamientos as $valor)
-                                        <option value={{$valor->id_solicitante}}>
-                                            @foreach ($solicitantes as $solicitante) 
-                                                @if ($valor->id_solicitante == $solicitante->id_solicitante)
-                                                    {{"$solicitante->a_pat  $solicitante->a_mat $solicitante->nombre"}}
-                                                @endif
-                                            @endforeach
-                                        </option>                                        
-                                    @endforeach
+                                    @if($solicitud)
+                                        <option value={{$solicitud->id_solicitante}}>{{"$solicitud->a_pat  $solicitud->a_mat $solicitud->nombre"}}</option>
+                                    @else
+                                        <option value={{NULL}}>Selecciona</option>
+                                    @endif
                                     @foreach ($solicitantes as $solicitante)
                                         <option value = {{ $solicitante->id_solicitante }}>{{"$solicitante->a_pat  $solicitante->a_mat $solicitante->nombre"}}</option>;
                                     @endforeach
                                     @error('id_solicitante')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror                      
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="id_division"class="col-sm-2 text-end control-label col-form-label">División*</label>
-                            <div class="col-md-8">
-                                <select class="form-select @error ('id_division') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_division" tabindex="-1" aria-hidden="true" required autofocus>
-                                    @foreach ($levantamientos as $valor)
-                                    <option value={{$valor->id_division}}>
-                                        @foreach ($divisiones as $division) 
-                                            @if ($valor->id_division == $division->id_division)
-                                                {{$division->division}}
-                                            @endif
-                                        @endforeach
-                                    </option>                                        
-                                    @endforeach
-                                    @foreach ($divisiones as $division)
-                                        <option value = {{ $division->id_division }}>{{$division->division}}</option>;
-                                    @endforeach
-                                    @error('id_division')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

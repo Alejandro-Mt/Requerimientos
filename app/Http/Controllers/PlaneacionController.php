@@ -50,7 +50,7 @@ class PlaneacionController extends Controller
         else{
             $destino = solicitud::where('folior',$data->folio)->select('correo')->first();
             if($destino){
-                Mail::to($destino)->send(new DefinicionRequerimiento($data->folio));
+                Mail::to($destino->correo)->send(new DefinicionRequerimiento($data->folio));
             }
         }
         if($data['desfase'] == '1'){

@@ -29,30 +29,16 @@
                         <div class="col-md-8">
                             <select class="form-select @error('id_solicitante') is-invalid @enderror" 
                                 style="width: 100%; height:36px;" name="id_solicitante" tabindex="-1" aria-hidden="true" required autofocus>
-                                <option value={{null}}>Seleccion</option>
+                                @if($solicitud)
+                                    <option value={{$solicitud->id_solicitante}}>{{"$solicitud->a_pat  $solicitud->a_mat $solicitud->nombre"}}</option>
+                                @else
+                                    <option value={{NULL}}>Selección</option>
+                                @endif
                                 @foreach ($solicitantes as $solicitante):
                                     <option value={{$solicitante->id_solicitante}} {{old('id_solicitante')==$solicitante->id_solicitante ? 'selected' : ''}}>{{"$solicitante->a_pat  $solicitante->a_mat $solicitante->nombre"}}</option>
                                 @endforeach                     
                             </select>
                             @error('id_solicitante')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="id_division"
-                            class="col-sm-2 text-end control-label col-form-label">División*</label>
-                        <div class="col-md-8">
-                            <select class="form-select @error('id_division') is-invalid @enderror" 
-                                style="width: 100%; height:36px;" name="id_division" tabindex="-1" aria-hidden="true" required autofocus>
-                                <option value={{null}}>Seleccion</option>
-                                @foreach ($divisiones as $direccion):
-                                    <option value="{{$direccion->id_division}}" {{old('id_division')==$direccion->id_division ? 'selected' : ''}}>{{$direccion->division}}</option>
-                                @endforeach                     
-                            </select>
-                            @error('id_division')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

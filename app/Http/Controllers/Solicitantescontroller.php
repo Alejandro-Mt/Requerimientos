@@ -51,6 +51,7 @@ use RegistersUsers;
             'a_pat'=> $data['apaterno'], 
             'a_mat'=> $data['amaterno'], 
             'email' => $data['email'], 
+            'id_division' => $data['id_division'], 
         ]);
         User::create([
             'nombre' => $data['nombre'],
@@ -62,14 +63,6 @@ use RegistersUsers;
             'password' => Hash::make($data['password']),
         ]);
         return redirect(route('Seguir'));
-        /*return redirect(route('uscr'))
-            ->with($data['nombre'])
-            ->with($data['apaterno'])
-            ->with($data['amaterno'])
-            ->with($data['email'])
-            ->with($data['password'])
-            ->with($data['password_confirmation'])
-            ->with($data['id_area']);*/
         #dd($data);
     }
 
@@ -108,8 +101,10 @@ use RegistersUsers;
         $update->a_pat= $data['a_pat']; 
         $update->a_mat = $data['a_mat'];
         $update->email = $data['email'];
+        $update->id_division = $data['id_division'];
         $update->save();  
         return redirect(route('Seguir'));
+        #dd($update);
     }
 
     /**

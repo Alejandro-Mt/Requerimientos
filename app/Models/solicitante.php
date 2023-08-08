@@ -14,6 +14,6 @@ class solicitante extends Model
         'a_pat',
         'a_mat',
         'email',
-        #'direccion',
+        'id_division',
     ];
 }

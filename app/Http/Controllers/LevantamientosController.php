@@ -11,6 +11,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitante;
+use App\Models\solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -27,12 +28,15 @@ class LevantamientosController extends Controller
     protected function formato($id_registro){
         $areas = area::all();
         $departamentos = departamento::all();
-        $divisiones = division::all();
         $registros = registro::select('folio')-> where ('id_registro', Crypt::decrypt($id_registro))->first();
         $responsables = responsable::orderby('apellidos', 'asc')->get();
         $sistemas = sistema::all();
         $solicitantes = solicitante::all();
-        return view('formatos/requerimientos/formato',compact('solicitantes','sistemas','responsables','registros','divisiones','departamentos','areas')); 
+        $solicitud = solicitud::leftJoin('solicitantes as sol', 'sol.email', '=', 'solicitudes.correo')
+            ->leftJoin('division as d', 'd.id_division', '=', 'sol.id_division')
+            ->where('folior', $registros->folio)
+            ->first();
+        return view('formatos/requerimientos/formato',compact('solicitud','solicitantes','sistemas','responsables','registros','departamentos','areas')); 
     }
 
 
@@ -46,6 +50,8 @@ class LevantamientosController extends Controller
         $this->validate($data, [
             'problema' => "max:250"
         ]);
+        $solicitante = solicitante::FindOrFail($data['id_solicitante']);
+        $data['id_division'] = $solicitante->id_division;
         levantamiento::create([
             'folio' => $data['folio'],
             'solicitante' => $data['solicitante'],
@@ -74,7 +80,7 @@ class LevantamientosController extends Controller
             }
         }
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
-        #dd($data['relaciones']);
+        dd($data);
 
     }
 
@@ -86,6 +92,8 @@ class LevantamientosController extends Controller
      */
     
     protected function actualiza(request $data){
+        $solicitante = solicitante::FindOrFail($data['id_solicitante']);
+        $data['id_division'] = $solicitante->id_division;
         $update = levantamiento::FindOrFail($data['folio']);
         $update->solicitante = $data['solicitante'];
         $update->departamento = $data['departamento'];
@@ -93,7 +101,7 @@ class LevantamientosController extends Controller
         $update->autorizacion = $data['autorizacion'];
         $update->previo = $data['previo'];
         $update->problema = $data['problema'];
-        $update->impacto = $data['impacto'];
+        $update->prioridad = $data['impacto'];
         $update->general = $data['general'];
         $update->detalle = $data['detalle'];
         $update->relaciones = implode(',', $data['relaciones']);
@@ -130,20 +138,24 @@ class LevantamientosController extends Controller
      */
     
     protected function edit($id_registro){
-        $registros = registro::select('folio')-> where ('id_registro', Crypt::decrypt($id_registro))->first();
+        $registros = registro::select('folio')->where('id_registro', Crypt::decrypt($id_registro))->first();
         $sistemas = sistema::all();
         $responsables = responsable::orderby('apellidos', 'asc')->get();
         $levantamientos = levantamiento::findOrFail($registros);
         $departamentos = departamento::all();
         $areas = area::all();
         $solicitantes = solicitante::all();
-        $divisiones = division::all();
-        foreach($levantamientos as $valor);
-        $involucrados = explode(',',$valor->involucrados);
-        $relaciones = explode(',',$valor->relaciones);
-        $areasr = explode(',',$valor->areas);
-        return view('formatos/requerimientos/levantamiento',compact('solicitantes','sistemas','responsables','relaciones','registros','levantamientos','involucrados','divisiones','departamentos','areasr','areas'));
-        #dd($relaciones);
+        $solicitud = solicitud::leftJoin('solicitantes as sol', 'sol.email', '=', 'solicitudes.correo')
+            ->leftJoin('division as d', 'd.id_division', '=', 'sol.id_division')
+            ->where('folior', $registros->folio)
+            ->first();
+        foreach($levantamientos as $valor){
+            $involucrados = explode(',',$valor->involucrados);
+            $relaciones = explode(',',$valor->relaciones);
+            $areasr = explode(',',$valor->areas);
+        }
+        return view('formatos/requerimientos/levantamiento',compact('solicitud','solicitantes','sistemas','responsables','relaciones','registros','levantamientos','involucrados','departamentos','areasr','areas'));
+        dd($solicitud);
     }
 
     /**
