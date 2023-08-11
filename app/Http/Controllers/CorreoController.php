@@ -98,7 +98,7 @@ class CorreoController extends Controller
                     ->send(new ValidacionRequerimiento($folio));
                 return 'Se ha autorizado satisfactoriamente';   
         }else{
-            if($fol->id_estatus == 11 && $hora->fechades == NULL){
+            if($fol->id_estatus == 9 && $hora->fechades == NULL){
                 $hora -> fechades = now();
                 $hora -> save();
                 mail::to($fol->email)
@@ -113,17 +113,21 @@ class CorreoController extends Controller
         $fol = registro::select('dispercion')
                       ->leftJoin('sistemas as s','registros.id_sistema', 's.id_sistema')
                       ->where('folio',$folio)
-                      ->get();
+                      ->first();
         $hora = levantamiento::findOrFail($folio);
         if($hora->fechaaut == NULL){ 
-            foreach($fol as $correo){
-                mail::to($correo->dispercion)
+                mail::to($fol->dispercion)
                     ->send(new ValidacionRequerimiento($folio));
                 return 'Se ha enviado la respuesta, gracias.';
             #dd($correo->dispercion);  
+        }else{
+            if($hora->fechades == NULL){
+                mail::to($fol->dispercion)
+                    ->send(new ValidacionRequerimiento($folio));
+                return 'Se ha enviado la respuesta, gracias.';   
+            }else{
+                return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
             }
-        } else{
-          return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
         }
     }
 
