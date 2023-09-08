@@ -60,7 +60,7 @@ class LevantamientosController extends Controller
             'autorizacion' => $data['autorizacion'],
             'previo' => $data['previo'],
             'problema' => $data['problema'],
-            'prioridad' => $data['impacto'],
+            'prioridad' => $data['prioridad'],
             'general' => $data['general'],
             'detalle' => $data['detalle'],
             'relaciones' => implode(',', $data['relaciones']),
@@ -101,7 +101,7 @@ class LevantamientosController extends Controller
         $update->autorizacion = $data['autorizacion'];
         $update->previo = $data['previo'];
         $update->problema = $data['problema'];
-        $update->prioridad = $data['impacto'];
+        $update->prioridad = $data['prioridad'];
         $update->general = $data['general'];
         $update->detalle = $data['detalle'];
         $update->relaciones = implode(',', $data['relaciones']);

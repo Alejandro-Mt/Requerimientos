@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\archivo;
 use App\Models\desfase;
 use App\Models\implementacion;
 use App\Models\liberacion;
@@ -9,6 +10,7 @@ use App\Models\registro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class ImplementacionController extends Controller
 {
@@ -33,6 +35,29 @@ class ImplementacionController extends Controller
    */
   public function create(request $data){ 
     if($data['id_estatus'] == NULL){$data['id_estatus'] = 2;}
+    else{
+      $archivos = Archivo::where('folio', $data['folio'])->get();
+      $requiredKeywords = ['Acta de cierre'];
+      $missingKeywords = [];
+      foreach ($requiredKeywords as $requiredKeyword) {
+          $keywordFound = false;
+          foreach ($archivos as $archivo) {
+              if (str_contains($archivo->url, $requiredKeyword)) {
+                  $keywordFound = true;
+                  break;
+              }
+          }
+          if (!$keywordFound) {
+              $missingKeywords[] = $requiredKeyword;
+          }
+      }
+      if (!empty($missingKeywords)) {
+          // Al menos un archivo requerido no contiene las palabras clave
+          $errorMessage = "No se ha adjuntado el archivo: " . implode(', ', $missingKeywords);
+          Session::flash('error', $errorMessage);
+          return redirect()->back();
+      }
+    }
     $val = liberacion::select('fecha_lib_r')->where('folio',$data['folio'])->get();
     foreach($val as $fecha){$this->validate($data, ['f_implementacion' => "required|date|after_or_equal:$fecha->fecha_lib_r"]);}
     $verificar = implementacion::where('folio',$data['folio'])->count();

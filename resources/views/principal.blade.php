@@ -329,11 +329,27 @@
     $(document).ready(function () {
       $('#excel').DataTable({
         dom: "Bfrtip",
-        buttons: ["copy", "csv", "excel", "pdf", "print"],
+        buttons: ["copy", "csv", "excel", "pdf", "print",
+        {
+        text: 'GSheets',
+        className: 'buttons-GSheets',
+        action: function ( e, dt, button, config ) {
+          var data = dt.buttons.exportData();
+          exportToSheets(data);
+        }
+      }],
           scrollY: 200,
           scrollX: true,
       });
-      $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel").addClass("btn btn-primary mr-1");
+      $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-GSheets").addClass("btn btn-primary mr-1");
+      function exportToSheets(data){
+        $.ajax({
+          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+          type: "POST",
+          url: "gsheets",
+          data:{data:data}
+        })
+      }
     });
   </script>
   <!-- Custom JavaScript -->

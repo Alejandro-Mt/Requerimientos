@@ -15,7 +15,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+
 use PDF;
 
 class CorreoController extends Controller
@@ -23,13 +25,14 @@ class CorreoController extends Controller
     //
     
     public function send($folio){
-        $registros = registro::where ('folio', Crypt::decrypt($folio))->get();
+        $registro = registro::where ('folio', Crypt::decrypt($folio))->first();
         $archivos = archivo::where ('folio', Crypt::decrypt($folio))->get();
-        return view('layouts.correo',compact('registros','folio','archivos'));
+        return view('layouts.correo',compact('registro','folio','archivos'));
         #dd($registros);
     }
-    public function sended(request $data){
+    /*public function sended(request $data){
         $destino = implode(';', $data['email']);
+        $archivos = archivo::where ('folio',  $data['folio'])->get();
         mail::to(explode(';', $destino))
             ->send(new ValidacionCliente($data->folio));
         if(count(Mail::failures()) < 1){
@@ -41,7 +44,47 @@ class CorreoController extends Controller
 		}else{
 			$b ='No se pudo enviar el correo. Vuelve a intentarlo. ';
             return redirect(route('Documentos',Crypt::encrypt($data->folio)))->with('alert', $b);
-		} 
+		}
+    }*/
+
+    public function sended(Request $data){
+        $destino = implode(';', $data['email']);
+        $archivos = Archivo::where('folio', $data['folio'])->get();
+
+        // Verificar si los archivos requeridos existen
+        //$requiredKeywords = ['Gantt','Definición de requerimientos','Flujo de trabajo','Mockup'];
+        $requiredKeywords = ['Gantt'];
+        $missingKeywords = [];
+        foreach ($requiredKeywords as $requiredKeyword) {
+            $keywordFound = false;
+            foreach ($archivos as $archivo) {
+                if (str_contains($archivo->url, $requiredKeyword)) {
+                    $keywordFound = true;
+                    break;
+                }
+            }
+            if (!$keywordFound) {
+                $missingKeywords[] = $requiredKeyword;
+            }
+        }
+        if (!empty($missingKeywords)) {
+            // Al menos un archivo requerido no contiene las palabras clave
+            $errorMessage = "No se ha adjuntado el archivo: " . implode(', ', $missingKeywords);
+            Session::flash('error', $errorMessage);
+            return redirect()->back();
+        }
+        // Los archivos requeridos existen, proceder con el envío de correo y actualización de estatus
+        mail::to(explode(';', $destino))->send(new ValidacionCliente($data->folio));
+        if (count(Mail::failures()) < 1) {
+            $estatus = Registro::where('folio', $data->folio)->first();
+            $estatus->id_estatus = $data->input('id_estatus');
+            $estatus->save();
+            $successMessage = "El correo ha sido enviado.";
+            return redirect(route('Documentos', Crypt::encrypt($data->folio)))->with('success', $successMessage);
+        } else {
+            $errorMessage = "No se pudo enviar el correo. Vuelve a intentarlo.";
+            return redirect(route('Documentos', Crypt::encrypt($data->folio)))->with('error', $errorMessage);
+        }
     }
 
     protected function PDF($folio){
@@ -138,7 +181,7 @@ class CorreoController extends Controller
                       ->where('folio',$folio)
                       ->first();
         if($hora->fechades == NULL){ 
-            #$hora -> fechades = now();
+            $hora -> fechades = now();
             $hora -> impacto = $impacto;
             $hora -> save();
             mail::to($correo->email)
@@ -188,9 +231,10 @@ class CorreoController extends Controller
         #return ($update);
     }
     function store(Request $data,$folio){ 
+        #$rename = ' Gantt';
         $rename = $data->file('adjunto')->getClientOriginalName();
         $data->validate(['adjunto'=>'required']);{
-        $files = Storage::putFileAs("public/$data->folio", $data->file('adjunto'),$rename);
+        $files = Storage::putFileAs("public/$folio", $data->file('adjunto'),$rename);
         $url = Storage::url($files);
         if(archivo::where('url', 'like', '%' . $rename . '%')->count() == 0)
             archivo::create([

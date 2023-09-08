@@ -1,7 +1,24 @@
 @extends('home')
 @section('content')
+<!-- Incluir complemento -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <div class="card">
+
+@if(session('error'))
+  <div class="toast show mb-2 text-white bg-light-danger border-0 remove-close-icon " role="alert" aria-live="polite" aria-atomic="true" style="position: absolute; top: 0; right: 50;">
+    <div class="d-flex align-items-center">
+      <div class="toast-body">
+        <div class="d-flex align-items-center text-danger font-weight-medium">
+          <i data-feather="info" class="fill-white feather-sm me-2"></i>
+          {{ session('error') }}
+        </div>
+      </div>
+      <button type="button" class="btn-close ms-auto me-2 d-flex align-items-center" data-bs-dismiss="toast" aria-label="Close">
+        <i data-feather="x" class="feather-sm fill-white text-danger"></i>
+      </button>
+    </div>
+  </div>
+@endif
     <div class="card-body wizard-content-center">
         <div class="card-title mb-0">{{ __('Enviar Informe') }}</div>
         <form method="POST" action="{{route('Enviado')}}" enctype="multipart/form-data">
@@ -17,18 +34,16 @@
                     @enderror
                 </div>
             </div>
-            @foreach ($registros as $registro)
-                <div class="d-none">
-                    <input type="text" name="folio" value={{$registro->folio}} visible="false">
-                </div>
-                <div class="d-none">
-                    @if ($registro->id_estatus == "10" || $registro->id_estatus == "11")
-                        <input type="text" name="id_estatus" value="16" visible="false">
-                    @else
-                        <input type="text" name="id_estatus" value="11" visible="false">
-                    @endif                
-                </div>                                  
-            @endforeach
+            <div class="d-none">
+                <input id="folio" type="text" name="folio" value={{$registro->folio}} visible="false">
+            </div>
+            <div class="d-none">
+                @if ($registro->id_estatus == "10" || $registro->id_estatus == "11")
+                    <input type="text" name="id_estatus" value="16" visible="false">
+                @else
+                    <input type="text" name="id_estatus" value="11" visible="false">
+                @endif                
+            </div>
             <!-- Modal de Confirmacion -->
             <div class="modal" id="confirm" aria-hidden="true">
                 {{csrf_field()}}
@@ -128,9 +143,25 @@
         headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
         paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
         //uploadMultiple: true,
-        maxFilesize: 150, // Tamaño máximo en MB
+        maxFilesize: 10, // Tamaño máximo en MB
+        maxFiles: 1,
         addRemoveLinks: true,
         dictRemoveFile: "Remover",
+        accept: function(file, done) {
+            var validFileNames = ['Gantt'];
+            var fileNameWithoutExtension = file.name.split('.')[0];
+            var folio = $('#folio').val().trim();
+            if (fileNameWithoutExtension.includes(folio)) {
+                  // Comprobamos si el nombre del archivo también contiene uno de los nombres válidos
+                  if (validFileNames.some(name => fileNameWithoutExtension.includes(name))) {
+                      done();
+                  } else {
+                      done("El nombre del archivo debe contener: '" + validFileNames.join("', '") + "'");
+                  }
+              } else {
+                  done("El nombre del archivo debe contener el folio '" + folio + "'");
+              }
+        },
         removedfile: function(file) {
             var name = file.name;        
             $.ajax({

@@ -18,7 +18,14 @@ class GoogleController extends Controller
      */
     public function redirectToGoogle()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')
+        ->scopes([
+            'https://www.googleapis.com/auth/spreadsheets', // Alcance para hojas de cálculo
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/drive'
+        ])
+        ->redirect();
     }
           
     /**
@@ -34,6 +41,8 @@ class GoogleController extends Controller
             $finduser = User::where('external_id', $user->id)->first();
             if($finduser){
                 #$fullname = explode(' ', $user['name']);
+                $finduser->token_google = $user->token;
+                $finduser->save();
                 Auth::login($finduser);
                 return redirect(route('home'));
             }else{
@@ -42,10 +51,11 @@ class GoogleController extends Controller
                     [
                         'name' => $user->nombre,
                         'external_id'=> $user->id,
-                        'password' => Hash::make('Triplei.mx')
+                        'token_google' => $user->token
                     ]);
                 Auth::login($newUser);
                 return redirect(route('home'));
+                #dd($user->token);
             }
         } catch (Exception $e) {
             dd($e->getMessage());

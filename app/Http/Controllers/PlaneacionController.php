@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\Cliente\DefinicionRequerimiento;
 use App\Models\analisis;
+use App\Models\archivo;
 use App\Models\bitacora;
 use App\Models\cronograma;
 use App\Models\desfase;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class PlaneacionController extends Controller
 {
@@ -48,7 +50,28 @@ class PlaneacionController extends Controller
         $registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         else{
+            $archivos = Archivo::where('folio', $data['folio'])->get();
             $destino = solicitud::where('folior',$data->folio)->select('correo')->first();
+            $requiredKeywords = ['Definición de requerimientos', 'Flujo de trabajo'];
+            $missingKeywords = [];
+        foreach ($requiredKeywords as $requiredKeyword) {
+            $keywordFound = false;
+            foreach ($archivos as $archivo) {
+                if (str_contains($archivo->url, $requiredKeyword)) {
+                    $keywordFound = true;
+                    break;
+                }
+            }
+            if (!$keywordFound) {
+                $missingKeywords[] = $requiredKeyword;
+            }
+        }
+        if (!empty($missingKeywords)) {
+            // Al menos un archivo requerido no contiene las palabras clave
+            $errorMessage = "No se ha adjuntado el archivo: " . implode(', ', $missingKeywords);
+            Session::flash('error', $errorMessage);
+            return redirect()->back();
+        }
             if($destino){
                 Mail::to($destino->correo)->send(new DefinicionRequerimiento($data->folio));
             }

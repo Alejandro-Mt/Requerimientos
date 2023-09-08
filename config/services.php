@@ -34,6 +34,12 @@ return [
         'client_id' => env('OAUTH_GOOGLE_ID'),
         'client_secret' => env('OAUTH_GOOGLE_KEY'),
         'redirect' => 'http://localhost:8000/auth/google/callback',
+        'scope' => [
+            'https://www.googleapis.com/auth/spreadsheets',
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/drive'
+        ],
     ],
 
 ];

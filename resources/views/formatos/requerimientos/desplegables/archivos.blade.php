@@ -16,7 +16,7 @@
           @elseif($registros->id_estatus == 2)
           <a>Recuerda Que debes cargar: <strong>Acta de cierre</strong></a>
           @elseif($registros->id_estatus == 11)
-          <a>Para avanzar debes cargar: <strong>Definición de requerimientos</strong></a>
+          <a>Para avanzar debes cargar: <strong>Definición de requerimientos</strong> y <strong>Flujo de trabajo o Mockup</strong></a>
           @endif
           <form  class="dropzone" action="{{route('Adjuntos',$registros->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
           </form> 
@@ -36,22 +36,51 @@
     <link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dropzone/dist/min/dropzone.min.css")}}"/>
     <script src="{{asset("assets/libs/dropzone/dist/min/dropzone.min.js")}}"></script>
     <script>
+      var id_estatus = {{ $registros->id_estatus }};
+      var maxFiles = (id_estatus === 2) ? 1 : 2;
       Dropzone.options.myAwesomeDropzone = {
-        headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-        paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
-        //uploadMultiple: true,
-        maxFilesize: 150, // Tamaño máximo en MB
-        addRemoveLinks: true,
-        dictRemoveFile: "Remover",
-        removedfile: function(file) {
-          var name = file.name;        
-          $.ajax({
-            headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-            type: 'DELETE',
-            url: "file.borrar." + name,
-          });
-          var _ref;
-          return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-        }
+          headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+          paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
+          maxFilesize: 150, // Tamaño máximo en MB
+          maxFiles: maxFiles,
+          addRemoveLinks: true,
+          dictRemoveFile: "Remover",
+          accept: function (file, done) {
+              var validFileNames = [];
+              var fileNameWithoutExtension = file.name.split('.')[0];
+              var folio = $('#folio').val().trim();
+  
+              // Definir los nombres de archivos válidos según el valor de id_estatus
+              if (id_estatus == 8) {
+                  validFileNames = ['Matriz de pruebas', 'Acta de validacion'];
+              } else if (id_estatus == 2) {
+                  validFileNames = ['Acta de cierre'];
+              } else if (id_estatus == 11) {
+                  validFileNames = ['Definición de requerimientos', 'Flujo de trabajo', 'Mockup'];
+              }
+  
+              // Comprobamos si el nombre del archivo contiene el folio
+              if (fileNameWithoutExtension.includes(folio)) {
+                  // Comprobamos si el nombre del archivo también contiene uno de los nombres válidos
+                  if (validFileNames.some(name => fileNameWithoutExtension.includes(name))) {
+                      done();
+                  } else {
+                      done("El nombre del archivo debe contener uno de los siguientes: '" + validFileNames.join("', '") + "'");
+                  }
+              } else {
+                  done("El nombre del archivo debe contener el folio '" + folio + "'");
+              }
+          },
+          removedfile: function (file) {
+              var name = file.name;
+              $.ajax({
+                  headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+                  type: 'DELETE',
+                  url: "file.borrar." + name,
+              });
+              var _ref;
+              return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+          }
       };
-    </script>
+  </script>
+  

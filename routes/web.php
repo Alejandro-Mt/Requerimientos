@@ -3,7 +3,6 @@
 use App\Http\Controllers\AccesoController;
 use App\Http\Controllers\AnalisisController;
 use App\Http\Controllers\AreaController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BuildController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConstruccionController;
@@ -31,7 +30,6 @@ use App\Http\Controllers\ResponsableController;
 use App\Http\Controllers\RondaController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\Solicitantescontroller;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
@@ -57,6 +55,7 @@ auth::routes(['verify'=>true]);
 #          Pagina Principal         #
 Route::get('/', [HomeController::class, 'index'])->middleware('verified')->name('home');
 Route::get('/principal',[HomeController::class, 'principal'])->middleware('auth')->name('principal');
+Route::post('gsheets',[HomeController::class, 'gsheets'])->name('GSheet');
 #          Perfil         #
 Route::post('/profile', [ProfileController::class, 'update'])->name('Actualiza');
 Route::get(substr(Crypt::encryptString('/profile'), 0, 3).'{id}', [ProfileController::class, 'edit'])->middleware('auth')->name('profile');

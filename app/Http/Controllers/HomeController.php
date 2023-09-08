@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\acceso;
-use App\Models\cliente;
-use App\Models\registro;
+use Google_Client;
+use Google\Service\Sheets;
+use Google\Service\Sheets\ValueRange;
+use Google\Service\Sheets\Spreadsheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -168,4 +170,80 @@ class HomeController extends Controller
         #dd($sistemas);
     }
 
-}
+    
+    public function gsheets(Request $data){
+        $datos = $data->get('data');
+        $header = $datos['header'];
+        $folios = $datos['body'];
+        #$ruta = 'C:\Users\alejandro.garcia\Documents\PHP\web\credentials.json';
+        $ruta = base_path('credentials.json');
+        
+        foreach ($folios as &$fila) {
+            foreach ($fila as &$valor) {
+                if ($valor === null) {
+                    $valor = "";
+                }
+            }
+        }
+        
+        // Crea el cliente y autenticación
+        $client = new Google_Client();
+        $client->setAuthConfig($ruta);
+        $token = Auth::user()->token_google; // Implementa tu propia función para cargar el token almacenado
+        $client->setAccessToken($token);
+        $service = new Sheets($client);
+    
+        // Crea la hoja de cálculo
+        $spreadsheet = new Spreadsheet([
+            'properties' => [
+                'title' => 'Registro de folios'
+            ]
+        ]);
+        $spreadsheet = $service->spreadsheets->create($spreadsheet);
+        $fileId = $spreadsheet->spreadsheetId;
+        // Divide los registros en lotes de 100
+        
+        $values = [$header];
+        foreach ($folios as $filas) {
+            $values [] = $filas;
+        };
+        $body = new ValueRange([
+            'values' => $values
+        ]);
+        $params = [
+            'valueInputOption' => 'RAW'
+        ];
+        $insert = [
+            "insertDataOption" => "INSERT_ROWS"
+        ];
+
+        $result = $service->spreadsheets_values->append(
+            $fileId,
+            'Hoja 1',
+            $body,
+            $params,
+            $insert
+        );
+        if ($result->error) {
+            echo "Error: " . $result->error->message;
+        } else {
+            if ($result->updates->updatedRows > 0) {
+                echo "Datos agregados exitosamente en {$result->updates->updatedRange}.";
+            } else {
+                echo "No se pudieron agregar datos.";
+            }
+        }
+        
+        if ($result->error) {
+            echo "Error: " . $result->error->message;
+        } else {
+            if ($result->updates->updatedRows > 0) {
+                // Abre el archivo de Excel en el navegador
+                $spreadsheetLink = "https://docs.google.com/spreadsheets/d/$fileId";
+                shell_exec("start $spreadsheetLink"); // Esto abre el enlace en el navegador predeterminado
+            } 
+        }
+        #dd($body,$datos['body'],$folios);
+    
+    }
+}    

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\Fase;
+use App\Models\archivo;
 use App\Models\desfase;
 use App\Models\levantamiento;
 use App\Models\planeacion;
@@ -14,6 +15,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class RondaController extends Controller
 {
@@ -52,7 +54,28 @@ class RondaController extends Controller
         ]);
         $liberacion = liberacion::where('folio', $data['folio'])->first();
         $estatus = registro::select()->where('folio', $data['folio'])->first();
+        $archivos = Archivo::where('folio', $data['folio'])->get();
         if ($data['rechazadas'] == 0){
+            $requiredKeywords = ['Matriz de pruebas', 'Acta de validacion'];
+            $missingKeywords = [];
+            foreach ($requiredKeywords as $requiredKeyword) {
+                $keywordFound = false;
+                foreach ($archivos as $archivo) {
+                    if (str_contains($archivo->url, $requiredKeyword)) {
+                        $keywordFound = true;
+                        break;
+                    }
+                }
+                if (!$keywordFound) {
+                    $missingKeywords[] = $requiredKeyword;
+                }
+            }
+            if (!empty($missingKeywords)) {
+                // Al menos un archivo requerido no contiene las palabras clave
+                $errorMessage = "No se ha adjuntado el archivo: " . implode(', ', $missingKeywords);
+                Session::flash('error', $errorMessage);
+                return redirect()->back();
+            }
             $estatus->id_estatus = 2;
             $liberacion->evidencia_p=true;
             $liberacion->save();
