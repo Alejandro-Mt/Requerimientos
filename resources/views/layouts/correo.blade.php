@@ -143,24 +143,27 @@
         headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
         paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
         //uploadMultiple: true,
-        maxFilesize: 10, // Tamaño máximo en MB
+        maxFilesize: 150, // Tamaño máximo en MB
         maxFiles: 1,
         addRemoveLinks: true,
         dictRemoveFile: "Remover",
         accept: function(file, done) {
-            var validFileNames = ['Gantt'];
-            var fileNameWithoutExtension = file.name.split('.')[0];
-            var folio = $('#folio').val().trim();
-            if (fileNameWithoutExtension.includes(folio)) {
-                  // Comprobamos si el nombre del archivo también contiene uno de los nombres válidos
-                  if (validFileNames.some(name => fileNameWithoutExtension.includes(name))) {
-                      done();
-                  } else {
-                      done("El nombre del archivo debe contener: '" + validFileNames.join("', '") + "'");
-                  }
-              } else {
-                  done("El nombre del archivo debe contener el folio '" + folio + "'");
-              }
+            var id_estatus = {{ $registro->id_estatus }};
+            var validFileNames = ['gantt'];
+            var fileNameWithoutExtension = file.name.split('.')[0].toLowerCase();
+            var folio = $('#folio').val().trim().toLowerCase();
+            if (id_estatus === 10) {
+                if (fileNameWithoutExtension.includes(folio)) {
+                    // Comprobamos si el nombre del archivo también contiene uno de los nombres válidos
+                    if (validFileNames.some(name => fileNameWithoutExtension.includes(name))) {
+                        done();
+                    } else {
+                        done("El nombre del archivo debe contener: '" + validFileNames.join("', '") + "'");
+                    }
+                } else {
+                    done("El nombre del archivo debe contener el folio '" + folio + "'");
+                }
+            }else{ done();}
         },
         removedfile: function(file) {
             var name = file.name;        

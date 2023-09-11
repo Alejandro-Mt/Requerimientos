@@ -46,30 +46,29 @@
           addRemoveLinks: true,
           dictRemoveFile: "Remover",
           accept: function (file, done) {
-              var validFileNames = [];
-              var fileNameWithoutExtension = file.name.split('.')[0];
-              var folio = $('#folio').val().trim();
-  
-              // Definir los nombres de archivos válidos según el valor de id_estatus
-              if (id_estatus == 8) {
-                  validFileNames = ['Matriz de pruebas', 'Acta de validacion'];
-              } else if (id_estatus == 2) {
-                  validFileNames = ['Acta de cierre'];
-              } else if (id_estatus == 11) {
-                  validFileNames = ['Definición de requerimientos', 'Flujo de trabajo', 'Mockup'];
-              }
-  
-              // Comprobamos si el nombre del archivo contiene el folio
-              if (fileNameWithoutExtension.includes(folio)) {
-                  // Comprobamos si el nombre del archivo también contiene uno de los nombres válidos
-                  if (validFileNames.some(name => fileNameWithoutExtension.includes(name))) {
-                      done();
-                  } else {
-                      done("El nombre del archivo debe contener uno de los siguientes: '" + validFileNames.join("', '") + "'");
-                  }
-              } else {
-                  done("El nombre del archivo debe contener el folio '" + folio + "'");
-              }
+            var validFileNames = [];
+            var fileNameWithoutExtension = file.name.split('.')[0].toLowerCase(); // Convertir a minúsculas
+            var folio = $('#folio').val().trim().toLowerCase(); // Convertir a minúsculas
+            // Definir los nombres de archivos válidos según el valor de id_estatus
+            if (id_estatus == 8) {
+                validFileNames = ['matriz de pruebas', 'acta de validación'];
+            } else if (id_estatus == 2) {
+                validFileNames = ['acta de cierre'];
+            } else if (id_estatus == 11) {
+                validFileNames = ['definición de requerimientos', 'flujo de trabajo', 'mockup'];
+            }
+
+            // Comprobamos si el nombre del archivo contiene el folio
+            if (fileNameWithoutExtension.includes(folio)) {
+                // Comprobamos si el nombre del archivo también contiene uno de los nombres válidos (en minúsculas)
+                if (validFileNames.some(name => fileNameWithoutExtension.includes(name.toLowerCase()))) {
+                    done();
+                } else {
+                    done("El nombre del archivo debe contener uno de los siguientes: '" + validFileNames.join("', '") + "'");
+                }
+            } else {
+                done("El nombre del archivo debe contener el folio '" + folio + "'");
+            }
           },
           removedfile: function (file) {
               var name = file.name;
