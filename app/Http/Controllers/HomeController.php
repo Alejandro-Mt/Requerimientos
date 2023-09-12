@@ -175,7 +175,7 @@ class HomeController extends Controller
         $datos = $data->get('data');
         $header = $datos['header'];
         $folios = $datos['body'];
-        #$ruta = 'C:\Users\alejandro.garcia\Documents\PHP\web\credentials.json';
+        #$ruta = '\Users\alejandro.garcia\Documents\PHP\web\credentials.json';
         $ruta = base_path('credentials.json');
         
         foreach ($folios as &$fila) {
@@ -224,15 +224,6 @@ class HomeController extends Controller
             $params,
             $insert
         );
-        if ($result->error) {
-            echo "Error: " . $result->error->message;
-        } else {
-            if ($result->updates->updatedRows > 0) {
-                echo "Datos agregados exitosamente en {$result->updates->updatedRange}.";
-            } else {
-                echo "No se pudieron agregar datos.";
-            }
-        }
         
         if ($result->error) {
             echo "Error: " . $result->error->message;
