@@ -12,6 +12,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -52,19 +53,18 @@ class CorreoController extends Controller
         $archivos = Archivo::where('folio', $data['folio'])->get();
 
         // Verificar si los archivos requeridos existen
-        //$requiredKeywords = ['Gantt','Definición de requerimientos','Flujo de trabajo','Mockup'];
-        $requiredKeywords = ['Gantt'];
+        $requiredKeywords = ['gantt'];
         $missingKeywords = [];
         foreach ($requiredKeywords as $requiredKeyword) {
             $keywordFound = false;
             foreach ($archivos as $archivo) {
-                if (str_contains($archivo->url, $requiredKeyword)) {
+                if (str_contains(mb_strtolower($archivo->url), $requiredKeyword)) {
                     $keywordFound = true;
                     break;
                 }
             }
             if (!$keywordFound) {
-                $missingKeywords[] = $requiredKeyword;
+                $missingKeywords[] = mb_strtoupper($requiredKeyword);
             }
         }
         if (!empty($missingKeywords)) {
@@ -184,9 +184,12 @@ class CorreoController extends Controller
             $hora -> fechades = now();
             $hora -> impacto = $impacto;
             $hora -> save();
-            mail::to($correo->email)
-                ->send(new SegundaValidacion($folio));
-            return 'Se ha enviado la respuesta, gracias.';     
+            mail::to($correo->email)->send(new SegundaValidacion($folio));
+            if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7'){
+                return redirect(route('Documentos',Crypt::encrypt($folio)));
+            }else{
+                return 'Se ha enviado la respuesta, gracias.'; 
+            }   
         } else{
             return ('Ya ha sido autorizado');
             #dd($hora);

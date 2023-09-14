@@ -55,7 +55,7 @@
             } else if (id_estatus == 2) {
                 validFileNames = ['acta de cierre'];
             } else if (id_estatus == 11) {
-                validFileNames = ['definición de requerimientos', 'flujo de trabajo', 'mockup'];
+                validFileNames = ['definición de requerimiento', 'flujo de trabajo', 'mockup'];
             }
 
             // Comprobamos si el nombre del archivo contiene el folio

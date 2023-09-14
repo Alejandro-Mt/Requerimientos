@@ -230,9 +230,25 @@ class HomeController extends Controller
         } else {
             if ($result->updates->updatedRows > 0) {
                 // Abre el archivo de Excel en el navegador
+            
                 $spreadsheetLink = "https://docs.google.com/spreadsheets/d/$fileId";
-                shell_exec("start $spreadsheetLink"); // Esto abre el enlace en el navegador predeterminado
-            } 
+            
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                    // Si el servidor se está ejecutando en Windows
+                    shell_exec("start $spreadsheetLink"); // Esto abre el enlace en el navegador predeterminado en Windows
+                } else {
+                    // Si el servidor no se está ejecutando en Windows (asume Unix)
+                    // Intenta usar xdg-open o gnome-open según el entorno
+                    if (strpos(shell_exec('which xdg-open'), 'xdg-open') !== false) {
+                        shell_exec("xdg-open '$spreadsheetLink'");
+                    } elseif (strpos(shell_exec('which gnome-open'), 'gnome-open') !== false) {
+                        shell_exec("gnome-open '$spreadsheetLink'");
+                    } else {
+                        // Si ninguno de los comandos está disponible, puedes mostrar un mensaje o registrar un error.
+                        echo "No se pudo abrir el enlace en el navegador.";
+                    }
+                }
+            }             
         }
         #dd($body,$datos['body'],$folios);
     

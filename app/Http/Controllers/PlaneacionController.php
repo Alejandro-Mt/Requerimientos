@@ -16,6 +16,7 @@ use App\Models\solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -51,28 +52,43 @@ class PlaneacionController extends Controller
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         else{
             $archivos = Archivo::where('folio', $data['folio'])->get();
-            $destino = solicitud::where('folior',$data->folio)->select('correo')->first();
-            $requiredKeywords = ['Definición de requerimientos', 'Flujo de trabajo'];
+            $destino = solicitud::where('folior', $data['folio'])->select('correo')->first();
+            $requiredKeywords = ['definición de requerimiento', 'flujo de trabajo', 'mockup'];
             $missingKeywords = [];
-        foreach ($requiredKeywords as $requiredKeyword) {
-            $keywordFound = false;
-            foreach ($archivos as $archivo) {
-                if (str_contains($archivo->url, $requiredKeyword)) {
-                    $keywordFound = true;
-                    break;
+            $definicionRequerimientoFound = false;
+            foreach ($requiredKeywords as $requiredKeyword) {
+                $keywordFound = false;
+                foreach ($archivos as $archivo) {
+                    $archivoUrl = mb_strtolower($archivo->url);
+                    if (str_contains($archivoUrl, $requiredKeyword)) {
+                        $keywordFound = true;
+                        if ($requiredKeyword == 'definición de requerimiento') {
+                            $definicionRequerimientoFound = true;
+                        }
+                        break;
+                    }
+                }
+                if (!$keywordFound) {
+                    $missingKeywords[] = mb_strtoupper($requiredKeyword);
                 }
             }
-            if (!$keywordFound) {
-                $missingKeywords[] = $requiredKeyword;
+
+            if (!$definicionRequerimientoFound) {
+                // "definición de requerimiento" es obligatoria, por lo que si no se encuentra, muestra un error
+                $errorMessage = "No se ha adjuntado el archivo: definición de requerimiento";
+                Session::flash('error', $errorMessage);
+                return redirect()->back();
             }
-        }
-        if (!empty($missingKeywords)) {
-            // Al menos un archivo requerido no contiene las palabras clave
-            $errorMessage = "No se ha adjuntado el archivo: " . implode(', ', $missingKeywords);
-            Session::flash('error', $errorMessage);
-            return redirect()->back();
-        }
-            if($destino){
+
+            if (!empty($missingKeywords)) {
+                // Al menos una de las otras dos palabras clave es necesaria, muestra un error si ninguna está presente
+                $errorMessage = "Al menos un archivo requerido no contiene las palabras clave: " . implode(', ', $missingKeywords);
+                Session::flash('error', $errorMessage);
+                return redirect()->back();
+            }
+
+            if ($destino) {
+                // Envía el correo si se cumple la condición
                 Mail::to($destino->correo)->send(new DefinicionRequerimiento($data->folio));
             }
         }
@@ -201,8 +217,21 @@ class PlaneacionController extends Controller
      */
     public function show($folio)
     {
-        $data['eventos'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->where('folio',$folio)->get();
-        return response()->json($data['eventos']);
+        $data['events'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->where('folio',$folio)->first();
+        return response()->json($data['events']);
+    }
+        
+    public function range($folio)
+    {
+        $data['start'] = 
+        DB::table('levantamientos')
+        ->select(DB::raw('DATE(fechaaut) as start'))
+        ->where('folio', $folio)
+        ->first();
+
+        // Combinar los datos del cronograma y la fecha de levantamiento
+
+        return response()->json($data['start']);
     }
 
     /**

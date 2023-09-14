@@ -113,10 +113,28 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
-                    <div class="d-flex align-items-start">
-                      <h4 class="card-title justify-content-center align-items-center">Avance</h4>
-                      <a href={{route('Prioridad',Crypt::encrypt($registros->id_sistema))}}>
-                        <i class="feather-sm position-absolute end-0" data-feather="corner-down-left"></i>
+                    <div class="d-flex no-block align-items-center">
+                      <h4 class="card-title">Avance</h4>
+                      <a class="ms-auto text-dark">
+                        <strong>
+                          @switch($registros->posicion)
+                            @case(6)
+                              DESARROLLO
+                              @break
+                            @case(7)
+                              DESARROLLO
+                              @break
+                            @case(8)
+                              DESARROLLO
+                              @break
+                            @default
+                              PIP
+                              @break  
+                          @endswitch
+                        </strong>
+                      </a>
+                      <a href={{route('Prioridad',Crypt::encrypt($registros->id_sistema))}} class="ms-auto">
+                        <i class="" data-feather="corner-down-left"></i>
                       </a>
                     </div>
                     </div>
@@ -377,11 +395,18 @@
                                 @endif
                               @elseif($registros->impacto == 2)
                                 <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
+                              @elseif($registros->fechades == NULL)
+                                @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
+                                  <span class="text-dark font-weight-medium">IMPACTO: </span>
+                                  <a href={{route('DPrioridad',[$registros->folio,'1'])}} id="btn" type="button" class="btn btn-outline-purple">BAJO</a>
+                                  <a href={{route('DPrioridad',[$registros->folio,'2'])}} id="btn" type="button" class="btn btn-outline-purple">MEDIO</a>
+                                  <a href={{route('DPrioridad',[$registros->folio,'3'])}} id="btn" type="button" class="btn btn-outline-purple">ALTO</a>
+                                @endif
                               @endif
                             @break
                             @case(9)
                               @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Análisis de Desarrollo</a>
+                                <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
                               @endif
                             @break
                             @case(7)
@@ -446,7 +471,7 @@
             <div class="col-xl-2 col-md-6 col-lg-10 d-flex align-items-center border-bottom">
               <h4 class="card-title">
                 @if ($link != NULL)
-                  <a href="{{$link->evidencia}}" class="text-dark">
+                  <a href="{{$link->evidencia}}" class="text-dark" target="_blank">
                     <span class="lstick d-inline-block align-middle"></span>
                     <strong>{{ __('DOCUMENTACIÓN') }}</strong>
                   </a>

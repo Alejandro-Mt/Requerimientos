@@ -133,6 +133,7 @@ Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviad
 ##  metodos para Construccion ##
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.planeacion'), 30, 5).'{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
 Route::get('/show.{folio}',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
+Route::get('/rango.{folio}',[PlaneacionController::class, 'range']);
 Route::post('/formatos.requerimientos.planeacion', [PlaneacionController::class, 'create'])->name('Plan');
 
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.analisis'), 35, 5).'{folio}',[AnalisisController::class, 'index'])->middleware('auth')->name('Analisis');

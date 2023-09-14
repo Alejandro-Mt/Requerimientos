@@ -37,18 +37,18 @@ class ImplementacionController extends Controller
     if($data['id_estatus'] == NULL){$data['id_estatus'] = 2;}
     else{
       $archivos = Archivo::where('folio', $data['folio'])->get();
-      $requiredKeywords = ['Acta de cierre'];
+      $requiredKeywords = ['acta de cierre'];
       $missingKeywords = [];
       foreach ($requiredKeywords as $requiredKeyword) {
           $keywordFound = false;
           foreach ($archivos as $archivo) {
-              if (str_contains($archivo->url, $requiredKeyword)) {
+              if (str_contains(mb_strtolower($archivo->url), $requiredKeyword)) {
                   $keywordFound = true;
                   break;
               }
           }
           if (!$keywordFound) {
-              $missingKeywords[] = $requiredKeyword;
+              $missingKeywords[] = mb_strtoupper($requiredKeyword);
           }
       }
       if (!empty($missingKeywords)) {

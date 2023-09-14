@@ -44,30 +44,22 @@ class RondaController extends Controller
      */
     public function create(Request $data)
     {
-        ronda::create([
-            'folio' => $data['folio'],
-            'ronda' => $data['ronda'],
-            'aprobadas' => $data['aprobadas'],
-            'rechazadas' => $data['rechazadas'],
-            'evidencia' => $data['evidencia'],
-            'efectividad' => ($data['aprobadas']/($data['aprobadas']+$data['rechazadas']))*100,
-        ]);
         $liberacion = liberacion::where('folio', $data['folio'])->first();
         $estatus = registro::select()->where('folio', $data['folio'])->first();
         $archivos = Archivo::where('folio', $data['folio'])->get();
         if ($data['rechazadas'] == 0){
-            $requiredKeywords = ['Matriz de pruebas', 'Acta de validacion'];
+            $requiredKeywords = ['matriz de pruebas', 'acta de validación'];
             $missingKeywords = [];
             foreach ($requiredKeywords as $requiredKeyword) {
                 $keywordFound = false;
                 foreach ($archivos as $archivo) {
-                    if (str_contains($archivo->url, $requiredKeyword)) {
+                    if (str_contains(mb_strtolower($archivo->url), $requiredKeyword)) {
                         $keywordFound = true;
                         break;
                     }
                 }
                 if (!$keywordFound) {
-                    $missingKeywords[] = $requiredKeyword;
+                    $missingKeywords[] = mb_strtoupper($requiredKeyword);
                 }
             }
             if (!empty($missingKeywords)) {
@@ -93,6 +85,14 @@ class RondaController extends Controller
         }else{
             $estatus->id_estatus = 8;
         }
+        ronda::create([
+            'folio' => $data['folio'],
+            'ronda' => $data['ronda'],
+            'aprobadas' => $data['aprobadas'],
+            'rechazadas' => $data['rechazadas'],
+            'evidencia' => $data['evidencia'],
+            'efectividad' => ($data['aprobadas']/($data['aprobadas']+$data['rechazadas']))*100,
+        ]);
         $estatus->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
         #dd($data);
