@@ -119,7 +119,15 @@
                         <strong>
                           @switch($registros->posicion)
                             @case(6)
-                              DESARROLLO
+                              @if($registros->fechades == NULL)
+                                DESARROLLO
+                              @elseif($registros->impacto == 3)
+                                DESARROLLO
+                              @elseif($registros->impacto == 2)
+                              DESARROLLO/PIP
+                              @elseif($registros->impacto == 1)
+                              PIP
+                              @endif
                               @break
                             @case(7)
                               DESARROLLO
