@@ -4,6 +4,21 @@
 <link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="card">
+        @if(session('error'))
+            <div class="toast show mb-2 text-white bg-light-danger border-0 remove-close-icon " role="alert" aria-live="polite" aria-atomic="true" style="position: absolute; top: 0; right: 50;">
+                <div class="d-flex align-items-center">
+                <div class="toast-body">
+                    <div class="d-flex align-items-center text-danger font-weight-medium">
+                    <i data-feather="info" class="fill-white feather-sm me-2"></i>
+                    {{ session('error') }}
+                    </div>
+                </div>
+                <button type="button" class="btn-close ms-auto me-2 d-flex align-items-center" data-bs-dismiss="toast" aria-label="Close">
+                    <i data-feather="x" class="feather-sm fill-white text-danger"></i>
+                </button>
+                </div>
+            </div>
+        @endif
         <div class="box bg-cyan text-center">
         <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
             <h3 class="text-white">CONSTRUCCIÓN</h3>
@@ -20,7 +35,7 @@
                             <label for="Folio"
                                     class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
-                                <input type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
+                                <input id="folio" type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -93,7 +108,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="complete">Completado</label>
                             <div class="col-md-8">
-                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="9">
+                                <input type="checkbox" class="form-check-input" id="id_estatus" name="id_estatus" value="9" data-bs-toggle="modal" data-bs-target="#Auto2">
                             </div>
                         </div>
                         <div class="card-body text-center">
@@ -115,10 +130,9 @@
             </form>
         </div>
     </div>
+    <h5>*Campos obligatorios</h5> 
+    @include('formatos.requerimientos.desplegables.archivos')
 
-    <form class="form-horizontal" action="" method="post">
-    <h5>*Campos obligatorios</h5>
-    
     <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
     <script src="{{asset("assets/extra-libs/toastr/toastr-init.js")}}"></script>
     <script type="text/javascript">

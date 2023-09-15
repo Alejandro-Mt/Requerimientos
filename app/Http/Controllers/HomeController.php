@@ -232,22 +232,16 @@ class HomeController extends Controller
                 // Abre el archivo de Excel en el navegador
             
                 $spreadsheetLink = "https://docs.google.com/spreadsheets/d/$fileId";
-            
-                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                    // Si el servidor se está ejecutando en Windows
-                    shell_exec("start $spreadsheetLink"); // Esto abre el enlace en el navegador predeterminado en Windows
+                if (stristr(PHP_OS, 'linux')) {
+                    // Utiliza el comando xdg-open para abrir el enlace en el navegador predeterminado de Linux
+                    exec("xdg-open \"$spreadsheetLink\"");
                 } else {
-                    // Si el servidor no se está ejecutando en Windows (asume Unix)
-                    // Intenta usar xdg-open o gnome-open según el entorno
-                    if (strpos(shell_exec('which xdg-open'), 'xdg-open') !== false) {
-                        shell_exec("xdg-open '$spreadsheetLink'");
-                    } elseif (strpos(shell_exec('which gnome-open'), 'gnome-open') !== false) {
-                        shell_exec("gnome-open '$spreadsheetLink'");
-                    } else {
-                        // Si ninguno de los comandos está disponible, puedes mostrar un mensaje o registrar un error.
-                        echo "No se pudo abrir el enlace en el navegador.";
-                    }
+                    // Maneja otros sistemas operativos aquí (por ejemplo, Windows)
+                    // Puedes usar shell_exec u otros comandos según corresponda
+                    // Por ejemplo, en Windows podrías usar "start" para abrir el enlace
+                    shell_exec("start $spreadsheetLink");
                 }
+            
             }             
         }
         #dd($body,$datos['body'],$folios);

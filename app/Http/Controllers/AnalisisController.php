@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\Cliente\Fase;
 use App\Models\analisis;
+use App\Models\archivo;
 use App\Models\bitacora;
 use App\Models\desfase;
 use App\Models\informacion;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class AnalisisController extends Controller
 {
@@ -43,7 +45,29 @@ class AnalisisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
-        if($data['id_estatus'] == NULL){$data['id_estatus'] = 9;}
+        if($data['id_estatus'] == NULL){
+            $data['id_estatus'] = 9;
+        }else{
+            $archivos = Archivo::where('folio', $data['folio'])->get();
+            $requiredKeywords = ['flujo de trabajo', 'mockup'];
+            $foundKeywords = [];
+            foreach ($requiredKeywords as $requiredKeyword) {
+                foreach ($archivos as $archivo) {
+                    $archivoUrl = mb_strtolower($archivo->url);
+                    if (str_contains($archivoUrl, $requiredKeyword)) {
+                        $foundKeywords[] = mb_strtoupper($requiredKeyword);
+                        break; // Si se encuentra una palabra clave, no es necesario seguir buscando en los archivos.
+                    }
+                }
+            }
+            if (empty($foundKeywords)) {
+                // Ninguna de las palabras clave requeridas está presente en los archivos.
+                $errorMessage = "Ninguno de los archivos requeridos contiene las palabras clave: " . implode(', ', $requiredKeywords);
+                Session::flash('error', $errorMessage);
+                return redirect()->back();
+            }
+
+        }
         $val = planeacion::select('fechaCompReqR')->where('folio',$data['folio'])->get();
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);

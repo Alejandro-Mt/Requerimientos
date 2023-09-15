@@ -53,7 +53,7 @@ class PlaneacionController extends Controller
         else{
             $archivos = Archivo::where('folio', $data['folio'])->get();
             $destino = solicitud::where('folior', $data['folio'])->select('correo')->first();
-            $requiredKeywords = ['definición de requerimiento', 'flujo de trabajo', 'mockup'];
+            $requiredKeywords = ['definición de requerimiento'];
             $missingKeywords = [];
             $definicionRequerimientoFound = false;
             foreach ($requiredKeywords as $requiredKeyword) {

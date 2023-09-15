@@ -16,14 +16,16 @@
           @elseif($registros->id_estatus == 2)
           <a>Recuerda Que debes cargar: <strong>Acta de cierre</strong></a>
           @elseif($registros->id_estatus == 11)
-          <a>Para avanzar debes cargar: <strong>Definición de requerimientos</strong> y <strong>Flujo de trabajo o Mockup</strong></a>
+          <a>Para avanzar debes cargar: <strong>Definición de requerimiento</strong></a>
+          @elseif($registros->id_estatus == 9)
+          <a>Para avanzar debes cargar: <strong>Flujo de trabajo o Mockup</strong></a>
           @endif
           <form  class="dropzone" action="{{route('Adjuntos',$registros->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
           </form> 
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success waves-effect waves-light text-white">
-                <a @if($registros->id_estatus == 2 || $registros->id_estatus == 11) data-bs-dismiss="modal" @else href="{{route('Aut',$registros->folio)}}" @endif style="color:white"> Autorizar</a>
+                <a @if($registros->id_estatus == 2 || $registros->id_estatus == 9 || $registros->id_estatus == 11) data-bs-dismiss="modal" @else href="{{route('Aut',$registros->folio)}}" @endif style="color:white"> Autorizar</a>
             </button>
             <button type="button" class="btn waves-effect" data-bs-dismiss="modal"> Cancelar</button>
         </div>
@@ -37,7 +39,7 @@
     <script src="{{asset("assets/libs/dropzone/dist/min/dropzone.min.js")}}"></script>
     <script>
       var id_estatus = {{ $registros->id_estatus }};
-      var maxFiles = (id_estatus === 2) ? 1 : 2;
+      var maxFiles = (id_estatus === 2  || id_estatus === 11) ? 1 : 2;
       Dropzone.options.myAwesomeDropzone = {
           headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
           paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
@@ -55,7 +57,9 @@
             } else if (id_estatus == 2) {
                 validFileNames = ['acta de cierre'];
             } else if (id_estatus == 11) {
-                validFileNames = ['definición de requerimiento', 'flujo de trabajo', 'mockup'];
+                validFileNames = ['definición de requerimiento'];
+            }else if (id_estatus == 9) {
+                validFileNames = ['flujo de trabajo', 'mockup'];
             }
 
             // Comprobamos si el nombre del archivo contiene el folio
