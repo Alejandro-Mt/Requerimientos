@@ -39,7 +39,7 @@
     <script src="{{asset("assets/libs/dropzone/dist/min/dropzone.min.js")}}"></script>
     <script>
       var id_estatus = {{ $registros->id_estatus }};
-      var maxFiles = (id_estatus === 2  || id_estatus === 11) ? 1 : 2;
+      var maxFiles = (id_estatus === 2  || id_estatus === 9) ? 1 : 2;
       Dropzone.options.myAwesomeDropzone = {
           headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
           paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
