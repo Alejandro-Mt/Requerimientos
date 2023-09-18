@@ -49,7 +49,7 @@ class AnalisisController extends Controller
             $data['id_estatus'] = 9;
         }else{
             $archivos = Archivo::where('folio', $data['folio'])->get();
-            $requiredKeywords = ['flujo de trabajo', 'mockup'];
+            $requiredKeywords = ['plan de trabajo'];
             $foundKeywords = [];
             foreach ($requiredKeywords as $requiredKeyword) {
                 foreach ($archivos as $archivo) {
@@ -62,7 +62,7 @@ class AnalisisController extends Controller
             }
             if (empty($foundKeywords)) {
                 // Ninguna de las palabras clave requeridas está presente en los archivos.
-                $errorMessage = "Ninguno de los archivos requeridos contiene las palabras clave: " . implode(', ', $requiredKeywords);
+                $errorMessage = "No se ha cargado: " . implode(', ', $requiredKeywords);
                 Session::flash('error', $errorMessage);
                 return redirect()->back();
             }

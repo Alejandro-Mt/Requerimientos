@@ -16,9 +16,9 @@
           @elseif($registros->id_estatus == 2)
           <a>Recuerda Que debes cargar: <strong>Acta de cierre</strong></a>
           @elseif($registros->id_estatus == 11)
-          <a>Para avanzar debes cargar: <strong>Definición de requerimiento</strong></a>
+          <a>Para avanzar debes cargar: <strong>Definición de requerimiento y Flujo de trabajo o Mockup</strong></a>
           @elseif($registros->id_estatus == 9)
-          <a>Para avanzar debes cargar: <strong>Flujo de trabajo o Mockup</strong></a>
+          <a>Para avanzar debes cargar: <strong>Plan de trabajo</strong></a>
           @endif
           <form  class="dropzone" action="{{route('Adjuntos',$registros->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
           </form> 
@@ -57,9 +57,9 @@
             } else if (id_estatus == 2) {
                 validFileNames = ['acta de cierre'];
             } else if (id_estatus == 11) {
-                validFileNames = ['definición de requerimiento'];
+                validFileNames = ['definición de requerimiento','flujo de trabajo', 'mockup'];
             }else if (id_estatus == 9) {
-                validFileNames = ['flujo de trabajo', 'mockup'];
+                validFileNames = ['plan de trabajo'];
             }
 
             // Comprobamos si el nombre del archivo contiene el folio

@@ -53,21 +53,30 @@ class PlaneacionController extends Controller
         else{
             $archivos = Archivo::where('folio', $data['folio'])->get();
             $destino = solicitud::where('folior', $data['folio'])->select('correo')->first();
-            $requiredKeywords = ['definición de requerimiento'];
+            $requiredKeywords = ['definición de requerimiento', 'flujo de trabajo', 'mockup'];
             $missingKeywords = [];
             $definicionRequerimientoFound = false;
+            $flujoTrabajoOrMockupFound = false;
+
             foreach ($requiredKeywords as $requiredKeyword) {
                 $keywordFound = false;
+
                 foreach ($archivos as $archivo) {
                     $archivoUrl = mb_strtolower($archivo->url);
+
                     if (str_contains($archivoUrl, $requiredKeyword)) {
                         $keywordFound = true;
+
                         if ($requiredKeyword == 'definición de requerimiento') {
                             $definicionRequerimientoFound = true;
+                        } elseif ($requiredKeyword == 'flujo de trabajo' || $requiredKeyword == 'mockup') {
+                            $flujoTrabajoOrMockupFound = true;
                         }
+
                         break;
                     }
                 }
+
                 if (!$keywordFound) {
                     $missingKeywords[] = mb_strtoupper($requiredKeyword);
                 }
@@ -80,13 +89,12 @@ class PlaneacionController extends Controller
                 return redirect()->back();
             }
 
-            if (!empty($missingKeywords)) {
-                // Al menos una de las otras dos palabras clave es necesaria, muestra un error si ninguna está presente
-                $errorMessage = "Al menos un archivo requerido no contiene las palabras clave: " . implode(', ', $missingKeywords);
+            if (!$flujoTrabajoOrMockupFound) {
+                // Ni "flujo de trabajo" ni "mockup" están presentes, muestra un error
+                $errorMessage = "Al menos uno de los archivos requeridos ('flujo de trabajo' o 'mockup') debe estar presente.";
                 Session::flash('error', $errorMessage);
                 return redirect()->back();
             }
-
             if ($destino) {
                 // Envía el correo si se cumple la condición
                 Mail::to($destino->correo)->send(new DefinicionRequerimiento($data->folio));

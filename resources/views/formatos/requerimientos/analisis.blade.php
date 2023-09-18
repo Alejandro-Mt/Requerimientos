@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="evidencia"
                                 class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
                             <div class="col-md-8">
@@ -77,7 +77,7 @@
                                     </span>
                                 @enderror
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
                             <label for="fechaCompReqR"
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega Real*</label>
