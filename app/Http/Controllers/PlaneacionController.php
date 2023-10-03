@@ -95,10 +95,10 @@ class PlaneacionController extends Controller
                 Session::flash('error', $errorMessage);
                 return redirect()->back();
             }*/
-            /*if ($destino) {
+            if ($destino) {
                 // Envía el correo si se cumple la condición
                 Mail::to($destino->correo)->send(new DefinicionRequerimiento($data->folio));
-            }*/
+            }
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
