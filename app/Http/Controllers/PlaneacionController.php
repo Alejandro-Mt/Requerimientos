@@ -89,16 +89,16 @@ class PlaneacionController extends Controller
                 return redirect()->back();
             }
 
-            if (!$flujoTrabajoOrMockupFound) {
+            /*if (!$flujoTrabajoOrMockupFound) {
                 // Ni "flujo de trabajo" ni "mockup" están presentes, muestra un error
                 $errorMessage = "Al menos uno de los archivos requeridos ('flujo de trabajo' o 'mockup') debe estar presente.";
                 Session::flash('error', $errorMessage);
                 return redirect()->back();
-            }
-            if ($destino) {
+            }*/
+            /*if ($destino) {
                 // Envía el correo si se cumple la condición
                 Mail::to($destino->correo)->send(new DefinicionRequerimiento($data->folio));
-            }
+            }*/
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
