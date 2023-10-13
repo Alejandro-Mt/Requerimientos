@@ -187,6 +187,7 @@ route::get('listado',[ClienteController::class, 'store'])->name('Lista');
 route::get(substr(Crypt::encryptString('prioridad'), 70, 5).'{id_sistema}',[ClienteController::class, 'priority'])->name('Prioridad')->middleware('auth');
 
 route::get(substr(Crypt::encryptString('documentacion'), 75, 5).'{folio}',[ClienteController::class, 'document'])->name('Documentos')->middleware('auth');
+route::get(substr(Crypt::encryptString('reportepdf'), 75, 5).'{folio}',[CorreoController::class, 'reportedoc'])->name('RD')->middleware('auth');
 route::post('solicitud.prioridades',[ClienteController::class, 'request'])->name('CPrioridad');
 
 route::get('clientes',[ClienteController::class, 'importance'])->name('Importancia')->middleware('auth');

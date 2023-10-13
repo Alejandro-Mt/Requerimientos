@@ -53,6 +53,7 @@
       <table width="660px" align="center">
         <tr>
         <th width="250" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">¿Existe desarrollo previo?:</th>
+        <pre>
         @if ($dato->previo == 1)
           <td>SÍ</td>
           <td align="center">☑</td>
@@ -65,6 +66,7 @@
           <td align="center">☑</td>
           <td width="300"></td>
         @endif
+        </pre>
         </tr>
       </table>
 
@@ -104,7 +106,7 @@
         </thead>
         <tbody>
           <tr>
-            <td width="660px" colspan="8" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->problema}}</td>
+            <td width="660px" colspan="8" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->problema}}</pre></td>
           </tr>
         </tbody>
       </table>
@@ -145,7 +147,7 @@
         </thead>
         <tbody>
           <tr>
-            <td width="660px" colspan="8"  style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->general}}</td>
+            <td width="660px" colspan="8"  style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->general}}</pre></td>
           </tr>
         </tbody>
       </table>
@@ -155,7 +157,7 @@
           <th width="660px" style="border: 1px solid;background-color: #c3c4c4;padding-right: 10px;padding-left: 10px;" align="left">Descripción específica del requerimiento</th>
         </tr>
         <tr>
-          <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->detalle}}</td>
+          <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->detalle}}</pre></td>
         </tr>
 
         <tr>
@@ -163,11 +165,7 @@
         </tr>
         <tr>
           <td width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding: 10px">
-              <!--<textarea class="RE" cols="72" readonly>
-                {!! nl2br(e($dato->esperado)) !!}
-              </textarea>-->
-              
-              {!! nl2br(e($dato->esperado)) !!} 
+              <pre>{{$dato->esperado}}</pre>
           </td>
         </tr>
         <tr>
@@ -177,7 +175,7 @@
           @foreach ($sistemas as $sistema)
             @if ($relaciones[$i] == $sistema->id_sistema)
               <tr width="660px" style="background-color: #ecfbfb;border: 1px solid;border-radius: 50px;">
-                <td style="text-align: justify;padding-right: 10px;padding-left: 10px">{{$sistema->nombre_s}}</td>
+                <td style="text-align: justify;padding-right: 10px;padding-left: 10px"><pre>{{$sistema->nombre_s}}</pre></td>
               </tr>
             @endif 
           @endforeach
@@ -190,7 +188,7 @@
           @foreach ($responsables as $responsable)
             @if ($involucrados[$i] == $responsable->id_responsable)
               <tr width="660px" style="text-align: justify; border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">
-                <td>{{$responsable->nombre_r}} {{$responsable->apellidos}}</td>
+                <td><pre>{{$responsable->nombre_r}} {{$responsable->apellidos}}</pre></td>
               </tr>
             @endif 
           @endforeach

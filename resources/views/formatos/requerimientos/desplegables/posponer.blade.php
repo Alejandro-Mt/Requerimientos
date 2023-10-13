@@ -132,6 +132,45 @@
               </div>
             </div>
           @endif
+          @if($registros->posicion > 7)
+            <div class="form-group row">
+              <label for="construccion" class="col-sm-4 text-end control-label col-form-label">Pre-producción*</label>
+              <div class="col-md-8">
+                <input type="text" class="required form-control mydatepicker @error('construccion') is-invalid @enderror" name="construccion" placeholder="Nueva fecha de entrega" required autofocus>
+                @error('construccion')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+            </div>
+          @endif
+          @if($registros->posicion > 7)
+            <div class="form-group row">
+              <label for="construccion" class="col-sm-4 text-end control-label col-form-label">Inicio pruebas PIP*</label>
+              <div class="col-md-8">
+                <input type="text" class="required form-control mydatepicker @error('construccion') is-invalid @enderror" name="construccion" placeholder="Nueva fecha de entrega" required autofocus>
+                @error('construccion')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+            </div>
+          @endif
+          @if($registros->posicion > 7)
+            <div class="form-group row">
+              <label for="construccion" class="col-sm-4 text-end control-label col-form-label">Fin pruebas PIP*</label>
+              <div class="col-md-8">
+                <input type="text" class="required form-control mydatepicker @error('construccion') is-invalid @enderror" name="construccion" placeholder="Nueva fecha de entrega" required autofocus>
+                @error('construccion')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+            </div>
+          @endif
           <button type="submit" class="btn btn-success waves-effect waves-light text-white">
             <a style="color:white"> Autorizar</a>
           </button>

@@ -47,7 +47,7 @@
           maxFiles: maxFiles,
           addRemoveLinks: true,
           dictRemoveFile: "Remover",
-          accept: function (file, done) {
+          /*accept: function (file, done) {
             var validFileNames = [];
             var fileNameWithoutExtension = file.name.split('.')[0].toLowerCase(); // Convertir a minúsculas
             var folio = $('#folio').val().trim().toLowerCase(); // Convertir a minúsculas
@@ -73,7 +73,7 @@
             } else {
                 done("El nombre del archivo debe contener el folio '" + folio + "'");
             }
-          },
+          },*/
           removedfile: function (file) {
               var name = file.name;
               $.ajax({

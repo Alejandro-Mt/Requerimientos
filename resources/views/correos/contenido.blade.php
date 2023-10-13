@@ -93,7 +93,7 @@ _____________________________________________________
 </thead>
 <tbody>
 <tr>
-<td colspan="8" style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->problema}}</td>
+<td colspan="8" style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->problema}}</pre></td>
 </tr>
 </tbody>
 </table>
@@ -134,7 +134,7 @@ _____________________________________________________
 </thead>
 <tbody>
 <tr>
-<td colspan="8"  style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->general}}</td>
+<td colspan="8"  style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->general}}</pre></td>
 </tr>
 </tbody>
 </table>
@@ -144,7 +144,7 @@ _____________________________________________________
 <th align="left">Descripción específica del requerimiento</th>
 </tr>
 <tr>
-<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px">{{$dato->detalle}}</td>
+<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->detalle}}</pre></td>
 </tr>
 
 <tr>

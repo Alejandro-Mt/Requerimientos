@@ -225,7 +225,7 @@ class PlaneacionController extends Controller
      */
     public function show($folio)
     {
-        $data['events'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->where('folio',$folio)->first();
+        $data['events'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->where('folio',$folio)->get();
         return response()->json($data['events']);
     }
         

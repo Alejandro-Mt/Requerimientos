@@ -147,7 +147,7 @@
         maxFiles: 1,
         addRemoveLinks: true,
         dictRemoveFile: "Remover",
-        accept: function(file, done) {
+        /*accept: function(file, done) {
             var id_estatus = {{ $registro->id_estatus }};
             var validFileNames = ['gantt'];
             var fileNameWithoutExtension = file.name.split('.')[0].toLowerCase();
@@ -164,7 +164,7 @@
                     done("El nombre del archivo debe contener el folio '" + folio + "'");
                 }
             }else{ done();}
-        },
+        },*/
         removedfile: function(file) {
             var name = file.name;        
             $.ajax({

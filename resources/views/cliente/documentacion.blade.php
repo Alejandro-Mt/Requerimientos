@@ -52,45 +52,71 @@
               </div>
           </div>
           <div class="d-flex no-block align-items-center">
-            <span @if($pausa->pausa == 2) class="text-danger" @endif>
-              @switch($registros->id_estatus)
-                @case(17)
-                  10% 
-                  @break
-                @case(10)
-                  20% 
-                  @break
-                @case(16)
-                  30% 
-                  @break
-                @case(11)
-                  40% 
-                  @break
-                @case(9)
-                  50% 
-                  @break
-                @case(7)
-                  60% 
-                  @break
-                @case(8)
-                  70% 
-                  @break
-                @case(2)
-                  80% 
-                  @break
-                @case(12)
-                  90% 
-                  @break
-                @default
-              @endswitch
-              @if($pausa->pausa == 2)Motivo: {{$pausa->motivo}} @else Avance @endif
-            </span>
-
-            <div class="ms-auto">
-              <strong>Días activo: </strong>{{$registros->activo}}
+            <div class="ms-start col-3">
+              <span @if($pausa->pausa == 2) class="text-danger" @endif>
+                @switch($registros->id_estatus)
+                  @case(17)
+                    10% 
+                    @break
+                  @case(10)
+                    20% 
+                    @break
+                  @case(16)
+                    30% 
+                    @break
+                  @case(11)
+                    40% 
+                    @break
+                  @case(9)
+                    50% 
+                    @break
+                  @case(7)
+                    60% 
+                    @break
+                  @case(8)
+                    70% 
+                    @break
+                  @case(2)
+                    80% 
+                    @break
+                  @case(12)
+                    90% 
+                    @break
+                  @default
+                @endswitch
+                @if($pausa->pausa == 2)Motivo: {{$pausa->motivo}} @else Avance @endif
+              </span>
             </div>
-
-            <div class="ms-auto">
+            <div class="ms-auto col-6 row justify-content-center text-center">
+              <div class="col-sm-3">
+                  <span class="">
+                      <i class="feather-sm me-2" data-feather="calendar"></i>
+                      <i>{{$registros->activo}}</i>
+                  </span>
+                  <div class="text-center">
+                      <strong>Total de días</strong>
+                  </div>
+              </div>
+              <div class="col-sm-3 text-danger">
+                  <span class="d-flex align-items-center justify-content-center">
+                      <i class="feather-sm me-2" data-feather="alert-circle"></i>
+                      <i>{{$registros->pospuesto}}</i>
+                  </span>
+                  <div class="text-center">
+                      <strong>Días pospuesto</strong>
+                  </div>
+              </div>
+              <div class="col-sm-3 text-success">
+                  <span class="d-flex align-items-center justify-content-center">
+                      <i class="feather-sm me-2" data-feather="check-circle"></i>
+                      <i>{{$registros->activo - $registros->pospuesto}}</i>
+                  </span>
+                  <div class="text-center">
+                      <strong>Días activo</strong>
+                  </div>
+              </div>
+            </div>
+            <div class="ms-auto col-3 text-end">
               @foreach ($estatus as $e)
                 @if ($e->id_estatus == $registros->id_estatus)
                   @if($pausa->pausa == 2)
@@ -102,17 +128,16 @@
               @endforeach
             </div>
           </div>
-          <!-- Visualizar el estatus en la seccion inf izq -->
         </div>
       </div>
       <div class="card">
         <!-- Card -->
         <!-- Start row -->
-          <div class="row">
-            <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row">
+        <div class="row">
+          <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
                     <div class="d-flex no-block align-items-center">
                       <h4 class="card-title">Avance</h4>
                       <a class="ms-auto text-dark">
@@ -124,9 +149,9 @@
                               @elseif($registros->impacto == 3)
                                 DESARROLLO
                               @elseif($registros->impacto == 2)
-                              DESARROLLO/PIP
+                                DESARROLLO/PIP
                               @elseif($registros->impacto == 1)
-                              PIP
+                                PIP
                               @endif
                               @break
                             @case(7)
@@ -145,330 +170,399 @@
                         <i class="" data-feather="corner-down-left"></i>
                       </a>
                     </div>
-                    </div>
-                    <div >
-                      <ul class="feeds ps-0">
-                        @if ($registros->posicion > 1)
-                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
-                            <div class="border-start border-2 border-danger d-md-flex">
-                              <div class="d-flex align-items-start">
-                                <a class="ms-3 btn btn-light-danger text-danger btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                                  <i data-feather="file-text" class="feather-sm"></i>
-                                </a>
-                                <div class="ms-3">
-                                  <span class="text-dark font-weight-medium">LEVANTAMIENTO</span>
-                                  @foreach ($estatus as $limite)
-                                    @if(($limite->posicion < 6) and ($limite->posicion != NULL))
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            @switch($limite->posicion)
-                                              @case(1)
-                                                @if($registros->solicitud <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->solicitud))}}
-                                                @endif
-                                                @break
-                                              @case(2)
-                                                @if($registros->autorizado <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->autorizado))}}
-                                                @endif
-                                                @break
-                                              @case(3)
-                                                @if($registros->planteamiento <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->planteamiento))}}
-                                                @endif
-                                                @break
-                                              @case(4)
-                                                @if($registros->fechaaut <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->fechaaut))}}
-                                                @endif
-                                                @break
-                                              @case(5)
-                                                @if($registros->fechades <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->fechades))}}
-                                                @endif
-                                                @break
-                                              @default   
-                                                {{date("d/M/y",strtotime($registros->correo))}}
-                                                @break  
-                                            @endswitch
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                </div>
-                              </div>
-                              <div class="position-absolute start-50">
-                                <a class="text-danger">
-                                  <strong>{{$registros->lev}} Días</strong> / 
-                                  @if($registros->posicion == 1) 1
-                                  @elseif($registros->posicion == 2) 2
-                                  @elseif($registros->posicion == 3) 3
-                                  @elseif($registros->posicion == 4) 4
-                                  @elseif($registros->posicion > 4) 5
-                                  @endif de 5
-                                </a>
-                              </div>
-                              <div class="position-absolute end-0">
-                                @if($registros->posicion > 5)
-                                  <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->solicitud))}}</span>
-                                @endif
-                              </div>
-                            </div>
-                          </div>
-                        @endif
-                        @if ($registros->posicion > 6)
-                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
-                            <div class="border-start border-2 border-info d-md-flex">
-                              <div class="d-flex align-items-start">
-                                <a class="ms-3 btn btn-light-info text-info btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                                  <i data-feather="settings" class="feather-sm"></i>
-                                </a>
-                                <div class="ms-3">
-                                  <span class="text-dark font-weight-medium">CONSTRUCCIÓN</span>
-                                  @foreach ($estatus as $limite)
-                                    @if(($limite->posicion > 5) and ($limite->posicion < 9) and ($limite->posicion != NULL))
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            @switch($limite->posicion)
-                                              @case(6)
-                                                @if($registros->planeacion <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->planeacion))}}
-                                                @endif
-                                                @break
-                                              @case(7)
-                                                @if($registros->analisis <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->analisis))}}
-                                                @endif
-                                                @break
-                                              @case(8)
-                                                @if($registros->construccion <> NULL)
-                                                  {{date("d/M/y",strtotime($registros->construccion))}}
-                                                @endif
-                                                @break
-                                              @default 
-                                            @endswitch
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                </div>
-                              </div>
-                              <div class="position-absolute start-50">
-                                <a class="text-info">
-                                  <strong>{{$registros->cons}} Días</strong> / 
-                                  @if ($registros->posicion == 6) 1 
-                                  @elseif($registros->posicion == 7) 2
-                                  @elseif($registros->posicion > 7) 3
-                                  @endif de 3
-                                </a>
-                              </div>
-                              <div class="position-absolute end-0">
-                                @if($registros->posicion > 7)
-                                <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->construccion))}}</span>
-                                @endif
-                              </div>
-                            </div>
-                          </div>
-                        @endif
-                        @if ($registros->posicion > 8)
-                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
-                            <div class="border-start border-2 border-success d-md-flex">
-                              <div class="d-flex align-items-start">
-                                <a class="ms-3 btn btn-light-success text-success btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                                  <i data-feather="check-circle" class="feather-sm"></i>
-                                </a>
-                                <div class="ms-3">
-                                  <span class="text-dark font-weight-medium">LIBERACIÓN</span>
-                                  @foreach ($estatus as $limite)
-                                    @if(($limite->posicion == 9) and ($limite->posicion != NULL))
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            @if($registros->liberacion <> NULL)
-                                              {{date("d/M/y",strtotime($registros->liberacion))}}
-                                            @endif
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                </div>
-                              </div>
-                              <div class="position-absolute start-50">
-                                <a class="text-success"><strong>{{$registros->lib}} Días</strong> / @if ($registros->posicion > 9) 1 @else {{$registros->posicion - 9}} @endif de 1</a>
-                              </div>
-                              <div class="position-absolute end-0">
-                                @if($registros->posicion > 9)
-                                <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->liberacion))}}</span>
-                                @endif
-                              </div>
-                            </div>
-                          </div>
-                        @endif
-                        @if ($registros->posicion > 9)
-                          <div class="feed-item mb-2 py-2 pe-3 ps-4">
-                            <div class="border-start border-2 border-orange d-md-flex">
-                              <div class="d-flex align-items-start">
-                                <a class="ms-3 btn btn-light-warning text-orange btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                                  <i data-feather="users" class="feather-sm"></i>
-                                </a>
-                                <div class="ms-3">
-                                  <span class="text-dark font-weight-medium">
-                                    IMPLEMENTACIÓN
-                                  </span>
-                                  @foreach ($estatus as $limite)
-                                    @if(($limite->posicion == 10) and ($limite->posicion != NULL))
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">{{$limite->titulo}}</span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            @if($registros->implementacion <> NULL)
-                                              {{date("d/M/y",strtotime($registros->implementacion))}}
-                                            @endif
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                </div>
-                              </div>
-                              <div class="position-absolute start-50">
-                                <a class="text-orange"><strong>{{$registros->imp}} Días</strong> / @if ($registros->posicion > 10) 1 @else {{$registros->posicion - 10}} @endif de 1</a>
-                              </div>
-                              <div class="position-absolute end-0">
-                                @if($registros->posicion > 10)
-                                <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->implementacion))}}</span>
-                                @endif
-                              </div>
-                            </div>
-                          </div>
-                        @endif
-                      </ul>
-                    </div>
-                    @if(Auth::user()->id_area <> 3)
-                      <div class="position-absolute">
-                        @if (($registros->id_estatus <> 18) && ($registros->id_estatus <> 14))
-                          @if ($pausa->pausa == '2')
-                            <a class="justify-content-center btn btn-rounded btn-light-success text-success align-items-center" data-bs-toggle="modal" data-bs-target="#estle">
-                              <i class="feather-sm" data-feather="play"></i>
-                            </a>
-                          @else
-                            <a class="justify-content-center btn btn-rounded btn-light-danger text-danger align-items-center" data-bs-toggle="modal" data-bs-target="#estle">
-                              <i class="feather-sm" data-feather="pause"></i>
-                            </a>
-                          @endif
-                          @if((Auth::user()->id_puesto == 7 || Auth::user()->id_area == 12) && ($registros->posicion == 7 || $registros->posicion == 8))
-                            <a class="justify-content-center btn btn-rounded btn-light-info text-info align-items-center" data-bs-toggle="modal" data-bs-target="#Soporte">
-                              <i class="feather-sm" data-feather="edit"></i>
-                            </a>
-                          @endif  
-                        @endif
-                      </div>
-                      <div class="position-absolute end-0">
-                        @if($pausa->pausa == 0) 
-                          @switch($registros->id_estatus)
-                            @case(17)
-                              @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                <a href="{{route('Formato',Crypt::encrypt($registros->id_registro))}}" id="btn" type="button" class="btn btn-outline-purple">Llenar Solicitud</a>
-                              @endif
-                            @break
-                            @case(10)
-                              @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                <a href="{{route('Enviar',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Enviar Reporte</a>
-                              @endif
-                            @break
-                            @case(16)
-                              @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                <a href="{{route('Levantamiento',Crypt::encrypt($registros->id_registro))}}" type="button" class="btn btn-outline-cyan">Revisión de Datos</a>
-                                @if($registros->fechaaut <> null)
-                                  <a href="{{route('Enviar',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Confirmación</a>
-                                @endif
-                              @endif
-                            @break
-                            @case(11)
-                              @if($registros->impacto == 1)
-                                @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
-                                @endif
-                              @elseif($registros->impacto == 3)
-                                @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                  <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
-                                @endif
-                              @elseif($registros->impacto == 2)
-                                <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
-                              @elseif($registros->fechades == NULL)
-                                @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                  <span class="text-dark font-weight-medium">IMPACTO: </span>
-                                  <a href={{route('DPrioridad',[$registros->folio,'1'])}} id="btn" type="button" class="btn btn-outline-purple">BAJO</a>
-                                  <a href={{route('DPrioridad',[$registros->folio,'2'])}} id="btn" type="button" class="btn btn-outline-purple">MEDIO</a>
-                                  <a href={{route('DPrioridad',[$registros->folio,'3'])}} id="btn" type="button" class="btn btn-outline-purple">ALTO</a>
-                                @endif
-                              @endif
-                            @break
-                            @case(9)
-                              @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
-                              @endif
-                            @break
-                            @case(7)
-                              @if ($registros->fechades == null)
-                                <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
-                              @elseif(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                                <a href="{{route('Construccion',Crypt::encrypt($registros->folio))}}" id="" type="button" class="btn btn-outline-purple">Construcción</a>
-                              @endif
-                            @break
-                            @case(8)
-                              @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                <a href="{{route('Liberacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Liberación</a>
-                              @endif
-                            @break
-                            @case(2)
-                              @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
-                                @if ($registros->evidencia <> 1)
-                                  <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
-                                @else
-                                  <a href="{{route('Implementacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Implementación</a>
-                                @endif
-                              @endif
-                            @break
-                            @case(18)
-                          @endswitch
-                        @endif
-                      </div>
-                    @endif
                   </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="row">
-                  <div class="col-md-12">
-                    <!-- ---------------------
-                    start Drag & Drop Event
-                    ---------------- -->
-                      <div class="row">
-                        <div class="col-lg-12">
-                            <div class="card-body calender-sidebar">
-                              <div id="calendar"></div>
+                  <div id="data">
+                    <ul class="feeds ps-0">
+                      @if ($registros->posicion > 1)
+                        <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                          <div class="border-start border-2 border-danger d-md-flex">
+                            <div class="d-flex align-items-start">
+                              <a class="ms-3 btn btn-light-danger text-danger btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i data-feather="file-text" class="feather-sm"></i>
+                              </a>
+                              <div class="ms-3">
+                                <span class="text-dark font-weight-medium">LEVANTAMIENTO</span>
+                                @foreach ($estatus as $limite)
+                                  @if(($limite->posicion < 6) and ($limite->posicion != NULL))
+                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                      <span class="fs-2 text-muted">
+                                        @if($limite->posicion == 5)
+                                          @if($registros->fechaaut == NULL)
+                                            <a class="text-danger"> Enviado a autorizar a {{$registros->autorizador}}</a>
+                                          @else
+                                            <a class="text-success"> Autorizado por {{$registros->autorizador}}</a>
+                                            @endif
+                                        @else 
+                                          {{$limite->titulo}}
+                                        @endif
+                                      </span>
+                                      <div class="position-absolute end-0">
+                                        <span class="fs-2 text-muted">
+                                          @switch($limite->posicion)
+                                            @case(1)
+                                              @if($registros->solicitud)
+                                                {{date("d/M/y",strtotime($registros->solicitud))}}
+                                              @endif
+                                              @break
+                                            @case(2)
+                                              @if($registros->asignado)
+                                                {{date("d/M/y",strtotime($registros->asignado))}}
+                                              @endif
+                                              @break
+                                            @case(3)
+                                              @if($registros->planteamiento)
+                                                {{date("d/M/y",strtotime($registros->planteamiento))}}
+                                              @endif
+                                              @break
+                                            @case(4)
+                                              @if($registros->planteamiento)
+                                                {{date("d/M/y",strtotime($registros->planteamiento))}}
+                                              @endif
+                                              @break
+                                            @case(5)
+                                              @if($registros->fechaaut)
+                                                <a class="text-success">{{date("d/M/y",strtotime($registros->fechaaut))}}</a>
+                                              @else
+                                              <a class="text-danger">{{date("d/M/y",strtotime($registros->correo))}}</a>
+                                              @endif
+                                              @break
+                                            @default   
+                                              <!--{{date("d/M/y",strtotime($registros->correo))}}-->
+                                              @break  
+                                          @endswitch
+                                        </span>
+                                      </div>
+                                    </div>
+                                    @foreach($retrasos as $retraso)
+                                      @if($limite->titulo == $retraso->titulo)
+                                        <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                          <span class="fs-2 text-muted">
+                                            <a class="text-danger">{{$retraso->motivo}}</a>
+                                          </span>
+                                          <div class="position-absolute end-0">
+                                            <span class="fs-2 text-muted">
+                                              <p class="text-danger">Días pospuesto {{$retraso->dias}}</p>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      @endif
+                                    @endforeach
+                                  @endif
+                                @endforeach
+                              </div>
                             </div>
+                            <div class="position-absolute start-50">
+                              <a class="text-danger">
+                                <strong>@if($registros->lev == 0) 1 @else {{$registros->lev}} @endif Días</strong> / 
+                                @if($registros->posicion == 1) 1
+                                @elseif($registros->posicion == 2) 2
+                                @elseif($registros->posicion == 3) 3
+                                @elseif($registros->posicion == 4) 4
+                                @elseif($registros->posicion > 4) 5
+                                @endif de 5
+                              </a>
+                            </div>
+                            <div class="position-absolute end-0">
+                              @if($registros->posicion > 5)
+                                <span class="fs-2 text-muted">{{date("d/M/y",strtotime($registros->solicitud))}}</span>
+                              @endif
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    <!-- ---------------------
-                    end Drag & Drop Event
-                    ---------------- -->
+                      @endif
+                      @if ($registros->posicion > 6)
+                        <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                          <div class="border-start border-2 border-info d-md-flex">
+                            <div class="d-flex align-items-start">
+                              <a class="ms-3 btn btn-light-info text-info btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i data-feather="settings" class="feather-sm"></i>
+                              </a>
+                              <div class="ms-3">
+                                <span class="text-dark font-weight-medium">CONSTRUCCIÓN</span>
+                                @foreach ($estatus as $limite)
+                                  @if(($limite->posicion > 5) and ($limite->posicion < 9) and ($limite->posicion != NULL))
+                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                      <span class="fs-2 text-muted">{{$limite->titulo}}</span>
+                                      <div class="position-absolute end-0">
+                                        <span class="fs-2 text-muted">
+                                          @switch($limite->posicion)
+                                            @case(6)
+                                              @if($registros->planeacion)
+                                                {{date("d/M/y",strtotime($registros->planeacion))}}
+                                              @endif
+                                              @break
+                                            @case(7)
+                                              @if($registros->analisis)
+                                                {{date("d/M/y",strtotime($registros->analisis))}}
+                                              @endif
+                                              @break
+                                            @case(8)
+                                              @if($registros->construccion)
+                                                {{date("d/M/y",strtotime($registros->construccion))}}
+                                              @endif
+                                              @break
+                                            @default 
+                                          @endswitch
+                                        </span>
+                                      </div>
+                                    </div>  
+                                    @foreach($retrasos as $retraso)
+                                      @if($limite->titulo == $retraso->titulo)
+                                        <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                          <span class="fs-2 text-muted">
+                                            <a class="text-danger">{{$retraso->motivo}}</a>
+                                          </span>
+                                          <div class="position-absolute end-0">
+                                            <span class="fs-2 text-muted">
+                                              <p class="text-danger">Días pospuesto {{$retraso->dias}}</p>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      @endif
+                                    @endforeach
+                                  @endif
+                                @endforeach
+                              </div>
+                            </div>
+                            <div class="position-absolute start-50">
+                              <a class="text-info">
+                                <strong>@if($registros->cons == 0) 1 @else {{$registros->cons}} @endif Días</strong> / 
+                                @if ($registros->posicion == 6) 1 
+                                @elseif($registros->posicion == 7) 2
+                                @elseif($registros->posicion > 7) 3
+                                @endif de 3
+                              </a>
+                            </div>
+                            <div class="position-absolute end-0">
+                              @if($registros->posicion > 7)
+                                <span class="fs-2 text-muted">@if($registros->construccion){{date("d/M/y",strtotime($registros->construccion))}}@elseif($registros->fechades){{date("d/M/y",strtotime($registros->fechades))}}@endif</span>
+                              @endif
+                            </div>
+                          </div>
+                        </div>
+                      @endif
+                      @if ($registros->posicion > 8)
+                        <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                          <div class="border-start border-2 border-success d-md-flex">
+                            <div class="d-flex align-items-start">
+                              <a class="ms-3 btn btn-light-success text-success btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i data-feather="check-circle" class="feather-sm"></i>
+                              </a>
+                              <div class="ms-3">
+                                <span class="text-dark font-weight-medium">LIBERACIÓN</span>
+                                @foreach ($estatus as $limite)
+                                  @if(($limite->posicion == 9) and ($limite->posicion != NULL))
+                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                      <span class="fs-2 text-muted">{{$limite->titulo}}</span>
+                                      <div class="position-absolute end-0">
+                                        <span class="fs-2 text-muted">
+                                          @if($registros->liberacion)
+                                            {{date("d/M/y",strtotime($registros->liberacion))}}
+                                          @endif
+                                        </span>
+                                      </div>
+                                    </div>
+                                  @foreach($retrasos as $retraso)
+                                    @if($limite->titulo == $retraso->titulo)
+                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                        <span class="fs-2 text-muted">
+                                          <a class="text-danger">{{$retraso->motivo}}</a>
+                                        </span>
+                                        <div class="position-absolute end-0">
+                                          <span class="fs-2 text-muted">
+                                            <p class="text-danger">Días pospuesto {{$retraso->dias}}</p>
+                                          </span>
+                                        </div>
+                                      </div>
+                                    @endif
+                                  @endforeach
+                                  @endif
+                                @endforeach
+                              </div>
+                            </div>
+                            <div class="position-absolute start-50">
+                              <a class="text-success"><strong>@if($registros->lib == 0) 1 @else {{$registros->lib}} @endif Días</strong> / @if ($registros->posicion > 9) 1 @else {{$registros->posicion - 9}} @endif de 1</a>
+                            </div>
+                            <div class="position-absolute end-0">
+                              @if($registros->posicion > 9)
+                              <span class="fs-2 text-muted">@if($registros->liberacion){{date("d/M/y",strtotime($registros->liberacion))}}@endif</span>
+                              @endif
+                            </div>
+                          </div>
+                        </div>
+                      @endif
+                      @if ($registros->posicion > 9)
+                        <div class="feed-item mb-2 py-2 pe-3 ps-4">
+                          <div class="border-start border-2 border-orange d-md-flex">
+                            <div class="d-flex align-items-start">
+                              <a class="ms-3 btn btn-light-warning text-orange btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i data-feather="users" class="feather-sm"></i>
+                              </a>
+                              <div class="ms-3">
+                                <span class="text-dark font-weight-medium">
+                                  IMPLEMENTACIÓN
+                                </span>
+                                @foreach ($estatus as $limite)
+                                  @if(($limite->posicion == 10) and ($limite->posicion != NULL))
+                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                      <span class="fs-2 text-muted">{{$limite->titulo}}</span>
+                                      <div class="position-absolute end-0">
+                                        <span class="fs-2 text-muted">
+                                          @if($registros->implementado)
+                                            {{date("d/M/y",strtotime($registros->implementado))}}
+                                          @endif
+                                        </span>
+                                      </div>
+                                    </div>
+                                    
+                                    @foreach($retrasos as $retraso)
+                                      @if($limite->titulo == $retraso->titulo)
+                                        <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                          <span class="fs-2 text-muted">
+                                            <a class="text-danger">{{$retraso->motivo}}</a>
+                                          </span>
+                                          <div class="position-absolute end-0">
+                                            <span class="fs-2 text-muted">
+                                              <p class="text-danger">Días pospuesto {{$retraso->dias}}</p>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      @endif
+                                    @endforeach
+                                  @endif
+                                @endforeach
+                              </div>
+                            </div>
+                            <div class="position-absolute start-50">
+                              <a class="text-orange"><strong>@if($registros->imp == 0) 1 @else {{$registros->imp}} @endif Días</strong> / @if ($registros->posicion > 10) 1 @else {{$registros->posicion - 10}} @endif de 1</a>
+                            </div>
+                            <div class="position-absolute end-0">
+                              @if($registros->posicion > 10)
+                                <span class="fs-2 text-muted">@if($registros->implementacion){{date("d/M/y",strtotime($registros->implementacion))}}@endif</span>
+                              @endif
+                            </div>
+                          </div>
+                        </div>
+                      @endif
+                    </ul>
                   </div>
+                  @if(Auth::user()->id_area <> 3)
+                    <div class="position-absolute">
+                      @if (($registros->id_estatus <> 18) && ($registros->id_estatus <> 14))
+                        @if ($pausa->pausa == '2')
+                          <a class="justify-content-center btn btn-rounded btn-light-success text-success align-items-center" data-bs-toggle="modal" data-bs-target="#estle">
+                            <i class="feather-sm" data-feather="play"></i>
+                          </a>
+                        @else
+                          <a class="justify-content-center btn btn-rounded btn-light-danger text-danger align-items-center" data-bs-toggle="modal" data-bs-target="#estle">
+                            <i class="feather-sm" data-feather="pause"></i>
+                          </a>
+                        @endif
+                        @if((Auth::user()->id_puesto == 7 || Auth::user()->id_area == 12) && ($registros->posicion == 7 || $registros->posicion == 8))
+                          <a class="justify-content-center btn btn-rounded btn-light-info text-info align-items-center" data-bs-toggle="modal" data-bs-target="#Soporte">
+                            <i class="feather-sm" data-feather="edit"></i>
+                          </a>
+                        @endif  
+                      @endif
+                    </div>
+                    <div class="position-absolute end-0">
+                      @if($pausa->pausa == 0) 
+                        @switch($registros->id_estatus)
+                          @case(17)
+                            @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
+                              <a href="{{route('Formato',Crypt::encrypt($registros->id_registro))}}" id="btn" type="button" class="btn btn-outline-purple">Llenar Solicitud</a>
+                            @endif
+                          @break
+                          @case(10)
+                            @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
+                              <a href="{{route('Enviar',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Enviar Reporte</a>
+                            @endif
+                          @break
+                          @case(16)
+                            @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
+                              <a href="{{route('Levantamiento',Crypt::encrypt($registros->id_registro))}}" type="button" class="btn btn-outline-cyan">Revisión de Datos</a>
+                              @if($registros->fechaaut)
+                                <a href="{{route('Enviar',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Confirmación</a>
+                              @endif
+                            @endif
+                          @break
+                          @case(11)
+                            @if($registros->impacto == 1)
+                              @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
+                                <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
+                              @endif
+                            @elseif($registros->impacto == 3)
+                              @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
+                                <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
+                              @endif
+                            @elseif($registros->impacto == 2)
+                              <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
+                            @elseif($registros->fechades == NULL)
+                              @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
+                                <span class="text-dark font-weight-medium">IMPACTO: </span>
+                                <a href={{route('DPrioridad',[$registros->folio,'1'])}} id="btn" type="button" class="btn btn-outline-purple">BAJO</a>
+                                <a href={{route('DPrioridad',[$registros->folio,'2'])}} id="btn" type="button" class="btn btn-outline-purple">MEDIO</a>
+                                <a href={{route('DPrioridad',[$registros->folio,'3'])}} id="btn" type="button" class="btn btn-outline-purple">ALTO</a>
+                              @endif
+                            @endif
+                          @break
+                          @case(9)
+                            @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
+                              <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
+                            @endif
+                          @break
+                          @case(7)
+                            @if ($registros->fechades == null)
+                              <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
+                            @elseif(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
+                              <a href="{{route('Construccion',Crypt::encrypt($registros->folio))}}" id="" type="button" class="btn btn-outline-purple">Construcción</a>
+                            @endif
+                          @break
+                          @case(8)
+                            @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
+                              <a href="{{route('Liberacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Liberación</a>
+                            @endif
+                          @break
+                          @case(2)
+                            @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
+                              @if ($registros->evidencia <> 1)
+                                <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
+                              @else
+                                <a href="{{route('Implementacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Implementación</a>
+                              @endif
+                            @endif
+                          @break
+                          @case(18)
+                        @endswitch
+                      @endif
+                    </div>
+                  @endif
+                </div>
+              </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- ---------------------
+                  start Drag & Drop Event
+                  ---------------- -->
+                    <div class="row">
+                      <div class="col-lg-12">
+                          <div class="card-body calender-sidebar">
+                            <div id="calendar"></div>
+                          </div>
+                      </div>
+                    </div>
+                  <!-- ---------------------
+                  end Drag & Drop Event
+                  ---------------- -->
                 </div>
               </div>
             </div>
           </div>
-          <!-- End row -->
+        </div>
+        <!-- End row -->
       </div>
     </div>
       
@@ -493,6 +587,11 @@
             </div>
             @if(Auth::user()->id_area <> 3)
               <div class="col-xl-2 col-md-6 col-lg-2 d-flex align-items-center border-bottom">
+                <button type="button" class="btn waves-effect waves-light btn-outline-info">
+                  <a href="{{route('RD',Crypt::encrypt($registros->folio))}}">
+                    <i class="feather-sm" data-feather="file-text"></i>
+                  </a>
+                </button>
                 <button type="button" class="btn waves-effect waves-light btn-outline-info">
                   <a data-bs-toggle="modal" data-bs-target="#link">
                     <i class="feather-sm" data-feather="link"></i>
@@ -657,7 +756,7 @@
   <script>
     Dropzone.options.myAwesomeDropzone = {
       headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-      paramName: "adjunto", // Las imágenes se van a usar bajo este nombre de parámetro
+      paramName: "Documentacion", // Las imágenes se van a usar bajo este nombre de parámetro
       //uploadMultiple: true,
       maxFilesize: 150, // Tamaño máximo en MB
       addRemoveLinks: true,

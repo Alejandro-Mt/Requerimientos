@@ -171,7 +171,8 @@ class ClienteController extends Controller
               'es.titulo',
               'es.posicion',
               db::raw('ifnull(s.created_at,registros.created_at) as solicitud'),
-              db::raw('if(s.folior IS NULL, NULL, s.updated_at) as autorizado'),
+              db::raw('if(s.folior IS NULL, registros.created_at, s.updated_at) as asignado'),
+              db::raw("concat(nombre_r,' ', apellidos) as autorizador"),
               'fechaaut',
               'prioridad',
               'fechades',
@@ -184,26 +185,36 @@ class ClienteController extends Controller
               'li.evidencia_p as evidencia',
               'i.created_at as implementacion',
               'i.updated_at as implementado',
-              db::raw('DATEDIFF(ifnull(l.fechades, now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(l.fechades, now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(l.fechades,now())) = 6 THEN 1 ELSE 0 END AS lev'),
+              db::raw('DATEDIFF(ifnull(ifnull(l.fechades, c.created_at), now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(ifnull(l.fechades, c.created_at), now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(ifnull(l.fechades, c.created_at),now())) = 6 THEN 1 ELSE 0 END AS lev'),
               db::raw('DATEDIFF(ifnull(li.created_at,now()), p.created_at)  - (DATEDIFF(ifnull(li.created_at,now()), p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(li.created_at,now())) = 6 THEN 1 ELSE 0 END AS cons'),
               db::raw('DATEDIFF(ifnull(i.created_at,now()), li.created_at) - (DATEDIFF(ifnull(i.created_at,now()), li.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(li.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.created_at,now())) = 6 THEN 1 ELSE 0 END AS lib'),
               db::raw('DATEDIFF(ifnull(i.updated_at,now()), i.created_at) - (DATEDIFF(ifnull(i.updated_at,now()), i.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(i.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS imp'),
               db::raw('DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) + 1 - (DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS activo'),
+              db::raw('SUM(CASE WHEN pa.created_at IS NOT NULL AND pa.updated_at IS NOT NULL THEN DATEDIFF(pa.updated_at, pa.created_at) + 1 - (DATEDIFF(pa.updated_at, pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(pa.updated_at) = 6 THEN 1 ELSE 0 END ELSE 0 END) AS pospuesto'),
               'l.impacto'
             )->
             leftjoin('estatus as es','es.id_estatus','registros.id_estatus')->
             leftjoin('solicitudes as s','registros.folio','s.folior')-> 
             leftjoin('levantamientos as l','registros.folio','l.folio')->
+            leftjoin('responsables as re','re.id_responsable','l.autorizacion')->
             leftjoin('planeacion as p','registros.folio','p.folio')->
             leftjoin('analisis as a','registros.folio','a.folio')->
             leftjoin('construccion as c','registros.folio','c.folio')->
             leftjoin('liberaciones as li','registros.folio','li.folio')->
             leftjoin('implementaciones as i','registros.folio','i.folio')->
+            leftjoin('pausas as pa','registros.folio','pa.folio')->
             where('registros.folio',Crypt::decrypt($folio))->
             first();
         $reg = planeacion::where('folio',Crypt::decrypt($folio))->exists();
+        $retrasos = DB::table('pausas as p')
+          ->select('p.folio', 'p.pausa', 'd.motivo', 'e.titulo')
+          ->selectRaw('CASE WHEN p.created_at IS NOT NULL AND p.updated_at IS NOT NULL THEN DATEDIFF(p.updated_at, p.created_at) + 1 - (DATEDIFF(p.updated_at, p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(p.updated_at) = 6 THEN 1 ELSE 0 END ELSE 0 END AS dias')
+          ->leftJoin('estatus as e', 'e.id_estatus', '=', 'p.id_estatus')
+          ->leftJoin('desfases as d', 'd.id', '=', 'p.id_motivo')
+          ->where('folio', Crypt::decrypt($folio))
+          ->get();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
-        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link','pausa','registros'));
+        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link','pausa','registros','retrasos'));
         #dd(Crypt::decrypt($folio) );
     }
 
@@ -332,5 +343,80 @@ class ClienteController extends Controller
         dd($data);
 
     }
+    /*public function reportedoc(Request $data){
+        $datos = $data->get('data');
+        $header = $datos['header'];
+        $folios = $datos['body'];
+        #$ruta = '\Users\alejandro.garcia\Documents\PHP\web\credentials.json';
+        $ruta = base_path('credentials.json');
+        
+        foreach ($folios as &$fila) {
+            foreach ($fila as &$valor) {
+                if ($valor === null) {
+                    $valor = "";
+                }
+            }
+        }
+        
+        // Crea el cliente y autenticación
+        $client = new Google_Client();
+        $client->setAuthConfig($ruta);
+        $token = Auth::user()->token_google; // Implementa tu propia función para cargar el token almacenado
+        $client->setAccessToken($token);
+        $service = new Sheets($client);
+    
+        // Crea la hoja de cálculo
+        $spreadsheet = new Spreadsheet([
+            'properties' => [
+                'title' => 'Registro de folios'
+            ]
+        ]);
+        $spreadsheet = $service->spreadsheets->create($spreadsheet);
+        $fileId = $spreadsheet->spreadsheetId;
+        // Divide los registros en lotes de 100
+        
+        $values = [$header];
+        foreach ($folios as $filas) {
+            $values [] = $filas;
+        };
+        $body = new ValueRange([
+            'values' => $values
+        ]);
+        $params = [
+            'valueInputOption' => 'RAW'
+        ];
+        $insert = [
+            "insertDataOption" => "INSERT_ROWS"
+        ];
 
+        $result = $service->spreadsheets_values->append(
+            $fileId,
+            'Hoja 1',
+            $body,
+            $params,
+            $insert
+        );
+        
+        if ($result->error) {
+            echo "Error: " . $result->error->message;
+        } else {
+            if ($result->updates->updatedRows > 0) {
+                // Abre el archivo de Excel en el navegador
+            
+                $spreadsheetLink = "https://docs.google.com/spreadsheets/d/$fileId";
+                if (stristr(PHP_OS, 'linux')) {
+                    // Utiliza el comando xdg-open para abrir el enlace en el navegador predeterminado de Linux
+                    exec("xdg-open \"$spreadsheetLink\"");
+                } else {
+                    // Maneja otros sistemas operativos aquí (por ejemplo, Windows)
+                    // Puedes usar shell_exec u otros comandos según corresponda
+                    // Por ejemplo, en Windows podrías usar "start" para abrir el enlace
+                    shell_exec("start $spreadsheetLink");
+                }
+            
+            }             
+        }
+        #dd($body,$datos['body'],$folios);
+    
+    }*/
 }
