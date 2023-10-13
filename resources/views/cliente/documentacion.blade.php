@@ -376,6 +376,23 @@
                                       </div>
                                     @endif
                                   @endforeach
+                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                    <span class="fs-2 text-muted text-info">RONDAS</span>
+                                    <div class="position-absolute end-0">
+                                      <span class="fs-2 text-muted text-info">{{$rondas->ronda}}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                    <span class="fs-2 text-muted text-info">{{'TOTAL DE PRUEBAS'}}</span>
+                                    <div class="position-absolute end-0">
+                                      <span class="fs-2 text-muted text-info">
+                                        @if($registros->liberacion)
+                                        {{$rondas->aprobadas + $rondas->rechazadas}}
+                                        @endif
+                                      </span>
+                                    </div>
+                                  </div>
                                   @endif
                                 @endforeach
                               </div>

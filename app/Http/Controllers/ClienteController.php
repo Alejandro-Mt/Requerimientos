@@ -15,6 +15,7 @@ use App\Models\pausa;
 use App\Models\planeacion;
 use App\Models\pricli;
 use App\Models\registro;
+use App\Models\ronda;
 use App\Models\sistema;
 use App\Models\solicitud;
 use App\Models\solpri;
@@ -214,7 +215,8 @@ class ClienteController extends Controller
           ->where('folio', Crypt::decrypt($folio))
           ->get();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
-        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link','pausa','registros','retrasos'));
+        $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
+        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link','pausa','registros','retrasos','rondas'));
         #dd(Crypt::decrypt($folio) );
     }
 
