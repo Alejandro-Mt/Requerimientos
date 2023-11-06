@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Cliente\Fase;
 use App\Models\archivo;
 use App\Models\desfase;
 use App\Models\implementacion;
+use App\Models\levantamiento;
 use App\Models\liberacion;
 use App\Models\registro;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class ImplementacionController extends Controller
@@ -34,6 +38,7 @@ class ImplementacionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function create(request $data){ 
+    $estatus = registro::select()-> where ('folio', $data->folio)->first();
     if($data['id_estatus'] == NULL){$data['id_estatus'] = 2;}
     else{
       $archivos = Archivo::where('folio', $data['folio'])->get();
@@ -57,6 +62,18 @@ class ImplementacionController extends Controller
           Session::flash('error', $errorMessage);
           return redirect()->back();
       }
+      $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+                ->where('folio', $data->folio)
+                ->select('s.email')
+                ->first();
+      $coordinacion = User:: select('email')
+          ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
+          ->leftjoin('accesos as a','users.id','a.id_user')
+          ->whereIn('jerarquia', [2, 3, 7])
+          ->where('a.id_sistema',$estatus->id_sistema)
+          ->where('id_area', 6)
+          ->get();
+      if($email){Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, $data['id_estatus']));}
     }
     $val = liberacion::select('fecha_lib_r')->where('folio',$data['folio'])->get();
     foreach($val as $fecha){$this->validate($data, ['f_implementacion' => "required|date|after_or_equal:$fecha->fecha_lib_r"]);}
@@ -82,7 +99,6 @@ class ImplementacionController extends Controller
       $update->estatus_f = $data['estatus_f'];
       $update->seguimiento = $data['seguimiento'];
       $update->comentarios = $data['comentarios'];
-      $estatus = registro::select()-> where ('folio', $data->folio)->first();
       $estatus->id_estatus = $data['id_estatus'];
       $estatus->save();
       $update->save(); 

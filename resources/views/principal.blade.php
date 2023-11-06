@@ -342,13 +342,33 @@
           scrollX: true,
       });
       $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-GSheets").addClass("btn btn-primary mr-1");
-      function exportToSheets(data){
+      
+      function exportToSheets(data) {
         $.ajax({
-          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+          headers: { 'X-CSRF-TOKEN': "{{csrf_token()}}" },
           type: "POST",
           url: "gsheets",
-          data:{data:data}
-        })
+          data: { data: data },
+          success: function (response) {
+            if (response && response.fileId) {
+              var spreadsheetLink = "https://docs.google.com/spreadsheets/d/" + response.fileId;
+
+              // Abre la URL de Google Sheets en una nueva pestaña
+              var newTab = window.open(spreadsheetLink, '_blank');
+              
+              if (newTab) {
+                newTab.focus();
+              } else {
+                console.log("El navegador bloqueó la apertura de una nueva pestaña.");
+              }
+            } else {
+              console.log("No se recibió un fileId válido en la respuesta.");
+            }
+          },
+          error: function (error) {
+            console.log("Error en la solicitud AJAX:", error);
+          }
+        });
       }
     });
   </script>

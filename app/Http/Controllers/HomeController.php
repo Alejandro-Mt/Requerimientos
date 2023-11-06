@@ -227,10 +227,9 @@ class HomeController extends Controller
         
         if ($result->error) {
             echo "Error: " . $result->error->message;
-        } else {
+        } /*else {
             if ($result->updates->updatedRows > 0) {
-                // Abre el archivo de Excel en el navegador
-            
+                // Abre el archivo de Excel en el navegador            
                 $spreadsheetLink = "https://docs.google.com/spreadsheets/d/$fileId";
                 if (stristr(PHP_OS, 'linux')) {
                     // Utiliza el comando xdg-open para abrir el enlace en el navegador predeterminado de Linux
@@ -243,8 +242,8 @@ class HomeController extends Controller
                 }
             
             }             
-        }
-        #dd($body,$datos['body'],$folios);
-    
+        }*/
+        $response = ['fileId' => $fileId];
+        return response()->json($response);
     }
 }    

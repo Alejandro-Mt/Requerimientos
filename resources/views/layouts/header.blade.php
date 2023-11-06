@@ -62,11 +62,11 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item mdi mdi-hand-pointing-right" href="{{ route('PreRegistro') }}">Nueva solicitud</a></li>
             <!--<li><a class="dropdown-item" href="{{('formatos.incidencias.new')}}">Incidencia</a></li>
-            <li><a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('NuevaMaqueta')}}">Maquetado</a></li>-->
+            <li><a class="dropdown-item mdi mdi-chart-areaspline" href="{{route('NuevaMaqueta')}}">Maquetado</a></li>
             @if(Auth::user()->id_area != 3)
               <li><a class="dropdown-item mdi mdi-content-paste" href="{{route('Nuevo')}}">Requerimiento</a></li>
             @endif
-            <!--<li><hr class="dropdown-divider"></li>
+            <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item mdi mdi-developer-board" href="{{route('Editar')}}">Seguimiento</a></li>-->
           </ul>
         </li>

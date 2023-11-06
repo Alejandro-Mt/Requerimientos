@@ -11,6 +11,7 @@ use App\Models\comentario;
 use App\Models\desfase;
 use App\Models\estatu;
 use App\Models\levantamiento;
+use App\Models\motivo;
 use App\Models\pausa;
 use App\Models\planeacion;
 use App\Models\pricli;
@@ -191,27 +192,8 @@ class ClienteController extends Controller
               db::raw('DATEDIFF(ifnull(i.created_at,now()), li.created_at) - (DATEDIFF(ifnull(i.created_at,now()), li.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(li.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.created_at,now())) = 6 THEN 1 ELSE 0 END AS lib'),
               db::raw('DATEDIFF(ifnull(i.updated_at,now()), i.created_at) - (DATEDIFF(ifnull(i.updated_at,now()), i.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(i.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS imp'),
               db::raw('DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) + 1 - (DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS activo'),
-              db::raw('SUM(
-                CASE
-                    WHEN pa.pausa != 0
-                    THEN 
-                        DATEDIFF(CURDATE(), pa.created_at) + 1 - (DATEDIFF(CURDATE(), pa.created_at) DIV 7) * 2 -
-                        CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END -
-                        CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 1 ELSE 0 END
-                    ELSE 
-                        CASE
-                            WHEN pa.created_at IS NOT NULL AND pa.updated_at IS NOT NULL
-                            THEN 
-                                DATEDIFF(pa.updated_at, pa.created_at) + 1 - (DATEDIFF(pa.updated_at, pa.created_at) DIV 7) * 2 -
-                                CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END -
-                                CASE WHEN WEEKDAY(pa.updated_at) = 6 THEN 1 ELSE 0 END
-                            ELSE 0
-                        END
-                END
-            ) AS pospuesto
-            '),
-              'l.impacto'
-            )->
+              db::raw('SUM(CASE WHEN pa.pausa != 0 THEN DATEDIFF(CURDATE(), pa.created_at) + 1 - (DATEDIFF(CURDATE(), pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 1 ELSE 0 END ELSE CASE WHEN pa.created_at IS NOT NULL AND pa.updated_at IS NOT NULL THEN DATEDIFF(pa.updated_at, pa.created_at) + 1 - (DATEDIFF(pa.updated_at, pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(pa.updated_at) = 6 THEN 1 ELSE 0 END ELSE 0 END END) AS pospuesto'),
+              'l.impacto')->
             leftjoin('estatus as es','es.id_estatus','registros.id_estatus')->
             leftjoin('solicitudes as s','registros.folio','s.folior')-> 
             leftjoin('levantamientos as l','registros.folio','l.folio')->
@@ -225,49 +207,19 @@ class ClienteController extends Controller
             where('registros.folio',Crypt::decrypt($folio))->
             first();
         $reg = planeacion::where('folio',Crypt::decrypt($folio))->exists();
-
         $retrasos = DB::table('pausas as p')
-            ->select(
-                'p.folio',
-                'p.pausa',
+            ->select('p.folio', 'p.pausa',
                 DB::raw('IFNULL(d.motivo, "DESCONOCIDO") AS motivo'),
                 DB::raw('IFNULL(e.titulo, "DESCONOCIDO") AS titulo'),
-                DB::raw('
-                    CASE 
-                        WHEN p.created_at IS NOT NULL AND p.updated_at IS NOT NULL
-                        THEN 
-                            CASE 
-                                WHEN p.pausa = 2
-                                THEN DATEDIFF(CURDATE(), p.created_at) + 1 - (DATEDIFF(CURDATE(), p.created_at) DIV 7) * 2 - 
-                                CASE 
-                                    WHEN WEEKDAY(p.created_at) = 5 THEN 1
-                                    ELSE 0 
-                                END - 
-                                CASE 
-                                    WHEN WEEKDAY(CURDATE()) = 6 THEN 1
-                                    ELSE 0 
-                                END
-                                ELSE DATEDIFF(p.updated_at, p.created_at) + 1 - (DATEDIFF(p.updated_at, p.created_at) DIV 7) * 2 - 
-                                CASE 
-                                    WHEN WEEKDAY(p.created_at) = 5 THEN 1
-                                    ELSE 0 
-                                END - 
-                                CASE 
-                                    WHEN WEEKDAY(p.updated_at) = 6 THEN 1
-                                    ELSE 0 
-                                END
-                            END
-                        ELSE 0 
-                    END AS dias
-                ')
-            )
+                DB::raw('CASE WHEN p.created_at IS NOT NULL AND p.updated_at IS NOT NULL THEN CASE WHEN p.pausa = 2 THEN DATEDIFF(CURDATE(), p.created_at) + 1 - (DATEDIFF(CURDATE(), p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 1 ELSE 0 END ELSE DATEDIFF(p.updated_at, p.created_at) + 1 - (DATEDIFF(p.updated_at, p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(p.updated_at) = 6 THEN 1 ELSE 0 END END ELSE 0 END AS dias'))
             ->leftJoin('estatus as e', 'e.id_estatus', '=', 'p.id_estatus')
             ->leftJoin('desfases as d', 'd.id', '=', 'p.id_motivo')        
           ->where('folio', Crypt::decrypt($folio))
           ->get();
+        $cancelar = motivo::all();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
-        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link','pausa','registros','retrasos','rondas'));
+        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link', 'cancelar','pausa','registros','retrasos','rondas'));
         #dd(Crypt::decrypt($folio) );
     }
 

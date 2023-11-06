@@ -20,7 +20,7 @@ use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
-use Error;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use Exception;
 use Mpdf\Mpdf;
 
 class CorreoController extends Controller
@@ -36,32 +37,67 @@ class CorreoController extends Controller
     //
     
     public function send($folio){
-        $registro = registro::where ('folio', Crypt::decrypt($folio))->first();
+        $estatus = Registro::where('folio', Crypt::decrypt($folio))->first();
+        if($estatus->id_estatus == 10){
+            $registro = levantamiento::
+                select('d.email', DB::raw('GROUP_CONCAT(i.email) as cc'))->
+                where('folio', Crypt::decrypt($folio))->
+                leftJoin('responsables as d', 'levantamientos.autorizacion', 'd.id_responsable')->
+                leftJoin('responsables as i', function ($join) {
+                    $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
+                    orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                    orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
+                })->
+                first();
+        }else
+            if($estatus->id_estatus == 16){
+                $registro = levantamiento::
+                    select('d.email', DB::raw('GROUP_CONCAT(i.email) as cc'))->
+                    where('levantamientos.folio', Crypt::decrypt($folio))->
+                    leftJoin('registros as r', 'levantamientos.folio', 'r.folio')->
+                    leftJoin('responsables as d', 'r.id_arquitecto', 'd.id_responsable')->
+                    leftJoin('responsables as i', function ($join) {
+                        $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
+                        orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                        orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
+                    })->
+                    first();
+            }
+
         $archivos = archivo::where ('folio', Crypt::decrypt($folio))->get();
-        return view('layouts.correo',compact('registro','folio','archivos'));
+        return view('layouts.correo',compact('archivos','folio','registro','estatus'));
         #dd($registros);
     }
-    /*public function sended(request $data){
-        $destino = implode(';', $data['email']);
-        $archivos = archivo::where ('folio',  $data['folio'])->get();
-        mail::to(explode(';', $destino))
-            ->send(new ValidacionCliente($data->folio));
-        if(count(Mail::failures()) < 1){
-            $estatus = registro::select("*")-> where ('folio', $data->folio)->first();
-            $estatus->id_estatus = $data->input('id_estatus');
-            $estatus->save();
-			$a = "El Correo ha sido enviado "; 
-            return redirect(route('Documentos',Crypt::encrypt($data->folio)))->with('alert', $a);
-		}else{
-			$b ='No se pudo enviar el correo. Vuelve a intentarlo. ';
-            return redirect(route('Documentos',Crypt::encrypt($data->folio)))->with('alert', $b);
-		}
-    }*/
 
     public function sended(Request $data){
-        $destino = implode(';', $data['email']);
-        $archivos = Archivo::where('folio', $data['folio'])->get();
-
+        $folio = Crypt::decrypt($data['folio']);
+        $estatus = Registro::where('folio', $folio)->first();
+        if($estatus->id_estatus == 10){
+            $destinatarios = levantamiento::
+                select('d.email', DB::raw('GROUP_CONCAT(i.email) as cc'))->
+                where('folio', $folio)->
+                leftJoin('responsables as d', 'levantamientos.autorizacion', 'd.id_responsable')->
+                leftJoin('responsables as i', function ($join) {
+                    $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
+                    orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                    orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
+                })->
+                first();
+        }else
+            if($estatus->id_estatus == 16){
+                $destinatarios = levantamiento::
+                    select('d.email', DB::raw('GROUP_CONCAT(i.email) as cc'))->
+                    where('levantamientos.folio', $folio)->
+                    leftJoin('registros as r', 'levantamientos.folio', 'r.folio')->
+                    leftJoin('responsables as d', 'r.id_arquitecto', 'd.id_responsable')->
+                    leftJoin('responsables as i', function ($join) {
+                        $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
+                        orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                        orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
+                    })->
+                    first();
+            }
+        $archivos = Archivo::where('folio', $folio)->get();
         // Verificar si los archivos requeridos existen
         $requiredKeywords = ['gantt'];
         $missingKeywords = [];
@@ -84,16 +120,18 @@ class CorreoController extends Controller
             return redirect()->back();
         }
         // Los archivos requeridos existen, proceder con el envío de correo y actualización de estatus
-        mail::to(explode(';', $destino))->send(new ValidacionCliente($data->folio));
+        $cc = explode(',', $destinatarios->cc);
+        try{
+        mail::to($data->email)->cc($cc)->send(new ValidacionCliente($folio));
+        }catch(Exception $e) {}
         if (count(Mail::failures()) < 1) {
-            $estatus = Registro::where('folio', $data->folio)->first();
-            $estatus->id_estatus = $data->input('id_estatus');
+            $estatus->id_estatus = $data['id_estatus'];
             $estatus->save();
             $successMessage = "El correo ha sido enviado.";
-            return redirect(route('Documentos', Crypt::encrypt($data->folio)))->with('success', $successMessage);
+            return redirect(route('Documentos', $data->folio))->with('success', $successMessage);
         } else {
             $errorMessage = "No se pudo enviar el correo. Vuelve a intentarlo.";
-            return redirect(route('Documentos', Crypt::encrypt($data->folio)))->with('error', $errorMessage);
+            return redirect(route('Documentos', $data->folio))->with('error', $errorMessage);
         }
     }
 
@@ -146,6 +184,12 @@ class CorreoController extends Controller
 
     protected function respuesta($folio){
         $hora = levantamiento::findOrFail($folio);
+        $involucrados = DB::table('responsables as res')
+        ->join('levantamientos as lev', function ($join) {
+            $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
+        })
+        ->where('lev.folio', $folio)
+        ->get();
         $fol = registro::
                 leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
                 ->where('registros.folio',$folio)
@@ -153,30 +197,33 @@ class CorreoController extends Controller
         if($hora->fechaaut == NULL){ 
             $hora -> fechaaut = now();
             $hora -> save();
-                mail::to($fol->email)
-                    ->send(new ValidacionRequerimiento($folio));
+                mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
                 return 'Se ha autorizado satisfactoriamente';   
         }else{
             if($fol->id_estatus == 9 && $hora->fechades == NULL){
-                $hora -> fechades = now();
+                $hora -> fecha_def = now();
                 $hora -> save();
-                mail::to($fol->email)
-                    ->send(new ValidacionRequerimiento($folio));
+                mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
                 return 'Se ha autorizado satisfactoriamente';   
-            }else
-            return ('Ya ha sido autorizado');
+            }else{
+                return ('Ya ha sido autorizado');
+            }
         }
     }
 
     public function rechazo($folio){
-        $fol = registro::select('dispercion')
-                      ->leftJoin('sistemas as s','registros.id_sistema', 's.id_sistema')
+        $fol = registro::leftJoin('responsables as r','registros.id_responsable', 'r.id_responsable')
                       ->where('folio',$folio)
                       ->first();
+        $coordinacion = User:: select('email')
+        ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
+        ->leftjoin('accesos as a','users.id','a.id_user')
+        ->whereIn('jerarquia', [2, 3, 7])
+        ->where('a.id_sistema',$fol->id_sistema)
+        ->get();
         $hora = levantamiento::findOrFail($folio);
         if($hora->fechaaut == NULL){ 
-                mail::to($fol->dispercion)
-                    ->send(new ValidacionRequerimiento($folio));
+                mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
                 return 'Se ha enviado la respuesta, gracias.';
             #dd($correo->dispercion);  
         }else{
@@ -196,18 +243,25 @@ class CorreoController extends Controller
                       ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
                       ->where('folio',$folio)
                       ->first();
+        $involucrados = DB::
+            table('responsables as res')->
+            join('levantamientos as lev', function ($join) {
+                $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
+            })->
+            where('lev.folio', $folio)->
+            get();
         if($hora->fechades == NULL){ 
             $hora -> fechades = now();
             $hora -> impacto = $impacto;
             $hora -> save();
-            mail::to($correo->email)->send(new SegundaValidacion($folio));
+            mail::to($correo->email)->cc($involucrados->pluck('email'))->send(new SegundaValidacion($folio));
             if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7'){
                 return redirect(route('Documentos',Crypt::encrypt($folio)));
             }else{
                 return 'Se ha enviado la respuesta, gracias.'; 
             }   
         } else{
-            return ('Ya ha sido autorizado');
+            return ('Ya ha sido definido');
             #dd($hora);
         }
         dd($impacto);

@@ -108,7 +108,7 @@ Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'paus
 
   #    \\      Proceso extras      //   #
 Route::get('/posponer.{folio}.{id_motivo}.{id_estatus}', [MenuController::class,'posponer'])->name('Posponer');
-Route::get('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
+Route::post('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
 #    \\      Proceso levantamiento      //   #

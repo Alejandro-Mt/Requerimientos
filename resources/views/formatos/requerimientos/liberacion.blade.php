@@ -126,10 +126,10 @@
                             </div>
                         </div>
                         <div class="d-none"> 
-                                <input type="text" name="estatus" value="Información" visible="false">
+                                <input id="estatus" type="text" name="estatus" value="Información" visible="false">
                         </div>
                         <div class="card-body text-center">
-                            <button type="button" class="btn btn-primary text-white"><a href="{{route('Ronda',Crypt::encrypt($registros->folio))}}" style="color:white">Ronda</a></button>
+                            <button id="btnRonda" type="submit" class="btn btn-primary text-white">Ronda</button>
                             <button type="submit" name="id_estatus" value="8" class="btn btn-success text-white">Guardar</button>
                             <label> </label> 
                             <button type="reset" value="reset" class="btn btn-danger"><a href="{{route('Documentos',Crypt::encrypt($registros->folio))}}" style="color:white">Cancelar</a></button>
@@ -139,10 +139,16 @@
             </form>
         </div>
     </div>
-
-    <form class="form-horizontal" action="" method="post">
     <h5>*Campos obligatorios</h5>
-
+    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btnRonda').click(function() {
+                $('#estatus').val('Ronda');
+            });
+        });
+        </script>
     <script type="text/javascript">
         function showContent() {
             element = document.getElementById("content");

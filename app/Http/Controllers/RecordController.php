@@ -16,6 +16,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use DateTime;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
@@ -120,23 +121,31 @@ class RecordController extends Controller
         return redirect(route('Nuevo'))->with('alert', $folio);
     }
     
-    public function update($folio)
+    public function update(Request $data, $folio)
     {
         $registro = registro::where('folio',$folio)->first();
         $registro->id_estatus= 14;
-        $registro->save();
+        $registro->motivo_can_id = $data['motivo'];
         $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
             ->where('folio', $folio)
             ->select('s.email')
             ->first();
-        $gerencia = User::
+        $involucrados = DB::
+            table('responsables as res')->
+            join('levantamientos as lev', function ($join) {
+                $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
+            })->
+            where('lev.folio', $folio)->
+            get();
+        $registro->save();
+        /* $gerencia = User::
             join('puestos as p','p.id_puesto','users.id_puesto')
             ->where('id_area', 6)
             ->whereIn('jerarquia',[4,5])
             ->select('email')
-            ->get();
-        if($email){
-            Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($folio,'14'));
+            ->get();*/
+        if($involucrados){
+            Mail::to($email->email)->cc($involucrados->pluck('email'))->send(new Fase($folio,'14'));
         }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
     }

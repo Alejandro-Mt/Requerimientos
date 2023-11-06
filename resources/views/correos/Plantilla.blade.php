@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html style="font-size: 16px;">
   <head>
-    <title>Formato</title>
+    <title>SMART PLANNER</title>
     <!-- This Page CSS --> 
     <style>
       /*######################################### T-HEAD ##########################*/

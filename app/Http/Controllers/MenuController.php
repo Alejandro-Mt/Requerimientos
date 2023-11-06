@@ -264,14 +264,21 @@ class MenuController extends Controller
             ->where('folio', $folio)
             ->select('s.email')
             ->first();
-        $gerencia = User::
+        $involucrados = DB::
+            table('responsables as res')->
+            join('levantamientos as lev', function ($join) {
+                $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
+            })->
+            where('lev.folio', $folio)->
+            get();
+        /*$gerencia = User::
             join('puestos as p','p.id_puesto','users.id_puesto')
             ->where('id_area', 6)
             ->whereIn('jerarquia',[4,5])
             ->select('email')
-            ->get();
+            ->get();*/
         if($email){
-            Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($folio, 'POSPUESTO'));
+            Mail::to($email->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'POSPUESTO'));
         }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         #dd($email->email);

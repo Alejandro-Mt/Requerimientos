@@ -31,7 +31,6 @@ class LiberacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
-        #$registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
         $val = construccion::select('fechaCompReqR')->where('folio',$data['folio'])->get();
         foreach($val as $fecha){$this->validate($data, ['fecha_lib_a' => "required|date|after_or_equal:$fecha->fechaCompReqR"]);}
         $verificar = liberacion::where('folio',$data['folio'])->count();
@@ -86,8 +85,13 @@ class LiberacionController extends Controller
         $update = registro::select()-> where ('folio', $data->folio)->first();
         $update->id_estatus = 8;
         $update->save();
-        return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
-        #dd($update);
+        if($data['estatus'] === 'Ronda'){
+            return redirect(route('Ronda',Crypt::encrypt($data['folio'])));
+        }
+        else{
+            return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
+        }
+        dd($data);
 
     }
 

@@ -5,13 +5,13 @@
 Desarrollo ha definido el impacto de este requerimiento como:
 @switch($dato->impacto)
 @case(3)
-#Alto
+# Alto
 @break
 @case(2)
-$Medio
+# Medio
 @break
 @default
-#Bajo
+# Bajo
 @endswitch($dato->impacto == NULL)
 @endforeach
 

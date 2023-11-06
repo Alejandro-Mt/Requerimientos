@@ -4,7 +4,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex,nofollow">
-    <title>Indicadores</title>
+    <title>SMART PLANNER</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset("assets/images/logo-icon-it.png")}}">
     <!-- Custom CSS -->

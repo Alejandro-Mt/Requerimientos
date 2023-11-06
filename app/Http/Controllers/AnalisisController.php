@@ -45,6 +45,7 @@ class AnalisisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
+        $estatus = registro::select()-> where ('folio', $data->folio)->first();
         if($data['id_estatus'] == NULL){
             $data['id_estatus'] = 9;
         }else{
@@ -91,14 +92,21 @@ class AnalisisController extends Controller
                 ->where('folio', $data->folio)
                 ->select('s.email')
                 ->first();
-            $gerencia = User::
+            /*$gerencia = User::
                 join('puestos as p','p.id_puesto','users.id_puesto')
                 ->where('id_area', 6)
                 ->whereIn('jerarquia',[4,5])
                 ->select('email')
+                ->get();*/
+            $coordinacion = User:: select('email')
+                ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
+                ->leftjoin('accesos as a','users.id','a.id_user')
+                ->whereIn('jerarquia', [2, 3, 7])
+                ->where('a.id_sistema',$estatus->id_sistema)
+                ->where('id_area', 6)
                 ->get();
             if($email){
-                Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '7'));
+                Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '7'));
             }
         }
         if($verificar == 0){
@@ -155,12 +163,8 @@ class AnalisisController extends Controller
             $update->fechareact = $fechareact;
             $update->save(); 
         }
-        $estatus = registro::select()-> where ('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();
-        #$update = registro::select()-> where ('folio', $data->folio)->first();
-        #$update->id_estatus = $data['id_estatus'];
-        #$update->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
         #dd($data->id_estatus);
     }

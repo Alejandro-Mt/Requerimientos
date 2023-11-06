@@ -68,20 +68,20 @@ class PreregistroController extends Controller
             'descripcion' => $data['descripcion'],
             'planteamiento' => $data['planteamiento']
         ]);
-        $coordinacion = User:: select(DB::raw('group_concat(email) as email'))->where('id_puesto', 7)->get();
-        $solicitud = solicitud::where('folio',$folio)->get();
-        $archivos = archivo::where ('folio', $folio)->get();
-        foreach ($coordinacion as $c){
-            mail::to($data['email'])
-                ->cc(explode(',', $c->email))
-                ->send(new SolicitudRequerimiento($folio));
-            #dd($c->email);
-            if($data['adjunto'] == 'true'){
-                return redirect(route('Plus',$folio));
-            }
-            else{
-                return redirect(route('home'));
-            }
+        $coordinacion = User:: select('*')
+        ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
+        ->leftjoin('accesos as a','users.id','a.id_user')
+        ->whereIn('jerarquia', [2, 3, 7])
+        ->where('a.id_sistema',$data['id_sistema'])
+        ->get();
+        mail::to($data['email'])->cc( $coordinacion->pluck('email'))->send(new SolicitudRequerimiento($folio));
+        #dd($c->email);
+        if($data['adjunto'] == 'true'){
+            return redirect(route('Plus',$folio));
+        }
+        else{
+           return redirect(route('home'));
+           #dd($coordinacion);
         }
     }
 
@@ -103,8 +103,9 @@ class PreregistroController extends Controller
                 db::raw('EXTRACT(year FROM solicitudes.created_at)'), 
                 db::raw('EXTRACT(year FROM now())')
             )
-            ->wherein('id_sistema',acceso::select('id_sistema'))
+            ->wherein('solicitudes.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
             ->distinct()
+            ->orderby('solicitudes.id','desc')
             ->get();
         return view('formatos.requerimientos.preregistro.store',compact('archivos','clientes','estatus','sistemas','solicitudes'));
     }

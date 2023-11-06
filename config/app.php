@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Smart Planner'),
+    'name' => env('APP_NAME', 'SMART PLANNER'),
 
     /*
     |--------------------------------------------------------------------------

@@ -222,12 +222,12 @@
                                             @case(5)
                                               @if($registros->fechaaut)
                                                 <a class="text-success">{{date("d/M/y",strtotime($registros->fechaaut))}}</a>
-                                              @else
+                                              @elseif($registros->correo)
                                               <a class="text-danger">{{date("d/M/y",strtotime($registros->correo))}}</a>
                                               @endif
                                               @break
                                             @default   
-                                              <!--{{date("d/M/y",strtotime($registros->correo))}}-->
+                                              <!--{ {date("d/M/y",strtotime($registros->correo))}}-->
                                               @break  
                                           @endswitch
                                         </span>
@@ -525,7 +525,11 @@
                           @break
                           @case(9)
                             @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                              <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
+                            @foreach($archivos as $file)
+                            @if (stripos($file->url, 'Definición de requerimiento'))
+                              <a href="{{route('Analisis',Crypt::encrypt($file->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
+                            @endif
+                            @endforeach
                             @endif
                           @break
                           @case(7)
@@ -604,11 +608,11 @@
             </div>
             @if(Auth::user()->id_area <> 3)
               <div class="col-xl-2 col-md-6 col-lg-2 d-flex align-items-center border-bottom">
-                <button type="button" class="btn waves-effect waves-light btn-outline-info">
+                <!--<button type="button" class="btn waves-effect waves-light btn-outline-info">
                   <a href="{{route('RD',Crypt::encrypt($registros->folio))}}">
                     <i class="feather-sm" data-feather="file-text"></i>
                   </a>
-                </button>
+                </button>-->
                 <button type="button" class="btn waves-effect waves-light btn-outline-info">
                   <a data-bs-toggle="modal" data-bs-target="#link">
                     <i class="feather-sm" data-feather="link"></i>

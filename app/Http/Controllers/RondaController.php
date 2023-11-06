@@ -75,13 +75,20 @@ class RondaController extends Controller
                 ->where('folio', $data->folio)
                 ->select('s.email')
                 ->first();
-            $gerencia = User::
+            /*$gerencia = User::
                 join('puestos as p','p.id_puesto','users.id_puesto')
                 ->where('id_area', 6)
                 ->whereIn('jerarquia',[4,5])
                 ->select('email')
+                ->get();*/
+            $coordinacion = User:: select('email')
+                ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
+                ->leftjoin('accesos as a','users.id','a.id_user')
+                ->whereIn('jerarquia', [2, 3, 7])
+                ->where('a.id_sistema',$estatus->id_sistema)
+                ->where('id_area', 6)
                 ->get();
-            if($email){Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '2'));}
+            if($email){Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '2'));}
         }else{
             $estatus->id_estatus = 8;
         }

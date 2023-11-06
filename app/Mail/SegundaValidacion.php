@@ -33,6 +33,6 @@ class SegundaValidacion extends Mailable
      */
     public function build()
     {
-        return $this->markdown('correos.respuesta desarrollo.validar');
+        return $this->markdown('correos.respuesta desarrollo.validar')->subject('Definición de impacto');
     }
 }

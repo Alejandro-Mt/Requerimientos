@@ -32,25 +32,42 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- Cancelar -->
-<div id="confle" class="modal fade" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        @if($pausa->folio == $registros->folio)
+<form method="post" action="{{ route('Cancelar', $registros->folio) }}">
+  {{ csrf_field() }}
+  <div id="confle" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
           <div class="text-center mt-2 mb-4">
-            <a href="index.html" class="text-danger">¿Estas seguro de cancelar este requerimiento?</a>
+            <a href="index.html" class="text-danger">¿Motivo de cancelación?</a>
           </div>
-        @endif
+          <div class="form-group row">
+            <label for="motivo" class="col-sm-2 text-end control-label col-form-label">Motivo de cancelación*</label>
+            <div class="col-md-8">
+              <select name="motivo" class="form-select @error ('motivo') is-invalid @enderror" style="height: 36px;width: 100%;" required autofocus>
+                <option value={{null}}>Seleccion</option>
+                @foreach($cancelar as $c)
+                  <option value='{{$c->id_motivo}}'>{{$c->descripcion}}</option>
+                @endforeach                   
+              </select>
+              @error('motivo')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-invert" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-ok">Confirmar</button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <a class="btn btn-invert" data-bs-dismiss="modal">Cancelar</a>
-        <a type="submit" class="btn btn-success btn-ok" href="{{route('Cancelar',$registros->folio)}}">Confirmar</a>
-      </div>
+      <!-- /.modal-content -->
     </div>
-    <!-- /.modal-content -->
+    <!-- /.modal-dialog -->
   </div>
-  <!-- /.modal-dialog -->
-</div>
+</form>
 <!-- Posponer -->
 <div id="desfase" class="modal fade" aria-hidden="true">
   <div class="modal-dialog">
@@ -74,6 +91,7 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- Soporte -->
+
 <div class="modal" id="Soporte">
   <div class="modal-dialog">
     <div class="modal-content">

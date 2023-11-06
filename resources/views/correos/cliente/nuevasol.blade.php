@@ -1,8 +1,8 @@
 @component('mail::message')
 @foreach ($datos as $dato)
-# {{$dato->folio}}
+{{$dato->folio}}
 
-Se ha solicitado un nuevo requerimiento por: #{{$dato->solicitante}}
+Se ha solicitado un nuevo requerimiento por: {{$dato->solicitante}}
 
 {{$dato->descripcion}}
     

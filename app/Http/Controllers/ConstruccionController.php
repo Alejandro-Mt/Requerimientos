@@ -18,6 +18,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class ConstruccionController extends Controller
@@ -44,6 +45,7 @@ class ConstruccionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function create(request $data){
+    $estatus = registro::select()-> where ('folio', $data->folio)->first();
     if($data['id_estatus'] == NULL){$data['id_estatus'] = 7;}
     $val = analisis::select('fechaCompReqR')->where('folio',$data['folio'])->get();
     if($data['desfase'] == '1'){
@@ -69,14 +71,22 @@ class ConstruccionController extends Controller
           ->where('folio', $data->folio)
           ->select('s.email')
           ->first();
-      $gerencia = User::
+      /*$gerencia = User::
             join('puestos as p','p.id_puesto','users.id_puesto')
             ->where('id_area', 6)
-            ->whereIn('jerarquia',[4,5])
+            ->whereIn('jerarquia',[2,3,4])
             ->select('email')
-            ->get();
+            ->get();*/
+      $coordinacion = User:: select('email')
+        ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
+        ->leftjoin('accesos as a','users.id','a.id_user')
+        ->whereIn('jerarquia', [2, 3, 7])
+        ->where('a.id_sistema',$estatus->id_sistema)
+        ->where('id_area', 6)
+        ->get();
       if($email){
-        Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '8'));
+        //Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '8'));
+        Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '8'));
       }
     }
     if($verificar == 0){
@@ -138,7 +148,6 @@ class ConstruccionController extends Controller
       $update->motivopausa = $data['motivopausa'];
       $update->evpausa = $data['evpausa'];
       $update->fechareact = $fechareact;
-      $estatus = registro::select()-> where ('folio', $data->folio)->first();
       $estatus->id_estatus = $data['id_estatus'];
       $estatus->save();
       $update->save(); 

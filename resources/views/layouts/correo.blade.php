@@ -23,10 +23,10 @@
         <div class="card-title mb-0">{{ __('Enviar Informe') }}</div>
         <form method="POST" action="{{route('Enviado')}}" enctype="multipart/form-data">
             <div class="form-group row">
-                <label for="email" class="col-sm-2 text-end control-label col-form-label">{{ __('Dirección de Correo') }}</label>
+                <label for="email" class="col-sm-2 text-end control-label col-form-label">{{ __('Destinatario:') }}</label>
                 <div class="col-md-6">
                        <!-- <i class="fa fa-envelope"></i>-->
-                    <input id="email" type="text" class="required form-control @error('email') is-invalid @enderror" name="email[]" value="{{ old('email') }}" required autocomplete="email" autofocus>                    
+                    <input id="email" type="text" class="required form-control @error('email') is-invalid @enderror" name="email[]" value="{{$registro->email}}" required autocomplete="email" autofocus>                    
                     @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -34,11 +34,17 @@
                     @enderror
                 </div>
             </div>
-            <div class="d-none">
-                <input id="folio" type="text" name="folio" value={{$registro->folio}} visible="false">
+            <div class="form-group row">
+                <label for="cc" class="col-sm-2 text-end control-label col-form-label">{{ __('Con copia a:') }}</label>
+                <div class="col-md-6">
+                    <label for="cc" class="control-label col-form-label">{!! str_replace(',', '<br>', $registro->cc) !!}</label>
+                </div>
             </div>
             <div class="d-none">
-                @if ($registro->id_estatus == "10" || $registro->id_estatus == "11")
+                <input id="folio" type="text" name="folio" value={{$folio}} visible="false">
+            </div>
+            <div class="d-none">
+                @if ($estatus->id_estatus == "10" || $estatus->id_estatus == "11")
                     <input type="text" name="id_estatus" value="16" visible="false">
                 @else
                     <input type="text" name="id_estatus" value="11" visible="false">
