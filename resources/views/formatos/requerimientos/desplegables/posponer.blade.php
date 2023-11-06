@@ -150,7 +150,7 @@
               </div>
             </div>
           @endif
-          @if($registros->posicion > 7)
+          <!--@if($registros->posicion > 7)
             <div class="form-group row">
               <label for="construccion" class="col-sm-4 text-end control-label col-form-label">Pre-producción*</label>
               <div class="col-md-8">
@@ -188,7 +188,7 @@
                 @enderror
               </div>
             </div>
-          @endif
+          @endif-->
           <button type="submit" class="btn btn-success waves-effect waves-light text-white">
             <a style="color:white"> Autorizar</a>
           </button>
