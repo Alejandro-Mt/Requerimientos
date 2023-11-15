@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\DefinicionRequerimiento;
+use App\Mail\interno\notificacion_definicion;
 use App\Models\analisis;
 use App\Models\archivo;
 use App\Models\bitacora;
@@ -29,7 +30,10 @@ class PlaneacionController extends Controller
      */
     public function index($folio)
     {
-        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+        $registros = registro::select('registros.folio', 'registros.id_estatus','p.evidencia as def','l.fecha_def')
+          ->leftjoin('levantamientos as l','registros.folio','l.folio')
+          ->leftjoin('planeacion as p','registros.folio','p.folio')
+          ->where('registros.folio',Crypt::decrypt($folio))->first();
         $id = registro::latest('id_registro')->first();
         $desfases = desfase::all();
         $previo = planeacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
@@ -52,11 +56,11 @@ class PlaneacionController extends Controller
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         else{
             $archivos = Archivo::where('folio', $data['folio'])->get();
-            $destino = solicitud::where('folior', $data['folio'])->select('correo')->first();
+            $cliente = solicitud::where('folior', $data['folio'])->select('correo')->first();
+            $pip = registro::where('registros.folio', $data['folio'])->leftjoin('responsables as r', 'registros.id_responsable', 'r.id_responsable')->select('email')->first();
             $requiredKeywords = ['definición de requerimiento', 'flujo de trabajo', 'mockup'];
             $missingKeywords = [];
             $definicionRequerimientoFound = false;
-            $flujoTrabajoOrMockupFound = false;
 
             foreach ($requiredKeywords as $requiredKeyword) {
                 $keywordFound = false;
@@ -69,6 +73,7 @@ class PlaneacionController extends Controller
 
                         if ($requiredKeyword == 'definición de requerimiento') {
                             $definicionRequerimientoFound = true;
+                            $data['evidencia'] = mb_strtolower($archivo->url);
                         } elseif ($requiredKeyword == 'flujo de trabajo' || $requiredKeyword == 'mockup') {
                             $flujoTrabajoOrMockupFound = true;
                         }
@@ -81,30 +86,23 @@ class PlaneacionController extends Controller
                     $missingKeywords[] = mb_strtoupper($requiredKeyword);
                 }
             }
-
             if (!$definicionRequerimientoFound) {
                 // "definición de requerimiento" es obligatoria, por lo que si no se encuentra, muestra un error
                 $errorMessage = "No se ha adjuntado el archivo: definición de requerimiento";
                 Session::flash('error', $errorMessage);
                 return redirect()->back();
             }
-
-            /*if (!$flujoTrabajoOrMockupFound) {
-                // Ni "flujo de trabajo" ni "mockup" están presentes, muestra un error
-                $errorMessage = "Al menos uno de los archivos requeridos ('flujo de trabajo' o 'mockup') debe estar presente.";
-                Session::flash('error', $errorMessage);
-                return redirect()->back();
-            }*/
-            if ($destino) {
-                // Envía el correo si se cumple la condición
-                Mail::to($destino->correo)->send(new DefinicionRequerimiento($data->folio));
+            if ($pip) {
+                Mail::to($pip->email)->send(new notificacion_definicion($data->folio));
+            }
+            if ($cliente) {
+                Mail::to($cliente->correo)->send(new DefinicionRequerimiento($data->folio));
             }
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
             $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
         }
-        #foreach($registro as $fecha){$this->validate($data, ['fechaCompReqC' => "required|date|after_or_equal:$fecha->fechades"]);}
         $verificar = planeacion::where('folio',$data['folio'])->count();
         if($data['fechaCompReqC']<>NULL){$fechaCompReqC=date("y/m/d H:i:s", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
         if($data['fechaCompReqR']<>NULL){
@@ -204,6 +202,23 @@ class PlaneacionController extends Controller
         $estatus->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
         #dd($destino->correo);
+    }
+
+    /**
+     * Store a newly created notify.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function notify($folio)
+    {
+        //
+        $destino = solicitud::where('folior', $folio)->select('correo')->first();
+        if ($destino) {
+            // Envía el correo si se cumple la condición
+            Mail::to($destino->correo)->send(new DefinicionRequerimiento($folio));
+        }
+        return redirect(route('Documentos',Crypt::encrypt($folio)));
     }
 
     /**

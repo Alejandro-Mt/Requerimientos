@@ -1,5 +1,7 @@
 @extends('home')
 @section('content')
+<!-- Incluir complemento -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
@@ -362,37 +364,39 @@
                                         </span>
                                       </div>
                                     </div>
-                                  @foreach($retrasos as $retraso)
-                                    @if($limite->titulo == $retraso->titulo)
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">
-                                          <a class="text-danger">{{$retraso->motivo}}</a>
-                                        </span>
-                                        <div class="position-absolute end-0">
+                                    @foreach($retrasos as $retraso)
+                                      @if($limite->titulo == $retraso->titulo)
+                                        <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                           <span class="fs-2 text-muted">
-                                            <p class="text-danger">Días pospuesto {{$retraso->dias}}</p>
+                                            <a class="text-danger">{{$retraso->motivo}}</a>
+                                          </span>
+                                          <div class="position-absolute end-0">
+                                            <span class="fs-2 text-muted">
+                                              <p class="text-danger">Días pospuesto {{$retraso->dias}}</p>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      @endif
+                                    @endforeach
+                                    @if($rondas->ronda)
+                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                        <span class="fs-2 text-info">RONDAS</span>
+                                        <div class="position-absolute end-0">
+                                          <span class="fs-2 text-info">{{$rondas->ronda}}
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                        <span class="fs-2 text-info">{{'TOTAL DE PRUEBAS'}}</span>
+                                        <div class="position-absolute end-0">
+                                          <span class="fs-2 text-info">
+                                            @if($registros->liberacion)
+                                            {{$rondas->aprobadas + $rondas->rechazadas}}
+                                            @endif
                                           </span>
                                         </div>
                                       </div>
                                     @endif
-                                  @endforeach
-                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                    <span class="fs-2 text-muted text-info">RONDAS</span>
-                                    <div class="position-absolute end-0">
-                                      <span class="fs-2 text-muted text-info">{{$rondas->ronda}}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                    <span class="fs-2 text-muted text-info">{{'TOTAL DE PRUEBAS'}}</span>
-                                    <div class="position-absolute end-0">
-                                      <span class="fs-2 text-muted text-info">
-                                        @if($registros->liberacion)
-                                        {{$rondas->aprobadas + $rondas->rechazadas}}
-                                        @endif
-                                      </span>
-                                    </div>
-                                  </div>
                                   @endif
                                 @endforeach
                               </div>
@@ -524,12 +528,22 @@
                             @endif
                           @break
                           @case(9)
-                            @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
-                            @foreach($archivos as $file)
-                            @if (stripos($file->url, 'Definición de requerimiento'))
-                              <a href="{{route('Analisis',Crypt::encrypt($file->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
-                            @endif
-                            @endforeach
+                            @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7') 
+                              @if($registros->fecha_def == null)
+                                @if($registros->impacto == 1)
+                                  @if(Auth::user()->id_area == '6' || Auth::user()->id_puesto == '7')
+                                    <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Cambiar Definición</a>
+                                  @endif
+                                @elseif($registros->impacto == 3)
+                                  @if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7')
+                                    <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Cambiar Definición</a>
+                                  @endif
+                                @elseif($registros->impacto == 2)
+                                  <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Cambiar Definición</a>
+                                @endif
+                              @else
+                                <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
+                              @endif
                             @endif
                           @break
                           @case(7)
@@ -627,34 +641,88 @@
             @endif
             <div class="col-md-12">
               @foreach($archivos as $archivo)
-                <form id="{{$loop->iteration}}" action="{{route('dfile',pathinfo($archivo->url, PATHINFO_FILENAME))}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone">
-                  <div class="d-flex align-items-center">
-                    <div class="icon"><i class="feather-sm" data-feather="file"></i></div>
-                    <h6 class="modal-title col-sm-10">
-                      <strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong>
-                    </h6>
-                    <a class="btn waves-effect waves-light btn-outline-info col-sm-auto" href="{{asset("$archivo->url")}}">
-                      <i class="feather-sm" data-feather="download-cloud"></i>
-                    </a>
-                    @if(Auth::user()->id_area <> 3)
-                      <a id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" class="btn waves-effect waves-light btn-outline-danger delete">
-                        <i class="feather-sm" data-feather="trash-2"></i>
+                @if (!Str::contains($archivo->url, 'extra') && !Str::contains($archivo->url, 'COMPLEMENTOS'))
+                  <form id="{{$loop->iteration}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone">
+                    <div class="d-flex align-items-center">
+                      <div class="icon"><i class="feather-sm" data-feather="file"></i></div>
+                      @if (Str::contains($archivo->url, 'Definición de requerimiento'))
+                        <h6 class="modal-title col-sm-10">
+                          <a data-bs-toggle="tooltip" data-bs-placement="right" title="@foreach ($def_ver as $version)Archivo: {{ pathinfo($version->url, PATHINFO_FILENAME) }} Creado en: {{ $version->created_at->format('Y-m-d H:i:s')}}&#10;@endforeach">
+                            <strong>{{ pathinfo($archivo->url, PATHINFO_FILENAME) }}</strong>
+                            <i class="feather-sm me-2" data-feather="info"></i>
+                          </a>
+                        </h6>
+                      @else
+                        <h6 class="modal-title col-sm-10">
+                          <strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong>
+                        </h6>
+                      @endif                 
+                      <a class="btn waves-effect waves-light btn-outline-info col-sm-auto" href="{{asset("$archivo->url")}}">
+                        <i class="feather-sm" data-feather="download-cloud"></i>
                       </a>
-                    @endif
-                  </div>
-                </form> 
-              @endforeach
-                @if($formatos <> 0)
-                  <div class="d-flex align-items-center">
-                    <div class="icon">
-                      <i class="feather-sm" data-feather="file"></i>
-                    </div> 
-                    <h6 class="modal-title col-sm-10"><strong>{{"$registros->folio $registros->descripcion"}}</strong></h6>
-                    <a class="btn waves-effect waves-light btn-outline-info col-sm-auto" href="{{route("Archivo",Crypt::encrypt($registros->folio))}}">
-                      <i class="feather-sm" data-feather="download-cloud"></i>
-                    </a>
-                  </div>
+                      @if(Auth::user()->id_area <> 3)
+                        <a id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" class="btn waves-effect waves-light btn-outline-danger delete">
+                          <i class="feather-sm" data-feather="trash-2"></i>
+                        </a>
+                      @endif
+                    </div>
+                  </form> 
                 @endif
+              @endforeach
+              @if($formatos <> 0)
+                <div class="d-flex align-items-center">
+                  <div class="icon">
+                    <i class="feather-sm" data-feather="file"></i>
+                  </div> 
+                  <h6 class="modal-title col-sm-10"><strong>{{"$registros->folio $registros->descripcion"}}</strong></h6>
+                  <a class="btn waves-effect waves-light btn-outline-info col-sm-auto" href="{{route("Archivo",Crypt::encrypt($registros->folio))}}">
+                    <i class="feather-sm" data-feather="download-cloud"></i>
+                  </a>
+                </div>
+              @endif
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-xl-2 col-md-6 col-lg-10 d-flex align-items-center border-bottom">
+              <h4 class="card-title">
+                <a class="text-dark">
+                  <span class="lstick d-inline-block align-middle"></span>
+                  <strong>{{ __('COMPLEMENTOS') }}</strong>
+                </a>
+              </h4>
+            </div>
+            @if(Auth::user()->id_area <> 3)
+              <div class="col-xl-2 col-md-6 col-lg-2 d-flex align-items-center border-bottom">
+                <button id="upload" type="button" class="btn waves-effect waves-light btn-outline-success">
+                  <a data-bs-toggle="modal" data-bs-target="#Complementos">
+                    <i class="feather-sm" data-feather="upload-cloud"></i>
+                  </a>
+                </button>
+              </div>
+            @endif
+            <div class="col-md-12">
+              @foreach($archivos as $archivo)
+              @if (Str::contains($archivo->url, 'COMPLEMENTOS'))
+                  <form id="{{$loop->iteration}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone">
+                    <div class="d-flex align-items-center">
+                      <div class="icon"><i class="feather-sm" data-feather="file"></i></div>
+                      <h6 class="modal-title col-sm-10">
+                        <strong>{{pathinfo($archivo->url, PATHINFO_FILENAME)}}</strong>
+                      </h6>
+                      <a class="btn waves-effect waves-light btn-outline-info col-sm-auto" href="{{asset("$archivo->url")}}">
+                        <i class="feather-sm" data-feather="download-cloud"></i>
+                      </a>
+                      @if(Auth::user()->id_area <> 3)
+                        <a id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" class="btn waves-effect waves-light btn-outline-danger delete">
+                          <i class="feather-sm" data-feather="trash-2"></i>
+                        </a>
+                      @endif
+                    </div>
+                  </form>
+                @endif
+              @endforeach
             </div>
           </div>
         </div>
@@ -770,41 +838,33 @@
     @include('formatos.requerimientos.desplegables.posponer')
     <!-- End Modal -->
 
-  <!-- Incluir complemento -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dropzone/dist/min/dropzone.min.css")}}"/>
-  <script src="{{asset("assets/libs/dropzone/dist/min/dropzone.min.js")}}"></script>
-  <script>
-    Dropzone.options.myAwesomeDropzone = {
-      headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-      paramName: "Documentacion", // Las imágenes se van a usar bajo este nombre de parámetro
-      //uploadMultiple: true,
-      maxFilesize: 150, // Tamaño máximo en MB
-      addRemoveLinks: true,
-      dictRemoveFile: "Remover",
-      removedfile: function(file) {
-        var name = file.name;        
-        $.ajax({
-          headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
-          type: 'DELETE',
-          url: "file.borrar." + name,
-        });
-        var _ref;
-        return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-      }
-    };
-  </script>
+  <style>
+    .tooltip-inner {
+        background-color: black;
+        color: #f4f6f9;
+        box-shadow: 0px 0px 4px black;
+        opacity: 1 !important;
+        max-width: 55%;  
+    }
+
+    .tooltip.bs-tooltip-end .tooltip-arrow::before {
+      border-right-color: black
+    }
+  </style>
+  
   <script type="text/javascript">
     $(document).ready(function() {
+        var folio = $('#folio').val();
       $('.delete').on('click', function(e) {
         e.preventDefault();
         var parent = $(this).parent().parent().attr('id');
         var name = $(this).attr('id');
         var dataString = 'item='+name;
+        console.log(name);
         $.ajax({
           headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
           type: "DELETE",
-          url: "file.borrar."+name, 
+          url: "file.borrar."+name+"."+folio,
           success: function(response) {
             $('#'+parent).hide("slow");
           }               
@@ -812,7 +872,6 @@
       }); 
       $('.link').on('click', function(){
         var link = $('#evidencia').val();
-        var folio = $('#folio').val();
         $.ajax({
             headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
             type: 'POST',
@@ -830,6 +889,10 @@
               } 
             }
           });
+      });
+      $('[data-toggle="tooltip"]').tooltip({
+          trigger: 'hover',
+          delay: { "show": 500, "hide": 100 } // Agregar un retraso de 100 milisegundos al ocultar
       });
     }); 
   </script>

@@ -1,7 +1,7 @@
 @component('mail::message')
 # {{$datos->folio}} {{$datos->descripcion}} #
 @if ($datos->id_estatus == 9)
-@if ($datos->fechades == NULL)
+@if ($datos->fecha_def == NULL)
 <p>El cliente ha rechazado la Definición de requerimiento, se recomienda contactar para mayor información.</p>
 @else
 <p>La definición ha sido autorizada por el cliente.</p>

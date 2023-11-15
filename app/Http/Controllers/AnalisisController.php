@@ -28,7 +28,10 @@ class AnalisisController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($folio){
-        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+        $registros = registro::select('registros.folio', 'id_estatus','p.evidencia as def','l.fecha_def')
+          ->leftjoin('levantamientos as l','registros.folio','l.folio')
+          ->leftjoin('planeacion as p','registros.folio','p.folio')
+          ->where('registros.folio',Crypt::decrypt($folio))->first();
         $id = registro::latest('id_registro')->first();
         $desfases = desfase::all();
         $previo = analisis::select('*')->where('folio',Crypt::decrypt($folio))->get();

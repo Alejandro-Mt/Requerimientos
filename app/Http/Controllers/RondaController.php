@@ -27,7 +27,10 @@ class RondaController extends Controller
     public function index($folio)
     {
         $id = registro::select('folio')->where('folio',Crypt::decrypt($folio))->first();
-        $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+        $registros = registro::select('registros.folio', 'registros.id_estatus','p.evidencia as def','l.fecha_def')
+          ->leftjoin('levantamientos as l','registros.folio','l.folio')
+          ->leftjoin('planeacion as p','registros.folio','p.folio')
+          ->where('registros.folio',Crypt::decrypt($folio))->first();
         $ronda = ronda::where('folio',Crypt::decrypt($folio))->count();
         $solinf = liberacion::where('folio',Crypt::decrypt($folio))->whereNotNull('inicio_lib')->count();
         /*if($solinf === 0){

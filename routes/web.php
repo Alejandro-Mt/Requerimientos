@@ -125,9 +125,10 @@ Route::get('impacto.{folio}.{impacto}', [CorreoController::class, 'impacto'])->n
 #Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PMedia');
 #Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PAlta');
 Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut');
+Route::get('definicion.{folio}',[ PlaneacionController::class, 'notify'])->name('Def_Req');
 Route::get('archivos.{folio}',[CorreoController::class,'libera']);
 Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
-Route::delete('file.borrar.{id}', [CorreoController::class, 'destroy'])->name('dfile');
+Route::delete('file.borrar.{name}.{folio}', [CorreoController::class, 'destroy'])->name('dfile');
 Route::get(substr(Crypt::encryptString('/layouts.correo'), 25, 5).'{folio}',[CorreoController::class, 'send'])->middleware('auth')->name('Enviar');
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 ##  metodos para Construccion ##

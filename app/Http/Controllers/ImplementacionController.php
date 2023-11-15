@@ -27,7 +27,10 @@ class ImplementacionController extends Controller
     $desfases = db::table('estatus_funcionalidad')->select('*')->get();
     $id = registro::latest('id_registro')->first();
     $previo = implementacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
-    $registros = registro::select('folio', 'id_estatus')->where('folio',Crypt::decrypt($folio))->first();
+    $registros = registro::select('registros.folio', 'registros.id_estatus','p.evidencia as def','l.fecha_def')
+      ->leftjoin('levantamientos as l','registros.folio','l.folio')
+      ->leftjoin('planeacion as p','registros.folio','p.folio')
+      ->where('registros.folio',Crypt::decrypt($folio))->first();
     $vacio = implementacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
     return view('formatos.requerimientos.implementacion',compact('desfases','id','previo','registros','vacio'));
   }

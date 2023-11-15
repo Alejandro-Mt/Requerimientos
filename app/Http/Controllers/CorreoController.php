@@ -200,7 +200,7 @@ class CorreoController extends Controller
                 mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
                 return 'Se ha autorizado satisfactoriamente';   
         }else{
-            if($fol->id_estatus == 9 && $hora->fechades == NULL){
+            if($fol->id_estatus == 9 && $hora->fecha_def == NULL){
                 $hora -> fecha_def = now();
                 $hora -> save();
                 mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
@@ -222,14 +222,14 @@ class CorreoController extends Controller
         ->where('a.id_sistema',$fol->id_sistema)
         ->get();
         $hora = levantamiento::findOrFail($folio);
+        //dd($fol,$coordinacion);
         if($hora->fechaaut == NULL){ 
-                mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
-                return 'Se ha enviado la respuesta, gracias.';
+            mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
+            return 'Se ha enviado la respuesta, gracias.';
             #dd($correo->dispercion);  
         }else{
-            if($hora->fechades == NULL){
-                mail::to($fol->dispercion)
-                    ->send(new ValidacionRequerimiento($folio));
+            if($hora->fecha_def == NULL){
+                mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
                 return 'Se ha enviado la respuesta, gracias.';   
             }else{
                 return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
@@ -264,7 +264,6 @@ class CorreoController extends Controller
             return ('Ya ha sido definido');
             #dd($hora);
         }
-        dd($impacto);
         
     }
 
@@ -443,11 +442,14 @@ class CorreoController extends Controller
     
     public function segval ($folio){
         $estatus = registro::select('id_estatus')->where('folio',$folio)->first();
+        $levantamiento = levantamiento::FindOrFail($folio);
         switch($estatus->id_estatus){
+            case 9: 
+                $levantamiento->fecha_def = now(); 
+                $levantamiento->save();
             case 7:
-                $update = levantamiento::FindOrFail($folio);
-                $update->fechades = now(); 
-                $update->save();
+                $levantamiento->fechades = now(); 
+                $levantamiento->save();
             break;
             case 2:
                 $update = liberacion::FindOrFail($folio);
@@ -458,8 +460,9 @@ class CorreoController extends Controller
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         #return ($update);
     }
-    function store(Request $data,$folio){ 
-        $validFileNames = array_map('mb_strtolower', [
+
+    /*function store(Request $data,$folio){ 
+        $validFileNames = [
             'matriz de pruebas',
             'acta de validación',
             'acta de cierre',
@@ -467,15 +470,22 @@ class CorreoController extends Controller
             'flujo de trabajo',
             'mockup',
             'plan de trabajo'
-        ]);
-        $estatus = registro::select('id_estatus')->where('folio',$folio)->first();
-        $matriz = archivo::select('url')->where([['folio',$folio],['url','like','%matriz de pruebas%']])->first();
+        ];
+        $estatus = registro::where('folio',$folio)->first();
+        $aut_def = levantamiento::where('folio',$folio)->first(); 
+        $definicion = archivo::where([['folio',$folio],['url','like','%Definición de requerimiento%']])->first();
+        $version = $definicion ? $definicion->version + 1 : 1;
+        //$version = archivo::select('url')->where([['folio',$folio],['url','like','%Definición de requerimiento%']])->count();
+        $plan = archivo::where([['folio',$folio],['url','like','%Flujo de trabajo%']])->first();
+        $matriz = archivo::where([['folio',$folio],['url','like','%matriz de pruebas%']])->first();
+        $files = null;
         if ($data->hasFile('adjunto')) {
-            $nombreArchivo = mb_strtolower($data->file('adjunto')->getClientOriginalName());
+            $rename = mb_strtolower($data->file('adjunto')->getClientOriginalName());
             foreach ($validFileNames as $validName) {
-                if (stristr($nombreArchivo, $validName)) {
-                    $rename = $data->file('adjunto')->getClientOriginalName();
+                if (stristr($rename, $validName)) {
                     break; // Salir del bucle al encontrar una coincidencia
+                }else{
+                    $rename=null;
                 }
             }
             if (empty($rename)) {
@@ -487,40 +497,117 @@ class CorreoController extends Controller
                     }
                 } else if ($estatus->id_estatus == 2) {
                     $rename = $folio.' Acta de cierre';
-                } else if ($estatus->id_estatus == 11) {
+                } else if (($estatus->id_estatus == 11) || ($estatus->id_estatus == 9 && $plan && $aut_def->fecha_def==NULL)) {
                     $rename = $folio.' Definición de requerimiento';//,'flujo de trabajo', 'mockup'];
-                }else if ($estatus->id_estatus == 9) {
+                }else if ($estatus->id_estatus == 9 && $plan==NULL && $aut_def->fecha_def==NULL) {
+                    $rename = $folio.' Flujo de trabajo';
+                }else if ($estatus->id_estatus == 9 && $plan && $aut_def->fecha_def) {
                     $rename = $folio.' Plan de trabajo';
-                }else if ($estatus->id_estatus == 10) {
+                }else if ($estatus->id_estatus == 10 || $estatus->id_estatus == 16) {
                     $rename = $folio.' Gantt';
                 }
             }
-            $files = Storage::putFileAs("public/$folio", $data->file('adjunto'),$rename);
+            if($version && $rename ==  $folio.' Definición de requerimiento'){
+                $orginalPath = "public/storage/$folio/". $rename . '.' . $data->file('adjunto')->getClientOriginalExtension();
+                $newFileName = $folio . ' Definición de requerimiento'." versión ".$version;
+                $newFilePath = "public/storage/$folio/extra/$newFileName.". $data->file('adjunto')->getClientOriginalExtension();
+                Storage::move($orginalPath, $newFilePath);
+                $definicion->update(['url' => $newFilePath]);
+            }
+                $files = Storage::putFileAs("public/storage$folio", $data->file('adjunto'), $rename . '.' . $data->file('adjunto')->getClientOriginalExtension());
+                archivo::create(['folio' => $folio, 'url' => "public/$folio/$rename"]);
+            
         }else{
-            $rename = mb_strtolower($data->file('Documentacion')->getClientOriginalName());
-            $files = Storage::putFileAs("public/$folio", $data->file('Documentacion'),$rename);
+            $rename = mb_strtolower($data->file('General')->getClientOriginalName());
+            $files = Storage::putFileAs("public/$folio", $data->file('General'),$rename);
+            archivo::create(['folio' => $folio, 'url' => "public/storage/$folio/$rename"]);
         }
-        //$data->validate(['adjunto'=>'required']);{
-        $url = Storage::url($files);
-        if(archivo::where('url', 'like', '%' . $rename . '%')->count() == 0)
-            archivo::create([
-                'folio'=>$data->folio,
-                'url'=>$url
-            ]);
-        //}
+    }*/
+
+    function store(Request $data, $folio)
+    {
+        $validFileNames = [
+            'matriz de pruebas',
+            'acta de validación',
+            'acta de cierre',
+            'definición de requerimiento',
+            'flujo de trabajo',
+            'mockup',
+            'plan de trabajo'
+        ];
+
+        $estatus = registro::where('folio', $folio)->first();
+        $aut_def = levantamiento::where('folio', $folio)->first();
+        $definicion = archivo::where([
+            ['folio', $folio],
+            ['url', 'like', '%Definición de requerimiento%'],
+            ['url', 'not like', '%versión%']
+        ])->first();
+        $version = archivo::where([
+            ['folio', $folio],
+            ['url', 'like', '%Definición de requerimiento%']])->count();
+        $plan = archivo::where([
+            ['folio', $folio],
+            ['url', 'like', '%Flujo de trabajo%']
+        ])->first();
+        $matriz = archivo::where([
+            ['folio', $folio],
+            ['url', 'like', '%matriz de pruebas%']
+        ])->first();
+
+        if ($data->hasFile('adjunto')) {
+            $rename = mb_strtolower($data->file('adjunto')->getClientOriginalName());
+
+            foreach ($validFileNames as $validName) {
+                if (stristr($rename, $validName)) {
+                    break; // Salir del bucle al encontrar una coincidencia
+                } else {
+                    $rename = null;
+                }
+            }
+
+            if (empty($rename)) {
+                if ($estatus->id_estatus == 8) {
+                    $rename = $matriz ? $folio . ' Acta de validación' : $folio . ' Matriz de pruebas';
+                } elseif ($estatus->id_estatus == 2) {
+                    $rename = $folio . ' Acta de cierre';
+                } elseif (($estatus->id_estatus == 11) || ($estatus->id_estatus == 9 && $aut_def->fecha_def == NULL)) {
+                    $rename = $folio . ' Definición de requerimiento';
+                } elseif ($estatus->id_estatus == 9 && $aut_def->fecha_def) {
+                    $rename = $folio . ' Plan de trabajo';
+                } elseif ($estatus->id_estatus == 10 || $estatus->id_estatus == 16) {
+                    $rename = $folio . ' Gantt';
+                }
+            }
+            if ($version > 0 && $rename == $folio . ' Definición de requerimiento') {
+                $originalName = pathinfo($definicion->url, PATHINFO_FILENAME);
+                $orginalPath = "public/$folio/" . $originalName . '.' . $data->file('adjunto')->getClientOriginalExtension();
+                $newFileName = $folio . ' Definición de requerimiento' . " versión " . $version;
+                $newFilePath = "public/$folio/extra/$newFileName." . $data->file('adjunto')->getClientOriginalExtension();
+                Storage::move($orginalPath, $newFilePath);
+                $definicion->update(['url' => "/storage/$folio/extra/$newFileName." . $data->file('adjunto')->getClientOriginalExtension()]);
+            }
+
+            $files = Storage::putFileAs("public/$folio", $data->file('adjunto'), "$rename." . $data->file('adjunto')->getClientOriginalExtension());
+            archivo::create(['folio' => $folio, 'url' => "/storage/$folio/$rename.". $data->file('adjunto')->getClientOriginalExtension()]);
+        } elseif($data->hasFile('Complemento')) {
+            $rename = $data->file('Complemento')->getClientOriginalName();
+            $files = Storage::putFileAs("public/$folio/COMPLEMENTOS", $data->file('Complemento'), $rename);
+            archivo::create(['folio' => $folio, 'url' => "/storage/$folio/COMPLEMENTOS/$rename"]);
+        } else{
+            $rename = $data->file('General')->getClientOriginalName();
+            $files = Storage::putFileAs("public/$folio/COMPLEMENTOS", $data->file('General'), $rename);
+            archivo::create(['folio' => $folio, 'url' => "/storage/$folio/$rename"]);
+        }
     }
-    public function destroy($name){
+
+    public function destroy($name,$folio){
         #$name = pathinfo($data->file, PATHINFO_FILENAME);
-        $archivos = archivo::where('url', 'like', '%' . $name . '%')->get();
-        foreach($archivos as $archivo){
+        $archivo = archivo::where('url', 'like', '%' . $name . '%')->where('folio', $folio)->first();
+        
             $file = str_replace('storage',"public",$archivo->url);
             Storage::delete($file);
             $archivo->delete();
-        }
-        /*$url = archivo::FindOrFile($id);
-        $file = str_replace('storage',"public/$url->folio",$url->url);
-        Storage::delete($file);
-        $url->delete($id);*/
     }
 
 }

@@ -15,7 +15,7 @@ class DefinicionRequerimiento extends Mailable
     use Queueable, SerializesModels;
     public $datos;
     public $destinatario;
-    public $file;
+    public $archivos;
 
     /**
      * Create a new message instance.
@@ -27,7 +27,11 @@ class DefinicionRequerimiento extends Mailable
         //
         $this->datos = registro::where('folio',$folio)->first();
         $this->destinatario = solicitud::where('folior',$folio)->first();
-        $this->file = archivo::where('folio',$folio)->orderby('created_at','desc')->first();
+        $this->archivos = archivo::where('folio', $folio)->
+            where('url', 'LIKE', '%Definición de requerimiento%')->
+            where('url', 'NOT LIKE', '%versión%')->
+            first();
+
     }
 
     /**
@@ -37,9 +41,9 @@ class DefinicionRequerimiento extends Mailable
      */
     public function build()
     {
-        $email = $this->markdown('correos.cliente.definision');
-        // $archivosadjuntos es una matriz con rutas de archivos de archivos adjuntos
-            $email->attach(public_path($this->file->url));
+        $email = $this->markdown('correos.cliente.definision')->subject('Definición de requerimineto');
+            $email->attach(public_path().$this->archivos->url);
+
         return $email;
     }
 }

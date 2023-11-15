@@ -73,7 +73,7 @@
             <label for="doc" class="col-sm-2 text-end control-label col-form-label">{{ __('Documentos precargados') }}</label>
             <div class="col-md-6">
                 @foreach($archivos as $archivo)
-                    <form id="{{$loop->iteration}}" action="{{route('dfile',pathinfo($archivo->url, PATHINFO_FILENAME))}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone"> 
+                    <form id="{{$loop->iteration}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone"> 
                         {{csrf_field()}}
                         @method('DELETE')
                         @switch(pathinfo($archivo->url, PATHINFO_EXTENSION))
@@ -172,11 +172,13 @@
             }else{ done();}
         },*/
         removedfile: function(file) {
-            var name = file.name;        
+            var name = file.name;
+            var folio = $('#folio').val();
             $.ajax({
                 headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
                 type: 'DELETE',
-                url: "file.borrar." + name,
+                url: "file.borrar." + name + "." + folio,
+                //url: "file.borrar." + name,
             });
             var _ref;
             return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
@@ -189,11 +191,13 @@
             e.preventDefault();
             var parent = $(this).parent().parent().attr('id');
             var name = $(this).attr('id');
+            var folio = $('#folio').val();
             var dataString = 'item='+name;
             $.ajax({
                 headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
                 type: "DELETE",
-                url: "file.borrar."+name, 
+                url: "file.borrar." + name + "." + folio,
+                //url: "file.borrar."+name, 
                 success: function(response) {			
                     $('#'+parent).hide("slow");
                 }               

@@ -48,15 +48,9 @@ class ClienteController extends Controller
      */
     public function create(Request $data)
     {
-        $rename = $data->nombre_cl.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
-        $data->validate(['logo'=>'required']);{
-            $file = Storage::putFileAs("public/clientes", $data->file('logo'),$rename);
-            $url = Storage::url($file);
-        }
         Cliente::create([
             'nombre_cl' => $data['nombre_cl'],
             'abreviacion' => $data['abreviacion'],
-            'logo' => $url,
         ]);
         return redirect(route('Seguir'));
         #dd($data);
@@ -161,6 +155,7 @@ class ClienteController extends Controller
           ->where('folio',Crypt::decrypt($folio))->get();
         $desfases = desfase::all();
         $estatus = estatu::orderby('posicion','asc')->get();
+        $flujo = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'like', '%Flujo de trabajo%')->count();
         $formatos = levantamiento::where('folio',Crypt::decrypt($folio))->count();
         $pausa = pausa::select('r.folio',pausa::raw('ifnull(max(pausas.pausa),0) as pausa'),'d.motivo')
           ->rightjoin('registros as r','r.folio', 'pausas.folio')
@@ -176,19 +171,21 @@ class ClienteController extends Controller
               db::raw('if(s.folior IS NULL, registros.created_at, s.updated_at) as asignado'),
               db::raw("concat(nombre_r,' ', apellidos) as autorizador"),
               'fechaaut',
+              'p.evidencia as def',
+              'fecha_def',
               'prioridad',
               'fechades',
               'l.created_at as planteamiento',
               'l.updated_at as correo',
-              'p.created_at as planeacion',
+              db::raw('ifnull(l.fechaaut, p.created_at) as planeacion'),
               'a.created_at as analisis',
               'c.created_at as construccion',
               'li.created_at as liberacion',
               'li.evidencia_p as evidencia',
               'i.created_at as implementacion',
               'i.updated_at as implementado',
-              db::raw('DATEDIFF(ifnull(ifnull(l.fechades, c.created_at), now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(ifnull(l.fechades, c.created_at), now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(ifnull(l.fechades, c.created_at),now())) = 6 THEN 1 ELSE 0 END AS lev'),
-              db::raw('DATEDIFF(ifnull(li.created_at,now()), p.created_at)  - (DATEDIFF(ifnull(li.created_at,now()), p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(li.created_at,now())) = 6 THEN 1 ELSE 0 END AS cons'),
+              db::raw('DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(ifnull(l.fechaaut, c.created_at),now())) = 6 THEN 1 ELSE 0 END AS lev'),
+              db::raw('DATEDIFF(ifnull(li.created_at,now()), ifnull(l.fechaaut, p.created_at))  - (DATEDIFF(ifnull(li.created_at,now()), ifnull(l.fechaaut, p.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(l.fechaaut, p.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(li.created_at,now())) = 6 THEN 1 ELSE 0 END AS cons'),
               db::raw('DATEDIFF(ifnull(i.created_at,now()), li.created_at) - (DATEDIFF(ifnull(i.created_at,now()), li.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(li.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.created_at,now())) = 6 THEN 1 ELSE 0 END AS lib'),
               db::raw('DATEDIFF(ifnull(i.updated_at,now()), i.created_at) - (DATEDIFF(ifnull(i.updated_at,now()), i.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(i.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS imp'),
               db::raw('DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) + 1 - (DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS activo'),
@@ -217,9 +214,10 @@ class ClienteController extends Controller
           ->where('folio', Crypt::decrypt($folio))
           ->get();
         $cancelar = motivo::all();
+        $def_ver = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'LIKE', '%versión%')->get();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
-        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','folio','formatos','link', 'cancelar','pausa','registros','retrasos','rondas'));
+        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','flujo','folio','formatos','link', 'cancelar','pausa','registros','retrasos','rondas','def_ver'));
         #dd(Crypt::decrypt($folio) );
     }
 

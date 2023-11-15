@@ -27,7 +27,10 @@ class notificacion_definicion extends Mailable
         //
         $this->datos = registro::where('folio',$folio)->first();
         $this->destinatario = solicitud::where('folior',$folio)->first();
-        $this->file = archivo::where('folio',$folio)->orderby('created_at','desc')->first();
+        $this->file = archivo::where('folio',$folio)->
+            where('url', 'LIKE', '%Definición de requerimiento%')->
+            where('url', 'NOT LIKE', '%versión%')->
+            first();
     }
 
     /**
@@ -37,9 +40,8 @@ class notificacion_definicion extends Mailable
      */
     public function build()
     {
-        $email = $this->markdown('correos.cliente.definision');
-        // $archivosadjuntos es una matriz con rutas de archivos de archivos adjuntos
-            $email->attach(public_path($this->file->url));
+        $email = $this->markdown('correos.interno.definicion')->subject('Definición de requerimineto PIP');
+        $email->attach(public_path().$this->file->url);
         return $email;
     }
 }

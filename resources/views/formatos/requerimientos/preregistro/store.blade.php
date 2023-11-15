@@ -11,8 +11,8 @@
                   <tr>
                     <th class="header">Estatus</th>
                     <th class="header">Titulo</th>
-                    <th class="header">Descripción</th>
                     <th class="header">Folio</th>
+                    <th class="header">Descripción</th>
                     <th class="header">Cliente</th>
                     <th class="header">Solicitante</th>
                     <th class="header">Correo</th>
@@ -57,15 +57,6 @@
                         @endforeach
                       </td>
                       <td>
-                          @if($solicitud->adjunto == 'si')
-                            <i class="feather-sm" data-feather="paperclip"></i>
-                            <a href="{{route('AA',$solicitud->folio)}}" class="font-weight-medium link">{{$solicitud->descripcion}}</a>
-                          @else
-                            <a class="font-weight-medium link">{{$solicitud->descripcion}}</a>
-                          @endif
-                      </td>
-                      <td>{{$solicitud->planteamiento}}</td>
-                      <td>
                         @if ($solicitud->id_estatus == 20 and Auth::user()->id_area <> 3)
                           <a href="{{route('NR',$solicitud->folio)}}" class="fw-bold link">{{$solicitud->folio}}</a>
                         @else
@@ -76,6 +67,15 @@
                           @endif
                         @endif
                       </td>
+                      <td>
+                          @if($solicitud->adjunto == 'si')
+                            <i class="feather-sm" data-feather="paperclip"></i>
+                            <a href="{{route('AA',$solicitud->folio)}}" class="font-weight-medium link">{{$solicitud->descripcion}}</a>
+                          @else
+                            <a class="font-weight-medium link">{{$solicitud->descripcion}}</a>
+                          @endif
+                      </td>
+                      <td>{{$solicitud->planteamiento}}</td>
                       <td>
                         @foreach ($clientes as $cliente)
                           @if($solicitud->id_cliente == $cliente->id_cliente)
@@ -121,9 +121,9 @@
                 <tfoot>
                   <tr>
                     <th>Estatus</th>
+                    <th>Folio</th>
                     <th>Titulo</th>
                     <th>Descripción</th>
-                    <th>Folio</th>
                     <th>Cliente</th>
                     <th>Solicitante</th>
                     <th>Correo</th>

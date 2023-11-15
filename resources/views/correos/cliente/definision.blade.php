@@ -11,6 +11,5 @@ Recibe un cordial saludo!
 <td>@component('mail::button', ['url' => route('Rechazo',$datos->folio)])Rechazar @endcomponent</td>
 <td>@component('mail::button', ['url' => route('Respuesta',$datos->folio)])Autorizar @endcomponent</td> 
 </table>
-$hora = levantamiento::findOrFail($folio);
 {{ config('app.name') }}
 @endcomponent
