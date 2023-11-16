@@ -647,7 +647,7 @@
                       <div class="icon"><i class="feather-sm" data-feather="file"></i></div>
                       @if (Str::contains($archivo->url, 'Definición de requerimiento'))
                         <h6 class="modal-title col-sm-10">
-                          <a data-bs-toggle="tooltip" data-bs-placement="right" title="@foreach ($def_ver as $version)Archivo: {{ pathinfo($version->url, PATHINFO_FILENAME) }} Creado en: {{ $version->created_at->format('Y-m-d H:i:s')}}&#10;@endforeach">
+                          <a data-bs-toggle="tooltip" data-bs-placement="right" title="@foreach ($def_ver as $version)Archivo: {{ pathinfo($version->url, PATHINFO_FILENAME) }} Creado en: {{ $version->created_at->format('Y-m-d H:i:s')}}.&#10; @endforeach">
                             <strong>{{ pathinfo($archivo->url, PATHINFO_FILENAME) }}</strong>
                             <i class="feather-sm me-2" data-feather="info"></i>
                           </a>
@@ -841,10 +841,12 @@
   <style>
     .tooltip-inner {
         background-color: black;
-        color: #f4f6f9;
         box-shadow: 0px 0px 4px black;
+        color: #f4f6f9;
+        max-width: 100%; 
         opacity: 1 !important;
-        max-width: 55%;  
+        white-space: pre-line;
+        word-wrap: break-word;
     }
 
     .tooltip.bs-tooltip-end .tooltip-arrow::before {

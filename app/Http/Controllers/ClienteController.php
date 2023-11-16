@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\Interno\ActualizacionPrioridades;
-use App\Mail\Interno\PrioridadCliente;
 use App\Models\acceso;
 use App\Models\archivo;
 use App\Models\Cliente;
@@ -18,10 +16,7 @@ use App\Models\pricli;
 use App\Models\registro;
 use App\Models\ronda;
 use App\Models\sistema;
-use App\Models\solicitud;
 use App\Models\solpri;
-use Carbon\Carbon;
-use Facade\FlareClient\Http\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -214,7 +209,7 @@ class ClienteController extends Controller
           ->where('folio', Crypt::decrypt($folio))
           ->get();
         $cancelar = motivo::all();
-        $def_ver = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'LIKE', '%versión%')->get();
+        $def_ver = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'LIKE', '%Definición%')->get();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
         return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','flujo','folio','formatos','link', 'cancelar','pausa','registros','retrasos','rondas','def_ver'));
