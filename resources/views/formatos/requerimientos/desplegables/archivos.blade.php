@@ -24,7 +24,7 @@
           </form> 
         </div>
         <div class="modal-footer">
-          @if($registros->id_estatus == 8 || $registros->id_estatus == 2 || $registros->id_estatus == 9 || $registros->id_estatus == 11)
+          @if($registros->id_estatus == 2 || $registros->id_estatus == 9 || $registros->id_estatus == 11)
             <button type="button" class="btn btn-success waves-effect waves-light text-white" data-bs-dismiss="modal">Hecho</button>
           @else
             <button type="button" class="btn btn-success waves-effect waves-light text-white">

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\DefinicionRequerimiento;
-use App\Mail\interno\notificacion_definicion;
+use App\Mail\Interno\notificacion_definicion;
 use App\Models\analisis;
 use App\Models\archivo;
 use App\Models\bitacora;
