@@ -175,6 +175,7 @@ class HomeController extends Controller
         $datos = $data->get('data');
         $header = $datos['header'];
         $folios = $datos['body'];
+        #$ruta = '\Users\alejandro.garcia\Documents\PHP\web\credentials.json';
         $ruta = base_path('credentials.json');
         
         foreach ($folios as &$fila) {
@@ -188,7 +189,24 @@ class HomeController extends Controller
         // Crea el cliente y autenticación
         $client = new Google_Client();
         $client->setAuthConfig($ruta);
-        $token = Auth::user()->token_google; // Implementa tu propia función para cargar el token almacenado
+       
+        $token = Auth::user()->token_google;
+        if ($client->isAccessTokenExpired()) { 
+            if (empty(Auth::user()->token_google)) {
+                // Si no hay token, redirigir al usuario para autorizar
+                $client->setRedirectUri(route('auth.google'));
+                $authUrl = $client->createAuthUrl();
+                return redirect()->away($authUrl);
+            }
+            try{
+            dd('error');
+                $refreshToken = $client->getRefreshToken();
+                $client->fetchAccessTokenWithRefreshToken($refreshToken);    
+            }
+            catch(\Google\Service\Exception $e){
+                dd($e->getCode());
+            }
+        }
         $client->setAccessToken($token);
         $service = new Sheets($client);
     
@@ -200,6 +218,7 @@ class HomeController extends Controller
         ]);
         $spreadsheet = $service->spreadsheets->create($spreadsheet);
         $fileId = $spreadsheet->spreadsheetId;
+        // Divide los registros en lotes de 100
         
         $values = [$header];
         foreach ($folios as $filas) {
@@ -225,9 +244,23 @@ class HomeController extends Controller
         
         if ($result->error) {
             echo "Error: " . $result->error->message;
-        }else{
-            $response = ['fileId' => $fileId];
-            return response()->json($response);
-        }
+        } /*else {
+            if ($result->updates->updatedRows > 0) {
+                // Abre el archivo de Excel en el navegador            
+                $spreadsheetLink = "https://docs.google.com/spreadsheets/d/$fileId";
+                if (stristr(PHP_OS, 'linux')) {
+                    // Utiliza el comando xdg-open para abrir el enlace en el navegador predeterminado de Linux
+                    exec("xdg-open \"$spreadsheetLink\"");
+                } else {
+                    // Maneja otros sistemas operativos aquí (por ejemplo, Windows)
+                    // Puedes usar shell_exec u otros comandos según corresponda
+                    // Por ejemplo, en Windows podrías usar "start" para abrir el enlace
+                    shell_exec("start $spreadsheetLink");
+                }
+            
+            }             
+        }*/
+        $response = ['fileId' => $fileId];
+        return response()->json($response);
     }
 }    
