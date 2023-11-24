@@ -251,6 +251,21 @@
                                     @endforeach
                                   @endif
                                 @endforeach
+                                
+                                @foreach($retrasos as $retrasodesc)
+                                @if($retrasodesc->titulo == 'DESCONOCIDO')
+                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                    <span class="fs-2 text-muted">
+                                      <a class="text-danger">{{$retrasodesc->motivo}}</a>
+                                    </span>
+                                    <div class="position-absolute end-0">
+                                      <span class="fs-2 text-muted">
+                                        <p class="text-danger">Días pospuesto {{$retrasodesc->dias}}</p>
+                                      </span>
+                                    </div>
+                                  </div>
+                                @endif
+                              @endforeach
                               </div>
                             </div>
                             <div class="position-absolute start-50">

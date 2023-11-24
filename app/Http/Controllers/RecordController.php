@@ -147,7 +147,7 @@ class RecordController extends Controller
         if($involucrados){
             Mail::to($email->email)->cc($involucrados->pluck('email'))->send(new Fase($folio,'14'));
         }
-        return redirect(route('Documentos',Crypt::encrypt($folio)));
+        return redirect(route('home'));
     }
 
 }

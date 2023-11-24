@@ -180,17 +180,17 @@ class ClienteController extends Controller
               'i.created_at as implementacion',
               'i.updated_at as implementado',
               DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(l.fechaaut, c.created_at)) as lev'),
-              DB::raw('CalcDias(ifnull(l.fechaaut, p.created_at), ifnull(li.created_at,now())) as cons'),
-              DB::raw('CalcDias(li.created_at, ifnull(i.created_at,now())) as lib'),
-              DB::raw('CalcDias(i.created_at, ifnull(i.updated_at,now())) as imp'),
+              DB::raw('CalcDias(ifnull(l.fechaaut, p.created_at), ifnull(c.updated_at,now())) as cons'),
+              DB::raw('CalcDias(c.updated_at, ifnull(li.updated_at,now())) as lib'),
+              DB::raw('CalcDias(li.updated_at, ifnull(i.updated_at,now())) as imp'),
               DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(i.updated_at,now())) as activo'),
-              //DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(l.fechaaut, c.created_at)) as lev'),
+              DB::raw('SUM(CASE WHEN pa.pausa != 0 THEN CalcDias(pa.created_at, CURDATE()) ELSE CalcDias(pa.created_at, pa.updated_at) END) as pospuesto'),
               //db::raw('DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(ifnull(l.fechaaut, c.created_at),now())) = 6 THEN 1 ELSE 0 END AS lev'),
               //db::raw('DATEDIFF(ifnull(li.created_at,now()), ifnull(l.fechaaut, p.created_at))  - (DATEDIFF(ifnull(li.created_at,now()), ifnull(l.fechaaut, p.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(l.fechaaut, p.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(li.created_at,now())) = 6 THEN 1 ELSE 0 END AS cons'),
               //db::raw('DATEDIFF(ifnull(i.created_at,now()), li.created_at) - (DATEDIFF(ifnull(i.created_at,now()), li.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(li.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.created_at,now())) = 6 THEN 1 ELSE 0 END AS lib'),
               //db::raw('DATEDIFF(ifnull(i.updated_at,now()), i.created_at) - (DATEDIFF(ifnull(i.updated_at,now()), i.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(i.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS imp'),
-              db::raw('DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) + 1 - (DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS activo'),
-              db::raw('SUM(CASE WHEN pa.pausa != 0 THEN DATEDIFF(CURDATE(), pa.created_at) + 1 - (DATEDIFF(CURDATE(), pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 1 ELSE 0 END ELSE CASE WHEN pa.created_at IS NOT NULL AND pa.updated_at IS NOT NULL THEN DATEDIFF(pa.updated_at, pa.created_at) + 1 - (DATEDIFF(pa.updated_at, pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(pa.updated_at) = 6 THEN 1 ELSE 0 END ELSE 0 END END) AS pospuesto'),
+              //db::raw('DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) + 1 - (DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS activo'),
+              //db::raw('SUM(CASE WHEN pa.pausa != 0 THEN DATEDIFF(CURDATE(), pa.created_at) + 1 - (DATEDIFF(CURDATE(), pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 1 ELSE 0 END ELSE CASE WHEN pa.created_at IS NOT NULL AND pa.updated_at IS NOT NULL THEN DATEDIFF(pa.updated_at, pa.created_at) + 1 - (DATEDIFF(pa.updated_at, pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(pa.updated_at) = 6 THEN 1 ELSE 0 END ELSE 0 END END) AS pospuesto'),
               'l.impacto')->
             leftjoin('estatus as es','es.id_estatus','registros.id_estatus')->
             leftjoin('solicitudes as s','registros.folio','s.folior')-> 
@@ -209,7 +209,7 @@ class ClienteController extends Controller
             ->select('p.folio', 'p.pausa',
                 DB::raw('IFNULL(d.motivo, "DESCONOCIDO") AS motivo'),
                 DB::raw('IFNULL(e.titulo, "DESCONOCIDO") AS titulo'),
-                DB::raw('CASE WHEN p.created_at IS NOT NULL AND p.updated_at IS NOT NULL THEN CASE WHEN p.pausa = 2 THEN DATEDIFF(CURDATE(), p.created_at) + 1 - (DATEDIFF(CURDATE(), p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 1 ELSE 0 END ELSE DATEDIFF(p.updated_at, p.created_at) + 1 - (DATEDIFF(p.updated_at, p.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(p.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(p.updated_at) = 6 THEN 1 ELSE 0 END END ELSE 0 END AS dias'))
+                DB::raw('CASE WHEN p.pausa = 2 THEN CalcDias(p.created_at, CURDATE()) ELSE CalcDias(p.created_at, p.updated_at) END AS dias'))
             ->leftJoin('estatus as e', 'e.id_estatus', '=', 'p.id_estatus')
             ->leftJoin('desfases as d', 'd.id', '=', 'p.id_motivo')        
           ->where('folio', Crypt::decrypt($folio))
