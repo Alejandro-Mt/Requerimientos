@@ -596,7 +596,7 @@ class CorreoController extends Controller
             archivo::create(['folio' => $folio, 'url' => "/storage/$folio/COMPLEMENTOS/$rename"]);
         } else{
             $rename = $data->file('General')->getClientOriginalName();
-            $files = Storage::putFileAs("public/$folio/COMPLEMENTOS", $data->file('General'), $rename);
+            $files = Storage::putFileAs("public/$folio", $data->file('General'), $rename);
             archivo::create(['folio' => $folio, 'url' => "/storage/$folio/$rename"]);
         }
     }

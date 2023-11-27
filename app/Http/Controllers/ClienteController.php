@@ -179,7 +179,7 @@ class ClienteController extends Controller
               'li.evidencia_p as evidencia',
               'i.created_at as implementacion',
               'i.updated_at as implementado',
-              DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(l.fechaaut, c.created_at)) as lev'),
+              DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(ifnull(l.fechaaut, c.created_at),now())) as lev'),
               DB::raw('CalcDias(ifnull(l.fechaaut, p.created_at), ifnull(c.updated_at,now())) as cons'),
               DB::raw('CalcDias(c.updated_at, ifnull(li.updated_at,now())) as lib'),
               DB::raw('CalcDias(li.updated_at, ifnull(i.updated_at,now())) as imp'),
