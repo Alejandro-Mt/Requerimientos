@@ -15,6 +15,7 @@ use App\Models\solpri;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use DateTime;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Support\Facades\Crypt;
@@ -117,6 +118,14 @@ class RecordController extends Controller
             $listado->orden = $listado->orden.','.$folio;
             $listado->save();
         }
+        $notificacionSCC = solicitud::where('folio',$data['preregistro'])->first();
+        $notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$notificacionSCC->correo);
+        $datos = $notificacionUser->json();
+        $idSC = $datos['idUsuario'];
+        $message = 'Hola! Te informamos que tu solicitud de requerimiento ha sido asignada con el folio '.$folio.'. En la siguiente liga encontraras mas información ~https://requerimientos.tiii.mx/preregistro.listado~. Gracias.';
+        #dd($idSC,$message);
+        $notificacionController = new NotificacionController();
+        $notificacionController->stnotify($idSC,$message);
         #dd(($folio));
         return redirect(route('Nuevo'))->with('alert', $folio);
     }

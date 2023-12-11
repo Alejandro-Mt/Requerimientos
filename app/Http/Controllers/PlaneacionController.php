@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -93,9 +94,21 @@ class PlaneacionController extends Controller
                 return redirect()->back();
             }
             if ($pip) {
+                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$pip->email);
+                $datos = $notificacionUserA->json();
+                $idSC = $datos['idUsuario'];
+                $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$data->folio.' se ha enviado al cliente para su validación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
+                $notificacionController = new NotificacionController();
+                $notificacionController->stnotify($idSC,$message);
                 Mail::to($pip->email)->send(new notificacion_definicion($data->folio));
             }
             if ($cliente) {
+                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$cliente->correo);
+                $datos = $notificacionUserA->json();
+                $idSC = $datos['idUsuario'];
+                $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$data->folio.' se ha enviado a tu correo para su validación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
+                $notificacionController = new NotificacionController();
+                $notificacionController->stnotify($idSC,$message);
                 Mail::to($cliente->correo)->send(new DefinicionRequerimiento($data->folio));
             }
         }

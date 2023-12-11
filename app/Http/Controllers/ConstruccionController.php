@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class ConstruccionController extends Controller
@@ -87,6 +88,12 @@ class ConstruccionController extends Controller
         ->where('a.id_sistema',$estatus->id_sistema)
         ->where('id_area', 6)
         ->get();
+        $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email->email);
+        $datos = $notificacionUserA->json();
+        $idSC = $datos['idUsuario'];
+        $message = 'Hola! Te informamos que el requerimiento con folio '.$data->folio.' ha entrado a la fase de liberación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
+        $notificacionController = new NotificacionController();
+        $notificacionController->stnotify($idSC,$message);
       if($email){
         //Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '8'));
         Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '8'));

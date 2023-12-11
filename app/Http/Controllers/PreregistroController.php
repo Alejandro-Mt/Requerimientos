@@ -15,6 +15,7 @@ use App\Models\solicitud;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use DateTime;
@@ -58,7 +59,7 @@ class PreregistroController extends Controller
             'descripcion' => "max:250",
         ]);
         $data['email'] = Auth::user()->email;
-        solicitud::create([
+        /*solicitud::create([
             'folio' => $folio,
             'solicitante' => Auth::user()->nombre.' '.Auth::user()->apaterno.' '.Auth::user()->amaterno,
             'correo' => $data['email'] ,
@@ -67,13 +68,25 @@ class PreregistroController extends Controller
             'id_estatus' => 20,
             'descripcion' => $data['descripcion'],
             'planteamiento' => $data['planteamiento']
-        ]);
-        $coordinacion = User:: select('*')
-        ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
-        ->leftjoin('accesos as a','users.id','a.id_user')
-        ->whereIn('jerarquia', [2, 3, 7])
-        ->where('a.id_sistema',$data['id_sistema'])
+        ]);*/
+        $coordinacion = User::select('*')
+            ->leftJoin('puestos as p', 'p.id_puesto', 'users.id_puesto')
+            ->leftJoin('accesos as a', 'users.id', 'a.id_user')
+            ->whereIn('jerarquia', [2, 3, 7])
+            ->where('a.id_sistema', $data['id_sistema'])
+            ->where(function ($query) {
+                $query->where('users.id_area', '!=', '12')->orWhere('jerarquia', '7');
+            })
         ->get();
+        foreach ($coordinacion as $usuario) {
+            $notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$usuario->email);
+            $datos = $notificacionUser->json(); // Convierte la respuesta JSON a un array PHP
+            $idSC = $datos['idUsuario'];
+            $message = 'Hola! Te informamos que tienes una Nueva Solicitud de requerimiento ~https://requerimientos.tiii.mx/preregistro.listado~. Gracias.';
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
+        }
+        #dd($notificacionController);
         mail::to($data['email'])->cc( $coordinacion->pluck('email'))->send(new SolicitudRequerimiento($folio));
         #dd($c->email);
         if($data['adjunto'] == 'true'){

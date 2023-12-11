@@ -44,6 +44,17 @@ return [
             'timeout' => 5,
             'auth_mode' => null,
         ],
+        /*'mailers' => [
+        'smtp' => [
+            'transport' => 'smtp',
+            'host' => env('MAILGUN_SMTP_SERVER'),//, 'smtp.mailtrap.io'),
+            'port' => env('MAILGUN_SMTP_PORT'),//, 2525),
+            'encryption' => env('MAIL_ENCRYPTION'),//, 'tls'),
+            'username' => env('MAILGUN_SMTP_LOGIN'),//,'fd90c2e051c9f3'),
+            'password' => env('MAILGUN_SMTP_PASSWORD'),//,'64bbabc621d642'),
+            'timeout' => 5,
+            'auth_mode' => null,
+        ],*/
 
         'ses' => [
             'transport' => 'ses',

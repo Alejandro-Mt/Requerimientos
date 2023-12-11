@@ -20,11 +20,13 @@ use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
+use App\Models\solicitud;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -46,6 +48,7 @@ class CorreoController extends Controller
                 leftJoin('responsables as i', function ($join) {
                     $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
                     orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                    orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable, ",%")'))->
                     orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
                 })->
                 first();
@@ -59,6 +62,7 @@ class CorreoController extends Controller
                     leftJoin('responsables as i', function ($join) {
                         $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
                         orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                        orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable, ",%")'))->
                         orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
                     })->
                     first();
@@ -73,6 +77,28 @@ class CorreoController extends Controller
         $folio = Crypt::decrypt($data['folio']);
         $estatus = Registro::where('folio', $folio)->first();
         if($estatus->id_estatus == 10){
+            $archivos = Archivo::where('folio', $folio)->get();
+            // Verificar si los archivos requeridos existen
+            $requiredKeywords = ['gantt'];
+            $missingKeywords = [];
+            foreach ($requiredKeywords as $requiredKeyword) {
+                $keywordFound = false;
+                foreach ($archivos as $archivo) {
+                    if (str_contains(mb_strtolower($archivo->url), $requiredKeyword)) {
+                        $keywordFound = true;
+                        break;
+                    }
+                }
+                if (!$keywordFound) {
+                    $missingKeywords[] = mb_strtoupper($requiredKeyword);
+                }
+            }
+            if (!empty($missingKeywords)) {
+                // Al menos un archivo requerido no contiene las palabras clave
+                $errorMessage = "No se ha adjuntado el archivo: " . implode(', ', $missingKeywords);
+                Session::flash('error', $errorMessage);
+                return redirect()->back();
+            }
             $destinatarios = levantamiento::
                 select('d.email', DB::raw('GROUP_CONCAT(i.email) as cc'))->
                 where('folio', $folio)->
@@ -80,9 +106,16 @@ class CorreoController extends Controller
                 leftJoin('responsables as i', function ($join) {
                     $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
                     orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                    orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable, ",%")'))->
                     orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
                 })->
-                first();
+            first();
+            $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$data->email[0]);
+            $datos = $notificacionUserC->json();
+            $idSC = $datos['idUsuario'];
+            $message = 'Hola! Te compartimos el documento de levantamiento de tu requerimiento con folio '.$folio.'. ~'.route("Archivo",Crypt::encrypt($folio)).'~. También se ha enviado a su correo la documentacion para su autorización. Gracias.';
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
         }else
             if($estatus->id_estatus == 16){
                 $destinatarios = levantamiento::
@@ -93,37 +126,21 @@ class CorreoController extends Controller
                     leftJoin('responsables as i', function ($join) {
                         $join->on('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable, ",%")'))->
                         orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT("%,", i.id_responsable)'))->
+                        orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable, ",%")'))->
                         orWhere('levantamientos.involucrados', 'like', DB::raw('CONCAT(i.id_responsable)'));
                     })->
                     first();
-            }
-        $archivos = Archivo::where('folio', $folio)->get();
-        // Verificar si los archivos requeridos existen
-        $requiredKeywords = ['gantt'];
-        $missingKeywords = [];
-        foreach ($requiredKeywords as $requiredKeyword) {
-            $keywordFound = false;
-            foreach ($archivos as $archivo) {
-                if (str_contains(mb_strtolower($archivo->url), $requiredKeyword)) {
-                    $keywordFound = true;
-                    break;
-                }
-            }
-            if (!$keywordFound) {
-                $missingKeywords[] = mb_strtoupper($requiredKeyword);
-            }
-        }
-        if (!empty($missingKeywords)) {
-            // Al menos un archivo requerido no contiene las palabras clave
-            $errorMessage = "No se ha adjuntado el archivo: " . implode(', ', $missingKeywords);
-            Session::flash('error', $errorMessage);
-            return redirect()->back();
+                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$data->email[0]);
+                $datos = $notificacionUserA->json();
+                $idSC = $datos['idUsuario'];
+                $message = 'Hola! Te compartimos el documento de levantamiento del requerimiento con folio '.$folio.'. ~'.route("Archivo",Crypt::encrypt($folio)).'~. También se ha enviado a su correo la documentacion para su asignacion de impacto. Gracias.';
+                #dd($idSC,$message);
+                $notificacionController = new NotificacionController();
+                $notificacionController->stnotify($idSC,$message);
         }
         // Los archivos requeridos existen, proceder con el envío de correo y actualización de estatus
         $cc = explode(',', $destinatarios->cc);
-        try{
         mail::to($data->email)->cc($cc)->send(new ValidacionCliente($folio));
-        }catch(Exception $e) {}
         if (count(Mail::failures()) < 1) {
             $estatus->id_estatus = $data['id_estatus'];
             $estatus->save();
@@ -175,7 +192,7 @@ class CorreoController extends Controller
             #return $pdf -> stream ("$titulo $fold->descripcion.pdf");
             $html = view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
             $pdf->WriteHTML($html);
-            $nombreArchivo = 'Levantamiento.pdf';
+            $nombreArchivo = $titulo.' '.$fold->descripcion.'.pdf';
     
             // Genera una respuesta HTTP con el PDF y descárgalo
             $pdf->Output($nombreArchivo, \Mpdf\Output\Destination::INLINE);
@@ -194,15 +211,24 @@ class CorreoController extends Controller
                 leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
                 ->where('registros.folio',$folio)
                 ->first();
+        $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->email);
+        $datos = $notificacionUserC->json();
+        $idSC = $datos['idUsuario'];
         if($hora->fechaaut == NULL){ 
             $hora -> fechaaut = now();
             $hora -> save();
-                mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
-                return 'Se ha autorizado satisfactoriamente';   
+            $message = 'Hola! Te informamos que el levantamiento del requerimiento con folio '.$folio. ' ha sido autorizado. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
+            mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
+            return 'Se ha autorizado satisfactoriamente';   
         }else{
             if($fol->id_estatus == 9 && $hora->fecha_def == NULL){
                 $hora -> fecha_def = now();
                 $hora -> save();
+                $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$folio. ' ha sido autorizada. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
+                $notificacionController = new NotificacionController();
+                $notificacionController->stnotify($idSC,$message);
                 mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
                 return 'Se ha autorizado satisfactoriamente';   
             }else{
@@ -216,19 +242,30 @@ class CorreoController extends Controller
                       ->where('folio',$folio)
                       ->first();
         $coordinacion = User:: select('email')
-        ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
-        ->leftjoin('accesos as a','users.id','a.id_user')
-        ->whereIn('jerarquia', [2, 3, 7])
-        ->where('a.id_sistema',$fol->id_sistema)
-        ->get();
+            ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
+            ->leftjoin('accesos as a','users.id','a.id_user')
+            ->whereIn('jerarquia', [2, 3, 7])
+            ->where('a.id_sistema',$fol->id_sistema)
+            ->get();
         $hora = levantamiento::findOrFail($folio);
+        $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->email);
+        $datos = $notificacionUserA->json();
+        $idSC = $datos['idUsuario'];
         //dd($fol,$coordinacion);
         if($hora->fechaaut == NULL){ 
+            $message = 'Hola! Te informamos que el documento de levantamiento del requerimiento con folio '.$folio.'. ~'.route("Archivo",Crypt::encrypt($folio)).'~, ha sido rechazado. Gracias.';
+            #dd($idSC,$message);
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
             mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
             return 'Se ha enviado la respuesta, gracias.';
             #dd($correo->dispercion);  
         }else{
             if($hora->fecha_def == NULL){
+                $message = 'Hola! Te informamos que el documento de definición del requerimiento con folio '.$folio.'. ~'.route("Archivo",Crypt::encrypt($folio)).'~, ha sido rechazado. Gracias.';
+                #dd($idSC,$message);
+                $notificacionController = new NotificacionController();
+                $notificacionController->stnotify($idSC,$message);
                 mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
                 return 'Se ha enviado la respuesta, gracias.';   
             }else{
@@ -255,6 +292,12 @@ class CorreoController extends Controller
             $hora -> impacto = $impacto;
             $hora -> save();
             mail::to($correo->email)->cc($involucrados->pluck('email'))->send(new SegundaValidacion($folio));
+            $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->email);
+            $datos = $notificacionUserC->json();
+            $idSC = $datos['idUsuario'];
+            $message = 'Hola! Te informamos que desarrollo ha designado el impacto del requerimiento con folio '.$folio. ' ha sido autorizado. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
             if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7'){
                 return redirect(route('Documentos',Crypt::encrypt($folio)));
             }else{
