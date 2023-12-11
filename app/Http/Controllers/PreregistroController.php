@@ -59,7 +59,7 @@ class PreregistroController extends Controller
             'descripcion' => "max:250",
         ]);
         $data['email'] = Auth::user()->email;
-        /*solicitud::create([
+        solicitud::create([
             'folio' => $folio,
             'solicitante' => Auth::user()->nombre.' '.Auth::user()->apaterno.' '.Auth::user()->amaterno,
             'correo' => $data['email'] ,
@@ -68,7 +68,7 @@ class PreregistroController extends Controller
             'id_estatus' => 20,
             'descripcion' => $data['descripcion'],
             'planteamiento' => $data['planteamiento']
-        ]);*/
+        ]);
         $coordinacion = User::select('*')
             ->leftJoin('puestos as p', 'p.id_puesto', 'users.id_puesto')
             ->leftJoin('accesos as a', 'users.id', 'a.id_user')
