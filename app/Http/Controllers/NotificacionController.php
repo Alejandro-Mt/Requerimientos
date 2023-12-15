@@ -14,7 +14,7 @@ class NotificacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     function stnotify($idSC,$message){
-        $url = 'https://servicionotificaciones-preproduction-mb3clvz7ya-uc.a.run.app/api/v1/messagenotification';
+        $url = 'https://servicionotificaciones-67vdh6ftzq-uc.a.run.app/api/v1/messagenotification';
         $data = [
             "reasonId" => 0,
             "notificationTypeId" => 0,
