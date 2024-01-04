@@ -77,16 +77,18 @@ class ImplementacionController extends Controller
           ->where('a.id_sistema',$estatus->id_sistema)
           ->where('id_area', 6)
           ->get();
+      if($email){
         $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email->email);
         $datos = $notificacionUserA->json();
         $idSC = $datos['idUsuario'];
         $message = 'Hola! Te informamos que el requerimiento con folio '.$data->folio.' se ha implementado. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
         $notificacionController = new NotificacionController();
         $notificacionController->stnotify($idSC,$message);
-      if($email){Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, $data['id_estatus']));}
+        Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, $data['id_estatus']));
+      }
     }
-    $val = liberacion::select('fecha_lib_r')->where('folio',$data['folio'])->get();
-    foreach($val as $fecha){$this->validate($data, ['f_implementacion' => "required|date|after_or_equal:$fecha->fecha_lib_r"]);}
+    $val = liberacion::select('inicio_lib')->where('folio',$data['folio'])->get();
+    foreach($val as $fecha){$this->validate($data, ['f_implementacion' => "required|date|after_or_equal:$fecha->inicio_lib"]);}
     $verificar = implementacion::where('folio',$data['folio'])->count();
     if($data['f_implementacion']<>NULL){$f_implementacion=date("y/m/d", strtotime($data['f_implementacion']));}else{$f_implementacion=NULL;}
     if($data['cronograma']==NULL){$data['cronograma']= 0;}
