@@ -4,6 +4,7 @@ namespace App\Mail\interno;
 
 use App\Models\archivo;
 use App\Models\registro;
+use App\Models\responsable;
 use App\Models\solicitud;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -25,8 +26,7 @@ class notificacion_definicion extends Mailable
     public function __construct($folio)
     {
         //
-        $this->datos = registro::where('folio',$folio)->first();
-        $this->destinatario = solicitud::where('folior',$folio)->first();
+        $this->datos = registro::join('responsables as r', 'registros.id_responsable', 'r.id_responsable')->where('folio',$folio)->first();
         $this->file = archivo::where('folio',$folio)->
             where('url', 'LIKE', '%Definición de requerimiento%')->
             where('url', 'NOT LIKE', '%versión%')->
