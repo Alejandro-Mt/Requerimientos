@@ -112,7 +112,7 @@ Route::get('/posponer.{folio}.{id_motivo}.{id_estatus}', [MenuController::class,
 Route::post('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
-Route::get('mesa.{folio}',[MesaContoller::class,'index'])->middleware('auth')->name('Mesa');
+Route::get(substr(Crypt::encryptString('mesa'),90,5).'{folio}',[MesaContoller::class,'index'])->middleware('auth')->name('Mesa');
 Route::post('crear.mesa.{folio}',[MesaContoller::class,'create'])->middleware('auth')->name('NMesa');
 #    \\      Proceso levantamiento      //   #
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.formato'), 10, 5).'{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');

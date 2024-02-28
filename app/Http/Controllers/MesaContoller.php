@@ -23,7 +23,7 @@ class MesaContoller extends Controller
         //
         $responsables = responsable::all();
         $data = registro::where('folio',Crypt::decrypt($folio))->first();
-        return view('formatos\requerimientos\seguimiento\mesa',compact('data','responsables'));
+        return view('formatos.requerimientos.seguimiento.mesa',compact('data','responsables'));
     }
 
     /**
