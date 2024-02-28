@@ -18,6 +18,7 @@ use App\Http\Controllers\LevantamientosController;
 use App\Http\Controllers\LiberacionController;
 use App\Http\Controllers\MaquetadoController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\MesaContoller;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\PlaneacionController;
 use App\Http\Controllers\PreregistroController;
@@ -111,6 +112,8 @@ Route::get('/posponer.{folio}.{id_motivo}.{id_estatus}', [MenuController::class,
 Route::post('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
+Route::get('mesa.{folio}',[MesaContoller::class,'index'])->middleware('auth')->name('Mesa');
+Route::post('crear.mesa.{folio}',[MesaContoller::class,'create'])->middleware('auth')->name('NMesa');
 #    \\      Proceso levantamiento      //   #
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.formato'), 10, 5).'{id_registro}', [LevantamientosController::class, 'formato'])->middleware('auth')->name('Formato');
 Route::post('/formatos.requerimientos.formato', [LevantamientosController::class, 'actualiza'])->name('Actualizar');
@@ -122,7 +125,7 @@ Route::get('/correos.contenido.{folio}', [CorreoController::class, 'respuesta'])
 Route::get('/correos.{folio}',[CorreoController::class, 'rechazo'])->name('Rechazo');
 ##  metodos para correo  autorizacion 2 ##
 Route::get('impacto.{folio}.{impacto}', [CorreoController::class, 'impacto'])->name('DPrioridad');
-#Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PMedia');
+Route::post('clase.{folio}',[CorreoController::class, 'clase'])->name('Clase');
 #Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PAlta');
 Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut');
 Route::get('definicion.{folio}',[ PlaneacionController::class, 'notify'])->name('Def_Req');

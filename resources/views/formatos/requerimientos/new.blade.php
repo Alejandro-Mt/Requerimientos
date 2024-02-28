@@ -154,24 +154,6 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="Clase"
-                                class="col-sm-2 text-end control-label col-form-label">Clase*</label>
-                            <div class="col-md-8">  
-                                <select class="form-select @error('id_clase') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="id_clase" tabindex="-1" aria-hidden="true" required autofocus>
-                                    <option value={{null}}>Selección</option>
-                                    @foreach ($clases as $clase):
-                                        <option value = {{ $clase->id_clase }}>{{$clase->clase}}</option>;
-                                    @endforeach                     
-                                </select>
-                                @error('id_clase')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
                         <div id="content">
                             <div class="form-group row">
                                 <label for="folio_pr"

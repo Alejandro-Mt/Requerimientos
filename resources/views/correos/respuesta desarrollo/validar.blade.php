@@ -1,8 +1,8 @@
 @component('mail::message')
-@foreach ($datos as $dato)
 # {{$dato->folio}} {{$dato->descripcion}}
-
-Desarrollo ha definido el impacto de este requerimiento como:
+El equipo de Desarrollo ha definido el requerimiento como:
+# {{$dato->clase}}
+con un impacto
 @switch($dato->impacto)
 @case(3)
 # Alto
@@ -13,7 +13,6 @@ Desarrollo ha definido el impacto de este requerimiento como:
 @default
 # Bajo
 @endswitch($dato->impacto == NULL)
-@endforeach
 
 
 <br>

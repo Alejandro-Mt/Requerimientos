@@ -5,8 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class clase extends Model
+class fase extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'id_clase';
+    protected $fillable = [
+        'nombre',
+        'activo',
+        'posicion'
+    ];
 }

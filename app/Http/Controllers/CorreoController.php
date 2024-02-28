@@ -10,6 +10,7 @@ use App\Mail\SegundaValidacion;
 use App\Mail\ValidacionCliente;
 use App\Mail\ValidacionRequerimiento;
 use App\Models\archivo;
+use App\Models\clase;
 use App\Models\comentario;
 use App\Models\desfase;
 use App\Models\estatu;
@@ -274,7 +275,7 @@ class CorreoController extends Controller
         }
     }
 
-    protected function impacto($folio,$impacto){
+    /*protected function impacto($folio,$impacto){
         $hora = levantamiento::findOrFail($folio);
         $correo = registro::select('res.email')
                       ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
@@ -296,6 +297,46 @@ class CorreoController extends Controller
             $datos = $notificacionUserC->json();
             $idSC = $datos['idUsuario'];
             $message = 'Hola! Te informamos que desarrollo ha designado el impacto del requerimiento con folio '.$folio. ' ha sido autorizado. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
+            if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7'){
+                return redirect(route('Documentos',Crypt::encrypt($folio)));
+            }else{
+                return 'Se ha enviado la respuesta, gracias.'; 
+            }   
+        } else{
+            return ('Ya ha sido definido');
+            #dd($hora);
+        }
+        
+    }*/
+
+    protected function clase(Request $data, $folio){
+        $clase = registro::where('folio',$folio)->first();
+        $impacto = clase::findOrFail($data['id_clase']);
+        $hora = levantamiento::findOrFail($folio);
+        $correo = registro::select('res.email')
+                      ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
+                      ->where('folio',$folio)
+                      ->first();
+        $involucrados = DB::
+            table('responsables as res')->
+            join('levantamientos as lev', function ($join) {
+                $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
+            })->
+            where('lev.folio', $folio)->
+            get();
+        if($hora->fechades == NULL){ 
+            $hora -> fechades = now();
+            $hora -> impacto = $impacto->id_impacto;
+            $hora -> save();
+            $clase -> id_clase = $data['id_clase'];
+            $clase -> save();
+            mail::to($correo->email)->cc($involucrados->pluck('email'))->send(new SegundaValidacion($folio));
+            $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->email);
+            $datos = $notificacionUserC->json();
+            $idSC = $datos['idUsuario'];
+            $message = 'Hola! Te informamos que desarrollo ha designado la clase del requerimiento con folio '.$folio. '. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
             $notificacionController = new NotificacionController();
             $notificacionController->stnotify($idSC,$message);
             if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7'){
@@ -503,69 +544,6 @@ class CorreoController extends Controller
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         #return ($update);
     }
-
-    /*function store(Request $data,$folio){ 
-        $validFileNames = [
-            'matriz de pruebas',
-            'acta de validación',
-            'acta de cierre',
-            'definición de requerimiento',
-            'flujo de trabajo',
-            'mockup',
-            'plan de trabajo'
-        ];
-        $estatus = registro::where('folio',$folio)->first();
-        $aut_def = levantamiento::where('folio',$folio)->first(); 
-        $definicion = archivo::where([['folio',$folio],['url','like','%Definición de requerimiento%']])->first();
-        $version = $definicion ? $definicion->version + 1 : 1;
-        //$version = archivo::select('url')->where([['folio',$folio],['url','like','%Definición de requerimiento%']])->count();
-        $plan = archivo::where([['folio',$folio],['url','like','%Flujo de trabajo%']])->first();
-        $matriz = archivo::where([['folio',$folio],['url','like','%matriz de pruebas%']])->first();
-        $files = null;
-        if ($data->hasFile('adjunto')) {
-            $rename = mb_strtolower($data->file('adjunto')->getClientOriginalName());
-            foreach ($validFileNames as $validName) {
-                if (stristr($rename, $validName)) {
-                    break; // Salir del bucle al encontrar una coincidencia
-                }else{
-                    $rename=null;
-                }
-            }
-            if (empty($rename)) {
-                if ($estatus->id_estatus == 8) {
-                    if($matriz){
-                        $rename = $folio.' Acta de validación';
-                    }else{
-                        $rename = $folio.' Matriz de pruebas';
-                    }
-                } else if ($estatus->id_estatus == 2) {
-                    $rename = $folio.' Acta de cierre';
-                } else if (($estatus->id_estatus == 11) || ($estatus->id_estatus == 9 && $plan && $aut_def->fecha_def==NULL)) {
-                    $rename = $folio.' Definición de requerimiento';//,'flujo de trabajo', 'mockup'];
-                }else if ($estatus->id_estatus == 9 && $plan==NULL && $aut_def->fecha_def==NULL) {
-                    $rename = $folio.' Flujo de trabajo';
-                }else if ($estatus->id_estatus == 9 && $plan && $aut_def->fecha_def) {
-                    $rename = $folio.' Plan de trabajo';
-                }else if ($estatus->id_estatus == 10 || $estatus->id_estatus == 16) {
-                    $rename = $folio.' Gantt';
-                }
-            }
-            if($version && $rename ==  $folio.' Definición de requerimiento'){
-                $orginalPath = "public/storage/$folio/". $rename . '.' . $data->file('adjunto')->getClientOriginalExtension();
-                $newFileName = $folio . ' Definición de requerimiento'." versión ".$version;
-                $newFilePath = "public/storage/$folio/extra/$newFileName.". $data->file('adjunto')->getClientOriginalExtension();
-                Storage::move($orginalPath, $newFilePath);
-                $definicion->update(['url' => $newFilePath]);
-            }
-                $files = Storage::putFileAs("public/storage$folio", $data->file('adjunto'), $rename . '.' . $data->file('adjunto')->getClientOriginalExtension());
-                archivo::create(['folio' => $folio, 'url' => "public/$folio/$rename"]);
-            
-        }else{
-            $rename = mb_strtolower($data->file('General')->getClientOriginalName());
-            $files = Storage::putFileAs("public/$folio", $data->file('General'),$rename);
-            archivo::create(['folio' => $folio, 'url' => "public/storage/$folio/$rename"]);
-        }
-    }*/
 
     function store(Request $data, $folio)
     {

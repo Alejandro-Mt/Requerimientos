@@ -12,7 +12,7 @@ class SegundaValidacion extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $datos;
+    public $dato;
     /**
      * Create a new message instance.
      *
@@ -21,9 +21,11 @@ class SegundaValidacion extends Mailable
     public function __construct($folio)
     {
         //
-        $this->datos = registro::where('registros.folio',$folio)
-                        ->leftjoin('levantamientos as l','registros.folio','l.folio')
-                        ->get();
+        $this->dato = registro::where('registros.folio',$folio)
+                        ->leftjoin('levantamientos as l','l.folio','registros.folio')
+                        ->leftjoin('clases as c','c.id_clase','registros.id_clase')
+                        ->leftjoin('responsables as r','r.id_responsable','registros.id_responsable')
+                        ->first();
     }
 
     /**

@@ -15,4 +15,7 @@ class responsable extends Model
         'email', 
         'id_area'
     ];
+    public function nombreCompleto(){
+        return "{$this->nombre_r} {$this->apellidos}";
+    }
 }

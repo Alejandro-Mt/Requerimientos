@@ -104,11 +104,13 @@ class PlaneacionController extends Controller
             }
             if ($cliente) {
                 $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$cliente->correo);
-                $datos = $notificacionUserA->json();
-                $idSC = $datos['idUsuario'];
-                $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$data->folio.' se ha enviado a tu correo para su validación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
-                $notificacionController = new NotificacionController();
-                $notificacionController->stnotify($idSC,$message);
+                if($notificacionUserA){
+                    $datos = $notificacionUserA->json();
+                    $idSC = $datos['idUsuario'];
+                    $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$data->folio.' se ha enviado a tu correo para su validación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
+                    $notificacionController = new NotificacionController();
+                    $notificacionController->stnotify($idSC,$message);
+                }
                 Mail::to($cliente->correo)->send(new DefinicionRequerimiento($data->folio));
             }
         }

@@ -25,7 +25,6 @@ class RecordController extends Controller
 {
     protected function index(){
         
-        $clases = clase::all();
         $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
         $datos = null;
         $proyectos = registro::where('folio', 'like', 'PR-PIP%')->get();
@@ -34,7 +33,7 @@ class RecordController extends Controller
         $responsable = responsable::orderby('apellidos', 'asc')->get();
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
-        return view('formatos.requerimientos.new',compact('clases','cliente','datos','proyectos','registros','responsable','sistema','vacio'));
+        return view('formatos.requerimientos.new',compact('cliente','datos','proyectos','registros','responsable','sistema','vacio'));
         dd($proyectos);
     }
 

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\acceso;
 use App\Models\archivo;
+use App\Models\clase;
 use App\Models\Cliente;
 use App\Models\comentario;
 use App\Models\desfase;
 use App\Models\estatu;
 use App\Models\levantamiento;
+use App\Models\mesa;
 use App\Models\motivo;
 use App\Models\pausa;
 use App\Models\planeacion;
@@ -148,10 +150,12 @@ class ClienteController extends Controller
           ->leftjoin ('users as u','u.id','comentarios.usuario')
           ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
           ->where('folio',Crypt::decrypt($folio))->get();
+        $clases = clase::all(); 
         $desfases = desfase::all();
         $estatus = estatu::orderby('posicion','asc')->get();
         $flujo = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'like', '%Flujo de trabajo%')->count();
         $formatos = levantamiento::where('folio',Crypt::decrypt($folio))->count();
+        $mesas = mesa::where('folio',Crypt::decrypt($folio))->get();
         $pausa = pausa::select('r.folio',pausa::raw('ifnull(max(pausas.pausa),0) as pausa'),'d.motivo')
           ->rightjoin('registros as r','r.folio', 'pausas.folio')
           ->leftjoin('desfases as d','d.id', 'pausas.id_motivo')
@@ -172,17 +176,17 @@ class ClienteController extends Controller
               'fechades',
               'l.created_at as planteamiento',
               'l.updated_at as correo',
-              db::raw('ifnull(l.fechaaut, p.created_at) as planeacion'),
+              db::raw('ifnull(l.fechaaut, p.fechaCompReqR) as planeacion'),
               'a.fechaCompReqR as analisis',
               'c.fechaCompReqR as construccion',
               'li.inicio_lib as liberacion',
               'li.evidencia_p as evidencia',
               'i.created_at as implementacion',
               'i.f_implementacion as implementado',
-              DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(ifnull(l.fechaaut, c.created_at),now())) as lev'),
-              DB::raw('CalcDias(ifnull(l.fechaaut, p.created_at), c.fechaCompReqR) as cons'),
-              DB::raw('CalcDias(c.fechaCompReqR, li.inicio_lib) as lib'),
-              DB::raw('CalcDias(li.inicio_lib, i.f_implementacion) as imp'),
+              DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(ifnull(l.fechaaut, p.fechaCompReqR),now())) as lev'),
+              DB::raw('CalcDias(ifnull(l.fechaaut, p.fechaCompReqR), ifnull(c.fechaCompReqR,now())) as cons'),
+              DB::raw('CalcDias(c.fechaCompReqR, ifnull(li.inicio_lib,now())) as lib'),
+              DB::raw('CalcDias(li.inicio_lib, ifnull(i.f_implementacion,now())) as imp'),
               DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(i.f_implementacion,now())) as activo'),
               DB::raw('SUM(CASE WHEN pa.pausa != 0 THEN CalcDias(pa.created_at, CURDATE()) ELSE CalcDias(pa.created_at, pa.updated_at) END) as pospuesto'),
               //db::raw('DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(ifnull(l.fechaaut, c.created_at),now())) = 6 THEN 1 ELSE 0 END AS lev'),
@@ -218,7 +222,7 @@ class ClienteController extends Controller
         $def_ver = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'LIKE', '%Definición%')->get();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
-        return view('cliente.documentacion',compact('archivos','comentarios','desfases','estatus','flujo','folio','formatos','link', 'cancelar','pausa','registros','retrasos','rondas','def_ver'));
+        return view('cliente.documentacion',compact('archivos','clases','comentarios','desfases','estatus','flujo','folio','formatos','link', 'mesas', 'cancelar','pausa','registros','retrasos','rondas','def_ver'));
         #dd(Crypt::decrypt($folio) );
     }
 

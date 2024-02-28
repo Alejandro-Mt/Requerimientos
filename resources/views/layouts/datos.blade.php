@@ -28,25 +28,25 @@
               <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#Areas" role="tab" aria-selected="true">Areas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#Clientes" role="tab" aria-selected="false">Clientes</a>
+              <a class="nav-link" id="pills-client-tab" data-bs-toggle="pill" href="#Clientes" role="tab" aria-selected="false">Clientes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="pills-home-tab" data-bs-toggle="pill" href="#Departamentos" role="tab" aria-selected="false">Departamentos</a>
+              <a class="nav-link" id="pills-depto-tab" data-bs-toggle="pill" href="#Departamentos" role="tab" aria-selected="false">Departamentos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="pills-home-tab" data-bs-toggle="pill" href="#Funcionalidad" role="tab" aria-selected="false">Funcionalidad</a>
+              <a class="nav-link" id="pills-func-tab" data-bs-toggle="pill" href="#Funcionalidad" role="tab" aria-selected="false">Funcionalidad</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#Puestos" role="tab" aria-selected="false">Puestos</a>
+              <a class="nav-link" id="pills-puesto-tab" data-bs-toggle="pill" href="#Puestos" role="tab" aria-selected="false">Puestos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="pills-home-tab" data-bs-toggle="pill" href="#Responsables" role="tab" aria-selected="false">Responsables</a>
+              <a class="nav-link" id="pills-resp-tab" data-bs-toggle="pill" href="#Responsables" role="tab" aria-selected="false">Responsables</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#Sistemas" role="tab" aria-selected="false">Sistemas</a>
+              <a class="nav-link" id="pills-sistem-tab" data-bs-toggle="pill" href="#Sistemas" role="tab" aria-selected="false">Sistemas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#Solicitantes" role="tab" aria-selected="false">Solicitantes</a>
+              <a class="nav-link" id="pills-sol-tab" data-bs-toggle="pill" href="#Solicitantes" role="tab" aria-selected="false">Solicitantes</a>
             </li>
           </ul>
           <!-- tablas -->
@@ -1828,6 +1828,7 @@
                 </div>
               </form>
             </div>
+          </div>
         </div>
       </div>
       <!-- end row -->

@@ -68,6 +68,43 @@
     <!-- /.modal-dialog -->
   </div>
 </form>
+<!-- Impacto -->
+<form method="post" action="{{ route('Clase', $registros->folio) }}">
+  {{ csrf_field() }}
+  <div id="impacto" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="text-center mt-2 mb-4">
+            <a class="text-danger">¿Tipo de desarrollo?</a>
+          </div>
+          <div class="form-group row">
+            <label for="id_clase" class="col-sm-2 text-end control-label col-form-label">Clases*</label>
+            <div class="col-md-9">
+              <select class="form-select @error ('id_clase') is-invalid @enderror" name="id_clase" aria-hidden="true" required autofocus>
+                <option value="">Selección</option>
+                @foreach ($clases as $clase)
+                  <option value = {{ $clase->id_clase }}>{{$clase->clase}}</option>
+                @endforeach                     
+              </select>
+              @error('id_clase')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-invert" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-ok">Confirmar</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</form>
 <!-- Posponer -->
 <div id="desfase" class="modal fade" aria-hidden="true">
   <div class="modal-dialog">
