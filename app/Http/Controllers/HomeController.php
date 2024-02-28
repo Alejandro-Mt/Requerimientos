@@ -122,14 +122,17 @@ class HomeController extends Controller
                 $authUrl = $client->createAuthUrl();
                 return redirect()->away($authUrl);
             }
-            try{
-            dd('error');
-                $refreshToken = $client->getRefreshToken();
-                $client->fetchAccessTokenWithRefreshToken($refreshToken);    
+            /*try{
+                $refreshToken = Auth::user()->token_google;
+                
+                #$refreshToken = $client->getRefreshToken();
+                $client->fetchAccessTokenWithRefreshToken($refreshToken); 
+                $token = $client->getAccessToken();
+                dd($client->isAccessTokenExpired());   
             }
             catch(\Google\Service\Exception $e){
                 dd($e->getCode());
-            }
+            }*/
         }
         $client->setAccessToken($token);
         $service = new Sheets($client);
@@ -168,7 +171,7 @@ class HomeController extends Controller
         
         if ($result->error) {
             echo "Error: " . $result->error->message;
-        } /*else {
+        } else {
             if ($result->updates->updatedRows > 0) {
                 // Abre el archivo de Excel en el navegador            
                 $spreadsheetLink = "https://docs.google.com/spreadsheets/d/$fileId";
@@ -183,7 +186,7 @@ class HomeController extends Controller
                 }
             
             }             
-        }*/
+        }
         $response = ['fileId' => $fileId];
         return response()->json($response);
     }
