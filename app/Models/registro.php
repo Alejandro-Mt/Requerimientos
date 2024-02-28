@@ -83,12 +83,12 @@ class registro extends Model
 
     public function mesasA()
     {
-        return $this->hasMany(Mesa::class, 'folio', 'folio')->where('es_alcance', 1)->first();
+        return $this->hasMany(mesa::class, 'folio', 'folio')->where('es_alcance', 1)->first();
     }
     
     public function mesasT()
     {
-        return $this->hasMany(Mesa::class, 'folio', 'folio')->where('es_alcance', NULL);
+        return $this->hasMany(mesa::class, 'folio', 'folio')->where('es_alcance', NULL);
     }
 
     public function primeraMesa()
