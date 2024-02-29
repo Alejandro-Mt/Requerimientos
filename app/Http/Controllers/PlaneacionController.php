@@ -121,9 +121,6 @@ class PlaneacionController extends Controller
         $verificar = planeacion::where('folio',$data['folio'])->count();
         if($data['fechaCompReqC']<>NULL){$fechaCompReqC=date("y/m/d H:i:s", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
         if($data['fechaCompReqR']<>NULL){
-            if($data['fechaCompReqC'] <> NULL){
-                $this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
-            }
             $fechaCompReqR=date("y/m/d H:i:s", strtotime($data['fechaCompReqR']));
         }else{
             $fechaCompReqR=NULL;
