@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class mesa extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id_mesa';
     protected $fillable = [
         'fecha_mesa',
         'folio',

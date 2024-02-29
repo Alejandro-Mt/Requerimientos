@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\General\Mesa as GeneralMesa;
 use App\Models\mesa;
 use App\Models\registro;
 use App\Models\responsable;
+use App\Models\solicitud;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class MesaContoller extends Controller
@@ -34,42 +38,37 @@ class MesaContoller extends Controller
     public function create(Request $data, $folio)
     {
         if (Auth::check()) {
-        // Continuar con el procesamiento del formulario
-            $folio = Crypt::decrypt($folio);
-            $fecha_mesa = Carbon::parse($data['fecha_mesa']);
-            $participantes = json_encode($data['participantes']);
+            $folio          = Crypt::decrypt($folio);
+            $fecha_mesa     = Carbon::parse($data['fecha_mesa']);
+            $participantes  = json_encode($data['participantes']);
             if ($data->hasFile('minuta')) {
-                $rename = mb_strtolower($data->file('minuta')->getClientOriginalName());
-                if ($rename != 'Evidencia de mesa') {
+                #$rename = mb_strtolower($data->file('minuta')->getClientOriginalName());
+                if ($data['es_alcance']) {
                     $rename = 'Evidencia de mesa de alcance';
                 }
-                $evidencia = mesa::where([
-                    ['folio', $folio],
-                    ['evidencia', 'like', '%'.$rename.'%'],
-                    ['evidencia', 'not like', '%versión%']
-                ])->first();
+                else{
+                    $rename = 'Evidencia de mesa de trabajo';
+                }
                 $version = mesa::where([
                     ['folio', $folio],
                     ['evidencia', 'like', '%'.$rename.'%']
                 ])->count();
-                if ($version > 0 && $rename == $folio . ' Evidencia de mesa de alcance') {
-                    $originalName = pathinfo($evidencia->evidencia, PATHINFO_FILENAME);
-                    $orginalPath = "public/$folio/COMPLEMENTOS/" . $originalName . '.' . $data->file('minuta')->getClientOriginalExtension();
-                    $newFileName = $folio . ' Evidencia de mesa de alcance ' . $version;
-                    $newFilePath = "public/$folio/extra/$newFileName." . $data->file('minuta')->getClientOriginalExtension();
-                    Storage::move($orginalPath, $newFilePath);
-                    $evidencia->update(['url' => "/storage/$folio/extra/$newFileName." . $data->file('minuta')->getClientOriginalExtension()]);
+                if ($version > 0) {
+                    $FileName = $folio . ' ' . $rename . ' ' . $version;
+                }else{
+                    $FileName = $folio . ' ' . $rename;
                 }
-                $files = Storage::putFileAs("public/$folio/COMPLEMENTOS", $data->file('minuta'), "$rename." . $data->file('minuta')->getClientOriginalExtension());
-                mesa::create([
+                Storage::putFileAs("public/$folio/COMPLEMENTOS", $data->file('minuta'), "$FileName." . $data->file('minuta')->getClientOriginalExtension());
+                $mesa = mesa::create([
                     'fecha_mesa' => $fecha_mesa,
                     'folio'      => $folio, 
                     'es_alcance' => $data['es_alcance'],
-                    'evidencia' => "/storage/$folio/COMPLEMENTOS/$rename.". $data->file('minuta')->getClientOriginalExtension(),
+                    'evidencia' => "/storage/$folio/COMPLEMENTOS/$FileName.". $data->file('minuta')->getClientOriginalExtension(),
                     'participantes' => $participantes,
                     'objetivo' => $data['objetivo']
                 ]);
             }
+            $this->Notification($mesa, $data);
             return redirect()->route('Documentos',Crypt::encrypt($folio));
         } else {
             // Si la sesión ha expirado, redirigir al usuario al inicio de sesión
@@ -83,8 +82,29 @@ class MesaContoller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function Notification($mesa, $data)
     {
+        $to  = solicitud::where('folior', $mesa->folio)->first();
+        $cc  = responsable::whereIn('id_responsable', $data['participantes'])->get();
+        if ($mesa) {
+            $notificacionUserU = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$to->correo);
+            $datos = $notificacionUserU->json();
+            $idSC = $datos['idUsuario'];
+            $message = 'Hola! Te informamos que se ha agregado la evidencia de la mesa de trabajo realizada del folio '.$mesa->folio.' Puedes visualizarla en ~'.route("Documentos",Crypt::encrypt($mesa->folio)).'~. Gracias.';
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
+        }
+        if($cc){
+            foreach ($cc as $ecc) {
+                $notificacionP = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/' .  $ecc->email);
+                $resultado = $notificacionP->json();
+                $idSC = $resultado['idUsuario'];
+                $message = 'Hola! Te informamos que se ha agregado la evidencia de la mesa de trabajo realizada del folio '.$mesa->folio.' Puedes visualizarla en ~'.route("Documentos",Crypt::encrypt($mesa->folio)).'~. Gracias.';
+                $notificacionController = new NotificacionController();
+                $notificacionController->stnotify($idSC,$message);
+            }
+        }
+        Mail::to($to->correo)->cc($cc->pluck('email'))->send(new GeneralMesa($mesa));
         //
     }
 
