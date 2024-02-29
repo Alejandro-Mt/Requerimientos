@@ -129,7 +129,7 @@ class PlaneacionController extends Controller
             $fechaCompReqR=NULL;
         }
         if($data['fechareact']<>NULL){$fechareact=date("y/m/d H:i:s", strtotime($data['fechareact']));}else{$fechareact=NULL;}
-        if($data['id_estatus'] == 9){$this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);}
+        #if($data['id_estatus'] == 9){$this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);}
         if($verificar == 0){
             planeacion::create([
                 'folio' => $data['folio'],
