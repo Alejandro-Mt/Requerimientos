@@ -206,7 +206,7 @@ _____________________________________________________
 </tr> 
 @else
 <tr><th align="center">Acceda a SMART PLANNER para definir un tipo de desarrollo</th></tr>
-<tr><td>@component('mail::button', ['url' => route('Documentos',$formato->folio)])SMART PLANNER @endcomponent</td></tr>
+<tr><td>@component('mail::button', ['url' => route('Documentos',Crypt::encrypt($formato->folio))])SMART PLANNER @endcomponent</td></tr>
 @endif
 </table>
 Gracias,<br>
