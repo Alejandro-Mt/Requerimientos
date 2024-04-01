@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\acceso;
 use App\Models\registro;
+use App\Models\solicitud;
 use Google_Client;
 use Google\Service\Sheets;
 use Google\Service\Sheets\ValueRange;
@@ -32,13 +33,7 @@ class HomeController extends Controller
     {
         
         $tabla = registro::all();
-                        
-        $requerimientos = 
-            db::table('solicitudes as s')->
-            select('id_sistema', db::raw('COUNT(folio) as total'))->
-            where('s.correo',Auth::user()->email)->
-            groupBy('id_sistema')->
-            get();
+            $requerimientos = '';
         if(Auth::user()->id_area == 3){
           $sistemas = 
             db::table('solicitudes as s')->

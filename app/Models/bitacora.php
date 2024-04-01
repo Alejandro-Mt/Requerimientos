@@ -10,6 +10,7 @@ class bitacora extends Model
     use HasFactory;
     protected $table = 'bitacora';
     protected $fillable = [
+        'folio',
         'id_user',
         'usuario',
         'id_estatus',

@@ -26,6 +26,16 @@ class registro extends Model
         'es_emergente'
     ];
 
+    public function archivos()
+    {
+        return $this->hasMany(archivo::class, 'folio', 'folio');
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(area::class, 'id_area', 'id_area');
+    }
+
     public function CalcDias($fechainicio, $fechafin)
     {
         $resultado = DB::select("SELECT CalcDias(?, ?) AS resultado", [$fechainicio, $fechafin]);
@@ -134,5 +144,10 @@ class registro extends Model
     public function solicitud()
     {
         return $this->belongsTo(solicitud::class, 'folio', 'folior');
+    }
+
+    public function titulo()
+    {
+        return "{$this->folio} {$this->descripcion}";
     }
 }

@@ -125,14 +125,14 @@ class ConstruccionController extends Controller
         if(date('y/m/d', strtotime($fecha->fechaCompReqC)) <> $fechaCompReqC){
           if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
             bitacora::create([
-              'id_user' => auth::user()->id,
+              'folio'     => $data['folio'],  'id_user' => auth::user()->id,
               'usuario' => auth::user()->fullname,
               'id_estatus' => '7',
               'campo' => 'Fechas de construcción actualizadas'
             ]);
           }else{
             bitacora::create([
-              'id_user' => auth::user()->id,
+              'folio'     => $data['folio'],  'id_user' => auth::user()->id,
               'usuario' => auth::user()->fullname,
               'id_estatus' => '7',
               'campo' => 'Fecha compromiso cliente'
@@ -141,7 +141,7 @@ class ConstruccionController extends Controller
         }else{
           if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
             bitacora::create([
-              'id_user' => auth::user()->id,
+              'folio'     => $data['folio'],  'id_user' => auth::user()->id,
               'usuario' => auth::user()->fullname,
               'id_estatus' => '7',
               'campo' => 'Fecha compromiso real'

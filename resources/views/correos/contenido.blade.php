@@ -1,12 +1,11 @@
 @component('mail::message')
 <!-- Encabezado de correo -->
-@foreach($formato as $dato)
 <table>
-<tr><th></th><th>{{$dato->folio}} {{$dato->descripcion}}</th><th></th></tr>
+<tr><th></th><th>{{$formato->titulo()}}</th><th></th></tr>
 <tr>
 <img style="margin: 0px 10px 1Opx 0px;" src="{{asset("assets/images/new_logo_3ti.png")}}" alt="logo" width="150" height="60"/>
 <th width="300">Solicitud de requerimientos</th>
-<td width="50">Fecha de solicitud:{{$dato->fsol}}</tr>
+<td width="50">Fecha de solicitud:{{$formato->levantamiento->created_at}}</tr>
 <div></div>
 </tr>
 </table>
@@ -15,27 +14,27 @@ _____________________________________________________
 <table>
 <tr>
 <th align="left">Área:</th>
-<td>{{$dato->area}}</td>
+<td>{{$formato->area->area}}</td>
 <th align="left">Nombre de solicitante:</th>
-<td>{{$dato->solicitante}}</td>
+<td>{{$formato->levantamiento->sol->nombreCompleto()}}</td>
 </tr>
 <tr>
 <th align="left">Departamento:</th>
-<td>{{$dato->departamento}}</td>
+<td>{{$formato->levantamiento->depto->departamento}}</td>
 <th align="left">Quién autoriza:</th>
-<td>{{$dato->autorizo}} {{$dato->apellidos}}</td>
+<td>{{$formato->levantamiento->autorizador->nombreCompleto()}}</td>
 </tr>
 <tr>
 <th align="left">Sistema o aplicación:</th>
-<td>{{$dato->nombre_s}}</td>
+<td>{{$formato->sistema->nombre_s}}</td>
 <th align="left">Cliente:</th>
-<td>{{$dato->nombre_cl}}</td>
+<td>{{$formato->cliente->nombre_cl}}</td>
 </tr>
 <!--<<tr>
 <td></td>
 <td></td>
 th align="left">Jefe de departamento:</th>
-<td>{{$dato->j_dep}}</td>
+<td>{{$formato->j_dep}}</td>
 </tr>-->
 </table>
 _____________________________________________________
@@ -43,7 +42,7 @@ _____________________________________________________
 <table>
 <tr>
 <th align="left">¿Existe desarrollo previo?</th>
-@if ($dato->previo == 1)
+@if ($formato->previo == 1)
 <td>SÍ</td>
 <h5>☑&nbsp;&nbsp;</h5>
 <td>NO</td>
@@ -62,7 +61,7 @@ _____________________________________________________
 <tr>
 <th align="left">Descripción del problema:</th>
 <th align="left">Impacto en la operación:</th>
-@switch($dato->impacto)
+@switch($formato->levantamiento->impacto)
 @case(1)
 <h5>⬜&nbsp;&nbsp;</h5>
 <td>Alta</td>
@@ -93,7 +92,7 @@ _____________________________________________________
 </thead>
 <tbody>
 <tr>
-<td colspan="8" style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->problema}}</pre></td>
+<td colspan="8" style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$formato->levantamiento->problema}}</pre></td>
 </tr>
 </tbody>
 </table>
@@ -103,7 +102,7 @@ _____________________________________________________
 <tr>
 <th align="left">Descripción general del requerimiento:</th>
 <th align="left">Prioridad:</th>
-@switch($dato->impacto)
+@switch($formato->levantamiento->prioridad)
 @case(1)
 <h5>⬜&nbsp;&nbsp;</h5>
 <td>Alta</td>
@@ -134,7 +133,7 @@ _____________________________________________________
 </thead>
 <tbody>
 <tr>
-<td colspan="8"  style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->general}}</pre></td>
+<td colspan="8"  style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$formato->levantamiento->general}}</pre></td>
 </tr>
 </tbody>
 </table>
@@ -144,7 +143,7 @@ _____________________________________________________
 <th align="left">Descripción específica del requerimiento</th>
 </tr>
 <tr>
-<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$dato->detalle}}</pre></td>
+<td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 50px;padding-right: 10px;padding-left: 10px"><pre>{{$formato->levantamiento->detalle}}</pre></td>
 </tr>
 
 <tr>
@@ -152,7 +151,7 @@ _____________________________________________________
 </tr>
 <tr>
 <td width="660px" style="border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding: 10px">
-{!! nl2br(e($dato->esperado)) !!}
+{!! nl2br(e($formato->levantamiento->esperado)) !!}
 </td>
 </tr>
 <tr>
@@ -177,7 +176,7 @@ _____________________________________________________
 @if ($involucrados[$i] == $responsable->id_responsable)
 <tr>
 <td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding-right: 10px;padding-left: 10px">
-{{$responsable->nombre_r}} {{$responsable->apellidos}}
+{{$responsable->nombreCompleto()}}
 </td>
 </tr>
 @endif
@@ -199,18 +198,17 @@ _____________________________________________________
 </tr>
 </table>
 <table>
-<tr align="right">@component('mail::button', ['url' => route('Archivo',Crypt::encrypt($dato->folio))])Ver PDF @endcomponent</tr>
-@if ($dato->estatus == 10)
+<tr align="right">@component('mail::button', ['url' => route('Archivo',Crypt::encrypt($formato->folio))])Ver PDF @endcomponent</tr>
+@if ($formato->id_estatus == 10)
 <tr>
-<td>@component('mail::button', ['url' => route('Rechazo',$dato->folio)])Rechazar @endcomponent</td>
-<td>@component('mail::button', ['url' => route('Respuesta',$dato->folio)])Autorizar @endcomponent</td> 
+<td>@component('mail::button', ['url' => route('Rechazo',$formato->folio)])Rechazar @endcomponent</td>
+<td>@component('mail::button', ['url' => route('Respuesta',$formato->folio)])Autorizar @endcomponent</td> 
 </tr> 
 @else
 <tr><th align="center">Acceda a SMART PLANNER para definir un tipo de desarrollo</th></tr>
-<tr><td>@component('mail::button', ['url' => route('home')])SMART PLANNER @endcomponent</td></tr>
+<tr><td>@component('mail::button', ['url' => route('Documentos',$formato->folio)])SMART PLANNER @endcomponent</td></tr>
 @endif
 </table>
-@endforeach
 Gracias,<br>
 {{ config('app.name') }}
 

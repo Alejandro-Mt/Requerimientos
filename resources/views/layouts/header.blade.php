@@ -191,7 +191,7 @@
                 @endif
               </div>
               <div class="ms-2">
-                <h4 class="mb-0 text-white">{{Auth::user()->nombre}} {{Auth::user()->apaterno}}</h4>
+                <h4 class="mb-0 text-white">{{Auth::user()->getFullnameAttribute()}}</h4>
                 <p id="id" class="mb-0">{{Auth::user()->email}}</p>
               </div>
             </div>

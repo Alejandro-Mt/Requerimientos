@@ -19,4 +19,19 @@ class solicitud extends Model
         'id_estatus',
         'planteamiento'
     ];
+
+    public function sistema()
+    {
+        return $this->belongsTo(sistema::class, 'id_sistema', 'id_sistema');
+    }
+
+    public function titulo()
+    {
+        return "{$this->folio} {$this->descripcion}";
+    }
+
+    public function registro()
+    {
+        return $this->belongsTo(registro::class, 'folior', 'folio');
+    }
 }

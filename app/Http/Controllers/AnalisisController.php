@@ -138,6 +138,7 @@ class AnalisisController extends Controller
                 if(date('y/m/d', strtotime($fecha->fechaCompReqC)) <> $fechaCompReqC){
                     if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
                         bitacora::create([
+                            'folio'     => $data['folio'],
                             'id_user' => auth::user()->id,
                             'usuario' => auth::user()->fullname,
                             'id_estatus' => '9',
@@ -145,6 +146,7 @@ class AnalisisController extends Controller
                         ]);
                     }else{
                         bitacora::create([
+                            'folio'     => $data['folio'],
                             'id_user' => auth::user()->id,
                             'usuario' => auth::user()->fullname,
                             'id_estatus' => '9',
@@ -154,6 +156,7 @@ class AnalisisController extends Controller
                 }else{
                     if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
                         bitacora::create([
+                            'folio'     => $data['folio'],
                             'id_user' => auth::user()->id,
                             'usuario' => auth::user()->fullname,
                             'id_estatus' => '9',

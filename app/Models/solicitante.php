@@ -16,4 +16,9 @@ class solicitante extends Model
         'email',
         'id_division',
     ];
+
+    public function nombreCompleto()
+    {
+      return "{$this->nombre} {$this->a_pat} {$this->a_mat}";
+    }
 }
