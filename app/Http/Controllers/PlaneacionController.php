@@ -74,7 +74,6 @@ class PlaneacionController extends Controller
 
                         if ($requiredKeyword == 'definición de requerimiento') {
                             $definicionRequerimientoFound = true;
-                            $data['evidencia'] = mb_strtolower($archivo->url);
                         } elseif ($requiredKeyword == 'flujo de trabajo' || $requiredKeyword == 'mockup') {
                             $flujoTrabajoOrMockupFound = true;
                         }
