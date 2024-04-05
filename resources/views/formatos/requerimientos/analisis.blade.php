@@ -169,7 +169,6 @@
         $(document).ready(function () {
             $('#id_estatus').on('click', function () {
                 if ($(this).is(':checked')) {
-                console.log($(this));
                     $('#next').removeAttr('disabled');
                     $('#id_estatus').val('7');
                 } else {

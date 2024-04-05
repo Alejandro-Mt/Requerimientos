@@ -10,8 +10,8 @@
                 <thead>
                   <tr>
                     <th class="header">Estatus</th>
-                    <th class="header">Titulo</th>
                     <th class="header">Folio</th>
+                    <th class="header">Titulo</th>
                     <th class="header">Descripción</th>
                     <th class="header">Cliente</th>
                     <th class="header">Solicitante</th>

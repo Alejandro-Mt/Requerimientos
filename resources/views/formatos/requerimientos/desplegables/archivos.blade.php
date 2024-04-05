@@ -11,20 +11,20 @@
         </div>
         <div class="modal-body">
           <!--<a class="text-danger">Una vez autorizado no se podrán cargar nuevos archivos.</a><br>-->
-          @if($registros->id_estatus == 8)
+          @if($registros->estatus->posicion == 9) 
           <a>Recuerda Que debes cargar: <strong>Matriz de pruebas</strong> y <strong>Acta de validacion</strong></a>
-          @elseif($registros->id_estatus == 2)
+          @elseif($registros->estatus->posicion == 10)
           <a>Recuerda Que debes cargar: <strong>Acta de cierre</strong></a>
-          @elseif(($registros->id_estatus == 11) || ($registros->id_estatus == 9 && $registros->fecha_def == NULL))
+          @elseif(($registros->estatus->posicion == 6) || ($registros->estatus->posicion == 7 && $registros->fecha_def == NULL))
           <a>Para avanzar debes cargar: <strong>Definición de requerimiento</strong></a><!-- y Flujo de trabajo o Mockup-->
-          @elseif($registros->id_estatus == 9 && $registros->fecha_def)
+          @elseif($registros->estatus->posicion == 7 && $registros->fecha_def)
           <a>Para avanzar debes cargar: <strong>Plan de trabajo</strong></a>
           @endif
           <form  class="dropzone" action="{{route('Adjuntos',$registros->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
           </form> 
         </div>
         <div class="modal-footer">
-          @if($registros->id_estatus == 2 || $registros->id_estatus == 9 || $registros->id_estatus == 11)
+          @if($registros->estatus->posicion == 10 || $registros->estatus->posicion == 7 || $registros->estatus->posicion == 6)
             <button type="button" class="btn btn-success waves-effect waves-light text-white" data-bs-dismiss="modal">Hecho</button>
           @else
             <button type="button" class="btn btn-success waves-effect waves-light text-white">
@@ -42,11 +42,11 @@
     <link rel="stylesheet" type="text/css" href="{{asset("assets/libs/dropzone/dist/min/dropzone.min.css")}}"/>
     <script src="{{asset("assets/libs/dropzone/dist/min/dropzone.min.js")}}"></script>
     <script>
-        var id_estatus = {{ $registros->id_estatus }};
+        var estatus = {{ $registros->estatus->posicion }};
         
         var evidenciaVacia = {{ $registros->def ? 'false' : 'true' }};
         var aut_def = {{ $registros->fecha_def ? 'false' : 'true' }};
-        var maxFiles = (id_estatus === 2  || id_estatus === 9) ? 1 : 2;
+        var maxFiles = (estatus === 10  || estatus === 7) ? 1 : 2;
         
         Dropzone.options.myAwesomeDropzone = {
             headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
@@ -59,14 +59,14 @@
               var validFileNames = [];
               var fileNameWithoutExtension = file.name.split('.')[0].toLowerCase(); // Convertir a minúsculas
               var folio = $('#folio').val().trim().toLowerCase(); // Convertir a minúsculas
-              // Definir los nombres de archivos válidos según el valor de id_estatus
-              if (id_estatus == 8) {
+              // Definir los nombres de archivos válidos según el valor de estatus
+              if (estatus == 8) {
                   validFileNames = ['matriz de pruebas', 'acta de validación'];
-              } else if (id_estatus == 2) {
+              } else if (estatus == 2) {
                   validFileNames = ['acta de cierre'];
-              } else if (id_estatus == 11) {
+              } else if (estatus == 11) {
                   validFileNames = ['definición de requerimiento'];//,'flujo de trabajo', 'mockup'];
-              }else if (id_estatus == 9) {
+              }else if (estatus == 9) {
                   validFileNames = ['plan de trabajo'];
               }
 
@@ -84,14 +84,14 @@
             },*/
             removedfile: function (file) {
               var name = file.name;
-              // Definir los nombres de archivos válidos según el valor de id_estatus
-              if (id_estatus == 8) {
+              // Definir los nombres de archivos válidos según el valor de estatus
+              if (estatus == 8) {
                 name = ['matriz de pruebas', 'acta de validación'];
-              } else if (id_estatus == 2) {
+              } else if (estatus == 10) {
                 name = 'acta de cierre';
-              } else if (id_estatus == 11 || id_estatus == 9 && aut_def == 'false') {
+              } else if (estatus == 6 || estatus == 7 && aut_def == 'false') {
                 name = 'definición de requerimiento';
-              }else if (id_estatus == 9 && aut_def) {
+              }else if (estatus == 7 && aut_def) {
                 name = 'plan de trabajo';
               }
               var folio = $('#folio').val();
@@ -103,21 +103,21 @@
               var _ref;
               return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
             },
-            init: function () {
+            /*init: function () {
               this.on("addedfile", function (response) {
-                if (id_estatus === 9 && evidenciaVacia) {
+                if (estatus === 7 && evidenciaVacia) {
                   // Si el estatus es 9 y la evidencia está vacía, habilita el botón "Autorizar"
                   document.getElementById('btnAutorizar').removeAttribute('disabled');
                 }
               });
 
               this.on("removedfile", function (file) {
-                if (id_estatus === 9 && evidenciaVacia) {
+                if (estatus === 7 && evidenciaVacia) {
                   // Si el estatus es 9 y la evidencia está vacía, deshabilita el botón "Autorizar" al quitar el archivo
                   document.getElementById('btnAutorizar').setAttribute('disabled', 'disabled');
                 }
               });
-            }
+            }*/
         };
 
         Dropzone.options.General = {
