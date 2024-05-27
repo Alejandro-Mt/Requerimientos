@@ -34,4 +34,10 @@ class solicitud extends Model
     {
         return $this->belongsTo(registro::class, 'folior', 'folio');
     }
+
+    public function usuario()
+    {
+        return $this->hasOne(User::class, 'email', 'correo');
+    }
+    
 }

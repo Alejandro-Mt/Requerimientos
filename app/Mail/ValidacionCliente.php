@@ -6,6 +6,7 @@ use App\Models\archivo;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -33,7 +34,7 @@ class ValidacionCliente extends Mailable
         //
         $this->formato = registro::where('folio',$folio)->first();
         $this->sistemas = sistema::all();
-        $this->responsables = responsable::all();
+        $this->responsables = User::all();
         $this->relaciones = explode(',',$this->formato->levantamiento->relaciones);
         $this->involucrados = explode(',',$this->formato->levantamiento->involucrados);
         $this->subject = $this->formato->titulo();

@@ -15,4 +15,8 @@ class sistema extends Model
         'logo'
     ];
     
+    // Define la relación hasMany con el modelo Acceso
+    public function usr_acceso(){
+        return $this->hasMany(acceso::class, 'id_sistema', 'id_sistema');
+    }
 }

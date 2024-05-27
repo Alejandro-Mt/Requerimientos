@@ -11,6 +11,7 @@ use App\Models\comentario;
 use App\Models\departamento;
 use App\Models\division;
 use App\Models\estatu;
+use App\Models\fase as ModelsFase;
 use App\Models\funcionalidad;
 use App\Models\levantamiento;
 use App\Models\pausa;
@@ -244,13 +245,14 @@ class MenuController extends Controller
         $clientes = Cliente::all();
         $departamentos = departamento::all();
         $divisiones = division::all();
-        $estatus = estatu::all();
+        $estatus = estatu::orderBy('posicion')->get();
+        $fases = ModelsFase::all();
         $funcionalidad = funcionalidad::all();
         $puestos = puesto::all();
-        $responsables = responsable::select('id_responsable','nombre_r','apellidos','email','responsables.id_area','area')->leftjoin('areas as a','responsables.id_area','a.id_area')->get();
+        $responsables = User::all();
         $sistemas = sistema::all();
-        $solicitantes = solicitante::leftjoin('division as d','solicitantes.id_division','d.id_division')->get();
-        return view('/layouts.datos',compact('areas','clientes','departamentos','divisiones','estatus','funcionalidad','puestos','responsables','sistemas','solicitantes'));
+        $users = User::all();
+        return view('/layouts.datos',compact('areas','clientes','departamentos','divisiones','estatus','fases','funcionalidad','puestos','responsables','sistemas','users'));
         #dd($responsables);
     }
     public function posponer($folio,$id_motivo,$id_estatus){

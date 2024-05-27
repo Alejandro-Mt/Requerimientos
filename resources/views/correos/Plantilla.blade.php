@@ -15,7 +15,7 @@
     <table align="center">
       <tr>
         <th style="vertical-align: top">
-          <img style="margin: 0px 10px 1Opx 0px;" src="{{asset("assets/images/new_logo_3ti.png")}}" width="160" height="80"/>
+          <!--<img style="margin: 0px 10px 1Opx 0px;" src="{asset("assets/images/new_logo_3ti.png")}}" width="160" height="80"/>-->
         </th>
         <th width="350"><h2> Solicitud de Requerimientos</h2></th>
         <td width="150" style="vertical-align: bottom; text-align: right;">Fecha de Solicitud: {{date('d-m-20y',strtotime($formato->levantamiento->created_at))}}</tr>
@@ -27,13 +27,13 @@
         <th align="right">Área:</th>
         <td align="left">{{$formato->area->area}}</td>
         <th align="right">Nombre de solicitante:</th>
-        <td align="left">{{$formato->levantamiento->sol->nombreCompleto()}}</td>
+        <td align="left">{{$formato->levantamiento->sol->getFullnameAttribute()}}</td>
         </tr>
       <tr>
         <th align="right">Departamento:</th>
         <td align="left">{{$formato->levantamiento->depto->departamento}}</td>
         <th align="right">Quién autoriza:</th>
-        <td align="left">{{$formato->levantamiento->autorizador->nombreCompleto()}}</td>
+        <td align="left">{{$formato->levantamiento->autorizador->getFullnameAttribute()}}</td>
       </tr>
       <tr>
         <th align="right">Sistema o aplicación:</th>
@@ -185,9 +185,9 @@
       </tr>
       @for ($i = 0; $i < count($involucrados); $i++)  
         @foreach ($responsables as $responsable)
-          @if ($involucrados[$i] == $responsable->id_responsable)
+          @if ($involucrados[$i] == $responsable->id)
             <tr width="660px" style="background-color: #ecfbfb;border: 1px solid;border-radius: 50px;">
-              <td style="text-align: justify;padding-right: 10px;padding-left: 10px"><pre>{{$responsable->nombreCompleto()}}</pre></td>
+              <td style="text-align: justify;padding-right: 10px;padding-left: 10px"><pre>{{$responsable->getFullnameAttribute()}}</pre></td>
             </tr>
           @endif 
         @endforeach

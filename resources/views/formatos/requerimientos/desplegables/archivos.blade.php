@@ -11,20 +11,20 @@
         </div>
         <div class="modal-body">
           <!--<a class="text-danger">Una vez autorizado no se podrán cargar nuevos archivos.</a><br>-->
-          @if($registros->estatus->posicion == 9) 
+          @if($registros->estatus->posicion == 10) 
           <a>Recuerda Que debes cargar: <strong>Matriz de pruebas</strong> y <strong>Acta de validacion</strong></a>
-          @elseif($registros->estatus->posicion == 10)
+          @elseif($registros->estatus->posicion == 11)
           <a>Recuerda Que debes cargar: <strong>Acta de cierre</strong></a>
-          @elseif(($registros->estatus->posicion == 6) || ($registros->estatus->posicion == 7 && $registros->fecha_def == NULL))
+          @elseif(($registros->estatus->posicion == 6) || ($registros->estatus->posicion == 7 && !$registros->levantamiento->fecha_def))
           <a>Para avanzar debes cargar: <strong>Definición de requerimiento</strong></a><!-- y Flujo de trabajo o Mockup-->
-          @elseif($registros->estatus->posicion == 7 && $registros->fecha_def)
+          @elseif($registros->estatus->posicion == 7 && $registros->levantamiento->fecha_def)
           <a>Para avanzar debes cargar: <strong>Plan de trabajo</strong></a>
           @endif
           <form  class="dropzone" action="{{route('Adjuntos',$registros->folio)}}" method="post" enctype="multipart/form-data" id="myAwesomeDropzone">
           </form> 
         </div>
         <div class="modal-footer">
-          @if($registros->estatus->posicion == 10 || $registros->estatus->posicion == 7 || $registros->estatus->posicion == 6)
+          @if($registros->estatus->posicion == 11 || $registros->estatus->posicion == 7 || $registros->estatus->posicion == 6)
             <button type="button" class="btn btn-success waves-effect waves-light text-white" data-bs-dismiss="modal">Hecho</button>
           @else
             <button type="button" class="btn btn-success waves-effect waves-light text-white">
@@ -46,7 +46,7 @@
         
         var evidenciaVacia = {{ $registros->def ? 'false' : 'true' }};
         var aut_def = {{ $registros->fecha_def ? 'false' : 'true' }};
-        var maxFiles = (estatus === 10  || estatus === 7) ? 1 : 2;
+        var maxFiles = (estatus === 11  || estatus === 7) ? 1 : 2;
         
         Dropzone.options.myAwesomeDropzone = {
             headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },

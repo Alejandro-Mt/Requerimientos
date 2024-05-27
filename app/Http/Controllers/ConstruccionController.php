@@ -3,22 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\Fase;
-use App\Models\analisis;
+use App\Mail\interno\INP;
 use App\Models\bitacora;
 use App\Models\construccion;
 use App\Models\cronograma;
-use App\Models\desfase;
-use App\Models\implementacion;
 use App\Models\liberacion;
 use App\Models\registro;
 use App\Models\informacion;
-use App\Models\levantamiento;
-use App\Models\solicitud;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
@@ -30,17 +25,9 @@ class ConstruccionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function index($folio){
-    $registros = registro::select('registros.folio', 'registros.id_estatus','p.evidencia as def','l.fecha_def')
-      ->leftjoin('levantamientos as l','registros.folio','l.folio')
-      ->leftjoin('planeacion as p','registros.folio','p.folio')
-      ->where('registros.folio',Crypt::decrypt($folio))->first();
-    $id = registro::latest('id_registro')->first();
-    $desfases = desfase::all();
-    $previo = construccion::select('*')->where('folio',Crypt::decrypt($folio))->get();
-    $vacio = construccion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
+    $registros = registro::where('registros.folio',Crypt::decrypt($folio))->first();
     $solinf = informacion::where('folio',Crypt::decrypt($folio))->whereNULL('respuesta')->count();
-    return view('formatos.requerimientos.construccion',compact('registros','id','desfases','previo','vacio','solinf'));
-    dd($previo);
+    return view('formatos.requerimientos.construccion',compact('registros','solinf'));
   }
 
   /**
@@ -49,57 +36,64 @@ class ConstruccionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function create(request $data){
-    $estatus = registro::select()-> where ('folio', $data->folio)->first();
+    $registro = registro::select()-> where ('folio', $data->folio)->first();
     if($data['id_estatus'] == NULL){$data['id_estatus'] = 7;}
-    $val = analisis::select('fechaCompReqR')->where('folio',$data['folio'])->get();
     if($data['desfase'] == '1'){
       $this->validate($data, ['motivodesfase' => "required"]);
       $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
     }
-    foreach($val as $fecha){$this->validate($data, ['fechaInConP' => "required|date|after_or_equal:$fecha->fechaCompReqR"]);}
-    $verificar = construccion::where('folio',$data['folio'])->count();
-    if($data['fechaInConP']<>NULL){$fechaCompReqC=date("y/m/d H:i:s", strtotime($data['fechaInConP']));}else{$fechaCompReqC=NULL;}
-    if($data['fechaInConR']<>NULL){
-      if($data['fechaInConP'] <> NULL){
-        $this->validate($data, ['fechaInConR' => "required|date|after_or_equal:$data[fechaInConP]"]);
+    $this->validate($data, [
+      'fechaInConP' => "required|date|after_or_equal:{$registro->plan->fechaCompReqR}",
+    ], [
+      'fechaInConP.after_or_equal' => "La fecha de Fecha Compromiso para Entrega debe ser posterior o igual a {$registro->plan->fechaCompReR}",
+    ]);
+  
+    #$this->validate($data, ['fechaInConP' => "required|date|after_or_equal:{$registro->plan->fechaCompReqR}"]);
+    if($data['fechaInConP']){$fechaCompReqC=date("y/m/d H:i:s", strtotime($data['fechaInConP']));}else{$fechaCompReqC=NULL;}
+    if($data['fechaInConR']){
+      if($data['fechaInConP']){
+        $this->validate($data, [
+          'fechaInConR' => "required|date|after_or_equal:$data[fechaInConP]",
+        ], [
+          'fechaInConR.after_or_equal' => "La fecha de Fecha Compromiso para Entrega Real debe ser posterior o igual a $data[fechaInConP]",
+        ]);
+        #$this->validate($data, ['fechaInConR' => "required|date|after_or_equal:$data[fechaInConP]"]);
       }
       $fechaCompReqR=date("y/m/d H:i:s", strtotime($data['fechaInConR']));
     }
     else{
       $fechaCompReqR=NULL;
     }
-    if($data['fechareact']<>NULL){$fechareact=date("y/m/d H:i:s", strtotime($data['fechareact']));}else{$fechareact=NULL;}
-    if($data['id_estatus'] == 8){
-      $this->validate($data, ['fechaInConR' => "required|date|after_or_equal:$data[fechaInConP]"]);
-      $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
-          ->where('folio', $data->folio)
-          ->select('s.email')
-          ->first();
-      /*$gerencia = User::
-            join('puestos as p','p.id_puesto','users.id_puesto')
-            ->where('id_area', 6)
-            ->whereIn('jerarquia',[2,3,4])
-            ->select('email')
-            ->get();*/
+    if($data['fechareact']){$fechareact=date("y/m/d H:i:s", strtotime($data['fechareact']));}else{$fechareact=NULL;}
+    if($data['id_estatus'] == 23){
+      $this->validate($data, [
+        'fechaInConR' => "required|date|after_or_equal:$data[fechaInConP]",
+      ], [
+        'fechaInConR.after_or_equal' => "La fecha de Fecha Compromiso para Entrega Real debe ser posterior o igual a $data[fechaInConP]",
+      ]);
+      $email = $registro->levantamiento->sol->email;
       $coordinacion = User:: select('email')
-        ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
-        ->leftjoin('accesos as a','users.id','a.id_user')
+        ->leftjoin('usr_data as ud', 'id','id_user')
+        ->leftjoin('puestos as p','p.id_puesto','ud.id_puesto')
+        ->leftjoin('accesos as a','ud.id_user','a.id_user')
         ->whereIn('jerarquia', [2, 3, 7])
-        ->where('a.id_sistema',$estatus->id_sistema)
-        ->where('id_area', 6)
+        ->where('a.id_sistema',$registro->id_sistema)
         ->get();
       if($email){
-        $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email->email);
+        $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email);
         $datos = $notificacionUserA->json();
         $idSC = $datos['idUsuario'];
         $message = 'Hola! Te informamos que el requerimiento con folio '.$data->folio.' ha entrado a la fase de liberación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
         $notificacionController = new NotificacionController();
         $notificacionController->stnotify($idSC,$message);
         //Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($data->folio, '8'));
-        Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '8'));
+        Mail::to($email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '8'));
+      }
+      if($registro->rtest){
+        Mail::to($registro->rtest->email)->send(new INP($data->folio));
       }
     }
-    if($verificar == 0){
+    if(!$registro->construccion){
       construccion::create([
         'folio' => $data['folio'],
         'fechaCompReqC' => $fechaCompReqC,
@@ -120,33 +114,30 @@ class ConstruccionController extends Controller
       ]);
     }
     else{
-      $previo = construccion::select('*')->where('folio',$data['folio'])->get();
-      foreach($previo as $fecha){
-        if(date('y/m/d', strtotime($fecha->fechaCompReqC)) <> $fechaCompReqC){
-          if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
-            bitacora::create([
-              'folio'     => $data['folio'],  'id_user' => auth::user()->id,
-              'usuario' => auth::user()->fullname,
-              'id_estatus' => '7',
-              'campo' => 'Fechas de construcción actualizadas'
-            ]);
-          }else{
-            bitacora::create([
-              'folio'     => $data['folio'],  'id_user' => auth::user()->id,
-              'usuario' => auth::user()->fullname,
-              'id_estatus' => '7',
-              'campo' => 'Fecha compromiso cliente'
-            ]);
-          }
+      if(date('y/m/d H:i:s', strtotime($registro->construccion->fechaCompReqC)) <> $fechaCompReqC){
+        if(date('y/m/d H:i:s', strtotime($registro->construccion->fechaCompReqR)) <> $fechaCompReqR){
+          bitacora::create([
+            'folio'     => $data['folio'],  'id_user' => auth::user()->id,
+            'usuario' => auth::user()->fullname,
+            'id_estatus' => '7',
+            'campo' => 'Fechas de construcción actualizadas'
+          ]);
         }else{
-          if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
-            bitacora::create([
-              'folio'     => $data['folio'],  'id_user' => auth::user()->id,
-              'usuario' => auth::user()->fullname,
-              'id_estatus' => '7',
-              'campo' => 'Fecha compromiso real'
-            ]);
-          }
+          bitacora::create([
+            'folio'     => $data['folio'],  'id_user' => auth::user()->id,
+            'usuario' => auth::user()->fullname,
+            'id_estatus' => '7',
+            'campo' => 'Fecha compromiso cliente'
+          ]);
+        }
+      }else{
+        if(date('y/m/d H:i:s', strtotime($registro->construccion->fechaCompReqR)) <> $fechaCompReqR){
+          bitacora::create([
+            'folio'     => $data['folio'],  'id_user' => auth::user()->id,
+            'usuario' => auth::user()->fullname,
+            'id_estatus' => '7',
+            'campo' => 'Fecha compromiso real'
+          ]);
         }
       }
       $update = construccion::select('*')->where('folio',$data['folio'])->first();
@@ -158,12 +149,12 @@ class ConstruccionController extends Controller
       $update->motivopausa = $data['motivopausa'];
       $update->evpausa = $data['evpausa'];
       $update->fechareact = $fechareact;
-      $estatus->id_estatus = $data['id_estatus'];
-      $estatus->save();
       $update->save(); 
+      $registro->id_estatus = $data['id_estatus'];
+      $registro->save();
     } 
-    if($data['FechaLibP']<>NULL){
-      if(liberacion::where('folio',$data['folio'])->count() == 0){
+    if($data['FechaLibP']){
+      if(!$registro->liberacion){
         cronograma::create([
           'folio' => $data['folio'],
           'titulo' => 'Liberación',
@@ -177,35 +168,10 @@ class ConstruccionController extends Controller
           'evidencia' => 'null',
           'fecha_lib_r' => date("y/m/d H:i:s", strtotime($data['FechaLibR'])),
         ]);
-      }/*else{
-          $updateL = liberacion::where('folio',$data['folio'])->first();
-          $updateL->fecha_lib_a = date("y/m/d H:i:s", strtotime($data['FechaLibP']));
-          $updateL->fecha_lib_r = date("y/m/d H:i:s", strtotime($$data['FechaLibR']));
-          $update->save();
-          $updateCL = cronograma::where('folio',$data['folio'])->orwhere('titulo','Liberación')->first();
-          $updateCL->inicio = date('y/m/d',strtotime($data('FechaLibP')));
-          $updateCL->fin = date('y/m/d',strtotime($data('FechaLibR')));
-          $updateCL->save();
-      }*/
-    }
-    if($data['FechaImpP']<>NULL){
-      if(implementacion::where('folio',$data['folio'])->count() == 0){
-        cronograma::create([
-          'folio' => $data['folio'],
-          'titulo' => 'Implementación',
-          'inicio' => date("y/m/d H:i:s", strtotime($data['FechaImpP'])),
-          'fin' => date("y/m/d H:i:s", strtotime($data['FechaImpP'])),
-          'color' => 'bg-primary'
-        ]);
-        implementacion::create([
-          'folio' => $data['folio'],
-          'f_implementacion' => date("y/m/d H:i:s", strtotime($data['FechaImpP'])),
-        ]);
       }
     }
-    $update = registro::select()-> where ('folio', $data->folio)->first();
-    $update->id_estatus = $data->input('id_estatus');
-    $update->save();
+    $registro->id_estatus = $data->input('id_estatus');
+    $registro->save();
     return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
   }
 

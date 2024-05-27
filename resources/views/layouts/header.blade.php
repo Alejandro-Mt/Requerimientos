@@ -175,20 +175,12 @@
         <!-- ============================================================== -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @if (Auth::user()->avatar == NULL)
-              <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="profile-pic rounded-circle" width="30"/> 
-            @else
-              <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="profile-pic rounded-circle" width="30"/>    
-            @endif
+            <img src="{{asset(Auth::user()->usrdata->avatar ?? 'assets/images/users/1.jpg')}}" alt="user" class="profile-pic rounded-circle" width="30"/> 
           </a>
           <div class="dropdown-menu dropdown-menu-end user-dd animated flipInY">
             <div class="d-flex no-block align-items-center p-3 bg-primary text-white mb-2">
               <div class="">
-                @if (Auth::user()->avatar == NULL)
-                  <img src="{{asset("assets/images/users/1.jpg")}}" alt="user" class="rounded-circle" width="60"/> 
-                @else
-                  <img src="{{asset(Auth::user()->avatar)}}" alt="user" class="rounded-circle" width="60"/>    
-                @endif
+                  <img src="{{asset(Auth::user()->usrdata->avatar ?? 'assets/images/users/1.jpg')}}" alt="user" class="rounded-circle" width="60"/>
               </div>
               <div class="ms-2">
                 <h4 class="mb-0 text-white">{{Auth::user()->getFullnameAttribute()}}</h4>
@@ -199,11 +191,11 @@
               <i data-feather="user" class="feather-sm text-info me-1 ms-1"></i>
               Perfil
             </a>
-            @if (Auth::user()->id_puesto > 3)
-              <a class="dropdown-item d-flex d-block" href="{{route('Importancia')}}">
+            @if (Auth::user()->usrdata->id_puesto > 3)
+              <!--<a class="dropdown-item d-flex d-block" href="{{route('Importancia')}}">
                 <i class="fas fa-sitemap"></i>
                   <span class="ms-1">Prioridad de clientes</span>
-              </a>
+              </a>-->
               <a class="dropdown-item d-flex d-block" href="{{route('AutP')}}">
                 <i class="feather-icon" data-feather="archive"></i>
                 <span class="ms-1">Autorización a prioridades</span>

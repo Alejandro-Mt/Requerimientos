@@ -41,8 +41,7 @@
                                         <label for="Cliente"
                                             class="col-sm-2 text-end control-label col-form-label">Cliente*</label>
                                         <div class="col-md-8">
-                                            <select id="id_cliente" class="form-select @error ('id_cliente') is-invalid @enderror" 
-                                                style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
+                                            <select id="id_cliente" class="form-select @error ('id_cliente') is-invalid @enderror" style="width: 100%; height:36px;" name="id_cliente" required autofocus>
                                                 <option value={{null}}>Selección</option>
                                                 @foreach ($cliente as $cliente)
                                                     <option id={{$cliente->abreviacion}} value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
@@ -56,11 +55,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="Sistema"
-                                            class="col-sm-2 text-end control-label col-form-label">Sistema*</label>
+                                        <label for="Sistema" class="col-sm-2 text-end control-label col-form-label">Sistema*</label>
                                         <div class="col-md-8">
-                                            <select class="form-select @error ('id_sistema') is-invvalid @enderror" 
-                                                style="width: 100%; height:36px;" name="id_sistema" tabindex="-1" aria-hidden="true" required autofocus>
+                                            <select class="form-select @error ('id_sistema') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_sistema" required autofocus>
                                                 <option value={{null}}>Selección</option>
                                                 @foreach ($sistema as $valores):
                                                     <option value={{$valores->id_sistema}}>{{$valores->nombre_s}}</option>;
@@ -76,8 +73,7 @@
                                     <div class="form-group row">
                                         <label for="titulo" class="col-sm-2 text-end control-label col-form-label red-tooltip" data-bs-toggle="tooltip" data-bs-placement="right" title="Coloca el título con el que se identificara tu requerimiento">Titulo*</label>
                                         <div class="col-md-8">
-                                            <textarea type="text" class="required form-control @error('descripcion') is-invalid @enderror" 
-                                                name="descripcion" placeholder="maximo 250 caracteres" required autofocus maxlength="250"></textarea>
+                                            <textarea type="text" class="required form-control @error('descripcion') is-invalid @enderror" name="descripcion" placeholder="maximo 250 caracteres" required autofocus maxlength="250"></textarea>
                                             @error('descripcion')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -88,8 +84,7 @@
                                     <div class="form-group row">
                                         <label for="planteamiento" class="col-sm-2 text-end control-label col-form-label red-tooltip"  data-bs-toggle="tooltip" data-bs-placement="right" title="Describe con un resumen el alcance deseado para tu requerimiento">Descripción*</label>
                                         <div class="col-md-8">
-                                            <textarea type="text" class="required form-control @error('planteamiento') is-invalid @enderror" 
-                                                name="planteamiento" placeholder="maximo 250 caracteres" required autofocus maxlength="250"></textarea>
+                                            <textarea type="text" class="required form-control @error('planteamiento') is-invalid @enderror" name="planteamiento" placeholder="maximo 250 caracteres" required autofocus maxlength="250"></textarea>
                                             @error('planteamiento')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -99,9 +94,7 @@
                                     </div>
                                     <p>(*) Campos Obligatorios</p>
                                     <div class="card-body text-center">
-                                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                        Guardar
-                                        </button>
+                                        <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Guardar</button>
                                         <label> </label> 
                                         <button href="{{ url('/') }}" type="reset" value="reset" class="btn btn-danger"><a href="{{url('/') }}" style="color:white">Cancelar</a></button>
                                     </div>

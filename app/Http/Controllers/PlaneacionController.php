@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Mail\Cliente\DefinicionRequerimiento;
 use App\Mail\Interno\notificacion_definicion;
 use App\Models\analisis;
-use App\Models\archivo;
 use App\Models\bitacora;
 use App\Models\cronograma;
-use App\Models\desfase;
 use App\Models\informacion;
-use App\Models\levantamiento;
 use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\solicitud;
@@ -31,18 +28,9 @@ class PlaneacionController extends Controller
      */
     public function index($folio)
     {
-        $registros = registro::select('registros.folio', 'registros.id_estatus','p.evidencia as def','l.fecha_def')
-          ->leftjoin('levantamientos as l','registros.folio','l.folio')
-          ->leftjoin('planeacion as p','registros.folio','p.folio')
-          ->where('registros.folio',Crypt::decrypt($folio))->first();
-        $id = registro::latest('id_registro')->first();
-        $desfases = desfase::all();
-        $previo = planeacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
-        $vacio = planeacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
+        $registros = registro::where('folio',Crypt::decrypt($folio))->first();
         $solinf = informacion::where('folio',Crypt::decrypt($folio))->whereNULL('respuesta')->count();
-        return view('formatos.requerimientos.planeacion',compact('desfases','id','previo','solinf','registros','vacio'));
-        #dd($solinf);
-        #return $dc;
+        return view('formatos.requerimientos.planeacion',compact('solinf','registros'));
     }
 
     /**
@@ -53,32 +41,25 @@ class PlaneacionController extends Controller
     public function create(request $data)
     #se comentan las actualizaciones de Calendario
     {
-        $registro = levantamiento::select('fechades')->where('folio',$data['folio'])->get();
+        $registro = registro::where('registros.folio', $data['folio'])->first();
         if($data['id_estatus'] == NULL){$data['id_estatus'] = 11;}
         else{
-            $archivos = Archivo::where('folio', $data['folio'])->get();
-            $cliente = solicitud::where('folior', $data['folio'])->select('correo')->first();
-            $pip = registro::where('registros.folio', $data['folio'])->leftjoin('responsables as r', 'registros.id_responsable', 'r.id_responsable')->select('email')->first();
+            $archivos = $registro->archivos;
             $requiredKeywords = ['definición de requerimiento', 'flujo de trabajo', 'mockup'];
             $missingKeywords = [];
             $definicionRequerimientoFound = false;
 
             foreach ($requiredKeywords as $requiredKeyword) {
                 $keywordFound = false;
-
                 foreach ($archivos as $archivo) {
                     $archivoUrl = mb_strtolower($archivo->url);
-
                     if (str_contains($archivoUrl, $requiredKeyword)) {
                         $keywordFound = true;
-
                         if ($requiredKeyword == 'definición de requerimiento') {
                             $definicionRequerimientoFound = true;
-                            #$data['evidencia'] = mb_strtolower($archivo->url);
                         } elseif ($requiredKeyword == 'flujo de trabajo' || $requiredKeyword == 'mockup') {
                             $flujoTrabajoOrMockupFound = true;
                         }
-
                         break;
                     }
                 }
@@ -93,17 +74,17 @@ class PlaneacionController extends Controller
                 Session::flash('error', $errorMessage);
                 return redirect()->back();
             }
-            if ($pip) {
-                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$pip->email);
+            if ($registro->rpip) {
+                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->rpip->email);
                 $datos = $notificacionUserA->json();
                 $idSC = $datos['idUsuario'];
                 $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$data->folio.' se ha enviado al cliente para su validación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
                 $notificacionController = new NotificacionController();
                 $notificacionController->stnotify($idSC,$message);
-                Mail::to($pip->email)->send(new notificacion_definicion($data->folio));
+                Mail::to($registro->rpip->email)->send(new notificacion_definicion($data->folio));
             }
-            if ($cliente) {
-                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$cliente->correo);
+            if ($registro->solicitud) {
+                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->solicitud->correo);
                 if($notificacionUserA){
                     $datos = $notificacionUserA->json();
                     $idSC = $datos['idUsuario'];
@@ -111,23 +92,16 @@ class PlaneacionController extends Controller
                     $notificacionController = new NotificacionController();
                     $notificacionController->stnotify($idSC,$message);
                 }
-                Mail::to($cliente->correo)->send(new DefinicionRequerimiento($data->folio));
+                Mail::to($registro->solicitud->correo)->send(new DefinicionRequerimiento($data->folio));
             }
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
             $this->validate($data, ['fechareact' => "required|date|after_or_equal:$data[fechaCompReqC]"]);
         }
-        $verificar = planeacion::where('folio',$data['folio'])->count();
-        if($data['fechaCompReqC']<>NULL){$fechaCompReqC=date("y/m/d H:i:s", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
-        if($data['fechaCompReqR']<>NULL){
-            $fechaCompReqR=date("y/m/d H:i:s", strtotime($data['fechaCompReqR']));
-        }else{
-            $fechaCompReqR=NULL;
-        }
-        if($data['fechareact']<>NULL){$fechareact=date("y/m/d H:i:s", strtotime($data['fechareact']));}else{$fechareact=NULL;}
-        #if($data['id_estatus'] == 9){$this->validate($data, ['fechaCompReqR' => "required|date|after_or_equal:$data[fechaCompReqC]"]);}
-        if($verificar == 0){
+        if($data['fechaCompReqC']){$fechaCompReqC=date("y/m/d H:i:s", strtotime($data['fechaCompReqC']));}else{$fechaCompReqC=NULL;}
+        if($data['fechaCompReqR']){$fechaCompReqR=date("y/m/d H:i:s", strtotime($data['fechaCompReqR']));}else{$fechaCompReqR=NULL;}
+        if(!$registro->defReq){
             planeacion::create([
                 'folio' => $data['folio'],
                 'fechaCompReqC' => $fechaCompReqC,
@@ -135,8 +109,7 @@ class PlaneacionController extends Controller
                 'desfase' => $data['desfase'],
                 'motivodesfase' => $data['motivodesfase'],
                 'motivopausa' => $data['motivopausa'],
-                'evpausa' => $data['evpausa'],
-                'fechareact' => $fechareact,
+                'evpausa' => $data['evpausa']
             ]);
             cronograma::create([
                 'folio' => $data['folio'],
@@ -147,36 +120,33 @@ class PlaneacionController extends Controller
             ]);
         }
         else{
-            $previo = planeacion::select('*')->where('folio',$data['folio'])->get();
-            foreach($previo as $fecha){
-                if(date('y/m/d', strtotime($fecha->fechaCompReqC)) <> $fechaCompReqC){
-                    if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
-                        bitacora::create([
-                            'folio'     => $data['folio'],
-                            'id_user' => auth::user()->id,
-                            'usuario' => auth::user()->fullname,
-                            'id_estatus' => '11',
-                            'campo' => 'Fechas de planeación actualizadas'
-                        ]);
-                    }else{
-                        bitacora::create([
-                            'folio'     => $data['folio'],
-                            'id_user' => auth::user()->id,
-                            'usuario' => auth::user()->fullname,
-                            'id_estatus' => '11',
-                            'campo' => 'Fecha compromiso cliente'
-                        ]);
-                    }
+            if(date('y/m/d H:i:s', strtotime($registro->defReq->fechaCompReqC)) <> $fechaCompReqC){
+                if(date('y/m/d H:i:s', strtotime($registro->defReq->fechaCompReqR)) <> $fechaCompReqR){
+                    bitacora::create([
+                        'folio'     => $data['folio'],
+                        'id_user' => auth::user()->id,
+                        'usuario' => auth::user()->fullname,
+                        'id_estatus' => '11',
+                        'campo' => 'Fechas de planeación actualizadas'
+                    ]);
                 }else{
-                    if(date('y/m/d', strtotime($fecha->fechaCompReqR)) <> $fechaCompReqR){
-                        bitacora::create([
-                            'folio'     => $data['folio'],
-                            'id_user' => auth::user()->id,
-                            'usuario' => auth::user()->fullname,
-                            'id_estatus' => '11',
-                            'campo' => 'Fecha compromiso real'
-                        ]);
-                    }
+                    bitacora::create([
+                        'folio'     => $data['folio'],
+                        'id_user' => auth::user()->id,
+                        'usuario' => auth::user()->fullname,
+                        'id_estatus' => '11',
+                        'campo' => 'Fecha compromiso cliente'
+                    ]);
+                }
+            }else{
+                if(date('y/m/d H:i:s', strtotime($registro->defReq->fechaCompReqR)) <> $fechaCompReqR){
+                    bitacora::create([
+                        'folio'     => $data['folio'],
+                        'id_user' => auth::user()->id,
+                        'usuario' => auth::user()->fullname,
+                        'id_estatus' => '11',
+                        'campo' => 'Fecha compromiso real'
+                    ]);
                 }
             }
             $update = planeacion::select('*')->where('folio',$data['folio'])->first();
@@ -186,15 +156,10 @@ class PlaneacionController extends Controller
             $update->motivodesfase = $data['motivodesfase'];
             $update->motivopausa = $data['motivopausa'];
             $update->evpausa = $data['evpausa'];
-            $update->fechareact = $fechareact;
-            #$updateP = cronograma::where('folio',$data['folio'])->where('titulo','Definición de requerimientos')->first();
-            #$updateP->inicio = $fechaCompReqC;
-            #$updateP->fin = $fechaCompReqR;
-            #$updateP->save();
             $update->save(); 
         }
         if($data['fechaEnvAn']<>NULL){
-            if(analisis::where('folio',$data['folio'])->count() == 0){
+            if(!$registro->plan){
                 cronograma::create([
                     'folio' => $data['folio'],
                     'titulo' => 'Analisis de requerimientos',
@@ -210,9 +175,8 @@ class PlaneacionController extends Controller
                 ]);
             }
         }
-        $estatus = registro::select()->where('folio', $data->folio)->first();
-        $estatus->id_estatus = $data['id_estatus'];
-        $estatus->save();
+        $registro->id_estatus = $data['id_estatus'];
+        $registro->save();
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
         #dd($destino->correo);
     }

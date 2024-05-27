@@ -54,8 +54,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function getFullnameAttribute()
     {
       return "{$this->nombre} {$this->apaterno} {$this->amaterno}";
+    }
+
+    public function usrdata(){
+        return $this->belongsTo(usr_data::class, 'id', 'id_user');
     }
 }

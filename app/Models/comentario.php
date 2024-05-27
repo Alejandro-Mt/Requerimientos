@@ -16,4 +16,9 @@ class comentario extends Model
         'id_estatus'
     ];
     
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'usuario', 'id');
+    }
+    
 }

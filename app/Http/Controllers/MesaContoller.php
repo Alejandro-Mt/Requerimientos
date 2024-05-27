@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\General\Mesa as GeneralMesa;
 use App\Models\mesa;
 use App\Models\registro;
-use App\Models\responsable;
 use App\Models\solicitud;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +25,7 @@ class MesaContoller extends Controller
     public function index($folio)
     {
         //
-        $responsables = responsable::all();
+        $responsables = User::all();
         $data = registro::where('folio',Crypt::decrypt($folio))->first();
         return view('formatos.requerimientos.seguimiento.mesa',compact('data','responsables'));
     }
@@ -85,7 +85,7 @@ class MesaContoller extends Controller
     public function Notification($mesa, $data)
     {
         $to  = solicitud::where('folior', $mesa->folio)->first();
-        $cc  = responsable::whereIn('id_responsable', $data['participantes'])->get();
+        $cc  = User::whereIn('id', $data['participantes'])->get();
         if ($mesa) {
             $notificacionUserU = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$to->correo);
             $datos = $notificacionUserU->json();
@@ -98,10 +98,12 @@ class MesaContoller extends Controller
             foreach ($cc as $ecc) {
                 $notificacionP = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/' .  $ecc->email);
                 $resultado = $notificacionP->json();
-                $idSC = $resultado['idUsuario'];
-                $message = 'Hola! Te informamos que se ha agregado la evidencia de la mesa de trabajo realizada del folio '.$mesa->folio.' Puedes visualizarla en ~'.route("Documentos",Crypt::encrypt($mesa->folio)).'~. Gracias.';
-                $notificacionController = new NotificacionController();
-                $notificacionController->stnotify($idSC,$message);
+                if($resultado['idUsuario']){
+                    $idSC = $resultado['idUsuario'];
+                    $message = 'Hola! Te informamos que se ha agregado la evidencia de la mesa de trabajo realizada del folio '.$mesa->folio.' Puedes visualizarla en ~'.route("Documentos",Crypt::encrypt($mesa->folio)).'~. Gracias.';
+                    $notificacionController = new NotificacionController();
+                    $notificacionController->stnotify($idSC,$message);
+                }
             }
         }
         Mail::to($to->correo)->cc($cc->pluck('email'))->send(new GeneralMesa($mesa));

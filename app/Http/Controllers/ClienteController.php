@@ -19,6 +19,7 @@ use App\Models\registro;
 use App\Models\ronda;
 use App\Models\sistema;
 use App\Models\solpri;
+use App\Models\usr_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -137,19 +138,7 @@ class ClienteController extends Controller
     public function document($folio)
     {
         $archivos = archivo::where('folio',Crypt::decrypt($folio))->get();
-        $comentarios = 
-          comentario::select ('nombre',
-            'apaterno',
-            'folio',
-            'contenido',
-            'p.puesto',
-            'respuesta',
-            'comentarios.created_at',
-            'id_estatus',
-            'avatar')
-          ->leftjoin ('users as u','u.id','comentarios.usuario')
-          ->leftjoin ('puestos as p', 'u.id_puesto','p.id_puesto')
-          ->where('folio',Crypt::decrypt($folio))->get();
+        $comentarios = comentario::where('folio',Crypt::decrypt($folio))->get();
         $clases = clase::all(); 
         $desfases = desfase::all();
         $estatus = estatu::orderby('posicion','asc')->get();
@@ -162,52 +151,7 @@ class ClienteController extends Controller
           ->where('r.folio',Crypt::decrypt($folio))
           ->groupby('r.folio')
           ->first();
-        $registros= registro::
-            select('registros.*',
-              'es.titulo',
-              'es.posicion',
-              db::raw('ifnull(s.created_at,registros.created_at) as solicitud'),
-              db::raw('if(s.folior IS NULL, registros.created_at, s.updated_at) as asignado'),
-              db::raw("concat(nombre_r,' ', apellidos) as autorizador"),
-              'fechaaut',
-              'p.evidencia as def',
-              'fecha_def',
-              'prioridad',
-              'fechades',
-              'l.created_at as planteamiento',
-              'l.updated_at as correo',
-              db::raw('ifnull(l.fechaaut, p.fechaCompReqR) as planeacion'),
-              'a.fechaCompReqR as analisis',
-              'c.fechaCompReqR as construccion',
-              'li.inicio_lib as liberacion',
-              'li.evidencia_p as evidencia',
-              'i.created_at as implementacion',
-              'i.f_implementacion as implementado',
-              DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(ifnull(l.fechaaut, p.fechaCompReqR),now())) as lev'),
-              DB::raw('CalcDias(ifnull(l.fechaaut, p.fechaCompReqR), ifnull(c.fechaCompReqR,now())) as cons'),
-              DB::raw('CalcDias(c.fechaCompReqR, ifnull(li.inicio_lib,now())) as lib'),
-              DB::raw('CalcDias(li.inicio_lib, ifnull(i.f_implementacion,now())) as imp'),
-              DB::raw('CalcDias(ifnull(s.created_at, registros.created_at), ifnull(i.f_implementacion,now())) as activo'),
-              DB::raw('SUM(CASE WHEN pa.pausa != 0 THEN CalcDias(pa.created_at, CURDATE()) ELSE CalcDias(pa.created_at, pa.updated_at) END) as pospuesto'),
-              //db::raw('DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) - (DATEDIFF(ifnull(ifnull(l.fechaaut, c.created_at), now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(ifnull(l.fechaaut, c.created_at),now())) = 6 THEN 1 ELSE 0 END AS lev'),
-              //db::raw('DATEDIFF(ifnull(li.created_at,now()), ifnull(l.fechaaut, p.created_at))  - (DATEDIFF(ifnull(li.created_at,now()), ifnull(l.fechaaut, p.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(l.fechaaut, p.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(li.created_at,now())) = 6 THEN 1 ELSE 0 END AS cons'),
-              //db::raw('DATEDIFF(ifnull(i.created_at,now()), li.created_at) - (DATEDIFF(ifnull(i.created_at,now()), li.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(li.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.created_at,now())) = 6 THEN 1 ELSE 0 END AS lib'),
-              //db::raw('DATEDIFF(ifnull(i.updated_at,now()), i.created_at) - (DATEDIFF(ifnull(i.updated_at,now()), i.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(i.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS imp'),
-              //db::raw('DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) + 1 - (DATEDIFF(ifnull(i.updated_at,now()), ifnull(s.created_at, registros.created_at)) DIV 7) * 2 - CASE WHEN WEEKDAY(ifnull(s.created_at, registros.created_at)) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(ifnull(i.updated_at,now())) = 6 THEN 1 ELSE 0 END AS activo'),
-              //db::raw('SUM(CASE WHEN pa.pausa != 0 THEN DATEDIFF(CURDATE(), pa.created_at) + 1 - (DATEDIFF(CURDATE(), pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(CURDATE()) = 6 THEN 1 ELSE 0 END ELSE CASE WHEN pa.created_at IS NOT NULL AND pa.updated_at IS NOT NULL THEN DATEDIFF(pa.updated_at, pa.created_at) + 1 - (DATEDIFF(pa.updated_at, pa.created_at) DIV 7) * 2 - CASE WHEN WEEKDAY(pa.created_at) = 5 THEN 1 ELSE 0 END - CASE WHEN WEEKDAY(pa.updated_at) = 6 THEN 1 ELSE 0 END ELSE 0 END END) AS pospuesto'),
-              'l.impacto')->
-            leftjoin('estatus as es','es.id_estatus','registros.id_estatus')->
-            leftjoin('solicitudes as s','registros.folio','s.folior')-> 
-            leftjoin('levantamientos as l','registros.folio','l.folio')->
-            leftjoin('responsables as re','re.id_responsable','l.autorizacion')->
-            leftjoin('planeacion as p','registros.folio','p.folio')->
-            leftjoin('analisis as a','registros.folio','a.folio')->
-            leftjoin('construccion as c','registros.folio','c.folio')->
-            leftjoin('liberaciones as li','registros.folio','li.folio')->
-            leftjoin('implementaciones as i','registros.folio','i.folio')->
-            leftjoin('pausas as pa','registros.folio','pa.folio')->
-            where('registros.folio',Crypt::decrypt($folio))->
-            first();
+        $registros= registro::where('registros.folio',Crypt::decrypt($folio))->first();
         $reg = planeacion::where('folio',Crypt::decrypt($folio))->exists();
         $retrasos = DB::table('pausas as p')
             ->select('p.folio', 'p.pausa',
@@ -220,18 +164,17 @@ class ClienteController extends Controller
           ->get();
         $cancelar = motivo::all();
         $def_ver = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'LIKE', '%Definición%')->get();
+        $testers = usr_data::where('id_departamento', 37)->get();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
-        return view('cliente.documentacion',compact('archivos','clases','comentarios','desfases','estatus','flujo','folio','formatos','link', 'mesas', 'cancelar','pausa','registros','retrasos','rondas','def_ver'));
+        return view('cliente.documentacion',compact('archivos','cancelar','clases','comentarios','desfases','estatus','flujo','folio','formatos','link', 'mesas','pausa','registros','retrasos','rondas','testers','def_ver'));
         #dd(Crypt::decrypt($folio) );
     }
 
     public function priority($id)
     {
         //
-        $orden = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->orderby('id','desc')->first();
-        $validar = solpri::where([['estatus', 'autorizado'],['id_cliente',Crypt::decrypt($id)]])->count();
-        $listado = solpri::where('id_sistema', Crypt::decrypt($id))->where('estatus', 'autorizado')->selectRaw('GROUP_CONCAT(orden) as listado')->first();
+        $listado = solpri::where('id_sistema', Crypt::decrypt($id))->where('estatus', 'autorizado')->first();#->selectRaw('GROUP_CONCAT(orden) as listado');
         $clientes = 
             registro::
                 select('cl.id_cliente','cl.nombre_cl')->
@@ -240,44 +183,47 @@ class ClienteController extends Controller
                 wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->
                 distinct()->
                 get();
-        if($listado->listado){
-            $ordenArray = explode(',', $listado->listado);
+        if($listado){
+            $ordenArray = explode(',', $listado->orden);
             $pendientes = 
-            registro::
-                join('clientes as cl','cl.id_cliente','registros.id_cliente')
-                ->join('estatus as e','e.id_estatus','registros.id_estatus')
+            registro::select('registros.*')
+                ->when(Auth::user()->usrdata->id_departamento == 35, function ($query) {
+                    return $query->join('solicitudes as s', 'registros.folio', 's.folior')->where('s.correo', Auth::user()->email);
+                })
                 ->wherenotin('registros.id_estatus',[13,14,18])
-                ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
+                ->wherenotin('registros.folio',pausa::select('folio')->where('pausa',2)->distinct())
                 ->where('registros.id_sistema', Crypt::decrypt($id))
-                ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->orderbyRaw("FIELD(registros.folio,'" . implode("','", $ordenArray) . "') desc")
                 ->orderby('registros.id_cliente')
                 ->get();
         }else{
             $pendientes = 
-                registro::
-                    join('clientes as cl','cl.id_cliente','registros.id_cliente')
-                    ->join('estatus as e','e.id_estatus','registros.id_estatus')
+                registro::select('registros.*')
+                    ->when(Auth::user()->usrdata->id_departamento == 35, function ($query) {
+                        return $query->join('solicitudes as s', 'registros.folio', 's.folior')->where('s.correo', Auth::user()->email);
+                    })
                     ->wherenotin('registros.id_estatus',[13,14,18])
-                    ->wherenotin('folio',pausa::select('folio')->where('pausa',2)->distinct())
+                    ->wherenotin('registros.folio',pausa::select('folio')->where('pausa',2)->distinct())
                     ->where('registros.id_sistema', Crypt::decrypt($id))
-                    ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                     ->orderby('registros.id_cliente')
-                    ->orderby('e.posicion', 'desc')
                     ->get();
         }
         $implementados = 
-            registro::
-                join('clientes as cl','cl.id_cliente','registros.id_cliente')
+            registro::select('registros.*')
+                ->when(Auth::user()->usrdata->id_departamento == 35, function ($query) {
+                    return $query->join('solicitudes as s', 'registros.folio', 's.folior')->where('s.correo', Auth::user()->email);
+                })
                 ->where('registros.id_estatus','18')
                 ->where('registros.id_sistema', Crypt::decrypt($id))
                 ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
         $pospuestos = 
-            registro::
-                join('clientes as cl','cl.id_cliente','registros.id_cliente')
+            registro::select('registros.*')
+                ->when(Auth::user()->usrdata->id_departamento == 35, function ($query) {
+                    return $query->join('solicitudes as s', 'registros.folio', 's.folior')->where('s.correo', Auth::user()->email);
+                })
                 ->wherein(
-                    'folio',
+                    'registros.folio',
                     pausa::select('folio')
                     ->where('pausa',2)
                     ->where('registros.id_sistema', Crypt::decrypt($id))
@@ -287,15 +233,7 @@ class ClienteController extends Controller
                 ->where('registros.id_sistema', Crypt::decrypt($id))
                 ->wherein('registros.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                 ->get();
-        $sistemas = 
-            registro::
-                select('registros.id_sistema','nombre_s')->
-                join('sistemas as s','registros.id_sistema','s.id_sistema')->
-                wherenotin('id_estatus',[18])->
-                distinct()->
-                orderby('nombre_s','asc')->
-                get();
-        return view('cliente.prioridad',compact('clientes','implementados','orden','pendientes','pospuestos','validar','sistemas'));
+        return view('cliente.prioridad',compact('clientes','implementados','listado','pendientes','pospuestos',));
         #dd($listado->listado);
     }
     public function request(Request $data)

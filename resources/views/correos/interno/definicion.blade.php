@@ -1,6 +1,6 @@
 @component('mail::message')
 
-Estimado {{$datos->nombre_r}}.,
+Buen día **{{$datos->rpip->getFullnameAttribute()}}**,
 
 Espero que estés teniendo un buen día. Se informa que hemos subido con éxito el archivo 'Definición de requerimiento' a la plataforma y lo hemos enviado al cliente para su revisión y autorización. Este archivo es crucial para nuestro proceso, y agradeceríamos que lo verifiquen.
 

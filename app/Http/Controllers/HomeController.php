@@ -32,16 +32,15 @@ class HomeController extends Controller
     public function index()
     {
         
-        $tabla = registro::all();
-            $requerimientos = '';
-        if(Auth::user()->id_area == 3){
+        $requerimientos = registro::wherein('id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->get();
+        if(Auth::user()->usrdata->departamento->id == 35){
           $sistemas = 
             db::table('solicitudes as s')->
             select('*', db::raw('COUNT(s.id_sistema) as total'))->
             join('sistemas as si','si.id_sistema','s.id_sistema')->
             leftjoin('registros as r','r.folio','s.folior')->
             where('s.correo',Auth::user()->email)->
-            whereNotIn('r.id_estatus',['14','18'])->
+            whereNotIn('r.id_estatus',['14'])->
             groupBy('si.id_sistema')->
             get();
         }else{
@@ -72,20 +71,8 @@ class HomeController extends Controller
                     ->wherein('s.id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
                     ->groupBy('s.nombre_s')
                     ->orderBy('s.nombre_s')
-                    ->get();
-        $responsables = db::table('registros as r')
-                    ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),
-                            db::raw("group_concat(r.id_cliente) as data"))
-                    ->join('responsables as re','r.id_responsable','re.id_responsable')
-                    ->groupBy('re.nombre_r')
-                    ->orderBy('re.nombre_r')
-                    ->get();
-        $clientes = db::table('registros as r')
-                    ->select('c.nombre_cl')
-                    ->join('clientes as c','r.id_cliente','c.id_cliente')
-                    ->orderBy('c.nombre_cl')
-                    ->get();                    
-        return view('principal',compact('tabla','SxR','responsables','clientes','requerimientos','sistemas','cerrado'));
+                    ->get();            
+        return view('principal',compact('SxR','requerimientos','sistemas','cerrado'));
         #dd($sistemas);
     }
 
@@ -109,16 +96,16 @@ class HomeController extends Controller
         $client = new Google_Client();
         $client->setAuthConfig($ruta);
        
-        $token = Auth::user()->token_google;
+        $token = Auth::user()->usrdata->token_google;
         if ($client->isAccessTokenExpired()) { 
-            if (empty(Auth::user()->token_google)) {
+            if (empty(Auth::user()->usrdata->token_google)) {
                 // Si no hay token, redirigir al usuario para autorizar
                 $client->setRedirectUri(route('auth.google'));
                 $authUrl = $client->createAuthUrl();
                 return redirect()->away($authUrl);
             }
             /*try{
-                $refreshToken = Auth::user()->token_google;
+                $refreshToken = Auth::user()->usrdata->token_google;
                 
                 #$refreshToken = $client->getRefreshToken();
                 $client->fetchAccessTokenWithRefreshToken($refreshToken); 

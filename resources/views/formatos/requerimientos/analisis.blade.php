@@ -43,15 +43,8 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="fechaCompReqC" type="text" class="form-control mydatepicker required form-control @error('fechaCompReqC') is-invalid @enderror" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"  required autofocus
-                                        @if ($vacio == 0) value="{{ old('fechaCompReqC') }}" @endif 
-                                        @foreach ($previo as $ant)
-                                            @if ($ant->fechaCompReqC == NULL)
-                                                value="{{ old('fechaCompReqC') }}"
-                                            @else
-                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" 
-                                            @endif 
-                                        @endforeach >
+                                    <input name="fechaCompReqC" type="text" class="form-control mydatepicker required form-control @error('fechaCompReqC') is-invalid @enderror" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy" required autofocus autocomplete="off"
+                                        value="{{$registros->plan ? date('d-m-Y H:i:s', strtotime($registros->plan->fechaCompReqC)) : old('fechaCompReqC')}}">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -65,33 +58,13 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
-                            <label for="evidencia"
-                                class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
-                            <div class="col-md-8">
-                                <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                    name="evidencia" @if ($vacio == 0) value="{{ old('evidencia') }}" @endif @foreach ($previo as $ant) @if($ant->evidencia == NULL || $ant->evidencia == 'null') value="{{ old('evidencia') }}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
-                                @error('evidencia')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>-->
                         <div class="form-group row">
                             <label for="fechaCompReqR"
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega Real*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name = "fechaCompReqR"
-                                        @if ($vacio == 0) value="{{ old('fechaCompReqR') }}" @endif 
-                                        @foreach ($previo as $ant)
-                                            @if ($ant->fechaCompReqR <> NULL)
-                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqR))}}" 
-                                            @else
-                                                value="{{ old('fechaCompReqR') }}"
-                                            @endif 
-                                        @endforeach type="text" class="form-control mydatepicker required form-control @error('fechaCompReqR') is-invalid @enderror" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name = "fechaCompReqR" type="text" class="form-control mydatepicker required form-control @error('fechaCompReqR') is-invalid @enderror" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy" autocomplete="off"
+                                        value="{{ $registros->plan ? ($registros->plan->fechaCompReqR ? date('d-m-Y H:i:s', strtotime($registros->plan->fechaCompReqR)) : old('fechaCompReqR')) : old('fechaCompReqR')}}">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>

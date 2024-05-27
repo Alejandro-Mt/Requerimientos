@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\Cliente\Fase;
 use App\Mail\Interno\NuevoProyecto;
+use App\Mail\interno\Tester;
+use App\Models\bitacora;
 use App\Models\clase;
 use App\Models\estatu;
 use App\Models\levantamiento;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use DateTime;
 use Dflydev\DotAccessData\Data;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
@@ -30,7 +33,7 @@ class RecordController extends Controller
         $proyectos = registro::where('folio', 'like', 'PR-PIP%')->get();
         #$id = registro::latest('id_registro')->first();
         $registros = registro::where('folio', 'like', 'PIP%')->count();
-        $responsable = responsable::orderby('apellidos', 'asc')->get();
+        $responsable = User::orderby('nombre', 'asc')->get();
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         return view('formatos.requerimientos.new',compact('cliente','datos','proyectos','registros','responsable','sistema','vacio'));
@@ -134,10 +137,11 @@ class RecordController extends Controller
         $registro = registro::where('folio',$folio)->first();
         $registro->id_estatus= 14;
         $registro->motivo_can_id = $data['motivo'];
-        $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
+        $email = levantamiento::join('users as s', 's.id', '=', 'levantamientos.id_solicitante')
             ->where('folio', $folio)
             ->select('s.email')
             ->first();
+        dd($email);
         $involucrados = DB::
             table('responsables as res')->
             join('levantamientos as lev', function ($join) {
@@ -157,5 +161,29 @@ class RecordController extends Controller
         }
         return redirect(route('home'));
     }
+
+  protected function tester(Request $data, $folio){
+    $user                   = User::FindORFail(Auth::user()->id);
+    $registro               = registro::where('folio',$folio)->first();
+    $registro->id_tester    = $data['id_tester'];
+    $registro->save();
+    $campo                  = 
+        bitacora::create([
+          'folio'         => $registro->folio,
+          'usuario'       => $user->getFullnameAttribute(),
+          'id_user'       => $user->id,
+          'campo'         => "Se asigna tester",
+          'id_estatus'    => $registro->id_estatus,
+        ]);
+    mail::to($registro->rtest->email)->send(new Tester($folio));
+    return redirect(route('Documentos',Crypt::encrypt($folio)));
+    ####  Notificaciones por ST desactivadas  ###
+    /*$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);
+    $datos = $notificacionUserC->json();
+    $idSC = $datos['idUsuario'];
+    $message = 'Hola! Te informamos que desarrollo ha designado la clase del requerimiento con folio '.$folio. '. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
+    $notificacionController = new NotificacionController();
+    $notificacionController->stnotify($idSC,$message); */
+  }
 
 }

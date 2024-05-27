@@ -12,13 +12,13 @@
             @if($pausa->pausa == 2)
               <a class="text-danger">{{"POSPUESTO"}}</a>
             @else
-              {{$registros->titulo}}
+              {{$registros->estatus->titulo}}
             @endif
           </button>
         @endif
         <div class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="btnGroupVerticalDrop1">
           @if ($pausa->pausa == 2)
-            <a class="dropdown-item" href="{{route('Play',$registros->folio)}}">{{$registros->titulo}}</a>
+            <a class="dropdown-item" href="{{route('Play',$registros->folio)}}">{{$registros->estatus->titulo}}</a>
             <a class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#confle">CANCELAR</a>
           @else
             <a class="dropdown-item texr-success" data-bs-toggle="modal" data-bs-target="#desfase">POSPONER</a>
@@ -88,6 +88,43 @@
                 @endforeach                     
               </select>
               @error('id_clase')
+                <span class="invalid-feedback" role="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-invert" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-success btn-ok">Confirmar</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+</form>
+<!-- Tester -->
+<form method="post" action="{{ route('Tester', $registros->folio) }}">
+  {{ csrf_field() }}
+  <div id="Tester" class="modal fade" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="text-center mt-2 mb-4">
+            <a class="text-white">Asignar Tester</a>
+          </div>
+          <div class="form-group row">
+            <label for="id_tester" class="col-sm-2 text-end control-label col-form-label">Usuarios</label>
+            <div class="col-md-9">
+              <select class="form-select @error ('id_tester') is-invalid @enderror" name="id_tester" aria-hidden="true" required autofocus>
+                <option value="">Selección</option>
+                @foreach ($testers as $tester)
+                  <option value = {{ $tester->id_user }}>{{$tester->user->getFullnameAttribute()}}</option>
+                @endforeach                     
+              </select>
+              @error('id_tester')
                 <span class="invalid-feedback" role="alert">
                   <strong>{{ $message }}</strong>
                 </span>

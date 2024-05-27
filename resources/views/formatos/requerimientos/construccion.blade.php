@@ -129,15 +129,8 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="fechaInConP" type="text" class="form-control mydatepicker required form-control @error('fechaInConP') is-invalid @enderror" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"  required autofocus
-                                        @if ($vacio == 0) value="{{ old('fechaInConP') }}" @endif 
-                                        @foreach ($previo as $ant)
-                                            @if ($ant->fechaCompReqC == NULL)
-                                                value="{{ old('fechaInConP') }}"
-                                            @else
-                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqC))}}" 
-                                            @endif 
-                                        @endforeach >
+                                    <input name="fechaInConP" type="text" class="form-control mydatepicker required form-control @error('fechaInConP') is-invalid @enderror" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy"  required autofocus autocomplete="off"
+                                        value="{{$registros->construccion ? date('d-m-Y H:i:s', strtotime($registros->construccion->fechaCompReqC)) : old('fechaCompReqC')}}">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -151,33 +144,12 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="form-group row">
-                            <label for="evidencia"
-                                class="col-sm-2 text-end control-label col-form-label">Link de Evidencia*</label>
-                            <div class="col-md-8">
-                                <input type="text" class="required form-control @error('evidencia') is-invalid @enderror" 
-                                    name="evidencia" @if ($vacio == 0) value="{{ old('evidencia') }}" @endif @foreach ($previo as $ant) @if($ant->evidencia == NULL) value="{{ old('evidencia') }}" @else value="{{$ant->evidencia}}" @endif @endforeach placeholder="evidencia" required autofocus>
-                                @error('evidencia')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>-->
                         <div class="form-group row">
-                            <label for="fechaCompReqR"
-                                class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega Real*</label>
+                            <label for="fechaCompReqR" class="col-sm-2 text-end control-label col-form-label">Fecha Compromiso para Entrega Real*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name = "fechaInConR"
-                                        @if ($vacio == 0) value="{{ old('fechaInConR') }}" @endif 
-                                        @foreach ($previo as $ant)
-                                            @if ($ant->fechaCompReqR <> NULL)
-                                                value="{{date('d-m-20y',strtotime($ant->fechaCompReqR))}}" 
-                                            @else
-                                                value="{{ old('fechaInConR') }}"
-                                            @endif 
-                                        @endforeach type="text" class="form-control mydatepicker required form-control @error('fechaInConR') is-invalid @enderror" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name = "fechaInConR" type="text" class="form-control mydatepicker required form-control @error('fechaInConR') is-invalid @enderror" id="datepicker-autoclose" placeholder="DD-MM-AAAA" data-date-format="dd-mm-yyyy" autocomplete="off"
+                                    value="{{ $registros->construccion ? ($registros->construccion->fechaCompReqR ? date('d-m-Y H:i:s', strtotime($registros->construccion->fechaCompReqR)) : old('fechaCompReqR')) : old('fechaCompReqR')}}">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -258,7 +230,7 @@
                 if ($(this).is(':checked')) {
                 console.log($(this));
                     $('#next').removeAttr('disabled');
-                    $('#id_estatus').val('8');
+                    $('#id_estatus').val('23');
                 } else {
                 console.log($(this));
                     $('#next').prop('disabled',true);

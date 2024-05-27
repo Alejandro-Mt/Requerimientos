@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\acceso;
 use App\Models\area;
+use App\Models\departamento;
 use App\Models\puesto;
 use App\Models\sistema;
 use App\Models\user;
@@ -16,7 +17,7 @@ class PermissionsController extends Controller
     //
     public function ajustes(){
         $areas = area::all();
-        
+        $departamentos = departamento::all();
         if (Auth::user()->id == 1) {
             # code...
             $equipo = user::distinct()
@@ -47,7 +48,7 @@ class PermissionsController extends Controller
         $accesos = acceso::all();
         $sistemas = sistema::join('accesos as acs', 'sistemas.id_sistema','acs.id_sistema')->where('id_user',Auth::user()->id)->get();
         foreach($usuarios as $usuario){
-            return view('formatos.ajustes',compact('accesos','areas','equipo','puestos','sistemas','usuario'));
+            return view('formatos.ajustes',compact('accesos','areas','departamentos','equipo','puestos','sistemas','usuario'));
             #dd($equipo);
         };
     }
@@ -58,8 +59,9 @@ class PermissionsController extends Controller
         foreach($data->id as $key => $value){
             for($i=-1;$i<$key;$i++){
                 $actualizar = user::FindOrFail($data['id'][$key]);
-                $actualizar->id_puesto = $data['id_puesto'][$key];
-                $actualizar->id_area = $data['id_area'][$key];
+                $actualizar->usrdata->id_puesto = $data['id_puesto'][$key];
+                $actualizar->usrdata->id_area = $data['id_area'][$key];
+                $actualizar->usrdata->id_departamento = $data['id_departamento'][$key];
                 $actualizar->save();
             }
         }

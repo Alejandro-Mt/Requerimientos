@@ -7,6 +7,7 @@ use App\Http\Controllers\BuildController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConstruccionController;
 use App\Http\Controllers\CorreoController;
+use App\Http\Controllers\EstatusController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\FuncionalidadController;
 use App\Http\Controllers\GoogleController;
@@ -81,6 +82,10 @@ Route::post('depto.nuevo', [DepartamentoController::class, 'create'])->name('NDe
 Route::post('depto.actualizar.{id}', [DepartamentoController::class, 'update'])->name('UDepto');
 Route::delete('depto.Borrar.{id}', [DepartamentoController::class, 'destroy'])->name('DDepto');
 #          Estatus Funcionalidad         #
+Route::post('estatus.nuevo', [EstatusController::class, 'create'])->name('NEstatus');
+Route::post('estatus.actualizar.{id_estatus}', [EstatusController::class, 'update'])->name('UEstatus');
+Route::delete('estatus.Borrar.{id_estatus}', [EstatusController::class, 'destroy'])->name('DEstatus');
+#          Estatus Funcionalidad         #
 Route::post('funcion.nuevo', [FuncionalidadController::class, 'create'])->name('NFuncion');
 Route::post('funcion.actualizar.{id_estatus}', [FuncionalidadController::class, 'update'])->name('UFuncion');
 Route::delete('funcion.Borrar.{id_estatus}', [FuncionalidadController::class, 'destroy'])->name('DFuncion');
@@ -104,6 +109,7 @@ Route::delete('solicitante.Borrar.{id_sistema}', [Solicitantescontroller::class,
   #    \\      Proceso nuevo      //   #
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
+Route::post('tester.{folio}',[RecordController::class, 'tester'])->name('Tester');
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->middleware('auth')->name('Editar');
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
 
@@ -148,8 +154,10 @@ Route::post('/formatos.requerimientos.construccion',[ConstruccionController::cla
 
 Route::post('Ajuste.Definision.{folio}',[RedefinisionController::class, 'create'])->name('ReDef');
 ##  metodos para liberacion ##
-Route::get(substr(Crypt::encryptString('/formatos.requerimientos.liberacion'), 45, 5).'{folio}',[LiberacionController::class, 'index'])->name('Liberacion')->middleware('auth');
-Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');
+Route::get(substr(Crypt::encryptString('pruebas.testing'), 95, 5).'{folio}',[LiberacionController::class, 'index'])->name('PruebasTesting')->middleware('auth');
+Route::post('pruebas.liberacion',[LiberacionController::class, 'create'])->name('GPT');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.liberacion'), 45, 5).'{folio}',[LiberacionController::class, 'edit'])->name('Liberacion')->middleware('auth');
+Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'update'])->name('Liberar');
 #    \\      Proceso Requerimiento      //   #
 Route::get(substr(Crypt::encryptString('ronda.registro'), 50, 5).'{folio}', [RondaController::class, 'index'])->name('Ronda')->middleware('auth');
 Route::post('ronda.crear', [RondaController::class, 'create'])->name('CRonda');

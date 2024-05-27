@@ -13,6 +13,7 @@ use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitud;
 use App\Models\User;
+use App\Models\usr_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -32,12 +33,12 @@ class PreregistroController extends Controller
     {
         //
         $clases = clase::all();
-        $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
+        $cliente = db::table('clientes')->orderby('nombre_cl', 'asc')->get();
         $estatus = estatu::all();
         $id = solicitud::latest('id')->first();
         $registros = solicitud::where('folio', 'like', 'PIP%')->count();
-        $responsable = responsable::orderby('apellidos', 'asc')->get();
-        $sistema = sistema::all();
+        $responsable = User::orderby('nombre', 'asc')->get();
+        $sistema = sistema::orderby('nombre_s', 'asc')->get();
         $vacio = solicitud:: select('*')->count();
         return view('formatos.requerimientos.preregistro.preregistro',compact('clases','cliente','estatus','id','registros','responsable','sistema','vacio'));
         #dd($id->id+1);
@@ -55,6 +56,16 @@ class PreregistroController extends Controller
         $registros = solicitud::where('folio','like',"$data[folio]%")->count();
         $registros = $registros + 1;
         $folio = "$data[folio]-$registros";
+        $coordinacion = usr_data::select('email')
+            ->leftJoin('users as u', 'u.id', 'usr_data.id_user')
+            ->leftJoin('puestos as p', 'p.id_puesto', 'usr_data.id_puesto')
+            ->leftJoin('accesos as a', 'usr_data.id_user', 'a.id_user')
+            ->whereIn('jerarquia', [2, 3, 7])
+            ->where('a.id_sistema', $data['id_sistema'])
+            ->where(function ($query) {
+                $query->where('usr_data.id_area', '!=', '12')->orWhere('jerarquia', '7');
+            })
+        ->get();
         $this->validate($data, [
             'descripcion' => "max:250",
         ]);
@@ -69,15 +80,6 @@ class PreregistroController extends Controller
             'descripcion' => $data['descripcion'],
             'planteamiento' => $data['planteamiento']
         ]);
-        $coordinacion = User::select('*')
-            ->leftJoin('puestos as p', 'p.id_puesto', 'users.id_puesto')
-            ->leftJoin('accesos as a', 'users.id', 'a.id_user')
-            ->whereIn('jerarquia', [2, 3, 7])
-            ->where('a.id_sistema', $data['id_sistema'])
-            ->where(function ($query) {
-                $query->where('users.id_area', '!=', '12')->orWhere('jerarquia', '7');
-            })
-        ->get();
         foreach ($coordinacion as $usuario) {
             $notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$usuario->email);
             $datos = $notificacionUser->json(); // Convierte la respuesta JSON a un array PHP
@@ -86,15 +88,12 @@ class PreregistroController extends Controller
             $notificacionController = new NotificacionController();
             $notificacionController->stnotify($idSC,$message);
         }
-        #dd($notificacionController);
         mail::to($data['email'])->cc( $coordinacion->pluck('email'))->send(new SolicitudRequerimiento($folio));
-        #dd($c->email);
         if($data['adjunto'] == 'true'){
             return redirect(route('Plus',$folio));
         }
         else{
            return redirect(route('home'));
-           #dd($coordinacion);
         }
     }
 
@@ -175,9 +174,8 @@ class PreregistroController extends Controller
         $cliente = db::table('clientes')->orderby('id_cliente', 'asc')->get();
         $estatus = estatu::all();
         $proyectos = registro::where('folio', 'like', 'PR-PIP%')->get();
-        #$id = registro::latest('id_registro')->first();
         $registros = registro::where('folio', 'like', 'PIP%')->count();
-        $responsable = responsable::orderby('apellidos', 'asc')->get();
+        $responsable = User::orderby('nombre', 'asc')->get();
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         return view('formatos.requerimientos.new',compact('clases','cliente','datos','estatus','proyectos','registros','responsable','sistema','vacio'));
@@ -209,7 +207,7 @@ class PreregistroController extends Controller
         $folio->save();
     }
 
-    public function chart()
+    /*public function chart()
     {
         # chart
         $estatus = db::table('registros as r')
@@ -220,10 +218,10 @@ class PreregistroController extends Controller
                     ->get();
 
         $SxR = db::table('registros as r')
-                    ->select(db::raw("concat(re.nombre_r,' ',re.apellidos) as name"),
+                    ->select(db::raw("concat(re.nombre,' ',re.apellidos) as name"),
                             #db::raw("group_concat(r.id_cliente) as data")
                             db::raw("count(r.id_responsable) as y"))
-                    ->join('responsables as re','r.id_responsable','re.id_responsable')
+                    ->join('users as re','r.id_responsable','re.id')
                     ->groupBy('re.nombre_r')
                     ->orderBy('re.nombre_r')
                     ->get();
@@ -276,5 +274,5 @@ class PreregistroController extends Controller
             ->groupBy('r.id_estatus', 'r.id_cliente')
             ->orderBy('nombre_cl')->get();
         return view('cliente.estadistico',compact('clientes','estatus','ex','exa','RxR','RxC','RxS','SxR'));
-    }
+    }*/
 }

@@ -9,6 +9,12 @@ class estatu extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id_estatus';
+    protected $fillable = [
+        'titulo',
+        'activo',
+        'posicion',
+        'id_fase'
+    ];
     
     public function fase()
     {

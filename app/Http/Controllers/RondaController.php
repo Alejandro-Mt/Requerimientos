@@ -48,15 +48,13 @@ class RondaController extends Controller
      */
     public function create(Request $data)
     {
-        $liberacion = liberacion::where('folio', $data['folio'])->first();
-        $estatus = registro::select()->where('folio', $data['folio'])->first();
-        $archivos = Archivo::where('folio', $data['folio'])->get();
+        $registro = registro::select()->where('folio', $data['folio'])->first();
         if ($data['rechazadas'] == 0){
             $requiredKeywords = ['matriz de pruebas', 'acta de validación'];
             $missingKeywords = [];
             foreach ($requiredKeywords as $requiredKeyword) {
                 $keywordFound = false;
-                foreach ($archivos as $archivo) {
+                foreach ($registro->archivos as $archivo) {
                     if (str_contains(mb_strtolower($archivo->url), $requiredKeyword)) {
                         $keywordFound = true;
                         break;
@@ -72,37 +70,29 @@ class RondaController extends Controller
                 Session::flash('error', $errorMessage);
                 return redirect()->back();
             }
-            $estatus->id_estatus = 2;
-            $liberacion->evidencia_p=true;
-            $liberacion->save();
-            $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
-                ->where('folio', $data->folio)
-                ->select('s.email')
-                ->first();
-            /*$gerencia = User::
-                join('puestos as p','p.id_puesto','users.id_puesto')
-                ->where('id_area', 6)
-                ->whereIn('jerarquia',[4,5])
-                ->select('email')
-                ->get();*/
+            $registro->id_estatus = 2;
+            $registro->liberacion->evidencia_p=true;
+            $registro->liberacion->save();
+            $email = $registro->levantamiento->sol->email;
             $coordinacion = User:: select('email')
-                ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
-                ->leftjoin('accesos as a','users.id','a.id_user')
+                ->leftjoin('usr_data as ud','ud.id_user','users.id')
+                ->leftjoin('puestos as p','p.id_puesto','ud.id_puesto')
+                ->leftjoin('accesos as a','ud.id_user','a.id_user')
                 ->whereIn('jerarquia', [2, 3, 7])
-                ->where('a.id_sistema',$estatus->id_sistema)
-                ->where('id_area', 6)
+                ->where('a.id_sistema',$registro->id_sistema)
+                ->where('ud.id_area', 6)
                 ->get();
             if($email){
-                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email->email);
+                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email);
                 $datos = $notificacionUserA->json();
                 $idSC = $datos['idUsuario'];
                 $message = 'Hola! Te informamos que el requerimiento con folio '.$data->folio.' ha entrado a la fase de implementación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
                 $notificacionController = new NotificacionController();
                 $notificacionController->stnotify($idSC,$message);
-                Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '2'));
+                Mail::to($email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '2'));
             }
         }else{
-            $estatus->id_estatus = 8;
+            $registro->id_estatus = 8;
         }
         ronda::create([
             'folio' => $data['folio'],
@@ -112,9 +102,11 @@ class RondaController extends Controller
             'evidencia' => $data['evidencia'],
             'efectividad' => ($data['aprobadas']/($data['aprobadas']+$data['rechazadas']))*100,
         ]);
-        $estatus->save();
+        $registro->save();
+        
+        $liberacionController = new LiberacionController();
+        $liberacionController->Notificacion($registro);
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
-        #dd($data);
     }
 
     /**
@@ -163,7 +155,6 @@ class RondaController extends Controller
         $update->jerarquia = $data['jerarquia'];
         $update->save();  
         return redirect(route('Seguir'));
-        #dd($data);
     }
 
     /**
@@ -177,6 +168,5 @@ class RondaController extends Controller
         $puesto = ronda::find($id_puesto);
         $puesto->delete();
         return redirect(route('Seguir'));
-        #dd($id_estatus);
     }
 }

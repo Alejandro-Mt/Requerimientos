@@ -19,4 +19,17 @@ class liberacion extends Model
         't_pruebas',
         'evidencia_p'
     ];
+
+    public function rondas()
+    {
+        return $this->hasMany(ronda::class, 'folio', 'folio');
+    }
+
+    public function obtenerDatosRonda($folio)
+    {
+        return $this->rondas()
+                    ->selectRaw('MAX(ronda) as ronda, SUM(aprobadas) as aprobadas, SUM(rechazadas) as rechazadas')
+                    ->where('folio',$folio)
+                    ->first();
+    }
 }

@@ -15,20 +15,8 @@
               <div class="col-md-6 ms-auto bg-light py-3">Puesto: </div>
               <div class="col-md-6 ms-auto bg-light py-3">
                 <input class="d-none" name="id[]" value="{{$miembro->id}}" type="text">
-                <select class="form-select @error('id_puesto') is-invalid @enderror" 
-                        style="width: 100%; height:36px;" 
-                        name="id_puesto[]" 
-                        tabindex="-1" 
-                        aria-hidden="true" 
-                        required 
-                        autofocus>
-                  <option value={{$miembro->id_puesto}}>
-                    @foreach ($puestos as $puesto) 
-                      @if ($puesto->id_puesto == $miembro->id_puesto) 
-                        {{$puesto->puesto}}
-                      @endif  
-                    @endforeach
-                  </option> 
+                <select class="form-select @error('id_puesto') is-invalid @enderror" style="width: 100%; height:36px;" name="id_puesto[]" required autofocus>
+                  <option value={{$miembro->usrdata->id_puesto}}>{{$miembro->usrdata->puesto->puesto}}</option> 
                   @foreach ($puestos as $puesto)
                     @if ($puesto->jerarquia < $usuario->jerarquia && $puesto->id_puesto < $usuario->id_puesto)
                       <option value = {{ $puesto->id_puesto }}>{{$puesto->puesto}}</option>;
@@ -46,20 +34,8 @@
             <div class="row border mt-3">
               <div class="col-md-6 ms-auto bg-light py-3">{{'Area'}}</div>
               <div class="col-md-6 ms-auto bg-light py-3">
-                <select class="form-select @error('id_area') is-invalid @enderror" 
-                      style="width: 100%; height:36px;" 
-                      name="id_area[]" 
-                      tabindex="-1" 
-                      aria-hidden="true" 
-                      required 
-                      autofocus>
-                  <option value={{$miembro->id_area}}>
-                    @foreach ($areas as $area) 
-                      @if ($area->id_area == $miembro->id_area)
-                        {{$area->area}}
-                      @endif  
-                    @endforeach
-                  </option> 
+                <select class="form-select @error('id_area') is-invalid @enderror" style="width: 100%; height:36px;" name="id_area[]" required autofocus>
+                  <option value={{$miembro->usrdata->id_area}}>{{$miembro->usrdata->area->area}}</option> 
                   @foreach ($areas as $area)
                     @if ($usuario->jerarquia > 3)
                       <option value = {{$area->id_area}}>{{$area->area}}</option>;
@@ -67,6 +43,24 @@
                   @endforeach                     
                 </select>
                 @error('id_area')
+                  <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+            </div>
+            <div class="row border mt-3">
+              <div class="col-md-6 ms-auto bg-light py-3">{{'Departamento'}}</div>
+              <div class="col-md-6 ms-auto bg-light py-3">
+                <select class="form-select @error('id_departamento') is-invalid @enderror" style="width: 100%; height:36px;" name="id_departamento[]" required autofocus>
+                  <option value={{$miembro->usrdata->id_departamento}}>{{$miembro->usrdata->departamento->departamento}}</option> 
+                  @foreach ($departamentos as $departamento)
+                    @if ($usuario->jerarquia > 3)
+                      <option value = {{$departamento->id}}>{{$departamento->departamento}}</option>;
+                    @endif
+                  @endforeach                     
+                </select>
+                @error('id_departamento')
                   <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                   </span>

@@ -24,18 +24,16 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="id_solicitante"
-                            class="col-sm-2 text-end control-label col-form-label">Solicitante*</label>
+                        <label for="id_solicitante" class="col-sm-2 text-end control-label col-form-label">Solicitante*</label>
                         <div class="col-md-8">
-                            <select class="form-select @error('id_solicitante') is-invalid @enderror" 
-                                style="width: 100%; height:36px;" name="id_solicitante" tabindex="-1" aria-hidden="true" required autofocus>
-                                @if($solicitud)
-                                    <option value={{$solicitud->id_solicitante}}>{{"$solicitud->a_pat  $solicitud->a_mat $solicitud->nombre"}}</option>
+                            <select class="select2 form-control custom-select @error('id_solicitante') is-invalid @enderror" style="width: 100%; height:36px;" name="id_solicitante" required autofocus>
+                                @if($registros->solicitud)
+                                    <option value={{$registros->solicitud->usuario->id}}>{{ $registros->solicitud->usuario->getFullnameAttribute() }}</option>
                                 @else
                                     <option value={{NULL}}>Selección</option>
                                 @endif
-                                @foreach ($solicitantes as $solicitante):
-                                    <option value={{$solicitante->id_solicitante}} {{old('id_solicitante')==$solicitante->id_solicitante ? 'selected' : ''}}>{{"$solicitante->a_pat  $solicitante->a_mat $solicitante->nombre"}}</option>
+                                @foreach ($responsables as $solicitante):
+                                    <option value={{$solicitante->id}} {{old('id_solicitante')==$solicitante->id ? 'selected' : ''}}>{{ $solicitante->getFullnameAttribute() }}</option>
                                 @endforeach                     
                             </select>
                             @error('id_solicitante')
@@ -49,7 +47,7 @@
                         <label for="departamento"
                             class="col-sm-2 text-end control-label col-form-label">Departamento</label>
                         <div class="col-md-8">  
-                            <select class="form-select @error('departamento') is-invalid @enderror" 
+                            <select class="select2 form-control custom-select @error('departamento') is-invalid @enderror" 
                                 style="width: 100%; height:36px;" name="departamento" tabindex="-1" aria-hidden="true" required autofocus>
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($departamentos as $departamento):
@@ -64,16 +62,14 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="autorizacion"
-                            class="col-sm-2 text-end control-label col-form-label">Autorizo</label>
+                        <label for="autorizacion" class="col-sm-2 text-end control-label col-form-label">Autorizo</label>
                         <div class="col-md-8">
-                            <select class="form-select @error ('autorizacion') is-invalid @enderror" 
-                                style="width: 100%; height:36px;" name="autorizacion" tabindex="-1" aria-hidden="true" required autofocus>
+                            <select class="select2 form-control custom-select @error ('autorizacion') is-invalid @enderror"  style="width: 100%; height:36px;" name="autorizacion" required autofocus>
                                 <option value={{null}}>Seleccion</option>
                                 @foreach ($responsables as $autoriza)
-                                    @if ($autoriza->id_area == 6)
-                                        <option value="{{$autoriza->id_responsable}}" {{old('autorizacion')==$autoriza->id_responsable ? 'selected' : ''}}>{{$autoriza->apellidos}} {{$autoriza->nombre_r}}</option>
-                                    @endif
+                                @if ($autoriza->usrdata && $autoriza->usrdata->id_area == 6)
+                                        <option value="{{$autoriza->usrdata->id_user}}" {{old('autorizacion')==$autoriza->usrdata->id_user ? 'selected' : ''}}>{{$autoriza->getFullnameAttribute()}}</option>
+                                    @endif                            
                                 @endforeach; 
                                 @error('autorizacion')
                                 <span class="invalid-feedback" role="alert">
@@ -117,7 +113,7 @@
                         <label for="prioridad"
                             class="col-sm-2 text-end control-label col-form-label">Impacto en la Operacion*</label>
                         <div class="col-md-8">
-                            <select name="prioridad" class="form-select @error ('prioridad') is-invalid @enderror" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="prioridad" class="select2 form-control custom-select @error ('prioridad') is-invalid @enderror" style="height: 36px;width: 100%;" required autofocus>
                                 <option value={{null}}>Seleccion</option>
                                 <option value='1' {{old('prioridad')==1 ? 'selected' : ''}}>Baja</option>
                                 <option value='2' {{old('prioridad')==2 ? 'selected' : ''}}>Media</option>
@@ -168,9 +164,9 @@
                         <label for="involucrados"
                             class="col-sm-2 text-end control-label col-form-label">Personas Involucradas</label>
                         <div class="col-md-8">
-                            <select name="involucrados[]" class="select2 form-select mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="involucrados[]" class="select2 form-control custom-select mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($responsables as $responsable)
-                                    <option value="{{$responsable->id_responsable}}" {{ (collect(old('involucrados'))->contains($responsable->id_responsable)) ? 'selected':'' }}>{{$responsable->apellidos}} {{$responsable->nombre_r}}</option>
+                                    <option value="{{$responsable->id}}" {{ (collect(old('involucrados'))->contains($responsable->id)) ? 'selected':'' }}>{{$responsable->getFullnameAttribute()}}</option>
                                 @endforeach
                                 @error('involucrados[]')
                                     <span class="invalid-feedback" role="alert">
@@ -184,7 +180,7 @@
                         <label for="relaciones"
                             class="col-sm-2 text-end control-label col-form-label">Relación con Otros Sistemas</label>
                         <div class="col-md-8">
-                            <select name="relaciones[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="relaciones[]" class="select2 form-control custom-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($sistemas as $sistema)
                                     <option value="{{$sistema->id_sistema}}" {{ (collect(old('relaciones'))->contains($sistema->id_sistema)) ? 'selected':'' }}>{{$sistema->nombre_s}}</option>
                                 @endforeach
@@ -200,7 +196,7 @@
                         <label for="areas"
                             class="col-sm-2 text-end control-label col-form-label">Relación con Otras Áreas</label>
                         <div class="col-md-8">
-                            <select name="areas[]" class="select2 form-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
+                            <select name="areas[]" class="select2 form-control custom-select shadow-none mt-3 select2-hidden-accessible" multiple="multiple" style="height: 36px;width: 100%;" required autofocus>
                                 @foreach ($areas as $area)
                                     <option value="{{$area->id_area}}" {{ (collect(old('areas'))->contains($area->id_area)) ? 'selected':'' }}>{{$area->area}}</option>
                                 @endforeach

@@ -1,9 +1,9 @@
 @component('mail::message')
 # {{$dato->folio}} {{$dato->descripcion}}
 El equipo de Desarrollo ha definido el requerimiento como:
-# {{$dato->clase}}
+# {{$dato->clase->clase}}
 con un impacto
-@switch($dato->impacto)
+@switch($dato->levantamiento->impacto)
 @case(3)
 # Alto
 @break

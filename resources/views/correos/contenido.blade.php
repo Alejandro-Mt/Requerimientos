@@ -16,13 +16,13 @@ _____________________________________________________
 <th align="left">Área:</th>
 <td>{{$formato->area->area}}</td>
 <th align="left">Nombre de solicitante:</th>
-<td>{{$formato->levantamiento->sol->nombreCompleto()}}</td>
+<td>{{$formato->levantamiento->sol->getFullnameAttribute()}}</td>
 </tr>
 <tr>
 <th align="left">Departamento:</th>
 <td>{{$formato->levantamiento->depto->departamento}}</td>
 <th align="left">Quién autoriza:</th>
-<td>{{$formato->levantamiento->autorizador->nombreCompleto()}}</td>
+<td>{{$formato->levantamiento->autorizador->getFullnameAttribute()}}</td>
 </tr>
 <tr>
 <th align="left">Sistema o aplicación:</th>
@@ -173,10 +173,10 @@ _____________________________________________________
 </tr>
 @for ($i = 0; $i < count($involucrados); $i++)  
 @foreach ($responsables as $responsable)
-@if ($involucrados[$i] == $responsable->id_responsable)
+@if ($involucrados[$i] == $responsable->id)
 <tr>
 <td style="text-align: justify;border: 1px solid;background-color: #ecfbfb;border-radius: 25px;padding-right: 10px;padding-left: 10px">
-{{$responsable->nombreCompleto()}}
+{{$responsable->getFullnameAttribute()}}
 </td>
 </tr>
 @endif

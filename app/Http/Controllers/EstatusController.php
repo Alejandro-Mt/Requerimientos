@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\estatu;
 use Illuminate\Http\Request;
 
 class EstatusController extends Controller
@@ -21,9 +22,16 @@ class EstatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $data)
     {
-        //
+        estatu::create([
+            'titulo' => $data['titulo'],
+            'activo'=> $data['activo'],
+            'posicion'=> $data['posicion'],
+            'id_fase'=> $data['id_fase']
+        ]);
+        return redirect(route('Seguir'));
+        #dd($url);
     }
 
     /**
@@ -54,7 +62,7 @@ class EstatusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
         //
     }
@@ -66,9 +74,16 @@ class EstatusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $data, $id_estatus)
     {
-        //
+        $update = estatu::FindOrFail($id_estatus);
+        $update->titulo = $data['titulo'];
+        $update->activo= $data['activo']; 
+        $update->posicion= $data['posicion'];
+        $update->id_fase= $data['id_fase'];
+        $update->save();  
+        return redirect(route('Seguir'));
+        #dd($rename);
     }
 
     /**
@@ -77,8 +92,10 @@ class EstatusController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_estatus)
     {
-        //
+        $id_sistema = estatu::find($id_estatus);
+        $id_sistema->delete();
+        return redirect(route('Seguir'));
     }
 }

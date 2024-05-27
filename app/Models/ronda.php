@@ -16,4 +16,11 @@ class ronda extends Model
         'ronda',
         'efectividad'
     ];
+    
+    public function dataRonda($folio)
+    {
+        return static::selectRaw('MAX(ronda) as ronda, SUM(aprobadas) as aprobadas, SUM(rechazadas) as rechazadas')
+            ->where('folio', $folio)
+            ->first();
+    }
 }

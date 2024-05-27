@@ -68,9 +68,9 @@
             <div class="form-group row">
               <label for="participantes" class="col-sm-2 text-end control-label col-form-label">Participantes</label>
               <div class="col-md-8">
-                <select name="participantes[]" class="select2 form-select shadow-none mt-3" style="width: 100%;" multiple required autofocus>
+                <select name="participantes[]" class="select2 form-control custom-select form-select shadow-none mt-3" style="width: 100%;" multiple required autofocus>
                   @foreach ($responsables as $responsable)
-                    <option value="{{$responsable->id_responsable}}">{{$responsable->nombreCompleto()}}</option>
+                    <option value="{{$responsable->id}}">{{$responsable->getFullnameAttribute()}}</option>
                   @endforeach
                 </select>
                 @error('participantes')

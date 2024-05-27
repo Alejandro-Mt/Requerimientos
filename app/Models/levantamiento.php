@@ -34,7 +34,7 @@ class levantamiento extends Model
     
     public function autorizador()
     {
-        return $this->belongsTo(responsable::class, 'autorizacion', 'id_responsable');
+        return $this->belongsTo(User::class, 'autorizacion', 'id');
     }
 
     public function depto()
@@ -45,14 +45,14 @@ class levantamiento extends Model
     public function involucrados($folio)
     {
         return $this->where('folio', $folio)
-        ->leftJoin('responsables AS r', function ($join) {
-                $join->on(DB::raw('FIND_IN_SET(r.id_responsable, levantamientos.involucrados)'), '>', DB::raw('0'));
+        ->leftJoin('users AS u', function ($join) {
+                $join->on(DB::raw('FIND_IN_SET(u.id, levantamientos.involucrados)'), '>', DB::raw('0'));
             })
         ->get();
     }
 
     public function sol()
     {
-        return $this->belongsTo(solicitante::class, 'id_solicitante', 'id_solicitante');
+        return $this->belongsTo(User::class, 'id_solicitante', 'id');
     }
 }

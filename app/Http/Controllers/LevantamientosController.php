@@ -12,6 +12,7 @@ use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitante;
 use App\Models\solicitud;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -26,17 +27,12 @@ class LevantamientosController extends Controller
      */
     
     protected function formato($id_registro){
-        $areas = area::all();
-        $departamentos = departamento::all();
-        $registros = registro::select('folio')-> where ('id_registro', Crypt::decrypt($id_registro))->first();
-        $responsables = responsable::orderby('apellidos', 'asc')->get();
-        $sistemas = sistema::all();
-        $solicitantes = solicitante::all();
-        $solicitud = solicitud::leftJoin('solicitantes as sol', 'sol.email', '=', 'solicitudes.correo')
-            ->leftJoin('division as d', 'd.id_division', '=', 'sol.id_division')
-            ->where('folior', $registros->folio)
-            ->first();
-        return view('formatos/requerimientos/formato',compact('solicitud','solicitantes','sistemas','responsables','registros','departamentos','areas')); 
+        $areas = area::orderby('area', 'asc')->get();
+        $departamentos = departamento::orderby('departamento', 'asc')->get();
+        $registros = registro::where('id_registro', Crypt::decrypt($id_registro))->first();
+        $responsables = User::orderby('nombre', 'asc')->get();
+        $sistemas = sistema::orderby('nombre_s', 'asc')->get();
+        return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros','departamentos','areas')); 
     }
 
 
@@ -50,13 +46,12 @@ class LevantamientosController extends Controller
         $this->validate($data, [
             'problema' => "max:250"
         ]);
-        $solicitante = solicitante::FindOrFail($data['id_solicitante']);
-        $data['id_division'] = $solicitante->id_division;
+        $solicitante = User::FindOrFail($data['id_solicitante']);
+        $data['id_division'] = $solicitante->usrdata->id_division;
         levantamiento::create([
             'folio' => $data['folio'],
             'solicitante' => $data['solicitante'],
             'departamento' => $data['departamento'],
-            #'jefe_departamento' => $data['jefe_departamento'],
             'autorizacion' => $data['autorizacion'],
             'previo' => $data['previo'],
             'problema' => $data['problema'],
@@ -70,17 +65,16 @@ class LevantamientosController extends Controller
             'id_solicitante' => $data['id_solicitante'],
             'id_division' => $data['id_division']
         ]);
-        $destino = db::table('responsables')->wherein('id_responsable',$data['involucrados'])->get();
+        $destino = db::table('users')->wherein('id',$data['involucrados'])->get();
         $estatus = registro::where('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
         $estatus->save();  
         foreach ($destino as $correo) {
             if ($estatus->es_proyecto){
-                mail::to($correo->email)->send(new NuevoProyecto($data,$correo->nombre_r));
+                mail::to($correo->email)->send(new NuevoProyecto($data,$correo->nombre));
             }
         }
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
-        dd($data);
 
     }
 
@@ -92,12 +86,11 @@ class LevantamientosController extends Controller
      */
     
     protected function actualiza(request $data){
-        $solicitante = solicitante::FindOrFail($data['id_solicitante']);
-        $data['id_division'] = $solicitante->id_division;
+        $solicitante = User::FindOrFail($data['id_solicitante']);
+        $data['id_division'] = $solicitante->usrdata->id_division;
         $update = levantamiento::FindOrFail($data['folio']);
         $update->solicitante = $data['solicitante'];
         $update->departamento = $data['departamento'];
-        #$update->jefe_departamento = $data['jefe_departamento'];
         $update->autorizacion = $data['autorizacion'];
         $update->previo = $data['previo'];
         $update->problema = $data['problema'];
@@ -110,10 +103,10 @@ class LevantamientosController extends Controller
         $update->involucrados = implode(',', $data['involucrados']);
         $update->id_solicitante = $data['id_solicitante'];
         $update->id_division = $data['id_division'];
+        $update->save(); 
         $estatus = registro::select()-> where ('folio', $data->folio)->first();
         $estatus->id_estatus = $data['id_estatus'];
-        $estatus->save();
-        $update->save();  
+        $estatus->save(); 
         #dd($data);
         return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
 
@@ -138,24 +131,16 @@ class LevantamientosController extends Controller
      */
     
     protected function edit($id_registro){
-        $registros = registro::select('folio')->where('id_registro', Crypt::decrypt($id_registro))->first();
-        $sistemas = sistema::all();
-        $responsables = responsable::orderby('apellidos', 'asc')->get();
-        $levantamientos = levantamiento::findOrFail($registros);
-        $departamentos = departamento::all();
         $areas = area::all();
-        $solicitantes = solicitante::all();
-        $solicitud = solicitud::leftJoin('solicitantes as sol', 'sol.email', '=', 'solicitudes.correo')
-            ->leftJoin('division as d', 'd.id_division', '=', 'sol.id_division')
-            ->where('folior', $registros->folio)
-            ->first();
-        foreach($levantamientos as $valor){
-            $involucrados = explode(',',$valor->involucrados);
-            $relaciones = explode(',',$valor->relaciones);
-            $areasr = explode(',',$valor->areas);
-        }
-        return view('formatos/requerimientos/levantamiento',compact('solicitud','solicitantes','sistemas','responsables','relaciones','registros','levantamientos','involucrados','departamentos','areasr','areas'));
-        dd($solicitud);
+        $departamentos = departamento::all();
+        $registros = registro::where('id_registro', Crypt::decrypt($id_registro))->first();
+        $responsables = User::orderby('nombre', 'asc')->get();
+        $sistemas = sistema::all();
+        $levantamiento = levantamiento::findOrFail($registros->folio);
+        $involucrados = explode(',',$levantamiento->involucrados);
+        $relaciones = explode(',',$levantamiento->relaciones);
+        $areasr = explode(',',$levantamiento->areas);
+        return view('formatos/requerimientos/levantamiento',compact('sistemas','responsables','relaciones','registros','levantamiento','involucrados','departamentos','areasr','areas'));
     }
 
     /**

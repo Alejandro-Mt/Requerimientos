@@ -2,7 +2,7 @@
 
 Buen dia equipo.
 
-Se comparte la minita de la reunion para el avance del requerimiento con folio {{$mesa->folio}}
+Se comparte la minuta de la reunión para el avance del requerimiento con folio {{$mesa->folio}}
 
 Saludos cordiales.
 <br>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\Cliente\Fase;
 use App\Models\archivo;
-use App\Models\desfase;
 use App\Models\implementacion;
 use App\Models\levantamiento;
 use App\Models\liberacion;
@@ -26,14 +25,8 @@ class ImplementacionController extends Controller
    */
   public function index($folio){
     $desfases = db::table('estatus_funcionalidad')->select('*')->get();
-    $id = registro::latest('id_registro')->first();
-    $previo = implementacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
-    $registros = registro::select('registros.folio', 'registros.id_estatus','p.evidencia as def','l.fecha_def')
-      ->leftjoin('levantamientos as l','registros.folio','l.folio')
-      ->leftjoin('planeacion as p','registros.folio','p.folio')
-      ->where('registros.folio',Crypt::decrypt($folio))->first();
-    $vacio = implementacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
-    return view('formatos.requerimientos.implementacion',compact('desfases','id','previo','registros','vacio'));
+    $registros = registro::where('registros.folio',Crypt::decrypt($folio))->first();
+    return view('formatos.requerimientos.implementacion',compact('desfases','registros'));
   }
 
   /**

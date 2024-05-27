@@ -56,6 +56,11 @@ class registro extends Model
         return $this->belongsTo(Cliente::class, 'id_cliente', 'id_cliente');
     }
 
+    public function comentarios()
+    {
+        return $this->hasMany(comentario::class, 'folio', 'folio');
+    }
+
     public function construccion()
     {
         return $this->belongsTo(construccion::class, 'folio', 'folio');
@@ -116,6 +121,11 @@ class registro extends Model
         return $this->hasMany(pausa::class, 'folio', 'folio');
     }
 
+    public function diasPospuesto()
+    {
+        return $this->pausa()->selectRaw('SUM(CASE WHEN pausa != 0 THEN CalcDias(created_at, CURDATE()) ELSE CalcDias(created_at, updated_at) END) as pospuesto')->first();
+    }
+
     public function pausaPre()
     {
         return $this->hasMany(pausa::class, 'folio', 'folio')->where('id_motivo', 8)->first();
@@ -128,12 +138,17 @@ class registro extends Model
 
     public function rdes()
     {
-        return $this->belongsTo(responsable::class, 'id_arquitecto', 'id_responsable');
+        return $this->belongsTo(User::class, 'id_arquitecto', 'id');
     }
     
     public function rpip()
     {
-        return $this->belongsTo(responsable::class, 'id_responsable', 'id_responsable');
+        return $this->belongsTo(User::class, 'id_responsable', 'id');
+    }
+    
+    public function rtest()
+    {
+        return $this->belongsTo(User::class, 'id_tester', 'id');
     }
     
     public function sistema()

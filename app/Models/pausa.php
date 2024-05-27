@@ -14,4 +14,15 @@ class pausa extends Model
         'id_motivo',
         'id_estatus'
     ];
+
+    public function estatus()
+    {
+        return $this->belongsTo(estatu::class, 'id_estatus', 'id_estatus');
+    }
+
+    public function desfase()
+    {
+        return $this->belongsTo(desfase::class, 'id_motivo', 'id');
+    }
+
 }

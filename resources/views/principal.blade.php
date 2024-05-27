@@ -29,7 +29,7 @@
     </div>
   </div>
   <!-- End Row -->
-  @if(Auth::user()->id_puesto > 3)
+  @if(Auth::user()->usrdata->id_departamento != 35)
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -90,7 +90,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach ($tabla as $registro)
+                  @foreach ($requerimientos as $registro)
                     <tr>
                       <td>{{$registro->id_registro}}</td>
                       <td><a href="{{route('Documentos',Crypt::encrypt($registro->folio))}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a></td>
@@ -99,9 +99,9 @@
                       <td>{{$registro->estatus->titulo}}</td>
                       <td>@if($registro->clase) {{$registro->clase->clase}}@endif</td>
                       <td>{{$registro->sistema->nombre_s}}</td>
-                      <td>@if($registro->rdes) {{$registro->rdes->nombreCompleto()}}@endif</td>
+                      <td>@if($registro->rdes) {{$registro->rdes->getFullnameAttribute()}}@endif</td>
                       <td>{{$registro->cliente->nombre_cl}}</td>
-                      <td>{{$registro->rpip->nombreCompleto()}}</td>
+                      <td>{{$registro->rpip->getFullnameAttribute()}}</td>
                       <td>
                         @if($registro->levantamiento)
                           @switch($registro->levantamiento->prioridad)
@@ -371,15 +371,16 @@
         dom: "Bfrtip",
         buttons: ["copy", "csv", "excel", "pdf", "print",
         {
-        text: 'GSheets',
-        className: 'buttons-GSheets',
-        action: function ( e, dt, button, config ) {
-          var data = dt.buttons.exportData();
-          exportToSheets(data);
-        }
-      }],
-          scrollY: 200,
-          scrollX: true,
+          text: 'GSheets',
+          className: 'buttons-GSheets',
+          action: function ( e, dt, button, config ) {
+            var data = dt.buttons.exportData();
+            exportToSheets(data);
+          }
+        }],
+        scrollY: 350,
+        scrollX: true,
+        paging: false,
       });
       $(".buttons-copy, .buttons-csv, .buttons-print, .buttons-pdf, .buttons-excel, .buttons-GSheets").addClass("btn btn-primary mr-1");
       

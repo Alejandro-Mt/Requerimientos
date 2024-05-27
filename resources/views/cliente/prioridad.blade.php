@@ -64,7 +64,7 @@
         </div>
         <div class="card-body">
           <div class="row draggable-cards" id="card-colors">
-            @if ($validar == 0)
+            @if (!$listado)
               @foreach($pendientes as $pendiente)
                 <div class="col-md-4 col-sm-4 filter cliente-{{$pendiente->id_cliente}} sistema-{{$pendiente->id_sistema}}" id="{{$pendiente->folio}}" >
                   <div class="s d-none" id="{{$pendiente->id_sistema}}"></div>
@@ -80,8 +80,8 @@
                     </div>
                     <div class="card-body sistemas @if($pendiente->estatus->fase->posicion == 2) bg-light-danger @elseif($pendiente->estatus->fase->posicion == 3) bg-light-primary @elseif($pendiente->estatus->fase->posicion == 4) bg-light-success @elseif($pendiente->estatus->fase->posicion == 5) bg-light-warning @endif">
                       <h6 class="card-title text-truncate">{{$pendiente->descripcion}}</h6>
-                      <p class="card-text filtro text-truncate">{{$pendiente->titulo}}</p>
-                      <p class="card-text filtro">{{$pendiente->nombre_cl}}</p>
+                      <p class="card-text filtro text-truncate">{{$pendiente->estatus->titulo}}</p>
+                      <p class="card-text filtro">{{$pendiente->cliente->nombre_cl}}</p>
                       <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn @if($pendiente->estatus->fase->posicion == 2) btn-light-danger text-danger @elseif($pendiente->estatus->fase->posicion == 3) btn-light-primary text-primary @elseif($pendiente->estatus->fase->posicion == 4) btn-light-success text-success @elseif($pendiente->estatus->fase->posicion == 5) btn-light-warning text-warning @endif">Documentación</a>
                     </div>
                   </div>
@@ -89,20 +89,20 @@
                 </div>
               @endforeach
             @else
-                @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $orden->orden ))); $i++)
-                  <div class="col-md-4 col-sm-4 filter cliente-{{$orden->id_cliente}} sistema-{{$orden->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $orden->orden ))[$i]}}" >
-                    <div class="s d-none" id="{{$orden->id_sistema}}"></div>
+                @for ($i = 0; $i < count(explode( ',', str_replace(' ', '', $listado->orden ))); $i++)
+                  <div class="col-md-4 col-sm-4 filter cliente-{{$listado->id_cliente}} sistema-{{$listado->id_sistema}}" id="{{explode( ',', str_replace(' ', '', $listado->orden ))[$i]}}" >
+                    <div class="s d-none" id="{{$listado->id_sistema}}"></div>
                     <!-- ---------------------start Special title treatment---------------- -->
                     <div class="card card-hover ">
                       <div class="card-header">
-                        <h5 class="mb-0 text-dark">{{explode( ',', str_replace(' ', '', $orden->orden ))[$i]}}</h5>
+                        <h5 class="mb-0 text-dark">{{explode( ',', str_replace(' ', '', $listado->orden ))[$i]}}</h5>
                       </div>
                       <div class="card-body">
                         @foreach($pendientes as $pendiente)
-                          @if (explode( ',', str_replace(' ', '', $orden->orden ))[$i] == $pendiente->folio)
+                          @if (explode( ',', str_replace(' ', '', $listado->orden ))[$i] == $pendiente->folio)
                             <h6 class="card-title text-truncate">{{$pendiente->descripcion}}</h6>
                             <p class="card-text filtro text-truncate">
-                              {{$pendiente->nombre_cl}}
+                              {{$pendiente->cliente->nombre_cl}}
                             </p>
                             <a href={{route('Documentos',Crypt::encrypt($pendiente->folio))}} class="btn btn-light-primary text-primary">Documentación</a>
                           @endif
@@ -140,7 +140,7 @@
                 <div class="card-body">
                   <h6 class="card-title text-truncate">{{$pospuesto->descripcion}}</h6>
                   <p class="card-text filtro">
-                    {{$pospuesto->nombre_cl}}
+                    {{$pospuesto->cliente->nombre_cl}}
                   </p>
                   <a href={{route('Documentos',Crypt::encrypt($pospuesto->folio))}} class="btn btn-light-primary text-primary">Documentación</a>
                 </div>
@@ -174,7 +174,7 @@
                 <div class="card-body">
                   <h6 class="card-title text-truncate">{{$implementado->descripcion}}</h6>
                   <p class="card-text filtro">
-                    {{$implementado->nombre_cl}}
+                    {{$implementado->cliente->nombre_cl}}
                   </p>
                   <a href={{route('Documentos',Crypt::encrypt($implementado->folio))}} class="btn btn-light-primary text-primary">Documentación</a>
                 </div>

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\construccion;
-use App\Models\desfase;
+use App\Mail\interno\Pruebas;
+use App\Models\bitacora;
 use App\Models\liberacion;
 use App\Models\registro;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class LiberacionController extends Controller
 {
@@ -17,15 +21,8 @@ class LiberacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index($folio){
-        $desfases = desfase::all();
-        $id = registro::latest('id_registro')->first();
-        $previo = liberacion::select('*')->where('folio',Crypt::decrypt($folio))->get();
-        $registros = registro::select('registros.folio', 'registros.id_estatus','p.evidencia as def','l.fecha_def')
-          ->leftjoin('levantamientos as l','registros.folio','l.folio')
-          ->leftjoin('planeacion as p','registros.folio','p.folio')
-          ->where('registros.folio',Crypt::decrypt($folio))->first();
-        $vacio = liberacion:: select('*')->where('folio',Crypt::decrypt($folio))->count();
-        return view('formatos.requerimientos.liberacion',compact('desfases','id','previo','registros','vacio'));
+        $registros = registro::where('registros.folio',Crypt::decrypt($folio))->first();
+        return view('formatos.requerimientos.pruebasT',compact('registros'));
     }
 
     /**
@@ -34,67 +31,28 @@ class LiberacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(request $data){
-        $val = construccion::select('fechaCompReqR')->where('folio',$data['folio'])->get();
-        foreach($val as $fecha){$this->validate($data, ['fecha_lib_a' => "required|date|after_or_equal:$fecha->fechaCompReqR"]);}
-        $verificar = liberacion::where('folio',$data['folio'])->count();
-        if($data['fecha_lib_a']<>NULL){$fecha_lib_a=date("y/m/d", strtotime($data['fecha_lib_a']));}else{$fecha_lib_a=NULL;}
+        $registro = registro::where('folio',$data['folio'])->first();  
+        $this->validate($data, ['fecha_lib_a' => "required|date|after_or_equal:{$registro->construccion->fechaCompReqR}"]);
+        if($data['fecha_lib_a']<>NULL){$fecha_lib_a=date("y/m/d H:i:s", strtotime($data['fecha_lib_a']));}else{$fecha_lib_a=NULL;}
         if($data['fecha_lib_r']<>NULL){
             if($data['fecha_lib_a'] <> NULL){
                 $this->validate($data, ['fecha_lib_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
             }
-            $fecha_lib_r=date("y/m/d", strtotime($data['fecha_lib_r']));
+            $fecha_lib_r=date("y/m/d H:i:s", strtotime($data['fecha_lib_r']));
         }else{$fecha_lib_r=NULL;}
-        if($data['inicio_lib']<>NULL){
-            if($data['fecha_lib_a'] <> NULL){
-                $this->validate($data, ['inicio_lib' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
-            }
-            $inicio_lib=date("y/m/d", strtotime($data['inicio_lib']));
-        }else{$inicio_lib=NULL;}
-        if($data['inicio_p_r']<>NULL){
-            if($data['fecha_lib_a'] <> NULL){
-                $this->validate($data, ['inicio_p_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
-            }
-            $inicio_p_r=date("y/m/d", strtotime($data['inicio_p_r']));
-        }else{$inicio_p_r=NULL;}
-        if($data['id_estatus'] == 2){
+        if($data['id_estatus'] == 8){
             $this->validate($data, ['fecha_lib_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
-            $this->validate($data, ['inicio_lib' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
-            $this->validate($data, ['inicio_p_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+            $this->Notificacion($registro);
         }
-        if($verificar == 0){
-            liberacion::create([
-                'folio' => $data['folio'],
+        liberacion::updateOrCreate(
+            ['folio' => $data['folio']],
+            [
                 'fecha_lib_a' => $fecha_lib_a,
                 'fecha_lib_r' => $fecha_lib_r,
-                'inicio_lib' => $inicio_lib,
-                'inicio_p_r' => $inicio_p_r,
-                't_pruebas' => $data['t_pruebas'],
-                'evidencia_p' => $data['evidencia_p'],
             ]);
-        }
-        else{
-            $update = liberacion::select('*')->where('folio',$data['folio'])->first();
-            $update->fecha_lib_a = $fecha_lib_a;
-            $update->fecha_lib_r = $fecha_lib_r;
-            $update->inicio_lib = $inicio_lib;
-            $update->inicio_p_r = $inicio_p_r;
-            $update->t_pruebas = $data['t_pruebas'];
-            $update->evidencia_p = $data['evidencia_p'];
-            $estatus = registro::select()-> where ('folio', $data->folio)->first();
-            $estatus->id_estatus = 8;
-            $estatus->save();
-            $update->save(); 
-        }
-        $update = registro::select()-> where ('folio', $data->folio)->first();
-        $update->id_estatus = 8;
-        $update->save();
-        if($data['estatus'] === 'Ronda'){
-            return redirect(route('Ronda',Crypt::encrypt($data['folio'])));
-        }
-        else{
-            return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
-        }
-        dd($data);
+        $registro->id_estatus = $data['id_estatus'] ?? 23;
+        $registro->save();
+        return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
 
     }
 
@@ -126,9 +84,9 @@ class LiberacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit($folio){
+        $registros = registro::where('registros.folio',Crypt::decrypt($folio))->first();
+        return view('formatos.requerimientos.liberacion',compact('registros'));
     }
 
     /**
@@ -138,9 +96,34 @@ class LiberacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $data)
     {
-        //
+        $registro = registro::where('folio',$data['folio'])->first();  
+        if($data['inicio_p_r']){
+            $this->validate($data, ['inicio_p_r' => "required|date|after_or_equal:{$registro->liberacion->fecha_lib_a}"]);
+            $inicio_p_r=date("y/m/d H:i:s", strtotime($data['inicio_p_r']));
+        }else{$inicio_p_r=NULL;}
+        if($data['inicio_lib']){
+            $this->validate($data, ['inicio_lib' => "required|date|after_or_equal:$data[inicio_p_r]"]);
+            $inicio_lib=date("y/m/d H:i:s", strtotime($data['inicio_lib']));
+        }else{$inicio_lib=NULL;}
+        if($data['id_estatus'] == 2){
+            $this->validate($data, ['inicio_lib' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+            $this->validate($data, ['inicio_p_r' => "required|date|after_or_equal:$data[fecha_lib_a]"]);
+        }
+        $update = liberacion::select('*')->where('folio',$data['folio'])->first();
+        $update->inicio_lib = $inicio_lib;
+        $update->inicio_p_r = $inicio_p_r;
+        $update->save();
+        $registro->id_estatus = 8;
+        $registro->save();
+        if($data['estatus'] === 'Ronda'){
+            return redirect(route('Ronda',Crypt::encrypt($data['folio'])));
+        }
+        else{
+            return redirect(route('Documentos',Crypt::encrypt($data['folio'])));
+        }
+
     }
 
     /**
@@ -153,4 +136,30 @@ class LiberacionController extends Controller
     {
         //
     }
+
+    public function Notificacion($registro){
+        $to             = $registro->rpip->email;
+        $user           = User::findOrFAil(Auth::user()->id);
+        $campo          = 
+        bitacora::create([
+          'folio'         => $registro->folio,
+          'usuario'       => $user->getFullnameAttribute(),
+          'id_user'       => $user->id,
+          'campo'         => $registro->estatus->posicion = 9 ? "Fin pruebas Testing" : "Fin pruebas PIP",
+          'id_estatus'    => $registro->id_estatus,
+        ]);
+        if($registro->estatus->posicion = 9){
+            $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$to);
+            $datos = $notificacionUserC->json();
+            $idSC = $datos['idUsuario'];
+            $message = $registro->estatus->posicion = 9 ?
+            'Hola! Te informamos que el requerimiento con folio '.$registro->folio.'. ~'.route("Documentos",Crypt::encrypt($registro->folio)).'~. ha terminado de ser probado por testing. Gracias.' :
+            'Hola! Te informamos que el requerimiento con folio '.$registro->folio.'. ~'.route("Documentos",Crypt::encrypt($registro->folio)).'~. ha terminado de ser probado por PIP. Gracias.';
+            $notificacionController = new NotificacionController();
+            $notificacionController->stnotify($idSC,$message);
+    
+            // Los archivos requeridos existen, proceder con el envío de correo y actualización de estatus
+            Mail::to($registro->rpip->email)->cc($registro->rdes->email)->send(new Pruebas($registro->folio));
+        }
+      }
 }

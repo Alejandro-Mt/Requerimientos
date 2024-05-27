@@ -18,11 +18,9 @@
             </div>
         @endif
         <div class="box bg-warning text-center">
-        <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
             <h3 class="text-white">IMPLEMENTACIÓN</h3>
         </div>
         <div class="card-body wizard-content">
-        <!--<h3>Implementación</h3>-->
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Implementar')}}" class="mt-5">
@@ -30,8 +28,7 @@
                 <div>
                     <section>
                         <div class="form-group row">
-                            <label for="Folio"
-                                    class="col-sm-2 text-end control-label col-form-label">Folio</label>
+                            <label for="Folio" class="col-sm-2 text-end control-label col-form-label">Folio</label>
                             <div class="col-sm-3">
                                 <input id="folio" type="text" class="required form-control" name="folio" value="{{$registros->folio}}" readonly="readonly">
                             </div>
@@ -39,20 +36,14 @@
                         <div class="form-group row">
                             <label class="col-sm-2 text-end form-check-label" for="cronograma">Cronograma</label>
                             <div class="col-md-6">
-                                <input type="checkbox" class="form-check-input" id="cronograma" name="cronograma" value="1" @foreach ($previo as $ant) @if ($ant->cronograma==1) checked=true @endif @endforeach onchange="showContent()">
+                                <input type="checkbox" class="form-check-input" id="cronograma" name="cronograma" value="1" @if($registros->implementacion && $registros->implementacion->cronograma == 1) checked="true" @endif onchange="showContent()">
                             </div>
-                        <div id="content" @if($vacio <> 0) @foreach ($previo as $ant) @if ($ant->cronograma == 1) style="display: block;" @else style="display: none;" @endif @endforeach @else style='display: none;' @endif>
+                        <div id="content" @if($registros->implementacion && $registros->implementacion->cronograma == 1) style="display: block;" @else style="display: none;" @endif>
                             <div class="form-group row">
-                                <label for="link_c"
-                                    class="col-sm-2 text-end control-label col-form-label">Evidencia*</label>
+                                <label for="link_c" class="col-sm-2 text-end control-label col-form-label">Evidencia*</label>
                                 <div class="col-md-8">
-                                    <input type="text" class="required form-control @error('link_c') is-invalid @enderror" 
-                                        name="link_c" placeholder="Link De Cronograma" @foreach ($previo as $ant) value="{{$ant->link_c}}" @endforeach>
-                                    <!--@error('link_c')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror-->
+                                    <input id="evidencia" type="text" class="required form-control @error('link_c') is-invalid @enderror" 
+                                        name="link_c" placeholder="Link De Cronograma"  value={{ $registros->implementacion ? ($registros->implementacion->link_c ?? '') : ''}}>
                                 </div>
                             </div>
                         </div>
@@ -61,13 +52,8 @@
                                 class="col-sm-2 text-end control-label col-form-label">Fecha de Implementación*</label>
                             <div class= 'col-md-8'>
                                 <div class="input-group">
-                                    <input name="f_implementacion" type="text" class="form-control mydatepicker required form-control @error('f_implementacion') is-invalid @enderror"
-                                    @if ($vacio == 0) value="{{ old('f_implementacion') }}" @endif 
-                                    @foreach ($previo as $ant) 
-                                        @if($ant->f_implementacion == null) value="{{ old('f_implementacion') }}"
-                                            @else value="{{date('d-m-20y',strtotime($ant->f_implementacion))}}"
-                                        @endif
-                                    @endforeach placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
+                                    <input name="f_implementacion" type="text" class="form-control mydatepicker required form-control @error('f_implementacion') is-invalid @enderror" placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy" required autofocus autocomplete="off"
+                                    value="{{ $registros->implementacion ? ($registros->implementacion->f_implementacion ? date('d-m-Y H:i:s', strtotime($registros->implementacion->f_implementacion)) : old('f_implementacion')) : old('f_implementacion')}}">
                                     <div class="input-group-append">
                                         <span class="input-group-text h-100">
                                             <i class="fa fa-calendar"></i>
@@ -82,32 +68,23 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="estatus_f"
-                                class="col-sm-2 text-end control-label col-form-label">Estatus de Funcionalidad*</label>
+                            <label for="estatus_f" class="col-sm-2 text-end control-label col-form-label">Estatus de Funcionalidad*</label>
                             <div class="col-md-8">
-                                <select class="form-select @error ('estatus_f') is-invalid @enderror" style="width: 100%; height:36px;"
-                                    id="estatus_f" name="estatus_f" aria-hidden="true" autofocus>
-                                    @foreach ($previo as $ant)    
-                                        @if ($ant->estatus_f <> null)
-                                            <option value={{$ant->estatus_f}}>
-                                                @foreach ($desfases as $desfase)
-                                                    @if($desfase->id_estatus == $ant->estatus_f)
-                                                        {{$desfase->titulo}}
-                                                    @endif
-                                                @endforeach
-                                            </option>
+                                <select id="estatus_f" class="form-select @error ('estatus_f') is-invalid @enderror" style="width: 100%; height:36px;" name="estatus_f" required autofocus>
+                                    <option value="">Selección</option>
+                                    @foreach ($desfases as $desfase)
+                                        @if($registros->implementacion && $registros->implementacion->estatus_f == $desfase->id_estatus)
+                                            <option value="{{$registros->implementacion->estatus_f}}" selected>{{$desfase->titulo}}</option>
+                                        @else
+                                            <option value={{$desfase->id_estatus}}>{{$desfase->titulo}}</option>
                                         @endif
                                     @endforeach
-                                    
-                                    <option value={{null}}>Selección</option>
-                                    @foreach ( $desfases as  $desfase)
-                                        <option value={{ $desfase->id_estatus}}>{{ $desfase->titulo}}</option>
-                                    @endforeach 
-                                    <!--@error('motivodesfase')
+                                </select>
+                                    @error('estatus_f')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror -->                         
+                                    @enderror                        
                                 </select>
                             </div>
                         </div>
@@ -115,8 +92,7 @@
                             <label for="seguimiento"
                                 class="col-sm-2 text-end control-label col-form-label">Seguimiento</label>
                             <div class="col-md-8">
-                                <input type="text" class="required form-control" 
-                                    name="seguimiento" placeholder="Presenta Fallas?">
+                                <input type="text" class="required form-control" name="seguimiento" placeholder="Presenta Fallas?">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -151,12 +127,15 @@
 <script type="text/javascript">
     function showContent() {
         element = document.getElementById("content");
+        evidencia = document.getElementById("evidencia");
         check = document.getElementById("cronograma");
         if (check.checked) {
-            element.style.display='block'
+            element.style.display='block';
+            evidencia.required = true;
         }
         else {
-            element.style.display='none'
+            element.style.display='none';
+            evidencia.required = false;
         }
     }
 </script>

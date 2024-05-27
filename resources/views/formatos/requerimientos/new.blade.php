@@ -22,7 +22,6 @@
             <h3 class="text-white">REQUERIMIENTO</h3>
         </div>
         <div class="card-body wizard-content">
-            <h3>Requerimiento</h3>
             <p>(*) Campos Obligatorios</p>
             <h6 class="card-subtitle"></h6>
             <form method="POST" action="{{route ('Nuevo')}}" class="mt-5">
@@ -61,15 +60,14 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="ejecutivo"
-                                class="col-sm-2 text-end control-label col-form-label">Responsable</label>
-                            <div class="col-md-8">  
-                                <select class="form-select @error('id_responsable') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="id_responsable" tabindex="-1" aria-hidden="true" required autofocus>
+                            <label for="ejecutivo" class="col-sm-2 text-end control-label col-form-label">Responsable</label>
+                            <div class="col-md-8">
+                                <select class="select2 form-control custom-select @error('id_responsable') is-invalid @enderror" style="width: 100%; height:36px;" name="id_responsable" required autofocus>
                                     <option value={{null}}>Selección</option>
-                                    @foreach ($responsable as $ejecutivo):
-                                        @if ($ejecutivo ->id_area == 2)
-                                            <option value = {{ $ejecutivo->id_responsable }}>{{$ejecutivo->apellidos}} {{$ejecutivo->nombre_r}}</option>;
+                                    @foreach ($responsable as $ejecutivo)
+                                    {{$ejecutivo->usrdata}}
+                                        @if ($ejecutivo->usrdata && $ejecutivo->usrdata->id_area == 2)
+                                            <option value = {{ $ejecutivo->id }}>{{$ejecutivo->getFullnameAttribute()}}</option>;
                                         @endif
                                     @endforeach                     
                                 </select>
@@ -84,8 +82,7 @@
                             <label for="Sistema"
                                 class="col-sm-2 text-end control-label col-form-label">Sistema*</label>
                             <div class="col-md-8">
-                                <select class="form-select @error ('id_sistema') is-invvalid @enderror" 
-                                    style="width: 100%; height:36px;" name="id_sistema" tabindex="-1" aria-hidden="true" required autofocus>
+                                <select class="select2 form-control custom-select @error ('id_sistema') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_sistema" required autofocus>
                                     @if ($datos != NULL)
                                         @foreach ($datos as $dato)
                                             @foreach ($sistema as $id)
@@ -111,8 +108,7 @@
                             <label for="Cliente"
                                 class="col-sm-2 text-end control-label col-form-label">Cliente*</label>
                             <div class="col-md-8">
-                                <select class="form-select @error ('id_cliente') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="id_cliente" tabindex="-1" aria-hidden="true" required autofocus>
+                                <select class="select2 form-control custom-select @error ('id_cliente') is-invalid @enderror" style="width: 100%; height:36px;" name="id_cliente" required autofocus>
                                     @if ($datos != NULL)
                                         @foreach ($datos as $dato)
                                             @foreach ($cliente as $id)
@@ -127,10 +123,10 @@
                                         <option value={{$cliente->id_cliente}}>{{$cliente->nombre_cl}}</option>
                                     @endforeach 
                                     @error('id_cliente')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror                          
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror                          
                                 </select>
                             </div>
                         </div>
@@ -138,12 +134,11 @@
                             <label for="Arquitecto"
                                 class="col-sm-2 text-end control-label col-form-label">Arquitecto*</label>
                             <div class="col-md-8">  
-                                <select class="form-select @error('id_arquitecto') is-invalid @enderror" 
-                                    style="width: 100%; height:36px;" name="id_arquitecto" tabindex="-1" aria-hidden="true" required autofocus>
+                                <select class="select2 form-control custom-select @error('id_arquitecto') is-invalid @enderror" style="width: 100%; height:36px;" name="id_arquitecto" required autofocus>
                                     <option value={{null}}>Selección</option>
                                     @foreach ($responsable as $arquitecto):
-                                        @if ($arquitecto ->id_area == 12)
-                                            <option value = {{ $arquitecto->id_responsable }}>{{$arquitecto->apellidos}} {{$arquitecto->nombre_r}}</option>;
+                                        @if ($arquitecto->usrdata && $arquitecto->usrdata->id_area == 12)
+                                            <option value = {{ $arquitecto->id }}>{{$arquitecto->getFullnameAttribute()}}</option>;
                                         @endif
                                     @endforeach                     
                                 </select>
@@ -159,14 +154,12 @@
                                 <label for="folio_pr"
                                     class="col-sm-2 text-end control-label col-form-label">Proyecto</label>
                                 <div class="col-md-8">
-                                        
-                                <select class="form-select @error('folio_pr') is-invalid @enderror" 
-                                style="width: 100%; height:36px;" name="folio_pr" aria-hidden="true">
-                                <option value={{null}}>Selección</option>
-                                @foreach ($proyectos as $proyecto):
-                                    <option value = {{ $proyecto->folio }}>{{$proyecto->descripcion}}</option>;
-                                @endforeach                     
-                            </select>
+                                    <select class="select2 form-control custom-select @error('folio_pr') is-invalid @enderror" style="width: 100%; height:36px;" name="folio_pr" aria-hidden="true">
+                                        <option value={{null}}>Selección</option>
+                                        @foreach ($proyectos as $proyecto):
+                                            <option value = {{ $proyecto->folio }}>{{$proyecto->descripcion}}</option>;
+                                        @endforeach                     
+                                    </select>
                                 </div>
                             </div>
                         </div>

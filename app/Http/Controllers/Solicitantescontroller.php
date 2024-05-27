@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\solicitante;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\usr_data;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -46,21 +47,20 @@ use RegistersUsers;
      */
     public function create(Request $data)
     {
-        solicitante::create([
-            'nombre' => $data['nombre'], 
-            'a_pat'=> $data['apaterno'], 
-            'a_mat'=> $data['amaterno'], 
-            'email' => $data['email'], 
-            'id_division' => $data['id_division'], 
+        dd($data);
+        $user = User::create([
+            'nombre'    => $data['nombre'],
+            'apaterno'  =>$data['apaterno'],
+            'amaterno'  =>$data['amaterno'],
+            'email'     => $data['email'],
+            'password'  => Hash::make($data['password']),
         ]);
-        User::create([
-            'nombre' => $data['nombre'],
-            'apaterno'=>$data['apaterno'],
-            'amaterno'=>$data['amaterno'],
-            'email' => $data['email'],
-            'id_puesto' => 1,
-            'id_area' => $data['id_area'],
-            'password' => Hash::make($data['password']),
+        usr_data::create([
+            'id_user'           => $user->id,
+            'id_puesto'         => 1,
+            'id_area'           => $data['id_area'],
+            'id_departamento'   => $data['id_departamento'],
+            'activo'            => 1
         ]);
         return redirect(route('Seguir'));
         #dd($data);

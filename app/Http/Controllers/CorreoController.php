@@ -14,6 +14,7 @@ use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\User;
+use App\Models\usr_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -30,7 +31,6 @@ class CorreoController extends Controller
     
   public function send($folio){
     $registro = Registro::where('folio', Crypt::decrypt($folio))->first();
-    //if($estatus->id_estatus == 16){
     return view('layouts.correo',compact('registro'));
   }
 
@@ -70,7 +70,7 @@ class CorreoController extends Controller
     $folio = Crypt::decrypt($folio);
     $formato = registro::where('folio',$folio)->first();
     $sistemas = sistema::all();
-    $responsables = responsable::all();
+    $responsables = User::all();
     $relaciones = explode(',',$formato->levantamiento->relaciones);
     $involucrados = explode(',',$formato->levantamiento->involucrados);
     $html = view('correos.Plantilla',compact('formato','involucrados','relaciones','responsables','sistemas'));
@@ -82,55 +82,49 @@ class CorreoController extends Controller
   }
 
   protected function respuesta($folio){
-    $hora = levantamiento::findOrFail($folio);
-    $involucrados = DB::table('responsables as res')
-    ->join('levantamientos as lev', function ($join) {
-      $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
-    })
-    ->where('lev.folio', $folio)
-    ->get();
-    $fol = registro::
-      leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
-      ->where('registros.folio',$folio)
-      ->first();
-    $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->email);
+    $levantamiento = levantamiento::findOrFail($folio);
+    $involucrados = User::whereIn('id',explode(',', $levantamiento->involucrados))->get();
+    $ct = usr_data::where('id_puesto', 8)->first();
+    $fol = registro::where('folio',$folio)->first();
+    $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->rpip->email);
     $datos = $notificacionUserC->json();
     $idSC = $datos['idUsuario'];
-    if($hora->fechaaut == NULL){ 
-      $hora -> fechaaut = now();
-      $hora -> save();
+    if($levantamiento->fechaaut == NULL){ 
+      $levantamiento -> fechaaut = now();
+      $levantamiento -> save();
       $message = 'Hola! Te informamos que el levantamiento del requerimiento con folio '.$folio. ' ha sido autorizado. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
       $notificacionController = new NotificacionController();
       $notificacionController->stnotify($idSC,$message);
       mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
-      return 'Se ha autorizado satisfactoriamente';   
+      mail::to($ct->email)->send(new ValidacionRequerimiento($folio));
+      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('autorizado', 'Se ha autorizado satisfactoriamente');
     }else{
-      if($fol->id_estatus == 9 && $hora->fecha_def == NULL){
-        $hora -> fecha_def = now();
-        $hora -> save();
+      if($fol->id_estatus == 9 && $levantamiento->fecha_def == NULL){
+        $levantamiento -> fecha_def = now();
+        $levantamiento -> save();
         $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$folio. ' ha sido autorizada. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
         $notificacionController = new NotificacionController();
         $notificacionController->stnotify($idSC,$message);
         mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
-        return 'Se ha autorizado satisfactoriamente';   
+
+        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('autorizado', 'Se ha autorizado satisfactoriamente');
       }else{
-        return ('Ya ha sido autorizado');
+        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'Ya ha sido autorizado');
       }
     }
   }
 
   public function rechazo($folio){
-    $fol = registro::leftJoin('responsables as r','registros.id_responsable', 'r.id_responsable')
-      ->where('folio',$folio)
-      ->first();
+    $fol = registro::where('folio',$folio)->first();
     $coordinacion = User:: select('email')
-      ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
-      ->leftjoin('accesos as a','users.id','a.id_user')
+      ->leftjoin('usr_data as ud', 'id','id_user')
+      ->leftjoin('puestos as p','p.id_puesto','ud.id_puesto')
+      ->leftjoin('accesos as a','ud.id_user','a.id_user')
       ->whereIn('jerarquia', [2, 3, 7])
       ->where('a.id_sistema',$fol->id_sistema)
       ->get();
     $hora = levantamiento::findOrFail($folio);
-    $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->email);
+    $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->rpip->email);
     $datos = $notificacionUserA->json();
     $idSC = $datos['idUsuario'];
     if($hora->fechaaut == NULL){ 
@@ -138,18 +132,19 @@ class CorreoController extends Controller
       #dd($idSC,$message);
       $notificacionController = new NotificacionController();
       $notificacionController->stnotify($idSC,$message);
-      mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
-      return 'Se ha enviado la respuesta, gracias.';
+      mail::to($fol->rpip->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
+      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'Se ha enviado la respuesta, gracias.');
       #dd($correo->dispercion);  
     }else{
         if($hora->fecha_def == NULL){
         $message = 'Hola! Te informamos que el documento de definición del requerimiento con folio '.$folio.'. ~'.route("Archivo",Crypt::encrypt($folio)).'~, ha sido rechazado. Gracias.';
         $notificacionController = new NotificacionController();
         $notificacionController->stnotify($idSC,$message);
-        mail::to($fol->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
-        return 'Se ha enviado la respuesta, gracias.';   
+        mail::to($fol->rpip->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
+        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'Se ha enviado la respuesta, gracias.');   
       }else{
-        return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
+        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
+        #return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
       }
     }
   }
@@ -190,17 +185,8 @@ class CorreoController extends Controller
     $clase = registro::where('folio',$folio)->first();
     $impacto = clase::findOrFail($data['id_clase']);
     $hora = levantamiento::findOrFail($folio);
-    $correo = registro::select('res.email')
-                  ->leftJoin('responsables as res','registros.id_responsable', 'res.id_responsable')
-                  ->where('folio',$folio)
-                  ->first();
-    $involucrados = DB::
-      table('responsables as res')->
-      join('levantamientos as lev', function ($join) {
-          $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
-      })->
-      where('lev.folio', $folio)->
-      get();
+    $correo = registro::where('folio',$folio)->first();
+    $involucrados = $correo->levantamiento->involucrados($folio);
     if($hora->fechades == NULL){ 
       $hora -> fechades = now();
       $hora -> impacto = $impacto->id_impacto;
@@ -208,7 +194,7 @@ class CorreoController extends Controller
       $clase -> id_clase = $data['id_clase'];
       $clase -> save();
       mail::to($correo->email)->cc($involucrados->pluck('email'))->send(new SegundaValidacion($folio));
-      $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->email);
+      $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);
       $datos = $notificacionUserC->json();
       $idSC = $datos['idUsuario'];
       $message = 'Hola! Te informamos que desarrollo ha designado la clase del requerimiento con folio '.$folio. '. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
@@ -226,9 +212,9 @@ class CorreoController extends Controller
   }
   
   public function segval ($folio){
-      $estatus = registro::select('id_estatus')->where('folio',$folio)->first();
+      $registro = registro::select('id_estatus')->where('folio',$folio)->first();
       $levantamiento = levantamiento::FindOrFail($folio);
-      switch($estatus->id_estatus){
+      switch($registro->id_estatus){
           case 9: 
               $levantamiento->fecha_def = now(); 
               $levantamiento->save();
@@ -258,28 +244,26 @@ class CorreoController extends Controller
           'plan de trabajo'
       ];
 
-      $estatus = registro::where('folio', $folio)->first();
-      $aut_def = levantamiento::where('folio', $folio)->first();
+      $registro = registro::where('folio', $folio)->first();
       $definicion = archivo::where([
           ['folio', $folio],
           ['url', 'like', '%Definición de requerimiento%'],
           ['url', 'not like', '%versión%']
-      ])->first();
+        ])->first();
       $version = archivo::where([
           ['folio', $folio],
           ['url', 'like', '%Definición de requerimiento%']])->count();
       $plan = archivo::where([
           ['folio', $folio],
           ['url', 'like', '%Flujo de trabajo%']
-      ])->first();
+        ])->first();
       $matriz = archivo::where([
           ['folio', $folio],
           ['url', 'like', '%matriz de pruebas%']
-      ])->first();
+        ])->first();
 
       if ($data->hasFile('adjunto')) {
           $rename = mb_strtolower($data->file('adjunto')->getClientOriginalName());
-
           foreach ($validFileNames as $validName) {
               if (stristr($rename, $validName)) {
                   break; // Salir del bucle al encontrar una coincidencia
@@ -287,17 +271,16 @@ class CorreoController extends Controller
                   $rename = null;
               }
           }
-
           if (empty($rename)) {
-              if ($estatus->id_estatus == 8) {
+              if ($registro->estatus->posicion == 10) {
                   $rename = $matriz ? $folio . ' Acta de validación' : $folio . ' Matriz de pruebas';
-              } elseif ($estatus->id_estatus == 2) {
+              } elseif ($registro->estatus->posicion == 11) {
                   $rename = $folio . ' Acta de cierre';
-              } elseif (($estatus->id_estatus == 11) || ($estatus->id_estatus == 9 && $aut_def->fecha_def == NULL)) {
+              } elseif (($registro->estatus->posicion == 6) || ($registro->estatus->posicion == 7 && !$registro->levantamiento->fecha_def)) {
                   $rename = $folio . ' Definición de requerimiento';
-              } elseif ($estatus->id_estatus == 9 && $aut_def->fecha_def) {
+              } elseif ($registro->estatus->posicion == 7 && $registro->levantamiento->fecha_def) {
                   $rename = $folio . ' Plan de trabajo';
-              } elseif ($estatus->id_estatus == 10 || $estatus->id_estatus == 16) {
+              } elseif ($registro->estatus->posicion == 4 || $registro->estatus->posicion == 5) {
                   $rename = $folio . ' Gantt';
               }
           }
