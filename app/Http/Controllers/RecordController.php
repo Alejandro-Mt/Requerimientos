@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\Cliente\Fase;
 use App\Mail\Interno\NuevoProyecto;
-use App\Mail\interno\Tester;
+use App\Mail\Interno\Tester;
 use App\Models\bitacora;
-use App\Models\clase;
-use App\Models\estatu;
 use App\Models\levantamiento;
 use App\Models\registro;
 use App\Models\responsable;

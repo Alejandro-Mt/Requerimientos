@@ -10,7 +10,6 @@ use App\Models\sistema;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class PermissionsController extends Controller
 {
@@ -20,11 +19,7 @@ class PermissionsController extends Controller
         $departamentos = departamento::all();
         if (Auth::user()->id == 1) {
             # code...
-            $equipo = user::distinct()
-            ->select('users.*')
-            ->leftjoin('accesos as acs','users.id','acs.id_user')
-            ->where('id_puesto','<=',Auth::user()->id_puesto)
-            ->get();
+            $equipo = user::all();
         } else {
             # code...
             $equipo = user::distinct()
@@ -36,21 +31,13 @@ class PermissionsController extends Controller
                         select('id_sistema')
                         ->where('id_user',Auth::user()->id)
                 )
-                ->where('id_puesto','<=',Auth::user()->id_puesto)
+                ->where('id_puesto','<=',Auth::user()->usrdata->id_puesto)
                 ->get();
         }
         $puestos = puesto::all();
-        $usuarios = DB::table('users as u')
-                     ->select('u.id_puesto', 'p.jerarquia')
-                     ->leftjoin('puestos as p', 'u.id_puesto','p.id_puesto')
-                     ->where('u.id', auth::user()->id)
-                     ->get();
         $accesos = acceso::all();
         $sistemas = sistema::join('accesos as acs', 'sistemas.id_sistema','acs.id_sistema')->where('id_user',Auth::user()->id)->get();
-        foreach($usuarios as $usuario){
-            return view('formatos.ajustes',compact('accesos','areas','departamentos','equipo','puestos','sistemas','usuario'));
-            #dd($equipo);
-        };
+            return view('formatos.ajustes',compact('accesos','areas','departamentos','equipo','puestos','sistemas'));
     }
 
     protected function edit(request $data){

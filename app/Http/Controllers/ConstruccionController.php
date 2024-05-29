@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\Fase;
-use App\Mail\interno\INP;
+use App\Mail\Interno\INP;
 use App\Models\bitacora;
 use App\Models\construccion;
 use App\Models\cronograma;

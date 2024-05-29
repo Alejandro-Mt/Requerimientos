@@ -47,7 +47,6 @@ use RegistersUsers;
      */
     public function create(Request $data)
     {
-        dd($data);
         $user = User::create([
             'nombre'    => $data['nombre'],
             'apaterno'  =>$data['apaterno'],

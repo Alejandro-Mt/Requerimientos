@@ -18,7 +18,7 @@
                 <select class="form-select @error('id_puesto') is-invalid @enderror" style="width: 100%; height:36px;" name="id_puesto[]" required autofocus>
                   <option value={{$miembro->usrdata->id_puesto}}>{{$miembro->usrdata->puesto->puesto}}</option> 
                   @foreach ($puestos as $puesto)
-                    @if ($puesto->jerarquia < $usuario->jerarquia && $puesto->id_puesto < $usuario->id_puesto)
+                    @if ($puesto->jerarquia < Auth::user()->usrdata->puesto->jerarquia && $puesto->id_puesto < Auth::user()->usrdata->id_puesto)
                       <option value = {{ $puesto->id_puesto }}>{{$puesto->puesto}}</option>;
                     @endif
                   @endforeach                     
@@ -37,7 +37,7 @@
                 <select class="form-select @error('id_area') is-invalid @enderror" style="width: 100%; height:36px;" name="id_area[]" required autofocus>
                   <option value={{$miembro->usrdata->id_area}}>{{$miembro->usrdata->area->area}}</option> 
                   @foreach ($areas as $area)
-                    @if ($usuario->jerarquia > 3)
+                    @if (Auth::user()->usrdata->puesto->jerarquia > 3)
                       <option value = {{$area->id_area}}>{{$area->area}}</option>;
                     @endif
                   @endforeach                     
@@ -55,7 +55,7 @@
                 <select class="form-select @error('id_departamento') is-invalid @enderror" style="width: 100%; height:36px;" name="id_departamento[]" required autofocus>
                   <option value={{$miembro->usrdata->id_departamento}}>{{$miembro->usrdata->departamento->departamento}}</option> 
                   @foreach ($departamentos as $departamento)
-                    @if ($usuario->jerarquia > 3)
+                    @if (Auth::user()->usrdata->puesto->jerarquia > 3)
                       <option value = {{$departamento->id}}>{{$departamento->departamento}}</option>;
                     @endif
                   @endforeach                     

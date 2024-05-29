@@ -11,14 +11,12 @@ use App\Models\clase;
 use App\Models\levantamiento;
 use App\Models\liberacion;
 use App\Models\registro;
-use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\User;
 use App\Models\usr_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -96,7 +94,6 @@ class CorreoController extends Controller
       $notificacionController = new NotificacionController();
       $notificacionController->stnotify($idSC,$message);
       mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
-      mail::to($ct->email)->send(new ValidacionRequerimiento($folio));
       return redirect(route('Documentos',Crypt::encrypt($folio)))->with('autorizado', 'Se ha autorizado satisfactoriamente');
     }else{
       if($fol->id_estatus == 9 && $levantamiento->fecha_def == NULL){
@@ -106,7 +103,7 @@ class CorreoController extends Controller
         $notificacionController = new NotificacionController();
         $notificacionController->stnotify($idSC,$message);
         mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
-
+        mail::to($ct->email)->send(new ValidacionRequerimiento($folio));
         return redirect(route('Documentos',Crypt::encrypt($folio)))->with('autorizado', 'Se ha autorizado satisfactoriamente');
       }else{
         return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'Ya ha sido autorizado');
@@ -200,13 +197,9 @@ class CorreoController extends Controller
       $message = 'Hola! Te informamos que desarrollo ha designado la clase del requerimiento con folio '.$folio. '. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
       $notificacionController = new NotificacionController();
       $notificacionController->stnotify($idSC,$message);
-      if(Auth::user()->id_area == '12' || Auth::user()->id_puesto == '7'){
-        return redirect(route('Documentos',Crypt::encrypt($folio)));
-      }else{
-        return 'Se ha enviado la respuesta, gracias.'; 
-      }   
+      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('autorizado', 'Se ha autorizado satisfactoriamente'); 
     }else{
-      return ('Ya ha sido definido');
+      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
       #dd($hora);
     }
   }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\interno\Pruebas;
+use App\Mail\Interno\Pruebas;
 use App\Models\bitacora;
 use App\Models\liberacion;
 use App\Models\registro;
