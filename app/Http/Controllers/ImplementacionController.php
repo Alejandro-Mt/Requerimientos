@@ -35,7 +35,7 @@ class ImplementacionController extends Controller
    * @return \Illuminate\Http\Response
    */
   public function create(request $data){ 
-    $estatus = registro::select()-> where ('folio', $data->folio)->first();
+    $estatus = registro::where('folio', $data->folio)->first();
     if($data['id_estatus'] == NULL){$data['id_estatus'] = 2;}
     else{
       $archivos = Archivo::where('folio', $data['folio'])->get();
@@ -59,10 +59,7 @@ class ImplementacionController extends Controller
           Session::flash('error', $errorMessage);
           return redirect()->back();
       }
-      $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
-                ->where('folio', $data->folio)
-                ->select('s.email')
-                ->first();
+      $email = $estatus->levantamiento->sol->email;
       $coordinacion = User:: select('email')
           ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
           ->leftjoin('accesos as a','users.id','a.id_user')
@@ -71,13 +68,13 @@ class ImplementacionController extends Controller
           ->where('id_area', 6)
           ->get();
       if($email){
-        $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email->email);
+        $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email);
         $datos = $notificacionUserA->json();
         $idSC = $datos['idUsuario'];
         $message = 'Hola! Te informamos que el requerimiento con folio '.$data->folio.' se ha implementado. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
         $notificacionController = new NotificacionController();
         $notificacionController->stnotify($idSC,$message);
-        Mail::to($email->email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, $data['id_estatus']));
+        Mail::to($email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, $data['id_estatus']));
       }
     }
     $val = liberacion::select('inicio_lib')->where('folio',$data['folio'])->get();
