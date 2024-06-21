@@ -56,7 +56,7 @@ use RegistersUsers;
         ]);
         usr_data::create([
             'id_user'           => $user->id,
-            'id_puesto'         => 1,
+            'id_puesto'         => $data['id_puesto'],
             'id_area'           => $data['id_area'],
             'id_departamento'   => $data['id_departamento'],
             'activo'            => 1
@@ -93,15 +93,21 @@ use RegistersUsers;
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $data,$id_responsable)
+    public function update(Request $data,$id_user)
     {
-        $update = solicitante::FindOrFail($id_responsable);
-        $update->nombre = $data['nombre']; 
-        $update->a_pat= $data['a_pat']; 
-        $update->a_mat = $data['a_mat'];
-        $update->email = $data['email'];
-        $update->id_division = $data['id_division'];
+        $update = Usr_data::where('id_user',$id_user)->first();
+        $update->id_division       = $data['id_division'];
+        $update->id_area           = $data['id_area'];
+        $update->id_departamento   = $data['id_departamento'];
+        $update->id_puesto   = $data['id_puesto'];
         $update->save();  
+
+        
+        $editUs = User::FindOrFail($id_user);
+        $editUs->nombre = $data['nombre']; 
+        $editUs->a_pat= $data['a_pat']; 
+        $editUs->a_mat = $data['a_mat'];
+        $editUs->email = $data['email'];
         return redirect(route('Seguir'));
         #dd($update);
     }

@@ -597,8 +597,14 @@
                           @endif
                         @break
                         @case(9)
-                          @if(Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')
-                            <a href="{{route('PruebasTesting',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Pruebas Testing</a>
+                          @if($registros->id_tester)
+                            @if(Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')
+                              <a href="{{route('PruebasTesting',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Pruebas Testing</a>
+                            @endif
+                          @else
+                            @if((Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7'))
+                              <button id="btn" type="button" class="btn btn-outline-orange" data-bs-toggle="modal" data-bs-target="#Tester">Asignar tester</button> 
+                            @endif
                           @endif
                         @break
                         @case(10)

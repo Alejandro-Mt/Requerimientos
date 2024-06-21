@@ -147,7 +147,7 @@
                                             {{$user->usrdata->departamento ? $user->usrdata->departamento->departamento : ''}}
                                         </option> 
                                         @foreach ($departamentos as $departamento)
-                                          <option value="{{$departamento->id_departamento}}">{{$departamento->departamento}}</option>
+                                          <option value="{{$departamento->id}}">{{$departamento->departamento}}</option>
                                         @endforeach
                                         @error('id_division')
                                           <span class="invalid-feedback" role="alert">
@@ -175,6 +175,31 @@
                                           <option value="{{$div->id_division}}">{{$div->division}}</option>
                                         @endforeach
                                         @error('id_division')
+                                          <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                          </span>
+                                        @enderror                        
+                                      </select>
+                                      <span class="validation-text text-danger"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <div class="mb-3 contact-location">
+                                      <label type="text" class="form-control">Puesto</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="mb-3 contact-phone">
+                                      <select class="form-select @error ('id_puesto') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_puesto" user required autofocus>
+                                        <option value={{$user->usrdata->id_puesto}}>
+                                            {{$user->usrdata->puesto ? $user->usrdata->puesto->puesto : ''}}
+                                        </option> 
+                                        @foreach ($puestos as $puesto)
+                                          <option value="{{$puesto->id_puesto}}">{{$puesto->puesto}}</option>
+                                        @endforeach
+                                        @error('id_puesto')
                                           <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                           </span>
@@ -334,8 +359,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="mb-3 contact-phone">
-                                    <select class="form-select @error ('id_area') is-invvalid @enderror" 
-                                        style="width: 100%; height:36px;" name="id_area" user required autofocus>
+                                    <select class="form-select @error ('id_area') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_area" user required autofocus>
                                       <option value={{null}}>Seleccion</option>
                                         @foreach ($areas as $area)
                                           <option value={{$area->id_area}}>{{$area->area}}</option>;
@@ -388,6 +412,29 @@
                                           <option value={{$division->id_division}}>{{$division->division}}</option>;
                                         @endforeach; 
                                       @error('id_division')
+                                        <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                        </span>
+                                      @enderror                        
+                                    </select>
+                                    <span class="validation-text text-danger"></span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="mb-3 contact-location">
+                                    <label for="puesto" type="text" class="form-control" data-toggle="tooltip" data-toggle-placement="top" title="Selecciona">Puesto</label>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="mb-3 contact-phone">
+                                    <select class="form-select @error ('id_puesto') is-invvalid @enderror" style="width: 100%; height:36px;" name="id_puesto" required autofocus>
+                                      <option value={{null}}>Seleccion</option>
+                                        @foreach ($puestos as $puesto)
+                                          <option value={{$puesto->id_puesto}}>{{$puesto->puesto}}</option>;
+                                        @endforeach; 
+                                      @error('id_puesto')
                                         <span class="invalid-feedback" role="alert">
                                           <strong>{{ $message }}</strong>
                                         </span>

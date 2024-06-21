@@ -6,7 +6,7 @@
     <!-- -------------------------------------------------------------- -->
     <!-- Login box.scss -->
     <!-- -------------------------------------------------------------- -->
-    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-image">    
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-image">
       <div class="auth-box card">
         <div id="loginform">
           <div class="logo">
