@@ -87,7 +87,8 @@ class MesaContoller extends Controller
         $to  = solicitud::where('folior', $mesa->folio)->first();
         $cc  = User::whereIn('id', $data['participantes'])->get();
         if ($mesa) {
-            $notificacionUserU = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$to->correo);
+            #$notificacionUserU = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$to->correo);
+            $notificacionUserU = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $to->correo);
             $datos = $notificacionUserU->json();
             $idSC = $datos['idUsuario'];
             $message = 'Hola! Te informamos que se ha agregado la evidencia de la mesa de trabajo realizada del folio '.$mesa->folio.' Puedes visualizarla en ~'.route("Documentos",Crypt::encrypt($mesa->folio)).'~. Gracias.';
@@ -96,7 +97,8 @@ class MesaContoller extends Controller
         }
         if($cc){
             foreach ($cc as $ecc) {
-                $notificacionP = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/' .  $ecc->email);
+                #$notificacionP = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/' .  $ecc->email);
+                $notificacionP = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $ecc->email);
                 $resultado = $notificacionP->json();
                 if($resultado['idUsuario']){
                     $idSC = $resultado['idUsuario'];

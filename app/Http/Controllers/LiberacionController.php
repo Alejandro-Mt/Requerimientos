@@ -149,7 +149,8 @@ class LiberacionController extends Controller
           'id_estatus'    => $registro->id_estatus,
         ]);
         if($registro->estatus->posicion = 9){
-            $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$to);
+            #$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$to);
+            $notificacionUserC = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $to);
             $datos = $notificacionUserC->json();
             $idSC = $datos['idUsuario'];
             $message = $registro->estatus->posicion = 9 ?

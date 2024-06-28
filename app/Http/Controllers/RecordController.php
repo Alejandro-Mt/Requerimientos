@@ -119,7 +119,8 @@ class RecordController extends Controller
             $listado->save();
         }
         $notificacionSCC = solicitud::where('folio',$data['preregistro'])->first();
-        $notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$notificacionSCC->correo);
+        #$notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$notificacionSCC->correo);
+        $notificacionUser = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $notificacionSCC->correo);
         $datos = $notificacionUser->json();
         $idSC = $datos['idUsuario'];
         $message = 'Hola! Te informamos que tu solicitud de requerimiento ha sido asignada con el folio '.$folio.'. En la siguiente liga encontraras mas información ~https://requerimientos.tiii.mx/preregistro.listado~. Gracias.';

@@ -75,7 +75,8 @@ class PlaneacionController extends Controller
                 return redirect()->back();
             }
             if ($registro->rpip) {
-                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->rpip->email);
+                #$notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->rpip->email);
+                $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $registro->rpip->email);
                 $datos = $notificacionUserA->json();
                 $idSC = $datos['idUsuario'];
                 $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$data->folio.' se ha enviado al cliente para su validación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';
@@ -84,7 +85,8 @@ class PlaneacionController extends Controller
                 Mail::to($registro->rpip->email)->send(new notificacion_definicion($data->folio));
             }
             if ($registro->solicitud) {
-                $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->solicitud->correo);
+                #$notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->solicitud->correo);
+                $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $registro->solicitud->correo);
                 if($notificacionUserA){
                     $datos = $notificacionUserA->json();
                     $idSC = $datos['idUsuario'];

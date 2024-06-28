@@ -80,7 +80,8 @@ class ConstruccionController extends Controller
         ->where('a.id_sistema',$registro->id_sistema)
         ->get();
       if($email){
-        $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email);
+        #$notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email);
+        $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $email);
         $datos = $notificacionUserA->json();
         $idSC = $datos['idUsuario'];
         $message = 'Hola! Te informamos que el requerimiento con folio '.$data->folio.' ha entrado a la fase de liberación. ~'.route("Archivo",Crypt::encrypt($data->folio)).'~. Gracias.';

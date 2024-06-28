@@ -84,7 +84,8 @@ class CorreoController extends Controller
     $involucrados = User::whereIn('id',explode(',', $levantamiento->involucrados))->get();
     $ct = usr_data::where('id_puesto', 8)->first();
     $fol = registro::where('folio',$folio)->first();
-    $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->rpip->email);
+    #$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->rpip->email);
+    $notificacionUserC = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $fol->rpip->email);
     $datos = $notificacionUserC->json();
     $idSC = $datos['idUsuario'];
     if($levantamiento->fechaaut == NULL){ 
@@ -121,7 +122,8 @@ class CorreoController extends Controller
       ->where('a.id_sistema',$fol->id_sistema)
       ->get();
     $hora = levantamiento::findOrFail($folio);
-    $notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->rpip->email);
+    #$notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->rpip->email);
+    $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $fol->rpip->email);
     $datos = $notificacionUserA->json();
     $idSC = $datos['idUsuario'];
     if($hora->fechaaut == NULL){ 
@@ -157,7 +159,8 @@ class CorreoController extends Controller
       'campo'         => $form->estatus->posicion = 5 ? "Se envió formato de solicitud a cliente" : "Se envió formato de solicitud a desarrollo",
       'id_estatus'    => $form->id_estatus,
     ]);
-    $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$data->email[0]);
+    #$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$data->email[0]);
+    $notificacionUserC = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $data->email[0]);
     $datos = $notificacionUserC->json();
     $idSC = $datos['idUsuario'];
     $message = $form->estatus->posicion = 5 ?
@@ -191,7 +194,8 @@ class CorreoController extends Controller
       $clase -> id_clase = $data['id_clase'];
       $clase -> save();
       mail::to($correo->email)->cc($involucrados->pluck('email'))->send(new SegundaValidacion($folio));
-      $notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);
+      #$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);
+      $notificacionUserC = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $correo->rpip->email);
       $datos = $notificacionUserC->json();
       $idSC = $datos['idUsuario'];
       $message = 'Hola! Te informamos que desarrollo ha designado la clase del requerimiento con folio '.$folio. '. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';

@@ -81,7 +81,8 @@ class PreregistroController extends Controller
             'planteamiento' => $data['planteamiento']
         ]);
         foreach ($coordinacion as $usuario) {
-            $notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$usuario->email);
+            //$notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$usuario->email);
+            $notificacionUser = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $usuario->email);
             $datos = $notificacionUser->json(); // Convierte la respuesta JSON a un array PHP
             $idSC = $datos['idUsuario'];
             $message = 'Hola! Te informamos que tienes una Nueva Solicitud de requerimiento ~https://requerimientos.tiii.mx/preregistro.listado~. Gracias.';
