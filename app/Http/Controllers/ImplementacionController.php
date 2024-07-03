@@ -9,6 +9,7 @@ use App\Models\levantamiento;
 use App\Models\liberacion;
 use App\Models\registro;
 use App\Models\User;
+use App\Models\usr_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -60,13 +61,16 @@ class ImplementacionController extends Controller
           return redirect()->back();
       }
       $email = $estatus->levantamiento->sol->email;
-      $coordinacion = User:: select('email')
-          ->leftjoin('puestos as p','p.id_puesto','users.id_puesto')
-          ->leftjoin('accesos as a','users.id','a.id_user')
-          ->whereIn('jerarquia', [2, 3, 7])
-          ->where('a.id_sistema',$estatus->id_sistema)
-          ->where('id_area', 6)
-          ->get();
+      $coordinacion = usr_data::select('email')
+            ->leftJoin('users as u', 'u.id', 'usr_data.id_user')
+            ->leftJoin('puestos as p', 'p.id_puesto', 'usr_data.id_puesto')
+            ->leftJoin('accesos as a', 'usr_data.id_user', 'a.id_user')
+            ->whereIn('jerarquia', [2, 3, 7])
+            ->where('a.id_sistema', $data['id_sistema'])
+            ->where(function ($query) {
+                $query->where('usr_data.id_area', '!=', '12')->orWhere('jerarquia', '7');
+            })
+        ->get();
       if($email){
         #$notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$email);
         $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $email);

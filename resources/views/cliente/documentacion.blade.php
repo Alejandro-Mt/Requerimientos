@@ -937,7 +937,6 @@
         var parent = $(this).parent().parent().attr('id');
         var name = $(this).attr('id');
         var dataString = 'item='+name;
-        console.log(name);
         $.ajax({
           headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
           type: "DELETE",

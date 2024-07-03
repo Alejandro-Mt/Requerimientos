@@ -82,7 +82,7 @@ class CorreoController extends Controller
   protected function respuesta($folio){
     $levantamiento = levantamiento::findOrFail($folio);
     $involucrados = User::whereIn('id',explode(',', $levantamiento->involucrados))->get();
-    $ct = usr_data::where('id_puesto', 8)->first();
+    $ct = usr_data::where('id_puesto', 7)->first();
     $fol = registro::where('folio',$folio)->first();
     #$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$fol->rpip->email);
     $notificacionUserC = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $fol->rpip->email);
