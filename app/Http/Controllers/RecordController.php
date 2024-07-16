@@ -140,7 +140,6 @@ class RecordController extends Controller
             ->where('folio', $folio)
             ->select('s.email')
             ->first();
-        dd($email);
         $involucrados = DB::
             table('responsables as res')->
             join('levantamientos as lev', function ($join) {
