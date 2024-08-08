@@ -132,22 +132,21 @@ class MenuController extends Controller
         ]);
         return redirect(route('Documentos',Crypt::encrypt($folio)));
     }
+    
     public function play($folio){
+        $registro = registro::where('folio',$folio)->first();
+        $involucrados = $registro->levantamiento->involucrados($folio);
         $reaunudar = pausa::select('*')-> where ('folio', $folio)->orderby('created_at','desc')->first();
         $reaunudar->pausa = '0';
         $reaunudar->save();  
-        $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
-            ->where('folio', $folio)
-            ->select('s.email')
-            ->first();
-        $gerencia = User::
+        /*$gerencia = User::
             join('puestos as p','p.id_puesto','users.id_puesto')
             ->where('id_area', 6)
             ->whereIn('jerarquia',[4,5])
             ->select('email')
-            ->get();
-        if($email){
-            Mail::to($email->email)->cc($gerencia->pluck('email'))->send(new Fase($folio, 'REANUDAR'));
+            ->get();*/
+        if($registro->levantamiento->sol){
+            Mail::to($registro->levantamiento->sol->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'REANUDAR'));
         }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         #dd($email->correo);
@@ -256,31 +255,16 @@ class MenuController extends Controller
         #dd($responsables);
     }
     public function posponer($folio,$id_motivo,$id_estatus){
+        $registro = registro::where('folio',$folio)->first();
+        $involucrados = $registro->levantamiento->involucrados($folio);
         pausa::create([
             'folio'=> $folio,
             'pausa'=> '2',
             'id_motivo'=>$id_motivo,
             'id_estatus'=>$id_estatus
         ]);
-        $email = levantamiento::join('solicitantes as s', 's.id_solicitante', '=', 'levantamientos.id_solicitante')
-            ->where('folio', $folio)
-            ->select('s.email')
-            ->first();
-        $involucrados = DB::
-            table('responsables as res')->
-            join('levantamientos as lev', function ($join) {
-                $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
-            })->
-            where('lev.folio', $folio)->
-            get();
-        /*$gerencia = User::
-            join('puestos as p','p.id_puesto','users.id_puesto')
-            ->where('id_area', 6)
-            ->whereIn('jerarquia',[4,5])
-            ->select('email')
-            ->get();*/
-        if($email){
-            Mail::to($email->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'POSPUESTO'));
+        if($registro->levantamiento->sol){
+            Mail::to($registro->levantamiento->sol->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'POSPUESTO'));
         }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         #dd($email->email);
