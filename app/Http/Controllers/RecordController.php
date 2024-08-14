@@ -7,6 +7,7 @@ use App\Mail\Interno\NuevoProyecto;
 use App\Mail\Interno\Tester;
 use App\Models\bitacora;
 use App\Models\levantamiento;
+use App\Models\pausa;
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
@@ -93,6 +94,12 @@ class RecordController extends Controller
                 }
             }
         }
+        if($data['preregistro'] != NULL){
+            $update = solicitud::where('folio',$data['preregistro'])->first();
+            $update->id_estatus= '21';
+            $update->folior = $folio;
+            $update->save();
+        }
         registro::create([
             'folio' => $folio,
             'descripcion' => $data['descripcion'],
@@ -107,12 +114,6 @@ class RecordController extends Controller
             'folio_pr' => $data['folio_pr'],
             'es_emergente' => $data['es_em']
         ]);
-        if($data['preregistro'] != NULL){
-            $update = solicitud::where('folio',$data['preregistro'])->first();
-            $update->id_estatus= '21';
-            $update->folior = $folio;
-            $update->save();
-        }
         $listado = solpri::where([['estatus', 'autorizado'],['id_cliente',$data['id_cliente']]])->orderby('id','desc')->first();
         if(($listado) != NULL){
             $listado->orden = $listado->orden.','.$folio;
@@ -134,20 +135,18 @@ class RecordController extends Controller
     public function update(Request $data, $folio)
     {
         $registro = registro::where('folio',$folio)->first();
+        if($registro->pausado){
+            $reaunudar = pausa::select('*')->where('folio', $folio)->orderby('created_at','desc')->first();
+            $reaunudar->pausa = '0';
+            $reaunudar->save();
+        }
         $registro->id_estatus= 14;
         $registro->motivo_can_id = $data['motivo'];
         $email = levantamiento::join('users as s', 's.id', '=', 'levantamientos.id_solicitante')
             ->where('folio', $folio)
             ->select('s.email')
             ->first();
-        dd($email);
-        $involucrados = DB::
-            table('responsables as res')->
-            join('levantamientos as lev', function ($join) {
-                $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
-            })->
-            where('lev.folio', $folio)->
-            get();
+        $involucrados = $registro->levantamiento->involucrados($folio);
         $registro->save();
         /* $gerencia = User::
             join('puestos as p','p.id_puesto','users.id_puesto')
@@ -174,7 +173,7 @@ class RecordController extends Controller
           'campo'         => "Se asigna tester",
           'id_estatus'    => $registro->id_estatus,
         ]);
-    mail::to($registro->rtest->email)->send(new Tester($folio));
+    #Mail::to($registro->rtest->email)->send(new Tester($folio));
     return redirect(route('Documentos',Crypt::encrypt($folio)));
     ####  Notificaciones por ST desactivadas  ###
     /*$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);

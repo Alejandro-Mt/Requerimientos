@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\DefinicionRequerimiento;
+use App\Mail\Interno\Aut_f;
+use App\Mail\Interno\N_Flujo;
 use App\Mail\Interno\notificacion_definicion;
 use App\Models\analisis;
+use App\Models\archivo;
 use App\Models\bitacora;
 use App\Models\cronograma;
+use App\Models\gatt;
 use App\Models\informacion;
 use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\solicitud;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -84,7 +89,7 @@ class PlaneacionController extends Controller
                 $notificacionController->stnotify($idSC,$message);
                 Mail::to($registro->rpip->email)->send(new notificacion_definicion($data->folio));
             }
-            if ($registro->solicitud) {
+            /*if ($registro->solicitud) {
                 #$notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->solicitud->correo);
                 $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $registro->solicitud->correo);
                 if($notificacionUserA){
@@ -95,7 +100,7 @@ class PlaneacionController extends Controller
                     $notificacionController->stnotify($idSC,$message);
                 }
                 Mail::to($registro->solicitud->correo)->send(new DefinicionRequerimiento($data->folio));
-            }
+            }*/
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
@@ -200,6 +205,84 @@ class PlaneacionController extends Controller
         return redirect(route('Documentos',Crypt::encrypt($folio)));
     }
 
+ /* public function nflujo($folio){
+    $registro       = registro::where('folio',$folio)->first();
+    $user           = User::findOrFAil(Auth::user()->id);
+    $validar        = Archivo::where('folio', $folio)
+      ->where(function ($query) {
+        $query->where('url', 'like', '%flujo%')->orWhere('url', 'like', '%prototipo%');
+      })
+      ->first();
+    $campo      = 
+      bitacora::create([
+        'folio'         => $folio,
+        'usuario'       => $user->getFullnameAttribute(),
+        'id_user'       => $user->id,
+        'campo'         => "Se envió definición de requerimiento a cliente",
+        'id_estatus'    => $registro->id_estatus,
+      ]);
+    if ($registro->solicitud && $validar) {
+      $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $registro->solicitud->correo);
+      if($notificacionUserA){
+        $datos = $notificacionUserA->json();
+        $idSC = $datos['idUsuario'];
+        $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$registro->folio.' se ha enviado a tu correo para su validación. ~'.route("Archivo",Crypt::encrypt($registro->folio)).'~. Gracias.';
+        $notificacionController = new NotificacionController();
+        $notificacionController->stnotify($idSC,$message);
+      }
+      Mail::to($registro->solicitud->correo)->send(new DefinicionRequerimiento($registro->folio));
+      $registro->id_estatus = 11; 
+      $registro->save();
+    }
+    return redirect(route('Documentos',Crypt::encrypt($folio)))->with('fail', 'Se necesita archivo para avanzar');
+  }*/
+  
+  public function rflujo($folio, $respuesta){
+    $registro       = registro::where('folio',$folio)->first();
+    $user           = User::findOrFAil(Auth::user()->id);
+    if ($registro->solicitud && $respuesta  == 1) {
+      bitacora::create([
+        'folio'         => $folio,
+        'usuario'       => $user->getFullnameAttribute(),
+        'id_user'       => $user->id,
+        'campo'         => "Se envió definición de requerimiento a cliente",
+        'id_estatus'    => $registro->id_estatus,
+      ]);
+      $registro->id_estatus = 9; 
+      $registro->save();
+      $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $registro->solicitud->correo);
+      if($notificacionUserA){
+        $datos = $notificacionUserA->json();
+        $idSC = $datos['idUsuario'];
+        $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$registro->folio.' se ha enviado a tu correo para su validación. ~'.route("Archivo",Crypt::encrypt($registro->folio)).'~. Gracias.';
+        $notificacionController = new NotificacionController();
+        $notificacionController->stnotify($idSC,$message);
+      }
+      Mail::to($registro->solicitud->correo)->send(new DefinicionRequerimiento($registro->folio));
+      Mail::to($registro->rpip->email)->send(new Aut_f ($registro->folio, $respuesta));
+      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('success', 'Enviado');
+    }
+    elseif ($registro->solicitud && $respuesta  == 0){
+      bitacora::create([
+        'folio'         => $folio,
+        'usuario'       => $user->getFullnameAttribute(),
+        'id_user'       => $user->id,
+        'campo'         => "Flujo no aceptafo por Desarrollo",
+        'id_estatus'    => $registro->id_estatus,
+      ]);
+      $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $registro->rpip->email);
+      if($notificacionUserA){
+        $datos = $notificacionUserA->json();
+        $idSC = $datos['idUsuario'];
+        $message = 'Hola! Te informamos que desarrollo rechazo el flujo del requerimiento con folio '.$registro->folio.'. ~'.route("Archivo",Crypt::encrypt($registro->folio)).'~. Gracias.';
+        $notificacionController = new NotificacionController();
+        $notificacionController->stnotify($idSC,$message);
+      }
+      Mail::to($registro->rpip->email)->send(new Aut_f ($registro->folio, $respuesta));
+      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('fail', 'Se necesita archivo para avanzar');
+    }
+  }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -217,12 +300,31 @@ class PlaneacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($folio)
-    {
-        $data['events'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->where('folio',$folio)->get();
-        return response()->json($data['events']);
-    }
+    public function show($folio){
+        $events = gatt::where('folio', $folio)->with('estatus')->get();
+
+        $data = $events->map(function ($event) {
+            return [
+                'title' => $event->estatus->titulo, // Accedes a la relación y extraes el campo 'titulo' de la tabla relacionada
+                'start' => $event->fecha_inicio,
+                'end' => $event->fecha_fin,
+                'className' => $event->estatus->color,
+            ];
+        });
         
+        return response()->json($data);
+    }
+
+    public function start($folio)
+    {
+        $reg = registro::where('folio',$folio)->first();
+        $data['start'] = $reg->solicitud->created_at ?? $reg->created_at;
+
+        // Combinar los datos del cronograma y la fecha de levantamiento
+
+        return response()->json($data['start']);
+    }
+
     public function range($folio)
     {
         $data['start'] = 

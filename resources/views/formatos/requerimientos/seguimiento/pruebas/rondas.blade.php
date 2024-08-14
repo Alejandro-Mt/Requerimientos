@@ -96,19 +96,14 @@
     }
     if(input.value == '0'){
       //var enlace = document.querySelector('a');
-      var enlaces = document.getElementsByTagName('a');
-      for (var i = 0; i < enlaces.length; i++) {
-        var enlace = enlaces[i];
-        if (enlace.getAttribute('style') == 'color:white') {
-          enlace.removeAttribute('href');
-          enlace.setAttribute('data-bs-dismiss','modal');
-          enlace.addEventListener('click', function() {
-            miBoton.removeAttribute('data-bs-toggle');
-            miBoton.removeAttribute('data-bs-target');
-            miBoton.setAttribute('type', 'submit');
-          }); // Hacer algo con el enlace que cumple la condición
-        }
-      }
+      var enlace = document.getElementById('modal');
+      enlace.removeAttribute('href');
+      enlace.setAttribute('data-bs-dismiss','modal');
+      enlace.addEventListener('click', function() {
+        miBoton.removeAttribute('data-bs-toggle');
+        miBoton.removeAttribute('data-bs-target');
+        miBoton.setAttribute('type', 'submit');
+      }); // Hacer algo con el enlace que cumple la condición
     }
   });
 </script>

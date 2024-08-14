@@ -134,7 +134,9 @@ Route::get('impacto.{folio}.{impacto}', [CorreoController::class, 'impacto'])->n
 Route::post('clase.{folio}',[CorreoController::class, 'clase'])->name('Clase');
 #Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PAlta');
 Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut');
-Route::get('definicion.{folio}',[ PlaneacionController::class, 'notify'])->name('Def_Req');
+Route::get('definicion.{folio}',[PlaneacionController::class, 'notify'])->name('Def_Req');
+#  Route::get('flujo.{folio}',[PlaneacionController::class, 'nflujo'])->name('N_Flujo');
+Route::get('flujo.autorizacion.{folio}.{respuesta}',[PlaneacionController::class, 'rflujo'])->name('R_Flujo');
 Route::get('archivos.{folio}',[CorreoController::class,'libera']);
 Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
 Route::delete('file.borrar.{name}.{folio}', [CorreoController::class, 'destroy'])->name('dfile');
@@ -144,6 +146,7 @@ Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviad
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.planeacion'), 30, 5).'{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
 Route::get('/show.{folio}',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
 Route::get('/rango.{folio}',[PlaneacionController::class, 'range']);
+Route::get('/start.{folio}',[PlaneacionController::class, 'start']);
 Route::post('/formatos.requerimientos.planeacion', [PlaneacionController::class, 'create'])->name('Plan');
 
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.analisis'), 35, 5).'{folio}',[AnalisisController::class, 'index'])->middleware('auth')->name('Analisis');

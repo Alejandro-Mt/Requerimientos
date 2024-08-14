@@ -28,6 +28,18 @@
       });
     </script>
   @endif
+  @if (session('fail'))
+    <input class="d-none" id="fail" value="{{ session('fail') }}">
+    <script>
+      $(document).ready(function(){
+        toastr.error(
+          $("#fail").val(),
+          "Error!",
+          { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+        );
+      });
+    </script>
+  @endif
   <div class="row">
     <div class="col-lg-12">
       <div class="card">
@@ -318,7 +330,7 @@
                             <div class="ms-3">
                               <span class="text-dark font-weight-medium">CONSTRUCCIÓN</span>
                               @foreach ($estatus as $limite)
-                                @if(($limite->posicion > 5) and ($limite->posicion < 9) and ($limite->posicion != NULL))
+                                @if(($limite->posicion > 5) and ($limite->posicion < 10) and ($limite->posicion != NULL))
                                   <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                     <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                     <div class="position-absolute end-0">
@@ -331,10 +343,15 @@
                                             @break
                                           @case(7)
                                             @if($registros->plan)
-                                              {{date("d/M/y",strtotime($registros->plan->fechaCompReqR))}}
+                                              <!--{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}-->
                                             @endif
                                             @break
                                           @case(8)
+                                            @if($registros->plan)
+                                              {{date("d/M/y",strtotime($registros->plan->fechaCompReqR))}}
+                                            @endif
+                                            @break
+                                          @case(9)
                                             @if($registros->construccion)
                                               {{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}
                                             @endif
@@ -378,7 +395,7 @@
                         </div>
                       </div>
                     @endif
-                    @if ($registros->estatus->posicion > 8)
+                    @if ($registros->estatus->posicion > 9)
                       <div class="feed-item mb-2 py-2 pe-3 ps-4">
                         <div class="border-start border-2 border-success d-md-flex">
                           <div class="d-flex align-items-start">
@@ -388,14 +405,14 @@
                             <div class="ms-3">
                               <span class="text-dark font-weight-medium">LIBERACIÓN</span>
                               @foreach ($estatus as $limite)
-                                @if(($limite->posicion > 8) and ($limite->posicion < 11) and ($limite->posicion != NULL))
+                                @if(($limite->posicion > 9) and ($limite->posicion < 12) and ($limite->posicion != NULL))
                                   <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                     <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                     <div class="position-absolute end-0">
                                       <span class="fs-2 text-muted">
-                                        @if($registros->liberacion && $registros->liberacion->fecha_lib_r && $limite->posicion == 9)
+                                        @if($registros->liberacion && $registros->liberacion->fecha_lib_r && $limite->posicion == 10)
                                           {{date("d/M/y",strtotime($registros->liberacion->fecha_lib_r))}}
-                                        @elseif($registros->liberacion && $registros->liberacion->inicio_lib && $limite->posicion == 10)
+                                        @elseif($registros->liberacion && $registros->liberacion->inicio_lib && $limite->posicion == 11)
                                           {{date("d/M/y",strtotime($registros->liberacion->inicio_lib))}}
                                         @endif
                                       </span>
@@ -420,7 +437,7 @@
                                       </div>
                                     @endif
                                   @endforeach
-                                  @if(($limite->posicion == 10))
+                                  @if(($limite->posicion == 11))
                                     @if($datosRonda = $registros->liberacion ? $registros->liberacion->obtenerDatosRonda($registros->folio) : '')
                                       <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                         <span class="fs-2 text-info">RONDAS</span>
@@ -452,7 +469,7 @@
                         </div>
                       </div>
                     @endif
-                    @if ($registros->estatus->posicion > 10)
+                    @if ($registros->estatus->posicion > 12)
                       <div class="feed-item mb-2 py-2 pe-3 ps-4">
                         <div class="border-start border-2 border-orange d-md-flex">
                           <div class="d-flex align-items-start">
@@ -464,7 +481,7 @@
                                 IMPLEMENTACIÓN
                               </span>
                               @foreach ($estatus as $limite)
-                                @if(($limite->posicion == 11) and ($limite->posicion != NULL))
+                                @if(($limite->posicion == 12) and ($limite->posicion != NULL))
                                   <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                     <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                     <div class="position-absolute end-0">
@@ -570,6 +587,14 @@
                           @endif
                         @break
                         @case(7)
+                          @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
+                            <a data-bs-toggle="modal" data-bs-target="#Auto2" type="button" class="btn btn-outline-purple">Enviar Flujo a desarrollo</a>
+                          @endif
+                          @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
+                            <a data-bs-toggle="modal" data-bs-target="#Flujo" type="button" class="btn btn-outline-orange">Autorizar flujo</a>
+                          @endif
+                        @break
+                        @case(8)
                           @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7') 
                             @if($registros->levantamiento->fecha_def == null)
                               <a href="{{route('Mesa',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-orange">Mesa de trabajo</a>
@@ -589,14 +614,14 @@
                             @endif
                           @endif
                         @break
-                        @case(8)
+                        @case(9)
                           @if ($registros->levantamiento->fechades == null)
                             <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
                           @elseif(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
                             <a href="{{route('Construccion',Crypt::encrypt($registros->folio))}}" id="" type="button" class="btn btn-outline-purple">Construcción</a>
                           @endif
                         @break
-                        @case(9)
+                        @case(10)
                           @if($registros->id_tester)
                             @if(Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')
                               <a href="{{route('PruebasTesting',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Pruebas Testing</a>
@@ -607,12 +632,12 @@
                             @endif
                           @endif
                         @break
-                        @case(10)
+                        @case(11)
                           @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
                             <a href="{{route('Liberacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Liberación</a>
                           @endif
                         @break
-                        @case(11)
+                        @case(12)
                           @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
                             <a href="{{route('Implementacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Implementación</a>
                           @endif

@@ -96,7 +96,7 @@
                       <td><a href="{{route('Documentos',Crypt::encrypt($registro->folio))}}" style="color:rgb(85, 85, 85)">{{$registro->folio}}</a></td>
                       <td>{{$registro->descripcion}}</td>
                       <td>@if(str_contains($registro->folio, 'PR-'))Proyecto @else {{ $registro->es_emergente ? 'Emergente' : 'Normal'}}@endif</td>
-                      <td>{{$registro->estatus->titulo}}</td>
+                      <td>{{$registro->pausado ? 'POSPUESTO' : $registro->estatus->titulo}}</td>
                       <td>@if($registro->clase) {{$registro->clase->clase}}@endif</td>
                       <td>{{$registro->sistema->nombre_s}}</td>
                       <td>@if($registro->rdes) {{$registro->rdes->getFullnameAttribute()}}@endif</td>
