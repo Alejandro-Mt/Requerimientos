@@ -123,7 +123,7 @@ class registro extends Model
 
     public function pausado()
     {
-        return $this->hasOne(Pausa::class, 'folio', 'folio')->where('pausa', 2);
+        return $this->hasOne(pausa::class, 'folio', 'folio')->where('pausa', 2);
     }
 
     public function diasPospuesto()

@@ -18,8 +18,10 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laraveles/spanish": "^1.5",
+        "maatwebsite/excel": "*",
         "mckenziearts/laravel-notify": "^2.2",
         "monolog/monolog": "^2.9||^3.0",
+        "phpoffice/phpspreadsheet": "^1.23",
         "revolution/laravel-google-sheets": "^5.8"
     },
     "require-dev": {

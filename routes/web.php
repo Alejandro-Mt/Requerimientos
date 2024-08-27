@@ -144,6 +144,7 @@ Route::get(substr(Crypt::encryptString('/layouts.correo'), 25, 5).'{folio}',[Cor
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 ##  metodos para Construccion ##
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.planeacion'), 30, 5).'{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
+Route::get('/gantt.descargable.{folio}',[HomeController::class,'exportGantt'])->middleware('auth')->name('Gantt');
 Route::get('/show.{folio}',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
 Route::get('/rango.{folio}',[PlaneacionController::class, 'range']);
 Route::get('/start.{folio}',[PlaneacionController::class, 'start']);

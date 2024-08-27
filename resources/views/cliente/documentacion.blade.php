@@ -591,7 +591,11 @@
                             <a data-bs-toggle="modal" data-bs-target="#Auto2" type="button" class="btn btn-outline-purple">Enviar Flujo a desarrollo</a>
                           @endif
                           @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
-                            <a data-bs-toggle="modal" data-bs-target="#Flujo" type="button" class="btn btn-outline-orange">Autorizar flujo</a>
+                            @foreach($archivos as $flujo)
+                              @if (Str::contains($flujo->url, ' Flujo') || Str::contains($flujo->url, ' Prototipo'))
+                                <a data-bs-toggle="modal" data-bs-target="#Flujo" type="button" class="btn btn-outline-orange">Autorizar flujo</a>
+                              @endif
+                            @endforeach
                           @endif
                         @break
                         @case(8)
@@ -623,11 +627,11 @@
                         @break
                         @case(10)
                           @if($registros->id_tester)
-                            @if(Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')
+                            @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')
                               <a href="{{route('PruebasTesting',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Pruebas Testing</a>
                             @endif
                           @else
-                            @if((Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7'))
+                            @if((Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7'))
                               <button id="btn" type="button" class="btn btn-outline-orange" data-bs-toggle="modal" data-bs-target="#Tester">Asignar tester</button> 
                             @endif
                           @endif
@@ -643,8 +647,8 @@
                           @endif
                         @break
                         @case(18)
-                      @endswitch
-                      @if((Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7') && ($registros->estatus->posicion > 6 && $registros->levantamiento->fecha_def) && $registros->estatus->posicion < 9 && !$registros->rtest)
+                      @endswitch <!--(Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')-->
+                      @if((Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7') && ($registros->estatus->posicion > 6 && $registros->levantamiento->fecha_def) && $registros->estatus->posicion < 9 && !$registros->rtest)
                         <button id="btn" type="button" class="btn btn-outline-orange" data-bs-toggle="modal" data-bs-target="#Tester">Asignar tester</button> 
                       @endif
                     @endif

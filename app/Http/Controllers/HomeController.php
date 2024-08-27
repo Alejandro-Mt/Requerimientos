@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\GanttExport;
 use App\Models\acceso;
+use App\Models\gatt;
 use App\Models\registro;
 use App\Models\solicitud;
 use Google_Client;
@@ -12,6 +14,8 @@ use Google\Service\Sheets\Spreadsheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+
 class HomeController extends Controller
 {
     /**
@@ -171,5 +175,10 @@ class HomeController extends Controller
         }
         $response = ['fileId' => $fileId];
         return response()->json($response);
+    }
+
+    public function exportGantt($folio)
+    {
+        return Excel::download(new GanttExport($folio), "gantt_{$folio}.xlsx");
     }
 }    
