@@ -107,7 +107,6 @@ class ImplementacionController extends Controller
     // Actualizar el estatus del registro
     $estatus->id_estatus = $data['id_estatus'];
     $estatus->save();
-    dd($estatus);
 
     return redirect(route('Documentos', Crypt::encrypt($data['folio'])));
 }
