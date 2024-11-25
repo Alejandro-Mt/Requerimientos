@@ -17,21 +17,20 @@ class PermissionsController extends Controller
     public function ajustes(){
         $areas = area::all();
         $departamentos = departamento::all();
-        if (Auth::user()->id == 1) {
-            # code...
+        if (Auth::user()->usrdata->id_puesto == 7) {
             $equipo = user::all();
         } else {
-            # code...
             $equipo = user::distinct()
                 ->select('users.*')
                 ->leftjoin('accesos as acs','users.id','acs.id_user')
+                ->leftjoin('usr_data as ud','users.id','ud.id_user')
                 ->wherein(
                     'acs.id_sistema',
                     acceso::
                         select('id_sistema')
                         ->where('id_user',Auth::user()->id)
                 )
-                ->where('id_puesto','<=',Auth::user()->usrdata->id_puesto)
+                ->where('ud.id_puesto','<=',Auth::user()->usrdata->id_puesto)
                 ->get();
         }
         $puestos = puesto::all();
