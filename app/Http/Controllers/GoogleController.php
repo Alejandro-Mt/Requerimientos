@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
   
 use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Facades\Socialite;https://github.com/Alejandro-Mt/Requerimientos/blob/localhost/app/Http/Controllers/GoogleController.php
 use Exception;
 use App\Models\User;
 use App\Models\usr_data;
@@ -38,7 +38,7 @@ class GoogleController extends Controller
     {
         try {
             $user = Socialite::driver('google')->user();
-            $finduser = usr_data::where('external_id', $user->id)->first();
+            $finduser = usr_data::where('external_id', $user->id)->first() ?? User::where('external_id', $user->id)->first();
             if($finduser){
                 $finduser->token_google = $user->token;
                 $finduser->save();
