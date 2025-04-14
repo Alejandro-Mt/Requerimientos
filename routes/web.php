@@ -105,17 +105,30 @@ Route::delete('sistema.Borrar.{id_sistema}', [SistemaController::class, 'destroy
 Route::post('solicitante.nuevo', [Solicitantescontroller::class, 'create'])->name('NSolicitante');
 Route::post('solicitante.actualizar.{id_sistema}', [Solicitantescontroller::class, 'update'])->name('USolicitante');
 Route::delete('solicitante.Borrar.{id_sistema}', [Solicitantescontroller::class, 'destroy'])->name('DSolicitante');
+<<<<<<< HEAD
+=======
+#          Reportes            #
+Route::post('registros.reporte', [RecordController::class, 'report'])->name('ReqReport');
+>>>>>>> versionprod
 #          Proceso Requerimiento         #
   #    \\      Proceso nuevo      //   #
 Route::get('/formatos.requerimientos.new', [RecordController::class, 'index'])->middleware('auth')->name('Nuevo');
 Route::post('/formatos.requerimientos.new', [RecordController::class, 'create'])->name('Crear');
+<<<<<<< HEAD
+=======
+Route::post('/update/{folio}', [RecordController::class,'update'])->name('EditReq');
+>>>>>>> versionprod
 Route::post('tester.{folio}',[RecordController::class, 'tester'])->name('Tester');
 Route::get('/formatos.requerimientos.edit', [MenuController::class, 'edit'])->middleware('auth')->name('Editar');
 Route::get('/formatos.requerimientos.edit/{folio}', [MenuController::class,'pause'])->name('Pausa');
 
   #    \\      Proceso extras      //   #
 Route::get('/posponer.{folio}.{id_motivo}.{id_estatus}', [MenuController::class,'posponer'])->name('Posponer');
+<<<<<<< HEAD
 Route::post('/cancelar/{folio}', [RecordController::class,'update'])->name('Cancelar');
+=======
+Route::post('/cancelar/{folio}', [RecordController::class,'cancel'])->name('Cancelar');
+>>>>>>> versionprod
 Route::get('/formatos.requerimientos/{folio}', [MenuController::class,'play'])->name('Play');
 Route::get('/formatos.requerimientos.sub/{folioS}', [MenuController::class,'close'])->middleware('auth')->name('Concluir');
 Route::get(substr(Crypt::encryptString('mesa'),90,5).'{folio}',[MesaContoller::class,'index'])->middleware('auth')->name('Mesa');
@@ -134,16 +147,32 @@ Route::get('impacto.{folio}.{impacto}', [CorreoController::class, 'impacto'])->n
 Route::post('clase.{folio}',[CorreoController::class, 'clase'])->name('Clase');
 #Route::get('requiere.{folio}',[CorreoController::class, 'requiere'])->name('PAlta');
 Route::get('autorizar.{folio}',[CorreoController::class, 'segval'])->name('Aut');
+<<<<<<< HEAD
 Route::get('definicion.{folio}',[ PlaneacionController::class, 'notify'])->name('Def_Req');
 Route::get('archivos.{folio}',[CorreoController::class,'libera']);
 Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
 Route::delete('file.borrar.{name}.{folio}', [CorreoController::class, 'destroy'])->name('dfile');
+=======
+Route::get('definicion.{folio}',[PlaneacionController::class, 'notify'])->name('Def_Req');
+#  Route::get('flujo.{folio}',[PlaneacionController::class, 'nflujo'])->name('N_Flujo');
+Route::get('flujo.autorizacion.{folio}.{respuesta}',[PlaneacionController::class, 'rflujo'])->name('R_Flujo');
+Route::get('archivos.{folio}',[CorreoController::class,'libera']);
+Route::post('adjuntar.{folio}',[CorreoController::class,'store'])->name('Adjuntos');
+Route::delete('file.borrar.{id}', [CorreoController::class, 'destroy'])->name('dfile');
+>>>>>>> versionprod
 Route::get(substr(Crypt::encryptString('/layouts.correo'), 25, 5).'{folio}',[CorreoController::class, 'send'])->middleware('auth')->name('Enviar');
 Route::post('/layouts.correo',[CorreoController::class, 'sended'])->name('Enviado');
 ##  metodos para Construccion ##
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.planeacion'), 30, 5).'{folio}',[PlaneacionController::class, 'index'])->middleware('auth')->name('Planeacion');
+<<<<<<< HEAD
 Route::get('/show.{folio}',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
 Route::get('/rango.{folio}',[PlaneacionController::class, 'range']);
+=======
+Route::get('/gantt.descargable.{folio}',[HomeController::class,'exportGantt'])->middleware('auth')->name('Gantt');
+Route::get('/show.{folio}',[PlaneacionController::class, 'show'])->name('Datos');#datos de calendario
+Route::get('/rango.{folio}',[PlaneacionController::class, 'range']);
+Route::get('/start.{folio}',[PlaneacionController::class, 'start']);
+>>>>>>> versionprod
 Route::post('/formatos.requerimientos.planeacion', [PlaneacionController::class, 'create'])->name('Plan');
 
 Route::get(substr(Crypt::encryptString('/formatos.requerimientos.analisis'), 35, 5).'{folio}',[AnalisisController::class, 'index'])->middleware('auth')->name('Analisis');

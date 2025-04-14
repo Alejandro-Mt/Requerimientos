@@ -24,7 +24,11 @@ class NuevoProyecto extends Mailable
     {
         //
         $this->estatus = $data['id_estatus'];
+<<<<<<< HEAD
         if ($data['id_estatus'] == NULL){
+=======
+        if ($data['id_estatus']== 17){
+>>>>>>> versionprod
             $this->titulo = $data['descripcion'];
         }else{
             $this->titulo = registro::select('descripcion')->where('folio', $data->folio)->first();

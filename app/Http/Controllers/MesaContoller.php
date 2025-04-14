@@ -25,7 +25,11 @@ class MesaContoller extends Controller
     public function index($folio)
     {
         //
+<<<<<<< HEAD
         $responsables = User::all();
+=======
+        $responsables = User::activos()->get();
+>>>>>>> versionprod
         $data = registro::where('folio',Crypt::decrypt($folio))->first();
         return view('formatos.requerimientos.seguimiento.mesa',compact('data','responsables'));
     }

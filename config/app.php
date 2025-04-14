@@ -13,7 +13,11 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'name' => env('APP_NAME', 'SMART PLANNER'),
+=======
+    'name' => env('APP_NAME', 'Smart Planner'),
+>>>>>>> versionprod
 
     /*
     |--------------------------------------------------------------------------

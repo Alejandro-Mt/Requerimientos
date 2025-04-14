@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Models\acceso;
 use App\Models\registro;
 use App\Models\solicitud;
+=======
+use App\Exports\GanttExport;
+use App\Models\acceso;
+use App\Models\gatt;
+use App\Models\registro;
+use App\Models\solicitud;
+use Carbon\Carbon;
+>>>>>>> versionprod
 use Google_Client;
 use Google\Service\Sheets;
 use Google\Service\Sheets\ValueRange;
@@ -12,6 +21,11 @@ use Google\Service\Sheets\Spreadsheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+<<<<<<< HEAD
+=======
+use Maatwebsite\Excel\Facades\Excel;
+
+>>>>>>> versionprod
 class HomeController extends Controller
 {
     /**
@@ -30,9 +44,24 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
+<<<<<<< HEAD
     {
         
         $requerimientos = registro::wherein('id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))->get();
+=======
+    {        
+        $requerimientos = registro::wherein('id_sistema',acceso::select('id_sistema')->where('id_user',Auth::user()->id))
+            ->whereNotIn('id_estatus', [18, 14]) // Excluye 18 y 14
+            ->orWhere(function ($query) {
+                $query->whereIn('id_estatus', [18, 14])
+                    ->where(function ($subQuery) {
+                        $subQuery->whereMonth('updated_at', Carbon::now()->subMonth()->month)
+                                 ->whereYear('updated_at', Carbon::now()->subMonth()->year)
+                                 ->orWhereMonth('updated_at', Carbon::now()->month)
+                                 ->whereYear('updated_at', Carbon::now()->year);
+                    });
+            })->get();
+>>>>>>> versionprod
         if(Auth::user()->usrdata->departamento->id == 35){
           $sistemas = 
             db::table('solicitudes as s')->
@@ -172,4 +201,12 @@ class HomeController extends Controller
         $response = ['fileId' => $fileId];
         return response()->json($response);
     }
+<<<<<<< HEAD
+=======
+
+    public function exportGantt($folio)
+    {
+        return Excel::download(new GanttExport($folio), "gantt_{$folio}.xlsx");
+    }
+>>>>>>> versionprod
 }    

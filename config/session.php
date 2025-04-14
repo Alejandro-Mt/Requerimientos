@@ -33,7 +33,11 @@ return [
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
+<<<<<<< HEAD
     'expire_on_close' => true,
+=======
+    'expire_on_close' => false,
+>>>>>>> versionprod
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +50,11 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'encrypt' => true,
+=======
+    'encrypt' => false,
+>>>>>>> versionprod
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +136,11 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
+<<<<<<< HEAD
         Str::slug(env('APP_NAME', 'SMART PLANNER'), '_').'_session'
+=======
+        Str::slug(env('APP_NAME', 'Indicadores PIP'), '_').'_session'
+>>>>>>> versionprod
     ),
 
     /*
@@ -181,7 +193,11 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'http_only' => false,
+=======
+    'http_only' => true,
+>>>>>>> versionprod
 
     /*
     |--------------------------------------------------------------------------

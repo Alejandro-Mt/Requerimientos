@@ -33,7 +33,11 @@ return [
     'google' => [
         'client_id' => env('OAUTH_GOOGLE_ID'),
         'client_secret' => env('OAUTH_GOOGLE_KEY'),
+<<<<<<< HEAD
         'redirect' => 'http://localhost:8000/auth/google/callback',
+=======
+        'redirect' => 'https://requerimientos.tiii.mx/auth/google/callback',
+>>>>>>> versionprod
         'scope' => [
             'https://www.googleapis.com/auth/spreadsheets',
             'https://www.googleapis.com/auth/userinfo.profile',

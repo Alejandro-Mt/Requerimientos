@@ -57,10 +57,25 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getFullnameAttribute()
     {
+<<<<<<< HEAD
       return "{$this->nombre} {$this->apaterno} {$this->amaterno}";
+=======
+        return mb_strtoupper("{$this->nombre} {$this->apaterno} {$this->amaterno}", 'UTF-8');
+>>>>>>> versionprod
     }
 
     public function usrdata(){
         return $this->belongsTo(usr_data::class, 'id', 'id_user');
     }
+<<<<<<< HEAD
+=======
+
+    public function scopeActivos($query)
+    {
+        return $query->whereHas('usrdata', function ($query) {
+            $query->where('activo', 1);
+        });
+    }
+
+>>>>>>> versionprod
 }

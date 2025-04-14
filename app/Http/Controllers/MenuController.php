@@ -125,6 +125,10 @@ class MenuController extends Controller
         return view('formatos.requerimientos.edit',compact('cancelado','cliente','construccion','implementacion','implementado','levantamiento','liberacion','pausa','requerimiento','sistemas','subprocesos','vacio'));
         #dd($requerimiento);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> versionprod
     public function pause($folio){
         pausa::create([
             'folio'=> $folio,
@@ -132,6 +136,7 @@ class MenuController extends Controller
         ]);
         return redirect(route('Documentos',Crypt::encrypt($folio)));
     }
+<<<<<<< HEAD
     
     public function play($folio){
         $registro = registro::where('folio',$folio)->first();
@@ -148,6 +153,22 @@ class MenuController extends Controller
         if($registro->levantamiento->sol){
             Mail::to($registro->levantamiento->sol->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'REANUDAR'));
         }
+=======
+
+    public function play($folio){
+        $registro = registro::where('folio',$folio)->first();
+        $reaunudar = pausa::select('*')-> where ('folio', $folio)->orderby('created_at','desc')->first();
+        $reaunudar->pausa = '0';
+        $reaunudar->save(); 
+        if($registro->levantamiento){
+        $involucrados = $registro->levantamiento->involucrados($folio);
+            if($registro->levantamiento->sol){
+                if($involucrados){
+                    Mail::to($registro->levantamiento->sol->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'REANUDAR'));
+                }
+            }
+        } 
+>>>>>>> versionprod
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         #dd($email->correo);
     }
@@ -256,15 +277,26 @@ class MenuController extends Controller
     }
     public function posponer($folio,$id_motivo,$id_estatus){
         $registro = registro::where('folio',$folio)->first();
+<<<<<<< HEAD
         $involucrados = $registro->levantamiento->involucrados($folio);
+=======
+>>>>>>> versionprod
         pausa::create([
             'folio'=> $folio,
             'pausa'=> '2',
             'id_motivo'=>$id_motivo,
             'id_estatus'=>$id_estatus
         ]);
+<<<<<<< HEAD
         if($registro->levantamiento->sol){
             Mail::to($registro->levantamiento->sol->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'POSPUESTO'));
+=======
+        if($registro->levantamiento){
+            $involucrados = $registro->levantamiento->involucrados($folio);
+            if($registro->levantamiento->sol){
+                Mail::to($registro->levantamiento->sol->email)->cc($involucrados->pluck('email'))->send(new Fase($folio, 'POSPUESTO'));
+            } 
+>>>>>>> versionprod
         }
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         #dd($email->email);

@@ -19,6 +19,10 @@ use App\Models\registro;
 use App\Models\ronda;
 use App\Models\sistema;
 use App\Models\solpri;
+<<<<<<< HEAD
+=======
+use App\Models\User;
+>>>>>>> versionprod
 use App\Models\usr_data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -139,10 +143,23 @@ class ClienteController extends Controller
     {
         $archivos = archivo::where('folio',Crypt::decrypt($folio))->get();
         $comentarios = comentario::where('folio',Crypt::decrypt($folio))->get();
+<<<<<<< HEAD
         $clases = clase::all(); 
         $desfases = desfase::all();
         $estatus = estatu::orderby('posicion','asc')->get();
         $flujo = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'like', '%Flujo de trabajo%')->count();
+=======
+        $clases = clase::all();
+        $cliente = Cliente::all();
+        $desfases = desfase::all();
+        $estatus = estatu::orderby('posicion','asc')->get();
+        #$flujo = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'like', '%Flujo%')->Orwhere('ur', 'like', '%Prototipo%')->count();
+        $flujo = archivo::where('folio', Crypt::decrypt($folio))
+            ->where(function($query) {
+                $query->where('url', 'like', '%Flujo%')
+                    ->orWhere('url', 'like', '%Prototipo%');
+            })->count();
+>>>>>>> versionprod
         $formatos = levantamiento::where('folio',Crypt::decrypt($folio))->count();
         $mesas = mesa::where('folio',Crypt::decrypt($folio))->get();
         $pausa = pausa::select('r.folio',pausa::raw('ifnull(max(pausas.pausa),0) as pausa'),'d.motivo')
@@ -151,6 +168,10 @@ class ClienteController extends Controller
           ->where('r.folio',Crypt::decrypt($folio))
           ->groupby('r.folio')
           ->first();
+<<<<<<< HEAD
+=======
+        $proyectos = registro::where('folio', 'like', 'PR-PIP%')->get();
+>>>>>>> versionprod
         $registros= registro::where('registros.folio',Crypt::decrypt($folio))->first();
         $reg = planeacion::where('folio',Crypt::decrypt($folio))->exists();
         $retrasos = DB::table('pausas as p')
@@ -162,12 +183,23 @@ class ClienteController extends Controller
             ->leftJoin('desfases as d', 'd.id', '=', 'p.id_motivo')        
           ->where('folio', Crypt::decrypt($folio))
           ->get();
+<<<<<<< HEAD
         $cancelar = motivo::all();
         $def_ver = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'LIKE', '%Definición%')->get();
         $testers = usr_data::where('id_departamento', 37)->get();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
         return view('cliente.documentacion',compact('archivos','cancelar','clases','comentarios','desfases','estatus','flujo','folio','formatos','link', 'mesas','pausa','registros','retrasos','rondas','testers','def_ver'));
+=======
+        $responsable = User::activos()->orderby('nombre', 'asc')->get();
+        $cancelar = motivo::all();
+        $def_ver = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'LIKE', '%Definición%')->get();
+        $testers = usr_data::where('id_departamento', 37)->get();
+        $sistema = sistema::all();
+        if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
+        $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
+        return view('cliente.documentacion',compact('archivos','cancelar','clases','cliente','comentarios','desfases','estatus','flujo','folio','formatos','link', 'mesas','pausa','proyectos','registros','retrasos','responsable','rondas','testers','sistema','def_ver'));
+>>>>>>> versionprod
         #dd(Crypt::decrypt($folio) );
     }
 

@@ -34,6 +34,7 @@ class ImplementacionController extends Controller
    * Show the form for creating a new resource.
    *
    * @return \Illuminate\Http\Response
+<<<<<<< HEAD
    */
   public function create(request $data){ 
     $estatus = registro::where('folio', $data->folio)->first();
@@ -90,12 +91,77 @@ class ImplementacionController extends Controller
     if($verificar == 0){
       implementacion::create([
         'folio' => $data['folio'],
+=======
+   */public function create(Request $data) {
+    // Obtiene el registro por folio
+    $estatus = registro::where('folio', $data->folio)->first();
+    $data['id_estatus'] = $data['id_estatus'] ?? 2;
+
+    // Si el estatus es distinto de NULL, verifica los archivos adjuntos
+    if ($data['id_estatus'] != 2) {
+      $archivos = Archivo::where('folio', $data['folio'])->get();
+      $requiredKeyword = 'acta de cierre';
+      $keywordFound = $archivos->contains(function($archivo) use ($requiredKeyword) {
+        return str_contains(mb_strtolower($archivo->url), $requiredKeyword);
+      });
+
+      if (!$keywordFound) {
+        Session::flash('error', "No se ha adjuntado el archivo: " . strtoupper($requiredKeyword));
+        return redirect()->back();
+      }
+
+      $email = $estatus->levantamiento->sol->email;
+      if ($email) {
+        try {
+          $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $email);
+          $datos = $notificacionUserA->json();
+          $idSC = $datos['idUsuario'];
+          $message = 'Hola! Te informamos que el requerimiento con folio ' . $data->folio . ' se ha implementado. ~' . route("Archivo", Crypt::encrypt($data->folio)) . '~. Gracias.';
+          $notificacionController = new NotificacionController();
+          $notificacionController->stnotify($idSC, $message);
+          
+          $coordinacionEmails = usr_data::select('email')
+              ->leftJoin('users as u', 'u.id', 'usr_data.id_user')
+              ->leftJoin('puestos as p', 'p.id_puesto', 'usr_data.id_puesto')
+              ->leftJoin('accesos as a', 'usr_data.id_user', 'a.id_user')
+              ->whereIn('jerarquia', [2, 3, 7])
+              ->where('a.id_sistema', $data['id_sistema'])
+              ->where(function ($query) {
+                  $query->where('usr_data.id_area', '!=', '12')->orWhere('jerarquia', '7');
+            })
+            ->pluck('email');
+          
+          Mail::to($email)->cc($coordinacionEmails)->send(new Fase($data->folio, $data['id_estatus']));
+        } catch (\Exception $e) {
+          // Manejo de errores si la API o el envío de correo falla
+          Session::flash('error', 'Error en el envío de notificaciones: ' . $e->getMessage());
+          return redirect()->back();
+        }
+      }
+    }
+
+    // Validación de fecha de implementación
+    $fechaInicioLib = liberacion::where('folio', $data['folio'])->value('inicio_lib');
+    if ($fechaInicioLib) {
+      $this->validate($data, ['f_implementacion' => "required|date|after_or_equal:$fechaInicioLib"]);
+    }
+
+    // Preparar datos de implementación
+    $f_implementacion = $data['f_implementacion'] ? date("y/m/d", strtotime($data['f_implementacion'])) : NULL;
+    $data['cronograma'] = $data['cronograma'] ?? 0;
+
+    // Inserta o actualiza implementación
+    $implementacion = implementacion::updateOrCreate(
+      ['folio' => $data['folio']],
+      [
+>>>>>>> versionprod
         'cronograma' => $data['cronograma'],
         'link_c' => $data['link_c'],
         'f_implementacion' => $f_implementacion,
         'estatus_f' => $data['estatus_f'],
         'seguimiento' => $data['seguimiento'],
         'comentarios' => $data['comentarios'],
+<<<<<<< HEAD
       ]);
     }
     else{
@@ -117,6 +183,16 @@ class ImplementacionController extends Controller
     #dd($update);
 
   }
+=======
+      ]
+    );
+    // Actualizar el estatus del registro
+    $estatus->id_estatus = $data['id_estatus'];
+    $estatus->save();
+
+    return redirect(route('Documentos', Crypt::encrypt($data['folio'])));
+}
+>>>>>>> versionprod
 
   /**
    * Store a newly created resource in storage.

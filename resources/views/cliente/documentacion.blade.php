@@ -4,29 +4,60 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
   <script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+<<<<<<< HEAD
   @if (session('rechazo'))
     <input class="d-none" id="folio" value="{{ session('respuesta') }}">
     <script>
       $(document).ready(function(){
         toastr.danger(
           $("#folio").val(),
+=======
+  @if(Cookie::has('rechazo'))
+    <script>
+      $(document).ready(function(){
+        toastr.error(
+          "{{ Cookie::get('rechazo') }}",
+>>>>>>> versionprod
           "¡Guardado!",
           { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
         );
       });
     </script>
   @endif
+<<<<<<< HEAD
   @if (session('autorizado'))
     <input class="d-none" id="folio" value="{{ session('respuesta') }}">
     <script>
       $(document).ready(function(){
         toastr.success(
           $("#folio").val(),
+=======
+  @if (Cookie::has('autorizado'))
+    <script>
+      $(document).ready(function(){
+        toastr.success(
+          "{{ Cookie::get('autorizado') }}",
+>>>>>>> versionprod
           "¡Guardado!",
           { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
         );
       });
     </script>
+<<<<<<< HEAD
+=======
+  @endif  
+  @if (session('fail'))
+    <input class="d-none" id="fail" value="{{ session('fail') }}">
+    <script>
+      $(document).ready(function(){
+        toastr.error(
+          $("#fail").val(),
+          "Error!",
+          { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+        );
+      });
+    </script>
+>>>>>>> versionprod
   @endif
   <div class="row">
     <div class="col-lg-12">
@@ -34,14 +65,30 @@
         <div class="card-body wizard-content">
           <div class="form-group row">
             <div class="col-md-6">
+<<<<<<< HEAD
               <input id="folio" name="folio" type="text" class="required form-control  @error ('folio') is-invvalid @enderror" readonly="readonly" value="{{$registros->folio}}"> 
             </div>
             <div class="col-md-6">
               <input name="descripcion" type="text" class="required form-control" readonly="readonly" value="{{$registros->descripcion}}">
+=======
+              <div class="form-control d-flex justify-content-between align-items-center">
+                <span id="folio">{{$registros->folio}}</span>
+                <a class="btn btn-info text-white font-weight-lighter {{Auth::user()->usrdata->puesto->jerarquia}} @if(Auth::user()->usrdata->puesto->jerarquia < '3') d-none @endif" data-bs-toggle="modal" data-bs-target="#registro-modal">
+                  <i data-feather="edit-2" class="feather-sm" style="width: 8px; height: 8px;"></i>
+                </a>
+                @include('formatos.requerimientos.desplegables.registro')
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div id="descripcion" class="form-control d-flex justify-content-between align-items-center">
+                <span>{{$registros->descripcion}}</span>
+              </div>
+>>>>>>> versionprod
             </div>
           </div>
           <div class="progress mt-3">
             <div class="progress-bar progress-bar-striped progress-bar-animated {{ $registros->pausa ?  'bg-cyan': 'bg-danger'}}"
+<<<<<<< HEAD
               @switch($registros->id_estatus)
                   @case(17)
                     style="width:10%"
@@ -72,11 +119,16 @@
                     @break
                   @default
               @endswitch>
+=======
+              style="width:{{$registros->estatus->posicion*100/($estatus->count()-10)}}%"
+              >
+>>>>>>> versionprod
             </div>
           </div>
           <div class="d-flex no-block align-items-center">
             <div class="ms-start col-3">
               <span @if($pausa->pausa == 2) class="text-danger" @endif>
+<<<<<<< HEAD
                 @switch($registros->id_estatus)
                   @case(17)
                     10% 
@@ -107,6 +159,9 @@
                     @break
                   @default
                 @endswitch
+=======
+                {{ floor($registros->estatus->posicion * 100 / ($estatus->count() - 10)) }}%
+>>>>>>> versionprod
                 @if($pausa->pausa == 2)Motivo: {{$pausa->motivo}} @else Avance @endif
               </span>
             </div>
@@ -163,6 +218,7 @@
                       <strong>
                         @switch($registros->estatus->posicion)
                           @case(6)
+<<<<<<< HEAD
                             @if($registros->levantamiento->fechades == NULL)
                               DESARROLLO
                             @elseif($registros->levantamiento->impacto == 3)
@@ -180,11 +236,30 @@
                             DESARROLLO
                             @break
                           @case(9)
+=======
+                            @if(is_null($registros->levantamiento->fechades) || $registros->levantamiento->impacto == 3)
+                                DESARROLLO
+                            @elseif($registros->levantamiento->impacto == 2)
+                                DESARROLLO/PIP
+                            @else
+                                PIP
+                            @endif
+                            @break
+                          @case(7)
+                          @case(8)
+                          @case(9)
+                            DESARROLLO
+                            @break
+                          @case(10)
+>>>>>>> versionprod
                             TESTING
                             @break
                           @default
                             PIP
+<<<<<<< HEAD
                             @break  
+=======
+>>>>>>> versionprod
                         @endswitch
                       </strong>
                     </a>
@@ -318,7 +393,11 @@
                             <div class="ms-3">
                               <span class="text-dark font-weight-medium">CONSTRUCCIÓN</span>
                               @foreach ($estatus as $limite)
+<<<<<<< HEAD
                                 @if(($limite->posicion > 5) and ($limite->posicion < 9) and ($limite->posicion != NULL))
+=======
+                                @if(($limite->posicion > 5) and ($limite->posicion < 10) and ($limite->posicion != NULL))
+>>>>>>> versionprod
                                   <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                     <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                     <div class="position-absolute end-0">
@@ -331,10 +410,22 @@
                                             @break
                                           @case(7)
                                             @if($registros->plan)
+<<<<<<< HEAD
                                               {{date("d/M/y",strtotime($registros->plan->fechaCompReqR))}}
                                             @endif
                                             @break
                                           @case(8)
+=======
+                                              <!--{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}-->
+                                            @endif
+                                            @break
+                                          @case(8)
+                                            @if($registros->plan)
+                                              {{date("d/M/y",strtotime($registros->plan->fechaCompReqR))}}
+                                            @endif
+                                            @break
+                                          @case(9)
+>>>>>>> versionprod
                                             @if($registros->construccion)
                                               {{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}
                                             @endif
@@ -363,6 +454,22 @@
                                       </div>
                                     @endif
                                   @endforeach
+<<<<<<< HEAD
+=======
+                                  @if($registros->estatus->posicion == 7 && $limite->posicion == 6 && ($archivos->contains(fn($archivo) => stripos($archivo->url, 'Flujo') !== false || stripos($archivo->url, 'Prototipo') !== false)))
+                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                      <span class="fs-2 text-muted">
+                                        <a class="text-warning">Archivo enviado a desarrollo</a>
+                                      </span>
+                                    </div>
+                                  @elseif($registros->estatus->posicion == 7 && $limite->posicion == 6)
+                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                      <span class="fs-2 text-muted">
+                                        <a class="text-danger">En espera de Flujo o Prototipo</a>
+                                      </span>
+                                    </div>
+                                  @endif
+>>>>>>> versionprod
                                 @endif
                               @endforeach
                             </div>
@@ -378,7 +485,11 @@
                         </div>
                       </div>
                     @endif
+<<<<<<< HEAD
                     @if ($registros->estatus->posicion > 8)
+=======
+                    @if ($registros->estatus->posicion > 9)
+>>>>>>> versionprod
                       <div class="feed-item mb-2 py-2 pe-3 ps-4">
                         <div class="border-start border-2 border-success d-md-flex">
                           <div class="d-flex align-items-start">
@@ -388,14 +499,24 @@
                             <div class="ms-3">
                               <span class="text-dark font-weight-medium">LIBERACIÓN</span>
                               @foreach ($estatus as $limite)
+<<<<<<< HEAD
                                 @if(($limite->posicion > 8) and ($limite->posicion < 11) and ($limite->posicion != NULL))
+=======
+                                @if(($limite->posicion > 9) and ($limite->posicion < 12) and ($limite->posicion != NULL))
+>>>>>>> versionprod
                                   <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                     <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                     <div class="position-absolute end-0">
                                       <span class="fs-2 text-muted">
+<<<<<<< HEAD
                                         @if($registros->liberacion && $registros->liberacion->fecha_lib_r && $limite->posicion == 9)
                                           {{date("d/M/y",strtotime($registros->liberacion->fecha_lib_r))}}
                                         @elseif($registros->liberacion && $registros->liberacion->inicio_lib && $limite->posicion == 10)
+=======
+                                        @if($registros->liberacion && $registros->liberacion->fecha_lib_r && $limite->posicion == 10)
+                                          {{date("d/M/y",strtotime($registros->liberacion->fecha_lib_r))}}
+                                        @elseif($registros->liberacion && $registros->liberacion->inicio_lib && $limite->posicion == 11)
+>>>>>>> versionprod
                                           {{date("d/M/y",strtotime($registros->liberacion->inicio_lib))}}
                                         @endif
                                       </span>
@@ -420,7 +541,11 @@
                                       </div>
                                     @endif
                                   @endforeach
+<<<<<<< HEAD
                                   @if(($limite->posicion == 10))
+=======
+                                  @if(($limite->posicion == 11))
+>>>>>>> versionprod
                                     @if($datosRonda = $registros->liberacion ? $registros->liberacion->obtenerDatosRonda($registros->folio) : '')
                                       <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                         <span class="fs-2 text-info">RONDAS</span>
@@ -452,7 +577,11 @@
                         </div>
                       </div>
                     @endif
+<<<<<<< HEAD
                     @if ($registros->estatus->posicion > 10)
+=======
+                    @if ($registros->estatus->posicion > 12)
+>>>>>>> versionprod
                       <div class="feed-item mb-2 py-2 pe-3 ps-4">
                         <div class="border-start border-2 border-orange d-md-flex">
                           <div class="d-flex align-items-start">
@@ -464,7 +593,11 @@
                                 IMPLEMENTACIÓN
                               </span>
                               @foreach ($estatus as $limite)
+<<<<<<< HEAD
                                 @if(($limite->posicion == 11) and ($limite->posicion != NULL))
+=======
+                                @if(($limite->posicion == 12) and ($limite->posicion != NULL))
+>>>>>>> versionprod
                                   <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                     <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                     <div class="position-absolute end-0">
@@ -553,6 +686,14 @@
                         @break
                         @case(6)
                           <a href="{{route('Mesa',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-orange">Mesa de trabajo</a>
+<<<<<<< HEAD
+=======
+                          @if(!$registros->id_tester)
+                            @if((Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7'))
+                              <button id="btn" type="button" class="btn btn-outline-orange" data-bs-toggle="modal" data-bs-target="#Tester">Asignar tester</button> 
+                            @endif
+                          @endif
+>>>>>>> versionprod
                           @if($registros->levantamiento->impacto == 1)
                             @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
                               <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
@@ -570,6 +711,19 @@
                           @endif
                         @break
                         @case(7)
+<<<<<<< HEAD
+=======
+                          @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
+                            <a data-bs-toggle="modal" data-bs-target="#Auto2" type="button" class="btn btn-outline-purple">Enviar Flujo a desarrollo</a>
+                          @endif
+                          @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
+                              @if ($flujo)
+                                <a data-bs-toggle="modal" data-bs-target="#Flujo" type="button" class="btn btn-outline-orange">Autorizar flujo</a>
+                              @endif
+                          @endif
+                        @break
+                        @case(8)
+>>>>>>> versionprod
                           @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7') 
                             @if($registros->levantamiento->fecha_def == null)
                               <a href="{{route('Mesa',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-orange">Mesa de trabajo</a>
@@ -589,13 +743,18 @@
                             @endif
                           @endif
                         @break
+<<<<<<< HEAD
                         @case(8)
+=======
+                        @case(9)
+>>>>>>> versionprod
                           @if ($registros->levantamiento->fechades == null)
                             <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
                           @elseif(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
                             <a href="{{route('Construccion',Crypt::encrypt($registros->folio))}}" id="" type="button" class="btn btn-outline-purple">Construcción</a>
                           @endif
                         @break
+<<<<<<< HEAD
                         @case(9)
                           @if($registros->id_tester)
                             @if(Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')
@@ -603,23 +762,45 @@
                             @endif
                           @else
                             @if((Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7'))
+=======
+                        @case(10)
+                          @if($registros->id_tester)
+                            @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')
+                              <a href="{{route('PruebasTesting',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Pruebas Testing</a>
+                            @endif
+                          @else
+                            @if((Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7'))
+>>>>>>> versionprod
                               <button id="btn" type="button" class="btn btn-outline-orange" data-bs-toggle="modal" data-bs-target="#Tester">Asignar tester</button> 
                             @endif
                           @endif
                         @break
+<<<<<<< HEAD
                         @case(10)
+=======
+                        @case(11)
+>>>>>>> versionprod
                           @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
                             <a href="{{route('Liberacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Liberación</a>
                           @endif
                         @break
+<<<<<<< HEAD
                         @case(11)
+=======
+                        @case(12)
+>>>>>>> versionprod
                           @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
                             <a href="{{route('Implementacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Implementación</a>
                           @endif
                         @break
                         @case(18)
+<<<<<<< HEAD
                       @endswitch
                       @if((Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7') && ($registros->estatus->posicion > 6 && $registros->levantamiento->fecha_def) && $registros->estatus->posicion < 9 && !$registros->rtest)
+=======
+                      @endswitch <!--(Auth::user()->usrdata->id_departamento == '37' || Auth::user()->usrdata->id_puesto == '7')-->
+                      @if((Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7') && ($registros->estatus->posicion > 6 && $registros->levantamiento->fecha_def) && $registros->estatus->posicion < 9 && !$registros->rtest)
+>>>>>>> versionprod
                         <button id="btn" type="button" class="btn btn-outline-orange" data-bs-toggle="modal" data-bs-target="#Tester">Asignar tester</button> 
                       @endif
                     @endif
@@ -714,7 +895,11 @@
                         <i class="feather-sm" data-feather="download-cloud"></i>
                       </a>
                       @if(Auth::user()->usrdata->id_departamento != 35)
+<<<<<<< HEAD
                         <a id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" class="btn waves-effect waves-light btn-outline-danger delete">
+=======
+                        <a id="{{$archivo->id}}" class="btn waves-effect waves-light btn-outline-danger delete">
+>>>>>>> versionprod
                           <i class="feather-sm" data-feather="trash-2"></i>
                         </a>
                       @endif
@@ -757,7 +942,11 @@
             @endif
             <div class="col-md-12">
               @foreach($archivos as $archivo)
+<<<<<<< HEAD
               @if (Str::contains($archivo->url, 'COMPLEMENTOS'))
+=======
+                @if (Str::contains($archivo->url, 'COMPLEMENTOS'))
+>>>>>>> versionprod
                   <form id="{{$loop->iteration}}" method="POST" enctype="multipart/form-data" id="myAwesomeDropzone">
                     <div class="d-flex align-items-center">
                       <div class="icon"><i class="feather-sm" data-feather="file"></i></div>
@@ -768,7 +957,11 @@
                         <i class="feather-sm" data-feather="download-cloud"></i>
                       </a>
                       @if(Auth::user()->usrdata->id_departamento != 35)
+<<<<<<< HEAD
                         <a id="{{pathinfo($archivo->url, PATHINFO_FILENAME)}}" class="btn waves-effect waves-light btn-outline-danger delete">
+=======
+                        <a id="{{$archivo->id}}" class="btn waves-effect waves-light btn-outline-danger delete">
+>>>>>>> versionprod
                           <i class="feather-sm" data-feather="trash-2"></i>
                         </a>
                       @endif
@@ -931,6 +1124,7 @@
   
   <script type="text/javascript">
     $(document).ready(function() {
+<<<<<<< HEAD
         var folio = $('#folio').val();
       $('.delete').on('click', function(e) {
         e.preventDefault();
@@ -941,13 +1135,29 @@
           headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
           type: "DELETE",
           url: "file.borrar."+name+"."+folio,
+=======
+      var folio = $('#folio').text().trim();
+      $('.delete').on('click', function(e) {
+        e.preventDefault();
+        var parent = $(this).parent().parent().attr('id');
+        var id = $(this).attr('id');
+        var dataString = 'item='+id;        
+        $.ajax({
+          headers:{'X-CSRF-TOKEN' : "{{csrf_token()}}"},
+          type: "DELETE",
+          url: "file.borrar."+id,
+>>>>>>> versionprod
           success: function(response) {
             $('#'+parent).hide("slow");
           }               
         });
       }); 
       $('.link').on('click', function(){
+<<<<<<< HEAD
         var link = $('#evidencia').val();
+=======
+        var link = $('#evidencia').val().trim();
+>>>>>>> versionprod
         $.ajax({
             headers: {'X-CSRF-TOKEN' : "{{csrf_token()}}"},
             type: 'POST',

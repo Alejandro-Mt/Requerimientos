@@ -23,6 +23,7 @@
             <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
             <h3 class="text-white">CONSTRUCCIÓN</h3>
         </div>
+<<<<<<< HEAD
         <section>
             <div class="row">
                 <div class="col-md-12">
@@ -128,6 +129,8 @@
             </div>-->
             <!-- END MODAL -->
         </section>
+=======
+>>>>>>> versionprod
         <div class="card-body wizard-content">
             <div class="row mb-3">
                 <div class="col-lg-10">
@@ -252,11 +255,17 @@
         $(document).ready(function () {
             $('#id_estatus').on('click', function () {
                 if ($(this).is(':checked')) {
+<<<<<<< HEAD
                 console.log($(this));
                     $('#next').removeAttr('disabled');
                     $('#id_estatus').val('9');
                 } else {
                 console.log($(this));
+=======
+                    $('#next').removeAttr('disabled');
+                    $('#id_estatus').val('1');
+                } else {
+>>>>>>> versionprod
                     $('#next').prop('disabled',true);
                     $('#id_estatus').val('11');
                 }

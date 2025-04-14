@@ -1,12 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
+<<<<<<< HEAD
 <link rel="stylesheet" type="text/css" href="{{asset("vendor/bootstrap/css/bootstrap.min.css")}}">
+=======
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{asset("vendor/bootstrap/css/bootstrap.min.css")}}">
+<link href="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.css")}}" rel="stylesheet" />
+<script src="{{asset("assets/extra-libs/toastr/dist/build/toastr.min.js")}}"></script>
+@if (Cookie::has('autorizado'))
+  <script>
+    $(document).ready(function(){
+      toastr.success(
+        "{{ Cookie::get('autorizado') }}",
+        "¡Guardado!",
+        { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+      );
+    });
+  </script>
+@endif 
+@if(Cookie::has('rechazo'))
+  <script>
+    $(document).ready(function(){
+      toastr.error(
+        "{{ Cookie::get('rechazo') }}",
+        "¡Guardado!",
+        { showMethod: "slideDown", hideMethod: "slideUp", timeOut: 2000 }
+      );
+    });
+  </script>
+@endif
+>>>>>>> versionprod
   <div class="main-wrapper">
     <!-- -------------------------------------------------------------- -->
     <!-- Login box.scss -->
     <!-- -------------------------------------------------------------- -->
+<<<<<<< HEAD
     <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-image">
+=======
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-image" style="background: url({{asset('assets/images/bg_log_in.png')}}) no-repeat center center">
+>>>>>>> versionprod
       <div class="auth-box card">
         <div id="loginform">
           <div class="logo">
@@ -117,6 +150,7 @@
     <!-- Login box.scss -->
     <!-- -------------------------------------------------------------- -->
   </div>
+<<<<<<< HEAD
   <style>
     .bg-image {
       background: url('{{asset('assets/images/bg_log_in.png')}}') no-repeat center center;
@@ -126,6 +160,8 @@
     }
   </style>
   
+=======
+>>>>>>> versionprod
 @endsection 
 
 

@@ -8,6 +8,7 @@
             <!--<h5 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h5>-->
             <h3 class="text-white">CONSTRUCCIÓN</h3>
         </div>
+<<<<<<< HEAD
         <section>
             <div class="row">
                 <div class="col-md-12">
@@ -109,6 +110,8 @@
             </div>
             <!-- END MODAL -->
         </section>
+=======
+>>>>>>> versionprod
         <div class="card-body wizard-content">
             <h3>Desarrollo</h3>
             <p>(*) Campos Obligatorios</p>

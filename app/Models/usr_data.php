@@ -23,7 +23,12 @@ class usr_data extends Model
         'external_id',
         'remember_token',
         'token_google',
+<<<<<<< HEAD
         'id_sc'
+=======
+        'id_sc',
+        'activo'
+>>>>>>> versionprod
     ];
 
     // Define la relación belongsTo con el modelo Rol
