@@ -2,22 +2,16 @@
 
 namespace App\Providers;
 
-<<<<<<< HEAD
-=======
 use App\Models\Cliente;
 use App\Models\estatu;
 use App\Models\registro;
 use App\Models\sistema;
 use App\Models\User;
->>>>>>> versionprod
 use Illuminate\Pagination\Paginator; 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Schema;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\URL;
-=======
->>>>>>> versionprod
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,10 +37,9 @@ class AppServiceProvider extends ServiceProvider
         if (env('REDIRECT_HTTPS')) {
             $url->formatScheme('https://');
         }
-<<<<<<< HEAD
+
         Paginator::useBootstrap();
         //URL::forceScheme('https');
-=======
 
         Paginator::useBootstrap();
         // Cargar los datos que quieres compartir globalmente
@@ -60,6 +53,5 @@ class AppServiceProvider extends ServiceProvider
         view()->share('cl', $cl);
         view()->share('s', $s);
         view()->share('status', $status);
->>>>>>> versionprod
     }
 }
