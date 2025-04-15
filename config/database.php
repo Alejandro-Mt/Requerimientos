@@ -30,17 +30,10 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-<<<<<<< HEAD
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
-=======
-            'host' => env('DB_HOST', ''),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', ''),
-            'username' => env('DB_USERNAME', ''),
->>>>>>> versionprod
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
@@ -54,10 +47,7 @@ return [
                 'NO_ZERO_IN_DATE',
                 'NO_ZERO_DATE',
                 'ERROR_FOR_DIVISION_BY_ZERO',
-<<<<<<< HEAD
-=======
                 //'NO_AUTO_CREATE_USER',
->>>>>>> versionprod
                 'NO_ENGINE_SUBSTITUTION'
                 ],
             'engine' => null,
@@ -104,11 +94,8 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-<<<<<<< HEAD
+
             'prefix' => env('REDIS_PREFIX', Str::slug(env('SMART PLANNER', 'APP_NAME'), '_').'_database_'),
-=======
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('Triple I', 'APP_NAME'), '_').'_database_'),
->>>>>>> versionprod
         ],
 
         'default' => [

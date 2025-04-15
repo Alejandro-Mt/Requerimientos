@@ -278,7 +278,3 @@
         }
     }
 </script>
-<<<<<<< HEAD
-
-=======
->>>>>>> versionprod

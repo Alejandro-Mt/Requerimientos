@@ -92,23 +92,15 @@
                             <label for="seguimiento"
                                 class="col-sm-2 text-end control-label col-form-label">Seguimiento</label>
                             <div class="col-md-8">
-<<<<<<< HEAD
-                                <input type="text" class="required form-control" name="seguimiento" placeholder="Presenta Fallas?">
-=======
                                 <input type="text" class="required form-control" name="seguimiento" placeholder="Presenta Fallas?" value="{{ $registros->implementacion ? ($registros->implementacion->seguimiento ?? '') : ''}}">
->>>>>>> versionprod
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="comentarios"
                                 class="col-sm-2 text-end control-label col-form-label">Comentarios</label>
                             <div class="col-md-8">
-                                <input type="text" class="required form-control" 
-<<<<<<< HEAD
-                                    name="comentarios" placeholder="Hasta 250 caracteres">
-=======
+                                <input type="text" class="required form-control"
                                     name="comentarios" placeholder="Hasta 250 caracteres" value="{{ $registros->implementacion ? ($registros->implementacion->comentarios ?? '') : ''}}">
->>>>>>> versionprod
                             </div>
                         </div>
                         <div class="form-group row">

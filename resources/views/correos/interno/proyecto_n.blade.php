@@ -14,8 +14,4 @@ Se ha consedido el acceso al proyecto **{{$titulo->descripcion}}**
 @endif
 <br>
 {{ config('app.name') }}
-<<<<<<< HEAD
 @endcomponent
-=======
-@endcomponent
->>>>>>> versionprod

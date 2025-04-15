@@ -121,14 +121,11 @@ class registro extends Model
         return $this->hasMany(pausa::class, 'folio', 'folio');
     }
 
-<<<<<<< HEAD
-=======
     public function pausado()
     {
         return $this->hasOne(pausa::class, 'folio', 'folio')->where('pausa', 2);
     }
 
->>>>>>> versionprod
     public function diasPospuesto()
     {
         return $this->pausa()->selectRaw('SUM(CASE WHEN pausa != 0 THEN CalcDias(created_at, CURDATE()) ELSE CalcDias(created_at, updated_at) END) as pospuesto')->first();

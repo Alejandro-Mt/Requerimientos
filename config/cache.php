@@ -105,10 +105,5 @@ return [
     |
     */
 
-<<<<<<< HEAD
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'SMART PLANNER'), '_').'_cache'),
-=======
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'Indicadores'), '_').'_cache'),
->>>>>>> versionprod
-
 ];

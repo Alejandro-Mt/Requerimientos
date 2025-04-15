@@ -62,8 +62,4 @@
       @endforeach
     </div>
   </div>
-<<<<<<< HEAD
 @endsection
-=======
-@endsection
->>>>>>> versionprod

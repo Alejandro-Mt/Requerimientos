@@ -11,8 +11,7 @@ ha cambiado su estatus a
 @elseif($estatus == 'REANUDAR')**REACTIVADO**
 @endif
 <br>
-<<<<<<< HEAD
-=======
+
 <tr>
 <td>
 Acceda a SMART PLANNER en caso de ser necesario
@@ -21,6 +20,5 @@ Acceda a SMART PLANNER en caso de ser necesario
         @endcomponent
 </td>
 </tr>
->>>>>>> versionprod
 {{ config('app.name') }}
 @endcomponent

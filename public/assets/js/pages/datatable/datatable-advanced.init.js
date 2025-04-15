@@ -207,8 +207,4 @@ $("#row_create_call").DataTable({
       $("td", row).eq(5).addClass("highlight");
     }
   },
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> versionprod

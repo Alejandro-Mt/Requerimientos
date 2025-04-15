@@ -40,8 +40,7 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrap();
         //URL::forceScheme('https');
-
-        Paginator::useBootstrap();
+        
         // Cargar los datos que quieres compartir globalmente
         $UsPIP = User::whereIn('id', registro::groupBy('id_responsable')->select('id_responsable'))->orderby('nombre', 'asc')->get();  // O cualquier consulta específica
         $cl = Cliente::orderby('nombre_cl', 'asc')->get();  // O cualquier consulta específica
