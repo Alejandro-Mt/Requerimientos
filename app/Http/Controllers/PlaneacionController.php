@@ -3,12 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\Cliente\DefinicionRequerimiento;
-<<<<<<< HEAD
-use App\Mail\Interno\notificacion_definicion;
-use App\Models\analisis;
-use App\Models\bitacora;
-use App\Models\cronograma;
-=======
+
 use App\Mail\Interno\Aut_f;
 use App\Mail\Interno\N_Flujo;
 use App\Mail\Interno\notificacion_definicion;
@@ -17,15 +12,11 @@ use App\Models\archivo;
 use App\Models\bitacora;
 use App\Models\cronograma;
 use App\Models\gatt;
->>>>>>> versionprod
 use App\Models\informacion;
 use App\Models\planeacion;
 use App\Models\registro;
 use App\Models\solicitud;
-<<<<<<< HEAD
-=======
 use App\Models\User;
->>>>>>> versionprod
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -99,11 +90,8 @@ class PlaneacionController extends Controller
                 $notificacionController->stnotify($idSC,$message);
                 Mail::to($registro->rpip->email)->send(new notificacion_definicion($data->folio));
             }
-<<<<<<< HEAD
-            if ($registro->solicitud) {
-=======
+
             /*if ($registro->solicitud) {
->>>>>>> versionprod
                 #$notificacionUserA = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$registro->solicitud->correo);
                 $notificacionUserA = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $registro->solicitud->correo);
                 if($notificacionUserA){
@@ -114,11 +102,8 @@ class PlaneacionController extends Controller
                     $notificacionController->stnotify($idSC,$message);
                 }
                 Mail::to($registro->solicitud->correo)->send(new DefinicionRequerimiento($data->folio));
-<<<<<<< HEAD
-            }
-=======
+
             }*/
->>>>>>> versionprod
         }
         if($data['desfase'] == '1'){
             $this->validate($data, ['motivodesfase' => "required"]);
@@ -223,8 +208,6 @@ class PlaneacionController extends Controller
         return redirect(route('Documentos',Crypt::encrypt($folio)));
     }
 
-<<<<<<< HEAD
-=======
  /* public function nflujo($folio){
     $registro       = registro::where('folio',$folio)->first();
     $user           = User::findOrFAil(Auth::user()->id);
@@ -303,7 +286,6 @@ class PlaneacionController extends Controller
     }
   }
 
->>>>>>> versionprod
     /**
      * Store a newly created resource in storage.
      *
@@ -321,14 +303,7 @@ class PlaneacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
-    public function show($folio)
-    {
-        $data['events'] = cronograma::select('titulo as title','inicio as start','fin as end','color as className')->where('folio',$folio)->get();
-        return response()->json($data['events']);
-    }
-        
-=======
+
     public function show($folio){
         $events = gatt::where('folio', $folio)->with('estatus')->get();
 
@@ -354,7 +329,6 @@ class PlaneacionController extends Controller
         return response()->json($data['start']);
     }
 
->>>>>>> versionprod
     public function range($folio)
     {
         $data['start'] = 

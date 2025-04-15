@@ -5,11 +5,7 @@
     <div class="card">
       <div class="el-card-item pb-3">
         <div class="el-card-avatar mb-3 el-overlay-1 w-100 overflow-hidden position-relative text-center">
-<<<<<<< HEAD
-          <object data="{{asset("assets/images/users/$proyecto->nombre_s.png")}}" type="image/png"  width="130" height="130">
-=======
           <object data="{{asset("assets/images/sistemas/$proyecto->nombre_s.png")}}" type="image/png"  width="130" height="130">
->>>>>>> versionprod
             <img src="{{asset("assets/images/new_logo_3ti.png")}}" alt="Sin imagen" class="d-block position-relative w-100" width="130" height="130">   
           </object> 
           <div class="el-overlay w-100 overflow-hidden">
@@ -35,8 +31,4 @@
     </div>
   </div>
   @endforeach
-<<<<<<< HEAD
 @endsection
-=======
-@endsection
->>>>>>> versionprod

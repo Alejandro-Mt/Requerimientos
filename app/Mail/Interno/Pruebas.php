@@ -30,15 +30,9 @@ class Pruebas extends Mailable
     public function build()
     {
         if($this->datos->estatus->posicion == 9){
-<<<<<<< HEAD
-            $subject = 'Fin de pruenas Testing';
-        } else{
-            $subject = 'Fin de pruenas PIP';
-=======
             $subject = 'Fin de pruebas Testing';
         } else{
             $subject = 'Fin de pruebas PIP';
->>>>>>> versionprod
         }
         $email = $this->markdown('correos.interno.pruebas')->subject($subject);
         return $email;

@@ -2,44 +2,27 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
 use App\Exports\RequerimientosExport;
->>>>>>> versionprod
 use App\Mail\Cliente\Fase;
 use App\Mail\Interno\NuevoProyecto;
 use App\Mail\Interno\Tester;
 use App\Models\bitacora;
-<<<<<<< HEAD
-use App\Models\levantamiento;
-=======
 use App\Models\pausa;
->>>>>>> versionprod
 use App\Models\registro;
 use App\Models\responsable;
 use App\Models\sistema;
 use App\Models\solicitud;
 use App\Models\solpri;
 use App\Models\User;
-<<<<<<< HEAD
-=======
 use App\Models\usr_data;
->>>>>>> versionprod
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use DateTime;
-<<<<<<< HEAD
-use Dflydev\DotAccessData\Data;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Mail;
-=======
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
->>>>>>> versionprod
 
 class RecordController extends Controller
 {
@@ -50,35 +33,13 @@ class RecordController extends Controller
         $proyectos = registro::where('folio', 'like', 'PR-PIP%')->get();
         #$id = registro::latest('id_registro')->first();
         $registros = registro::where('folio', 'like', 'PIP%')->count();
-<<<<<<< HEAD
-        $responsable = User::orderby('nombre', 'asc')->get();
-=======
         $responsable = User::activos()->orderby('nombre', 'asc')->get();
->>>>>>> versionprod
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         return view('formatos.requerimientos.new',compact('cliente','datos','proyectos','registros','responsable','sistema','vacio'));
         dd($proyectos);
     }
 
-<<<<<<< HEAD
-    /*public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'descripcion' => ['required', 'string', 'max:255'],
-            'id_responsable' => ['required', 'string', 'max:255'],
-            'id_sistema' => ['required', 'string', 'max:255'],
-            'id_cliente' => ['required', 'string', 'max:255'],
-        ]);
-    }*/
-
-=======
->>>>>>> versionprod
     protected function create(request $data){
         $y = new DateTime('NOW');
         $y = $y->format('y');
@@ -96,18 +57,9 @@ class RecordController extends Controller
                     $folio = "PR-PIP-$registros-$y";
                 }
             }
-<<<<<<< HEAD
-            $destino = 
-                db::
-                    table('users as u')->
-                    where('u.id_puesto','>',5)->get();
-            foreach($destino as $correo){ 
-                mail::to($correo->email)->send(new NuevoProyecto($data,$correo->nombre));
-=======
             $destino = usr_data::whereIn('id_puesto', [4, 5, 6, 7])->where('id_departamento', '=', 21)->get();
             foreach($destino as $correo){ 
                 mail::to($correo->user->email)->send(new NuevoProyecto($data,$correo->nombre));
->>>>>>> versionprod
             } 
         }
         else{
@@ -125,15 +77,12 @@ class RecordController extends Controller
                 }
             }
         }
-<<<<<<< HEAD
-=======
         if($data['preregistro'] != NULL){
             $update = solicitud::where('folio',$data['preregistro'])->first();
             $update->id_estatus= '21';
             $update->folior = $folio;
             $update->save();
         }
->>>>>>> versionprod
         registro::create([
             'folio' => $folio,
             'descripcion' => $data['descripcion'],
@@ -148,15 +97,6 @@ class RecordController extends Controller
             'folio_pr' => $data['folio_pr'],
             'es_emergente' => $data['es_em']
         ]);
-<<<<<<< HEAD
-        if($data['preregistro'] != NULL){
-            $update = solicitud::where('folio',$data['preregistro'])->first();
-            $update->id_estatus= '21';
-            $update->folior = $folio;
-            $update->save();
-        }
-=======
->>>>>>> versionprod
         $listado = solpri::where([['estatus', 'autorizado'],['id_cliente',$data['id_cliente']]])->orderby('id','desc')->first();
         if(($listado) != NULL){
             $listado->orden = $listado->orden.','.$folio;
@@ -174,63 +114,6 @@ class RecordController extends Controller
         #dd(($folio));
         return redirect(route('Nuevo'))->with('alert', $folio);
     }
-<<<<<<< HEAD
-    
-    public function update(Request $data, $folio)
-    {
-        $registro = registro::where('folio',$folio)->first();
-        $registro->id_estatus= 14;
-        $registro->motivo_can_id = $data['motivo'];
-        $email = levantamiento::join('users as s', 's.id', '=', 'levantamientos.id_solicitante')
-            ->where('folio', $folio)
-            ->select('s.email')
-            ->first();
-        $involucrados = DB::
-            table('responsables as res')->
-            join('levantamientos as lev', function ($join) {
-                $join->on(DB::raw('FIND_IN_SET(res.id_responsable, lev.involucrados)'), '>', DB::raw('0'));
-            })->
-            where('lev.folio', $folio)->
-            get();
-        $registro->save();
-        /* $gerencia = User::
-            join('puestos as p','p.id_puesto','users.id_puesto')
-            ->where('id_area', 6)
-            ->whereIn('jerarquia',[4,5])
-            ->select('email')
-            ->get();*/
-        if($involucrados){
-            Mail::to($email->email)->cc($involucrados->pluck('email'))->send(new Fase($folio,'14'));
-        }
-        return redirect(route('home'));
-    }
-
-  protected function tester(Request $data, $folio){
-    $user                   = User::FindORFail(Auth::user()->id);
-    $registro               = registro::where('folio',$folio)->first();
-    $registro->id_tester    = $data['id_tester'];
-    $registro->save();
-    $campo                  = 
-        bitacora::create([
-          'folio'         => $registro->folio,
-          'usuario'       => $user->getFullnameAttribute(),
-          'id_user'       => $user->id,
-          'campo'         => "Se asigna tester",
-          'id_estatus'    => $registro->id_estatus,
-        ]);
-    mail::to($registro->rtest->email)->send(new Tester($folio));
-    return redirect(route('Documentos',Crypt::encrypt($folio)));
-    ####  Notificaciones por ST desactivadas  ###
-    /*$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);
-    $datos = $notificacionUserC->json();
-    $idSC = $datos['idUsuario'];
-    $message = 'Hola! Te informamos que desarrollo ha designado la clase del requerimiento con folio '.$folio. '. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
-    $notificacionController = new NotificacionController();
-    $notificacionController->stnotify($idSC,$message); */
-  }
-
-}
-=======
 
     public function update(Request $data, $folio)
     {
@@ -330,4 +213,3 @@ class RecordController extends Controller
         return is_array($value) ? implode(',', $value) : $value;
     }
 }
->>>>>>> versionprod

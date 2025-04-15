@@ -99,12 +99,8 @@ use RegistersUsers;
         $update->id_division       = $data['id_division'];
         $update->id_area           = $data['id_area'];
         $update->id_departamento   = $data['id_departamento'];
-<<<<<<< HEAD
-        $update->id_puesto   = $data['id_puesto'];
-=======
         $update->id_puesto         = $data['id_puesto'];
         $update->activo = $data['activo'] ?? 0;
->>>>>>> versionprod
         $update->save();  
 
         

@@ -37,11 +37,7 @@ class PreregistroController extends Controller
         $estatus = estatu::all();
         $id = solicitud::latest('id')->first();
         $registros = solicitud::where('folio', 'like', 'PIP%')->count();
-<<<<<<< HEAD
-        $responsable = User::orderby('nombre', 'asc')->get();
-=======
         $responsable = User::activos()->orderby('nombre', 'asc')->get();
->>>>>>> versionprod
         $sistema = sistema::orderby('nombre_s', 'asc')->get();
         $vacio = solicitud:: select('*')->count();
         return view('formatos.requerimientos.preregistro.preregistro',compact('clases','cliente','estatus','id','registros','responsable','sistema','vacio'));
@@ -180,11 +176,7 @@ class PreregistroController extends Controller
         $estatus = estatu::all();
         $proyectos = registro::where('folio', 'like', 'PR-PIP%')->get();
         $registros = registro::where('folio', 'like', 'PIP%')->count();
-<<<<<<< HEAD
-        $responsable = User::orderby('nombre', 'asc')->get();
-=======
         $responsable = User::activos()->orderby('nombre', 'asc')->get();
->>>>>>> versionprod
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         return view('formatos.requerimientos.new',compact('clases','cliente','datos','estatus','proyectos','registros','responsable','sistema','vacio'));

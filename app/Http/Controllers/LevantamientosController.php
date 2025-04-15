@@ -30,11 +30,7 @@ class LevantamientosController extends Controller
         $areas = area::orderby('area', 'asc')->get();
         $departamentos = departamento::orderby('departamento', 'asc')->get();
         $registros = registro::where('id_registro', Crypt::decrypt($id_registro))->first();
-<<<<<<< HEAD
-        $responsables = User::orderby('nombre', 'asc')->get();
-=======
         $responsables = User::activos()->orderby('nombre', 'asc')->get();
->>>>>>> versionprod
         $sistemas = sistema::orderby('nombre_s', 'asc')->get();
         return view('formatos/requerimientos/formato',compact('sistemas','responsables','registros','departamentos','areas')); 
     }
@@ -138,11 +134,7 @@ class LevantamientosController extends Controller
         $areas = area::all();
         $departamentos = departamento::all();
         $registros = registro::where('id_registro', Crypt::decrypt($id_registro))->first();
-<<<<<<< HEAD
-        $responsables = User::orderby('nombre', 'asc')->get();
-=======
         $responsables = User::activos()->orderby('nombre', 'asc')->get();
->>>>>>> versionprod
         $sistemas = sistema::all();
         $levantamiento = levantamiento::findOrFail($registros->folio);
         $involucrados = explode(',',$levantamiento->involucrados);

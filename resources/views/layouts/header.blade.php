@@ -201,13 +201,10 @@
                 <span class="ms-1">Autorización a prioridades</span>
               </a>
             @endif
-<<<<<<< HEAD
-=======
             <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#report-reg">
               <i data-feather="clipboard" class="feather-sm me-1 ms-1"></i>
               Reporte
             </a>
->>>>>>> versionprod
             <!--<a class="dropdown-item" href="javascript:void(0)"><i class="ti-email me-1 ms-1"></i>Inbox</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings me-1 ms-1"></i> Account Setting</a>
@@ -230,8 +227,5 @@
     </div>
   </nav>
 </header>
-<<<<<<< HEAD
-=======
 
 @include('formatos.requerimientos.desplegables.reporte')
->>>>>>> versionprod

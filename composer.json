@@ -18,17 +18,11 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
         "laraveles/spanish": "^1.5",
-<<<<<<< HEAD
-        "mckenziearts/laravel-notify": "^2.2",
-        "monolog/monolog": "^2.9||^3.0",
-        "revolution/laravel-google-sheets": "^5.8"
-=======
         "maatwebsite/excel": "^3.0",
         "mckenziearts/laravel-notify": "^2.2",
         "monolog/monolog": "^2.9||^3.0",
         "revolution/laravel-google-sheets": "^5.8",
         "illuminate/support": "^8.0"
->>>>>>> versionprod
     },
     "require-dev": {
         "facade/ignition": "^2.5",

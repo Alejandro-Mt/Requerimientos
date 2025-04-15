@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
 use App\Mail\Cliente\DefinicionRequerimiento;
 use App\Mail\Interno\N_Flujo;
->>>>>>> versionprod
 use App\Mail\SegundaValidacion;
 use App\Mail\ValidacionCliente;
 use App\Mail\ValidacionRequerimiento;
@@ -93,32 +90,14 @@ class CorreoController extends Controller
     $notificacionUserC = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $fol->rpip->email);
     $datos = $notificacionUserC->json();
     $idSC = $datos['idUsuario'];
-<<<<<<< HEAD
-    if($levantamiento->fechaaut == NULL){ 
-=======
+
     if(is_null($levantamiento->fechaaut)){ 
->>>>>>> versionprod
       $levantamiento -> fechaaut = now();
       $levantamiento -> save();
       $message = 'Hola! Te informamos que el levantamiento del requerimiento con folio '.$folio. ' ha sido autorizado. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
       $notificacionController = new NotificacionController();
       $notificacionController->stnotify($idSC,$message);
-<<<<<<< HEAD
-      mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
-      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('autorizado', 'Se ha autorizado satisfactoriamente');
-    }else{
-      if($fol->id_estatus == 9 && $levantamiento->fecha_def == NULL){
-        $levantamiento -> fecha_def = now();
-        $levantamiento -> save();
-        $message = 'Hola! Te informamos que la definición del requerimiento con folio '.$folio. ' ha sido autorizada. ~'.route("Documentos",Crypt::encrypt($folio)).'~.  Gracias.';
-        $notificacionController = new NotificacionController();
-        $notificacionController->stnotify($idSC,$message);
-        mail::to($fol->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
-        mail::to($ct->email)->send(new ValidacionRequerimiento($folio));
-        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('autorizado', 'Se ha autorizado satisfactoriamente');
-      }else{
-        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'Ya ha sido autorizado');
-=======
+
       Mail::to($fol->rpip->email)->cc($involucrados->pluck('email'))->send(new ValidacionRequerimiento($folio));
       #session()->flash('autorizado', 'Se ha autorizado satisfactoriamente');
       return redirect(route('Documentos',Crypt::encrypt($folio)))->withCookie(cookie('autorizado', 'Se ha autorizado satisfactoriamente', 1));
@@ -140,7 +119,6 @@ class CorreoController extends Controller
       }else{
         #session()->flash('autorizado', 'Ya ha sido autorizado');
         return redirect(route('Documentos',Crypt::encrypt($folio)))->withCookie(cookie('autorizado', 'Ya ha sido autorizado', 1));
->>>>>>> versionprod
       }
     }
   }
@@ -164,20 +142,7 @@ class CorreoController extends Controller
       #dd($idSC,$message);
       $notificacionController = new NotificacionController();
       $notificacionController->stnotify($idSC,$message);
-<<<<<<< HEAD
-      mail::to($fol->rpip->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
-      return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'Se ha enviado la respuesta, gracias.');
-      #dd($correo->dispercion);  
-    }else{
-        if($hora->fecha_def == NULL){
-        $message = 'Hola! Te informamos que el documento de definición del requerimiento con folio '.$folio.'. ~'.route("Archivo",Crypt::encrypt($folio)).'~, ha sido rechazado. Gracias.';
-        $notificacionController = new NotificacionController();
-        $notificacionController->stnotify($idSC,$message);
-        mail::to($fol->rpip->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
-        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'Se ha enviado la respuesta, gracias.');   
-      }else{
-        return redirect(route('Documentos',Crypt::encrypt($folio)))->with('rechazo', 'El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
-=======
+
       Mail::to($fol->rpip->email)->cc($coordinacion->pluck('email'))->send(new ValidacionRequerimiento($folio));
       return redirect(route('Documentos',Crypt::encrypt($folio)))->withCookie(cookie('rechazo', 'Se ha enviado la respuesta, gracias.', 1));
       #dd($correo->dispercion);  
@@ -194,7 +159,6 @@ class CorreoController extends Controller
         return redirect(route('Documentos',Crypt::encrypt($folio)))->withCookie(cookie('rechazo', 'Se ha enviado la respuesta, gracias.', 1));   
       }else{
         return redirect(route('Documentos',Crypt::encrypt($folio)))->withCookie(cookie('rechazo', 'El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte.', 1));
->>>>>>> versionprod
         #return ('El folio ya ha sido autorizado, en caso de querer cancelarlo por favor contacte a soporte');
       }
     }
@@ -223,11 +187,7 @@ class CorreoController extends Controller
 
     // Los archivos requeridos existen, proceder con el envío de correo y actualización de estatus
     $cc = $involucrados->involucrados($form->folio)->pluck('email');
-<<<<<<< HEAD
-    mail::to($data->email)->cc($cc)->send(new ValidacionCliente($form->folio));
-=======
     Mail::to($data->email)->cc($cc)->send(new ValidacionCliente($form->folio));
->>>>>>> versionprod
     if (count(Mail::failures()) < 1) {
       $form->id_estatus = $data['id_estatus'];
       $form->save();
@@ -249,11 +209,7 @@ class CorreoController extends Controller
       $hora -> save();
       $clase -> id_clase = $data['id_clase'];
       $clase -> save();
-<<<<<<< HEAD
-      mail::to($correo->email)->cc($involucrados->pluck('email'))->send(new SegundaValidacion($folio));
-=======
       Mail::to($correo->rpip->email)->cc($involucrados->pluck('email'))->send(new SegundaValidacion($folio));
->>>>>>> versionprod
       #$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);
       $notificacionUserC = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $correo->rpip->email);
       $datos = $notificacionUserC->json();
@@ -269,29 +225,6 @@ class CorreoController extends Controller
   }
   
   public function segval ($folio){
-<<<<<<< HEAD
-      $registro = registro::select('id_estatus')->where('folio',$folio)->first();
-      $levantamiento = levantamiento::FindOrFail($folio);
-      switch($registro->id_estatus){
-          case 9: 
-              $levantamiento->fecha_def = now(); 
-              $levantamiento->save();
-          case 7:
-              $levantamiento->fechades = now(); 
-              $levantamiento->save();
-          break;
-          case 2:
-              $update = liberacion::FindOrFail($folio);
-              $update->evidencia_p = true; 
-              $update->save();
-          break;
-      }
-      return redirect(route('Documentos',Crypt::encrypt($folio)));
-      #return ($update);
-  }
-
-  function store(Request $data, $folio)
-=======
     $registro       = registro::where('folio',$folio)->first();
     $levantamiento  = levantamiento::FindOrFail($folio);
     $user           = User::findOrFAil(Auth::user()->id);
@@ -339,20 +272,12 @@ class CorreoController extends Controller
     #return ($update);
   }
   function validateAndRenameFile($fileName, $folio, $registro)
->>>>>>> versionprod
   {
       $validFileNames = [
           'matriz de pruebas',
           'acta de validación',
           'acta de cierre',
           'definición de requerimiento',
-<<<<<<< HEAD
-          'flujo de trabajo',
-          'mockup',
-          'plan de trabajo'
-      ];
-
-=======
           'mockup',
           'flujo',
           'prototipo',
@@ -392,8 +317,6 @@ class CorreoController extends Controller
 
   /*function store(Request $data, $folio)
   {
-
->>>>>>> versionprod
       $registro = registro::where('folio', $folio)->first();
       $definicion = archivo::where([
           ['folio', $folio],
@@ -413,13 +336,9 @@ class CorreoController extends Controller
         ])->first();
 
       if ($data->hasFile('adjunto')) {
-<<<<<<< HEAD
-          $rename = mb_strtolower($data->file('adjunto')->getClientOriginalName());
-=======
         $file = $data->file('adjunto');
         $rename = validateAndRenameFile($file->getClientOriginalName(), $folio, $registro, $matriz, $version, $definicion);
         #$rename = mb_strtolower($data->file('adjunto')->getClientOriginalName());
->>>>>>> versionprod
           foreach ($validFileNames as $validName) {
               if (stristr($rename, $validName)) {
                   break; // Salir del bucle al encontrar una coincidencia
@@ -428,19 +347,6 @@ class CorreoController extends Controller
               }
           }
           if (empty($rename)) {
-<<<<<<< HEAD
-              if ($registro->estatus->posicion == 10) {
-                  $rename = $matriz ? $folio . ' Acta de validación' : $folio . ' Matriz de pruebas';
-              } elseif ($registro->estatus->posicion == 11) {
-                  $rename = $folio . ' Acta de cierre';
-              } elseif (($registro->estatus->posicion == 6) || ($registro->estatus->posicion == 7 && !$registro->levantamiento->fecha_def)) {
-                  $rename = $folio . ' Definición de requerimiento';
-              } elseif ($registro->estatus->posicion == 7 && $registro->levantamiento->fecha_def) {
-                  $rename = $folio . ' Plan de trabajo';
-              } elseif ($registro->estatus->posicion == 4 || $registro->estatus->posicion == 5) {
-                  $rename = $folio . ' Gantt';
-              }
-=======
             if ($registro->estatus->posicion == 4 || $registro->estatus->posicion == 5) {
               $rename = $folio . ' Gantt';
             }elseif (($registro->estatus->posicion == 6) || ($registro->estatus->posicion == 8 && !$registro->levantamiento->fecha_def)) {
@@ -454,7 +360,6 @@ class CorreoController extends Controller
             } elseif ($registro->estatus->posicion == 12) {
                 $rename = $folio . ' Acta de cierre';
             } 
->>>>>>> versionprod
           }
           if ($version > 0 && $rename == $folio . ' Definición de requerimiento') {
               $originalName = pathinfo($definicion->url, PATHINFO_FILENAME);
@@ -476,19 +381,6 @@ class CorreoController extends Controller
           $files = Storage::putFileAs("public/$folio", $data->file('General'), $rename);
           archivo::create(['folio' => $folio, 'url' => "/storage/$folio/$rename"]);
       }
-<<<<<<< HEAD
-  }
-
-  public function destroy($name,$folio){
-      #$name = pathinfo($data->file, PATHINFO_FILENAME);
-      $archivo = archivo::where('url', 'like', '%' . $name . '%')->where('folio', $folio)->first();
-      
-          $file = str_replace('storage',"public",$archivo->url);
-          Storage::delete($file);
-          $archivo->delete();
-  }
-
-=======
   }*/
 
   function store(Request $data, $folio)
@@ -542,5 +434,4 @@ class CorreoController extends Controller
     Storage::delete($file);
     $archivo->delete();
   }
->>>>>>> versionprod
 }

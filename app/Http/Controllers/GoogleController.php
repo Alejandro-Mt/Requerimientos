@@ -1,20 +1,12 @@
 <?php
   
 namespace App\Http\Controllers;
-<<<<<<< HEAD
-  
-use Illuminate\Http\Request;
-=======
 
->>>>>>> versionprod
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
 use App\Models\usr_data;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Hash;
-=======
->>>>>>> versionprod
+
 use Illuminate\Support\Facades\Auth;
   
 class GoogleController extends Controller
@@ -64,29 +56,18 @@ class GoogleController extends Controller
                         'apaterno'=> $a_pat,
                         'amaterno' => $a_mat
                     ]);
-<<<<<<< HEAD
-                    usr_data::UpdateOrCreate([
-=======
                     usr_data::UpdateOrCreate(
->>>>>>> versionprod
                         ['id_user' => $newUser->id],
                         [
                             'id_area'        => 3,
                             'id_departamento'=> 35,
                             'id_division'    => 3,
                             'id_puesto'      => 1,
-<<<<<<< HEAD
-                            'token_google'   => $user->token,
-                            'activo'         => true
-                        ]
-                    ]);
-=======
                             'external_id'    => $user->id,
                             'token_google'   => $user->token,
                             'activo'         => true
                         ]
                     );
->>>>>>> versionprod
                 Auth::login($newUser);
                 return redirect(route('home'));
                 #dd($user->token);
