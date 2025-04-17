@@ -66,7 +66,8 @@ class CorreoController extends Controller
   }
 
   protected function PDF($folio){
-    $pdf = new Mpdf();
+  //$pdf = new Mpdf();
+    $pdf = new Mpdf(['tempDir' => storage_path('app/temp')]);
     $folio = Crypt::decrypt($folio);
     $formato = registro::where('folio',$folio)->first();
     $sistemas = sistema::all();
