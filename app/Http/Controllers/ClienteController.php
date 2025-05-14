@@ -48,8 +48,9 @@ class ClienteController extends Controller
     public function create(Request $data)
     {
         Cliente::create([
-            'nombre_cl' => $data['nombre_cl'],
-            'abreviacion' => $data['abreviacion'],
+            'nombre_cl'     => $data['nombre_cl'],
+            'abreviacion'   => $data['abreviacion'],
+            'activo'        => $data['activo']
         ]);
         return redirect(route('Seguir'));
         #dd($data);
@@ -65,10 +66,7 @@ class ClienteController extends Controller
     {
         //
         
-        $listado = 
-            cliente::
-                orderby('nombre_cl')->get();
-        
+        $listado = cliente::orderby('nombre_cl')->get();
         $proyectos = 
             registro::
                 select('registros.id_sistema','nombre_s')->
@@ -112,13 +110,10 @@ class ClienteController extends Controller
      */
     public function update(Request $data, $id_cliente)
     {
-        $rename = $data->nombre_cl.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
-        $file = Storage::putFileAs("public/clientes", $data->file('logo'),$rename);
-        $url = Storage::url($file);
         $update = Cliente::FindOrFail($id_cliente);
-        $update->nombre_cl = $data['nombre_cl'];
-        $update->abreviacion = $data['abreviacion'];
-        $update->logo = $url;
+        $update->nombre_cl      = $data['nombre_cl'];
+        $update->abreviacion    = $data['abreviacion'];
+        $update->activo         = $data['activo'] ?? 0;
         $update->save();  
         return redirect(route('Seguir'));
     }

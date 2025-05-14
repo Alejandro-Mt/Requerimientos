@@ -95,7 +95,7 @@ class AnalisisController extends Controller
             $notificacionController = new NotificacionController();
             $notificacionController->stnotify($idSC,$message);
             if($email){
-                Mail::to($email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '7'));
+                //Mail::to($email)->cc($coordinacion->pluck('email'))->send(new Fase($data->folio, '7'));
             }
         }
         if(!$registro->plan){

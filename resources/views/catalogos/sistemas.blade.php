@@ -10,11 +10,14 @@
               <div class="col-md-2">
                 <div class="mb-3 text-center">ID</div>
               </div>
-              <div class="col-md-5">
+              <div class="col-md-3">
                 <div class="mb-3 text-center">Sistema</div>
               </div>
               <div class="col-md-3">
                 <div class="mb-3 text-center">Correo</div>
+              </div>
+              <div class="col-md-2">
+                <div class="mb-3 text-center">Activo</div>
               </div>
               <div class="col-md-2 action-btn">
                 <div class="mb-3">
@@ -31,7 +34,7 @@
                     <label type="text" class="form-control text-center">{{$sistema->id_sistema}}</label>
                   </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3">
                   <div class="mb-3">
                     <label type="text" class="form-control text-center">{{$sistema->nombre_s}}</label>
                   </div>
@@ -45,6 +48,11 @@
                         {{$sistema->dispercion}}
                       @endif
                     </label>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="mb-3 text-center">
+                    <input type="checkbox" class="form-check-input" disabled {{ $sistema->activo == '1' ? 'checked' : '' }}>
                   </div>
                 </div>
                 <div class="col-md-2 action-btn">
@@ -99,10 +107,10 @@
                               </div>
                               <div class="row">
                                 <div class="input-group">
-                                  <label type="text" class="form-control">Logo</label>
-                                  <div class="custom-file">
-                                    <input type="file" name="logo" class="form-control" accept="image/png, image/jpeg"/>
-                                  </div>
+                                  <input class="form-check-input" type="checkbox" value="1" name="activo" {{ $sistema->activo == '1' ? 'checked' : '' }}>
+                                  <label class="form-check-label" for="flexCheckChecked">
+                                    Sistema activo
+                                  </label>
                                 </div>
                               </div>
                             </form>
@@ -194,15 +202,6 @@
                                 <div class="mb-3 contact-phone">
                                   <input type="text" name="dispercion" class="form-control" placeholder="example@3ti.mx"/>
                                   <span class="validation-text text-danger"></span>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="row">
-                              <div class="input-group">
-                                <label type="text" class="form-control">Logo</label>
-                                <div class="custom-file">
-                                  <input type="file" name="logo" class="form-control" accept="image/png, image/jpeg"/>
                                 </div>
                               </div>
                             </div>

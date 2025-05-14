@@ -7,11 +7,14 @@
             <div class="col-md-2">
               <div class="mb-3 text-center">ID</div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-3">
               <div class="mb-3 text-center">Nombre</div>
             </div>
             <div class="col-md-3">
               <div class="mb-3 text-center">Abreviación</div>
+            </div>
+            <div class="col-md-2">
+              <div class="mb-3 text-center">Activo</div>
             </div>
             <div class="col-md-2 action-btn">
               <div class="mb-3 text-center">
@@ -26,7 +29,7 @@
                   <label class="form-control text-center">{{$cliente->id_cliente}}</label>
                 </div>
               </div>
-              <div class="col-md-5">
+              <div class="col-md-3">
                 <div class="mb-3">
                   <label class="form-control text-center">{{$cliente->nombre_cl}}</label>
                 </div>
@@ -34,6 +37,11 @@
               <div class="col-md-3">
                 <div class="mb-3">
                   <label class="form-control text-center">{{$cliente->abreviacion}}</label>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="mb-3 text-center">
+                  <input type="checkbox" class="form-check-input" disabled {{ $cliente->activo == '1' ? 'checked' : '' }}>
                 </div>
               </div>
               <div class="col-md-2 action-btn">
@@ -66,8 +74,10 @@
                         <input type="text" name="abreviacion" class="form-control text-uppercase" value="{{$cliente->abreviacion}}" required>
                       </div>
                       <div class="mb-3">
-                        <label class="form-label">Logo</label>
-                        <input type="file" name="logo" class="form-control" accept="image/png, image/jpeg">
+                        <input class="form-check-input" type="checkbox" value="1" name="activo" {{ $cliente->activo == '1' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="flexCheckChecked">
+                          Cliente activo
+                        </label>
                       </div>
                     </div>
                     <div class="modal-footer">
@@ -117,10 +127,6 @@
                     <div class="mb-3">
                       <label class="form-label">Abreviación</label>
                       <input type="text" name="abreviacion" class="form-control text-uppercase" placeholder="AB" required>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label">Logo</label>
-                      <input type="file" name="logo" class="form-control" accept="image/png, image/jpeg" required>
                     </div>
                   </div>
                   <div class="modal-footer">

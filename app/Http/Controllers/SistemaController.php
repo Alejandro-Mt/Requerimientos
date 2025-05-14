@@ -25,15 +25,10 @@ class SistemaController extends Controller
      */
     public function create(Request $data)
     {
-        $rename = $data->nombre_s.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
-        /*$data->validate(['logo'=>'required']);{
-            $file = Storage::putFileAs("public/sistemas", $data->file('logo'),$rename);
-            $url = Storage::url($file);
-        }*/
         sistema::create([
             'nombre_s' => $data['nombre_s'],
             'dispercion'=> $data['dispercion'],
-            //'logo'=> $url
+            'activo'=> 1
         ]);
         return redirect(route('Seguir'));
         #dd($url);
@@ -81,13 +76,10 @@ class SistemaController extends Controller
      */
     public function update(Request $data, $id_sistema)
     {
-        $rename = $data->nombre_s.'.'.pathinfo($data->file('logo')->getClientOriginalName(), PATHINFO_EXTENSION);
-        $file = Storage::putFileAs("public/sistemas", $data->file('logo'),$rename);
-        $url = Storage::url($file);
         $update = sistema::FindOrFail($id_sistema);
-        $update->nombre_s = $data['nombre_s'];
-        $update->dispercion= $data['dispercion']; 
-        $update->logo= $url;
+        $update->nombre_s   = $data['nombre_s'];
+        $update->dispercion = $data['dispercion']; 
+        $update->activo     = $data['activo'] ?? 0;
         $update->save();  
         return redirect(route('Seguir'));
         #dd($rename);

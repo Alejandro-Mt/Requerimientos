@@ -41,42 +41,7 @@ class RecordController extends Controller
     }
 
     protected function create(request $data){
-        $y = new DateTime('NOW');
-        $y = $y->format('y');
-        if ($data['es_pr'] == 1){
-            $registros = registro::where('folio', 'like', "PR-PIP%-$y")->count();
-            $registros = $registros + 1;
-            if($registros<10){
-                $folio = "PR-PIP-00$registros-$y";
-            }
-            else{
-                if($registros<100){
-                    $folio = "PR-PIP-0$registros-$y";
-                }
-                else{
-                    $folio = "PR-PIP-$registros-$y";
-                }
-            }
-            $destino = usr_data::whereIn('id_puesto', [4, 5, 6, 7])->where('id_departamento', '=', 21)->get();
-            foreach($destino as $correo){ 
-                mail::to($correo->user->email)->send(new NuevoProyecto($data,$correo->nombre));
-            } 
-        }
-        else{
-            $registros = registro::where('folio', 'like', "PIP%-$y")->count();
-            $registros = $registros + 1;
-            if($registros<10){
-                $folio = "PIP-00$registros-$y";
-            }
-            else{
-                if($registros<100){
-                    $folio = "PIP-0$registros-$y";
-                }
-                else{
-                    $folio = "PIP-$registros-$y";
-                }
-            }
-        }
+        $folio = registro::generarFolio($data['es_pr']);
         if($data['preregistro'] != NULL){
             $update = solicitud::where('folio',$data['preregistro'])->first();
             $update->id_estatus= '21';

@@ -170,4 +170,37 @@ class registro extends Model
     {
         return "{$this->folio} {$this->descripcion}";
     }
+
+    public static function generarFolio($es_proyecto)
+    {
+        $y = (new \DateTime('NOW'))->format('y');
+
+        if ($es_proyecto == 1) {
+            // Se mantiene el conteo con "PR-PIP" para no perder la secuencia
+            $conteo = self::where(function($query) use ($y) {
+                $query->where('folio', 'like', "PR-PIP%-$y")
+                      ->orWhere('folio', 'like', "PR-PM%-$y");
+            })->count() + 1;
+    
+            $prefijo = "PR-PM";
+        } else {
+            $conteo = self::where(function($query) use ($y) {
+                $query->where('folio', 'like', "PIP%-$y")
+                      ->orWhere('folio', 'like', "PM%-$y");
+            })->count() + 1;
+    
+            $prefijo = "PM";
+        }
+
+        if ($conteo < 10) {
+            $folio = "$prefijo-00$conteo-$y";
+        } elseif ($conteo < 100) {
+            $folio = "$prefijo-0$conteo-$y";
+        } else {
+            $folio = "$prefijo-$conteo-$y";
+        }
+
+        return $folio;
+    }
+
 }
