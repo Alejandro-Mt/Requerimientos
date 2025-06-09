@@ -12,24 +12,18 @@ class NuevoProyecto extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $titulo;
+    public $dato;
     public $destinatario;
-    public $estatus;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data,$nombre)
+    public function __construct($registro,$nombre)
     {
         //
-        $this->estatus = $data['id_estatus'];
-        if ($data['id_estatus']== 17){
-            $this->titulo = $data['descripcion'];
-        }else{
-            $this->titulo = registro::select('descripcion')->where('folio', $data->folio)->first();
-        }
         
+        $this->dato = $registro;
         $this->destinatario = $nombre;
     }
 

@@ -40,6 +40,7 @@ return [
             'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/drive'
         ],
+        'api_key' => env('GEMINI_API_KEY'),
     ],
 
 ];

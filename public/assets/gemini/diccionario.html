@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Uso Smart Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        h2 {
+            margin-top: 40px;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            background-color: #f8fafc;
+        }
+        h3 {
+            margin-top: 25px;
+            color: #1e3a8a;
+        }
+        .note {
+            background-color: #f8f9fa;
+            border-left: 4px solid #ffc107;
+            padding: 10px 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .important {
+            background-color: #fff3cd;
+            border-left: 4px solid #fd7e14;
+            padding: 15px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .image-placeholder {
+            background-color: #f0f0f0;
+            border: 2px dashed #ccc;
+            padding: 30px;
+            text-align: center;
+            margin: 25px auto;
+            max-width: 800px;
+            border-radius: 8px;
+            color: #666;
+            font-style: italic;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 25px auto;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        a {
+            color: #1a56db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .version-info {
+            text-align: right;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 40px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        .form-field {
+            margin-bottom: 15px;
+        }
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .status-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .status-active {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .status-paused {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .status-completed {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        /* Estilos para el índice */
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .toc-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .toc-list {
+            columns: 2;
+            column-gap: 30px;
+        }
+        .toc-list li {
+            margin-bottom: 8px;
+            break-inside: avoid;
+        }
+        .toc-list a {
+            color: #1a56db;
+            text-decoration: none;
+            display: block;
+            padding: 3px 0;
+        }
+        .toc-list a:hover {
+            text-decoration: underline;
+            background-color: #f0f7ff;
+            border-radius: 3px;
+            padding-left: 5px;
+        }
+        @media (max-width: 768px) {
+            .toc-list {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MANUAL DE USO SMART PLANNER</h1>
+        <p class="version-info">FI-CAL-010 | Versión: 6 | Fecha: 19/12/2024</p>
+    </header>
+
+    <!-- Índice agregado -->
+    <div class="toc">
+        <div class="toc-title">Índice de Contenidos</div>
+        <ul class="toc-list">
+            <li><a href="#registro">1. Registro</a></li>
+            <li><a href="#inicio-sesion">2. Inicio de sesión</a></li>
+            <li><a href="#restablecer-contrasena">3. Restablecer contraseña</a></li>
+            <li><a href="#perfil">4. Perfil</a></li>
+            <li><a href="#pagina-principal">5. Página principal</a></li>
+            <li><a href="#solicitud-requerimientos">6. Solicitud de Requerimientos</a></li>
+            <li><a href="#datos-adjuntos">7. Datos adjuntos</a></li>
+            <li><a href="#correo-solicitud">8. Correo de solicitud</a></li>
+            <li><a href="#consulta-solicitud">9. Consulta de Solicitud de cliente</a></li>
+            <li><a href="#seguimiento-requerimientos">10. Seguimiento a Requerimientos</a></li>
+            <li><a href="#documentacion">11. Documentación</a></li>
+            <li><a href="#complementos">12. Complementos</a></li>
+            <li><a href="#creacion-requerimiento">13. Creación de Requerimiento</a></li>
+            <li><a href="#seguimiento-folio">14. Seguimiento de folio</a></li>
+            <li><a href="#levantamiento">15. Levantamiento</a></li>
+            <li><a href="#construccion">16. Construcción</a></li>
+            <li><a href="#liberacion">17. Liberación</a></li>
+            <li><a href="#implementacion">18. Implementación</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </div>
+
+    <div class="section" id="registro">
+        <h2>1. Registro</h2>
+        <ul>
+            <li>Es necesario que para obtener el usuario y contraseña se solicite vía "GLPI" adjuntando el formato correspondiente de QDOC: FI-PIP-074</li>
+            <li>Utilizando la siguiente categoría: PIP > Smart Planner > Actualización de catálogos</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <!-- Ejemplo de cómo insertarías una imagen real --
+            <img src="images/pantalla-login.jpg" alt="Pantalla de inicio de sesión de Smart Planner">-->
+            <img src="IMAGES/1_registro_img.png" alt="registro_img" width="595" height="307" align="middle" />
+        </div>
+    </div>
+
+    <div class="section" id="inicio-sesion">
+        <h2>2. Inicio de sesión</h2>
+        <ul>
+            <li>Inicia sesión, ingresa a <a href="https://requerimientos.tiii.mx/login">https://requerimientos.tiii.mx/login</a> donde tendrás que capturar tu correo y contraseña previamente registrados</li>
+            <li>Da clic en iniciar sesión</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <!-- Ejemplo de cómo insertarías una imagen real --
+            <img src="images/pantalla-login.jpg" alt="Pantalla de inicio de sesión de Smart Planner">-->
+            <img src="IMAGES/2_inicio_sesion.png" alt="inicio de sesión" width="702" height="331" />
+        </div>
+        
+        <div class="note">
+            <h3>Notas</h3>
+            <ol>
+                <li>En caso de no haber autorizado el correo, te aparecerá un mensaje de no acceso.</li>
+                <li>En caso de dejar la plataforma sin uso por mas de 30 minutos se cerrará tu sesión, para evitar esto se tiene la casilla de "RECORDARME", cuando se activa mantendrá tú sesión activa</li>
+                <li>Podrás ingresar con un "clic" presionando el botón "G"</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section" id="restablecer-contrasena">
+        <h2>3. Restablecer contraseña</h2>
+        <ul>
+            <li>Por seguridad tu contraseña se encuentra encriptada, en caso de olvidarla podrás restablecerla</li>
+        </ul>
+        
+        <h3>Recuperar Contraseña</h3>
+        <ol>
+            <li>Ingresa tu correo registrado y da clic en "Restaurar"</li>
+            <li>Revisa tu correo, da clic en "Restablecer contraseña"</li>
+        </ol>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/3_login_1.jpg" alt="login1" width="305" height="284" />
+            <img src="IMAGES/3_login2.png" alt="login 2" width="364" height="284" />
+        </div>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/3_message.png" alt="message" width="336" height="284" />
+        </div>
+        
+        <div class="important">
+            <h3>Importante</h3>
+            <p>Recuerda, que sin importar la seguridad que exista dentro de un sitio, la primera causa de robo de información es debido a errores humanos, por lo que el uso de tus contraseñas es tu responsabilidad.</p>
+        </div>
+    </div>
+
+    <div class="section" id="perfil">
+        <h2>4. Perfil</h2>
+        <ul>
+            <li>Puedes validar la información de tu perfil desde el icono de la parte superior derecha de tu pantalla.</li>
+            <li>Puedes validar tus requerimientos generados, así como cambiar la foto de perfil y actualizar tu contraseña</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/4_perfil_1.png" alt="perfils" width="150" height="150" />
+            <img src="IMAGES/4_perfil_2.png" alt="perfils" width="150" height="150" />
+            <img src="IMAGES/4_perfil_3.png" alt="perfils" width="150" height="150" />
+        </div>
+    </div>
+
+    <div class="section" id="pagina-principal">
+        <h2>5. Página principal</h2>
+        <ul>
+            <li>Desde la pantalla principal podrás observar varios elementos que nos ayudarán a capturar información.</li>
+            <li>En el centro de la pantalla te aparecerá una tabla con los datos que se han capturado de tus requerimientos</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/5_pagina_principal.png" alt="Página principal" width="757" height="441" />
+        </div>
+        
+        <div class="note">
+            <p>Estos datos se actualizan de forma automática.</p>
+        </div>
+    </div>
+
+    <div class="section" id="solicitud-requerimientos">
+        <h2>6. Solicitud de Requerimientos</h2>
+        <p>Módulo cliente:</p>
+        <ul>
+            <li>Podrás ingresar a la información sobre Solicitudes de Requerimientos.</li>
+            <li>Puedes solicitar con tu usuario requerimientos, así como: conocer su avance, movimientos, consultar históricos y fechas.</li>
+            <li>Para solicitar un nuevo requerimiento realiza los siguientes pasos:</li>
+        </ul>
+        
+        <ol>
+            <li>Selecciona "Nueva solicitud"</li>
+            <li>Se habilitará una pantalla para la solicitud de tu requerimiento:</li>
+        </ol>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/6_solicitud_paso_1.png" alt="Solicitar requerimiento" width="450" height="201" />
+            <img src="IMAGES/6_solicitar_requerimiento.png" alt="Solicitar requerimiento" width="450" height="201" />
+        </div>
+        
+        <table>
+            <tr>
+                <th>Campo</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>Cliente*</td>
+                <td>Cliente en el cual se realizará el requerimiento.</td>
+            </tr>
+            <tr>
+                <td>Sistema*</td>
+                <td>Sistema en el cual se realizará requerimiento.</td>
+            </tr>
+            <tr>
+                <td>Título*</td>
+                <td>Nombre del Requerimiento.</td>
+            </tr>
+            <tr>
+                <td>Descripción*</td>
+                <td>Detalle de la solicitud.</td>
+            </tr>
+        </table>
+        
+        <div class="note">
+            <p>Para los campos de título y descripción puedes capturar hasta máximo 250 caracteres.</p>
+        </div>
+    </div>
+
+    <div class="section" id="datos-adjuntos">
+        <h2>7. Datos adjuntos</h2>
+        <ul>
+            <li>Si necesitas ingresar información complementaria en la solicitud del requerimiento, aparecerá la siguiente pantalla y selecciona SÍ, cuando no sea necesario selecciona NO.</li>
+            <li>Para agregar archivos se desplegará la siguiente pantalla, mostrando dos opciones:
+                <ul>
+                    <li>Arrastrar los documentos a la zona de carga de archivos.</li>
+                    <li>Dar clic en la zona de carga de documentos, se abrirá tu explorador de archivos y podrás seleccionar los necesarios a cargar.</li>
+                </ul>
+            </li>
+            <li>Por último, cuando termine la carga de documentos solo selecciona finalizar.</li>
+            <li>Si no hay archivos para adjuntar y se accede a esta vista, al seleccionar Finalizar se cerrará.</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/7_adjuntos.png" alt="documento adjunto" width="438" height="147" />
+            <img src="IMAGES/7_carga_archivos.png" alt="documento adjunto" width="438" height="147" />
+            <img src="IMAGES/7_selecciona_archivo.png" alt="documento adjunto" width="438" height="147" />
+            <img src="IMAGES/7_archivo_cargado.png" alt="documento adjunto" width="438" height="147" />
+        </div>
+    </div>
+
+    <div class="section" id="correo-solicitud">
+        <h2>8. Correo de solicitud</h2>
+        <ul>
+            <li>Al realizar el envío, te llegará una confirmación al correo que fue registrado en "datos de contacto", donde te indicará el folio de la solicitud.</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/8_alta_folio.png" alt="Alta con folio" width="740" height="368" />
+        </div>
+    </div>
+
+    <div class="section" id="consulta-solicitud">
+        <h2>9. Consulta de Solicitud de cliente</h2>
+        <ul>
+            <li>Para poder consultar las solicitudes realizadas es necesario iniciar sesión, en la pantalla de inicio ingresa al apartado de "Solicitud Cliente".</li>
+            <li>Realiza la consulta del requerimiento, conforme al folio que se envió previamente a tu correo</li>
+            <li>Podrás consultar la descripción de la solicitud, además de datos adjuntos al dar clic sobre el folio que contenga archivos adjuntos.</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/9_consulta_solicitud_cliente.png" alt="consulta-solicitud" width="740" height="368" />
+        </div>
+    </div>
+
+    <div class="section" id="seguimiento-requerimientos">
+        <h2>10. Seguimiento a Requerimientos</h2>
+        <ul>
+            <li>En la pantalla de inicio podrás ver los sistemas a los que tienes acceso, estas tarjetas serán ficheros para filtrar tus requerimientos y se abren dando clic.</li>
+            <li>Una vez elegido el sistema, encontraremos un desplegable con el que podremos filtrar los diferentes proyectos que tienen requerimientos</li>
+            <li>Da clic sobre clientes para poder elegir el proyecto que quieres consultar.</li>
+            <li>Podrás encontrar segmentados los diferentes estatus en el que se encuentran los requerimientos.</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            <img src="IMAGES/10_sistemas_disponibles.png" alt="sistemas-disponibles" width="740" height="368" />
+            <img src="IMAGES/10_filtro_sistemas.png" alt="sistemas-filtro" width="740" height="368" />
+        </div>
+        
+        <h3>Secciones:</h3>
+        <ol>
+            <li>Activos</li>
+            <li>Respuestos</li>
+            <li>Implementados</li>
+        </ol>
+
+        <div class="image-placeholder">
+            <img src="IMAGES/10_activos.png" alt="activos" width="740" height="368" />
+            <img src="IMAGES/10_pospuestos.png" alt="pospuestos" width="740" height="368" />
+            <img src="IMAGES/10_implementados.png" alt="implementado" width="740" height="368" />
+        </div>
+
+        <ul>
+            <li>En el listado de activos puedes validar las fichas de los requerimientos en distintos colores:
+                <ul>
+                    <li>Levantamiento</li>
+                    <li>Construcción</li>
+                    <li>Liberación</li>
+                    <li>Implementación</li>
+                </ul>
+            </li>
+            <div class="image-placeholder">
+                <img src="IMAGES/10_color_fase.png" alt="color-fase" width="438" height="147" />
+            </div>
+            <li>Da clic sobre documentación para ver el detalle del requerimiento</li>
+            <div class="image-placeholder">
+                <img src="IMAGES/10_documentacion_acceso.png" alt="color-fase" width="438" height="147" />
+            </div>
+        </ul>
+        
+        
+        <div class="note">
+            <p>Para el rol de Arquitecto, solo tendrás acceso al estatus de "CONSTRUCCIÓN"</p>
+        </div>
+        
+        <ul>
+            <li>En el calendario podrás visualizar las fechas que se tomaron en cuenta para la definición de requerimientos, análisis, construcción, liberación e implementación, estás según el plan de trabajo que proporcione el equipo de Desarrollo</li>
+            <li>Da clic en icono de pausa en caso de querer "Posponer" o "Cancelar" el requerimiento.</li>
+            <li>Al pausar un requerimiento deberás elegir el motivo</li>
+        </ul>
+        
+        <div class="image-placeholder">
+            
+            <img src="IMAGES/10_documentacion.png" alt="documentacion" width="740" height="368" />
+        </div>
+        
+        <div class="note">
+            <p>Si pausas el requerimiento se guardará la fecha y la razón de la pausa, una vez que se reactive se guardará la fecha de la misma forma, por lo que no se capturan fechas a destiempo.</p>
+        </div>
+        
+        <div class="note">
+            <h3>¡Sabías que!</h3>
+            <ul>
+                <li>Al pausar un requerimiento, los datos se tornarán en rojo, evidenciando el estatus.</li>
+                <li>Además, en la parte inferior puedes agregar comentarios para dar seguimiento o retroalimentación</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section" id="documentacion">
+        <h2>11. Documentación</h2>
+        <ul>
+            <li>Da clic "Documentación" para acceder a la carpeta compartida de drive.</li>
+            <li>En caso de tener más de una versión de definición puedes ver información de las versiones dejando el puntero sobre el texto del archivo.</li>
+            <li>Para modificar el link de la carpeta de drive</li>
+            <li>Para subir archivos que se requieran actualizar o adjuntar que son parte del proceso.</li>
+        </ul>
+        
+        <div class="image-placeholder">
+                <img src="IMAGES/11_documentacion.png" alt="documentos" width="438" height="147" />
+        </div>
+        
+        <div class="note">
+            <p>Toda la documentación que desees cargar en la web tendrá como tamaño máximo 15 MB de información, en caso de necesitar más espacio por favor contacta con soporte.</p>
+        </div>
+    </div>
+
+    <div class="section" id="complementos">
+        <h2>12. Complementos</h2>
+        <ul>
+            <li>Puedes agregar documentación adicional, es posible subir los archivos al dar clic sobre:
+                <ul>
+                    <li>Infraestructura</li>
+                    <li>Comunicación</li>
+                    <li>Desarrollo</li>
+                </ul>
+            </li>
+            <li>En caso de ser necesario puedes ingresar comentarios para el seguimiento</li>
+        </ul>
+        
+        <div class="image-placeholder">
+                <img src="IMAGES/12_complementos.png" alt="color-fase" width="438" height="147" />
+        </div>
+    </div>
+
+    <div class="section" id="creacion-requerimiento">
+        <h2>13. Creación de Requerimiento</h2>
+        <ul>
+            <li>Una vez que un cliente haya solicitado el requerimiento se tendrá que avanzar desde el apartado de "solicitud cliente".</li>
+            <li>En caso de no querer continuar con la solicitud del cliente puedes dar clic sobre el estado "Solicitado" para RECHAZAR.</li>
+            <li>Para aceptar la solicitud da clic en el título de la solicitud</li>
+            <li>El sistema te desplegará un formulario para la aceptación.</li>
+            <li>Es necesario completar los campos obligatorios para poder avanzar.</li>
+        </ul>
+        
+        <div class="image-placeholder">
+                <img src="IMAGES/13_solicitudes.png" alt="solicitudes" width="438" height="147" />
+        </div>
+        
+        <div class="important">
+            <h3>Importante:</h3>
+            <ul>
+                <li>Los campos de "Es proyecto" y "Emergente" no son obligatorios.</li>
+                <li>El campo de "Proyecto" solo es necesario si se vincularon más folios y el proyecto ya fue creado anteriormente.</li>
+                <li>Al dar clic en "Guardar" se envía un folio con el que se podrá dar seguimiento al requerimiento</li>
+                <li>Una vez que hayas guardado la información de registro y cuentes con el folio puedes acceder a la tarjeta del sistema al cual diste de alta el requerimiento, dentro de este podremos ver los diferentes folios que se tienen abiertos en el apartado de "Activos".</li>
+            </ul>
+            
+            <div class="image-placeholder">
+                <img src="IMAGES/13_registro.png" alt="solicitudes" width="438" height="147" />
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="seguimiento-folio">
+        <h2>14. Seguimiento de folio</h2>
+        <ul>
+            <li>Una vez que hayas guardado la información de registro y cuentes con el folio puedes acceder a la tarjeta del sistema al cual diste de alta el requerimiento, dentro de este podremos ver los diferentes folios que se tienen abiertos en el apartado de “Activos”.</li>
+        </ul>
+        <div class="note">
+            <p>Si son demasiados, puedes filtrar con las tarjetas de clientes que están en a parte superior</p>
+        </div>
+        
+        <!--<div class="image-placeholder">
+            [IMAGEN: Vista de seguimiento de folios]
+        </div>-->
+    </div>
+
+    <div class="section" id="levantamiento">
+        <h2>15. Levantamiento</h2>
+        <ul>
+            <li>Antes del llenado de solicitud para el Levantamiento, puedes ingresar sesiones de mesa de alcance</li>
+            <div class="image-placeholder">
+                <img src="IMAGES/15_mesa_alcance.png" alt="mesa alcance" width="438" height="147" />
+            </div>
+            <li>Puedes ingresar una o más mesas de alcances y estas se verán reflejadas en la opción de Complementos</li>
+            <div class="image-placeholder">
+                <img src="IMAGES/15_registro_mesa.png" alt="Registro de mesa" width="438" height="147" />
+            </div>
+            <li>Al llenar la información de la mesa de alcance le llegará un correo a los involucrados sobre lo solicitado.</li>
+            <div class="image-placeholder">
+                <img src="IMAGES/15_notificacion_mesa.png" alt="Notificacion de mesa" width="438" height="147" />
+            </div>
+            <li>Una vez que se cuente con la información suficiente para avanzar, da clic en "Llenar Solicitud".</li>
+            <li>El solicitante estará lleno de manera automática, pero puede ser modificado de ser necesario.</li>
+            <li>La descripción general del problema admite máximo 250 caracteres.</li>
+            <li>Ningún dato de este formulario puede ser omitido.</li>
+            <div class="image-placeholder">
+                <img src="IMAGES/15_levantamiento.png" alt="Levantamiento" width="438" height="147" />
+            </div>
+            <li>Una vez hayas "guardado" el formato en el avance se mostrará la leyenda "Enviar reporte", da clic para enviar el documento a su aprobación con el cliente</li>
+            <li>Es necesario que adjuntes el archivo del GANTT para poder enviar el correo del informe.</li>
+            <li>Las personas adjuntas en copia son los registrados en involucrados del levantamiento, mientras que el destinatario será el correo del solicitante del levantamiento.</li>
+            <div class="image-placeholder">
+                <img src="IMAGES/15_envio_levantamiento.png" alt="Enviar levantamiento" width="438" height="147" />
+            </div>
+            <li>En caso de que el cliente rechace el levantamiento, puedes modificarlo con el botón de "Revisión de Datos".</li>
+            <li>Una vez autorizado puedes continuar y enviar el archivo a desarrollo con el botón "Confirmación"</li>
+            <div class="image-placeholder">
+                <img src="IMAGES/15_lev_autorizado.png" alt="Enviar levantamiento" width="438" height="147" />
+            </div>
+            <li>Para el correo dirigido a desarrollo se tomará el arquitecto responsable registrado en la asignación del requerimiento.</li>
+            <li>Una vez confirmado podrás solicitar una o más mesas de trabajo y hacer llegar la minuta de trabajo.</li>
+            <li>Una vez enviada te llegará un correo de confirmación adjuntando el archivo de evidencia.</li>
+        </ul>
+    </div>
+
+    <div class="section" id="construccion">
+        <h2>16. Construcción</h2>
+        <ul>
+            <li>Una vez que Desarrolló seleccione el "tipo de desarrollo", te llegará una notificación indicando el impacto de la solicitud</li>
+        </ul>
+        
+        <!--<div class="image-placeholder">
+            [IMAGEN: Notificación de tipo de desarrollo]
+        </div>-->
+        
+        <h3>Acceso de acuerdo a Impacto</h3>
+        <ul>
+            <li><strong>Impacto Baja:</strong> PIP</li>
+            <li><strong>Impacto Medio:</strong> PIP/DESARROLLO</li>
+            <li><strong>Impacto Alto:</strong> DESARROLLO</li>
+        </ul>
+        
+        <ul>
+            <li>Al acceder a "Definición de requerimientos" podrás ver un calendario donde se van a capturar por parte de Desarrollo, las fechas estimadas para la definición y el análisis para la construcción.</li>
+            <li>Los campos de la definición se pueden modificar aun después de haber registrado los tiempos del calendario, es importante recordar que estos llevan un registro de cada cambio.</li>
+            <li>Para avanzar al siguiente estatus deberás activar el check de "Completado" al final del formulario, y adjuntar el archivo "Definición de requerimientos".</li>
+        </ul>
+        
+        <!--<div class="image-placeholder">
+            [IMAGEN: Pantalla de definición de requerimientos]
+        </div>-->
+        
+        <div class="note">
+            <h3>Notas:</h3>
+            <ul>
+                <li>Si el archivo adjunto no tiene la nomenclatura adecuada el sistema lo renombrará de forma automática.</li>
+                <li>Una vez que se avanza se le envía un correo al cliente con la documentación y no será posible avanzar hasta su autorización</li>
+                <li>Mientras el cliente no autorice te aparecerá un botón con la leyenda "Cambiar Definición" lo que permitirá regresar a la vista de planeación para subir un nuevo documento.</li>
+            </ul>
+        </div>
+        
+        <ul>
+            <li>Se muestra el historial y número de versión de la definición</li>
+            <li>Una vez ingresada la definición del requerimiento llegará un correo al solicitante sobre el archivo ingresado.</li>
+            <li>Al quedar autorizada la definición podrás continuar con "Plan de trabajo"</li>
+            <li>Solo hasta que la definición de requerimiento es autorizada se podrá avanzar al plan de trabajo.</li>
+        </ul>
+        
+        <!--<div class="image-placeholder">
+            [IMAGEN: Historial de versiones de documentos]
+        </div>-->
+        
+        <div class="note">
+            <p>La vista de Análisis de requerimiento sólo es accesible para los Arquitectos del equipo de Desarrollo</p>
+        </div>
+        
+        <ul>
+            <li>Tienes la posibilidad de solicitar información con el botón "Solicitar Información".</li>
+            <li>Al ingresar a la construcción podrás ver un calendario en el cual se refleja el tiempo necesario para la construcción y las pruebas que se llevarán a cabo</li>
+        </ul>
+        
+        <!--<div class="image-placeholder">
+            [IMAGEN: Calendario de construcción]
+        </div>-->
+        
+        <div class="note">
+            <p>Al igual que el "Análisis", la "Construcción" sólo es visible para los arquitectos.</p>
+        </div>
+    </div>
+
+    <div class="section" id="liberacion">
+        <h2>17. Liberación</h2>
+        <ul>
+            <li>Al acceder a la liberación se contarán con las fechas previamente cargadas por desarrollo, en caso de ser necesario estas pueden modificarse.</li>
+            <li>El Usuario de PIP deberá establecer las fechas previstas para sus pruebas propias</li>
+            <li>Las fechas de liberación no podrán ser modificadas por Desarrolló, en caso de requerir ajustes, podrán solicitarlo al equipo de PIP o solicitar un soporte vía GLPI en la categoría de: "Smart Planner"</li>
+            <li>Para poder avanzar a la siguiente fase debes dar clic en "rondas", con lo que podrás ingresar las pruebas que fueron válidas y las que fueron erróneas.</li>
+            <li>Una vez que cargas los archivos y autorizas, puedes guardar y te redireccionará a la vista de la documentación.</li>
+            <li>Carga primero tu "Matriz de pruebas".</li>
+            <li>El segundo documento a considerar es "Acta de validación".</li>
+        </ul>
+        
+        <!--<div class="image-placeholder">
+            [IMAGEN: Pantalla de liberación]
+        </div>-->
+        
+        <div class="note">
+            <h3>Notas:</h3>
+            <ul>
+                <li>Recuerda cambiar las fechas de la liberación antes de guardar las pruebas 100% acreditadas.</li>
+                <li>Si los archivos no cumplen con el título adecuado el primer archivo se tomará como la 'Matriz de pruebas' y el segundo como el 'Acta de validación', asegúrate de cargarlos en ese orden.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section" id="implementacion">
+        <h2>18. Implementación</h2>
+        <ul>
+            <li>Al llegar a la implementación debes llenar la fecha en la que se implementa el requerimiento y añadir los comentarios que se obtuvieron.</li>
+            <li>Este estatus se puede mantener abierto el tiempo necesario hasta ser completado.</li>
+            <li>Al igual que los pasos anteriores si quieres concluir, se tendrá que activar el check de "Completado" que se encuentra al final, al hacer esto se solicitará el archivo de "Cierre de proyecto".</li>
+            <li>En caso de requerirse puedes añadir el cronograma de implementación para lo cual deberás ingresar el enlace.</li>
+            <li>Al completar el proceso debes adjuntar el "Acta de cierre"</li>
+            <li>Una vez cargada el Acta de cierre, podrás ver el estatus y tiempos del proceso realizado.</li>
+        </ul>
+        
+        <!--<div class="image-placeholder">
+            [IMAGEN: Pantalla de implementación]
+        </div>-->
+    </div>
+
+    <div class="section" id="contacto">
+        <h2>Contacto</h2>
+        <p>En caso de dudas contacta a:</p>
+        <ul>
+            <li>Alejandro Martínez | Ejecutivo TI Jr. <a href="mailto:alejandro.martinez@it-strategy.mx">alejandro.martinez@it-strategy.mx</a></li>
+        </ul>
+        <p>Con copia a:</p>
+        <ul>
+            <li>Joaquín Aguilera | Coordinador de proyectos: <a href="mailto:joaquin.aguilera@it-strategy.mx">joaquin.aguilera@it-strategy.mx</a></li>
+        </ul>
+    </div>
+
+    <footer class="version-info">
+        <p>Sistema de Gestión de Calidad & Empresa Socialmente Responsable</p>
+        <p>FI-CAL-010 | Versión: 6 | Fecha: 19/12/2024</p>
+    </footer>
+</body>
+</html>

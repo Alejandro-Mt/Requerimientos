@@ -76,22 +76,17 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="text-center mt-2 mb-4">
-            <a class="text-danger">¿Tipo de desarrollo?</a>
+            <p class="text-danger">¿Impacto de desarrollo?</p>
           </div>
           <div class="form-group row">
-            <label for="id_clase" class="col-sm-2 text-end control-label col-form-label">Clases*</label>
+            <label for="id_clase" class="col-sm-2 text-end control-label col-form-label">Niveles</label>
             <div class="col-md-9">
               <select class="form-select @error ('id_clase') is-invalid @enderror" name="id_clase" aria-hidden="true" required autofocus>
                 <option value="">Selección</option>
-                @foreach ($clases as $clase)
-                  <option value = {{ $clase->id_clase }}>{{$clase->clase}}</option>
-                @endforeach                     
+                <option value="1">Bajo</option>
+                <option value="2">Medio</option>
+                <option value="3">Alto</option>
               </select>
-              @error('id_clase')
-                <span class="invalid-feedback" role="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-              @enderror
             </div>
           </div>
         </div>
@@ -272,6 +267,7 @@
     </div>
   </div>
 </div>
+
 <!-- BEGIN MODAL LINK -->
 <div class="modal" id="link">
   <div class="modal-dialog">

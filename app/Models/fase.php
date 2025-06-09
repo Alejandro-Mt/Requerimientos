@@ -13,4 +13,9 @@ class fase extends Model
         'activo',
         'posicion'
     ];
+
+    public function estatus() {
+        return $this->hasMany(estatu::class, 'id_fase');
+    }
+
 }

@@ -21,18 +21,18 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="fecha_lib_a" class="col-sm-2 text-end control-label col-form-label">Inicio de pruebas*</label>
+              <label for="fechaInicioReal" class="col-sm-2 text-end control-label col-form-label">Inicio de pruebas*</label>
               <div class= 'col-md-8'>
                 <div class="input-group">
-                  <input name="fecha_lib_a" type="text" class="form-control mydatepicker required form-control @error('fecha_lib_a') is-invalid @enderror" required autofocus autocomplete="off"
-                    value="{{ $registros->liberacion ? ($registros->liberacion->fecha_lib_a ? date('d-m-20y',strtotime($registros->liberacion->fecha_lib_a)) : '') : old('fecha_lib_a') }}"
+                  <input name="fechaInicioReal" type="text" class="form-control mydatepicker required form-control @error('fechaInicioReal') is-invalid @enderror" required autofocus autocomplete="off"
+                    value="{{ $registros->testing ? ($registros->testing->fechaInicioReal ? date('d-m-20y',strtotime($registros->testing->fechaInicioReal)) : '') : old('fechaInicioReal') }}"
                     placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                   <div class="input-group-append">
                     <span class="input-group-text h-100">
                       <i class="fa fa-calendar"></i>
                     </span>
                   </div>
-                  @error('fecha_lib_a')
+                  @error('fechaInicioReal')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                     </span>
@@ -41,18 +41,18 @@
               </div>
             </div>
             <div class="form-group row">
-              <label for="fecha_lib_r" class="col-sm-2 text-end control-label col-form-label">Fin de pruebas</label>
+              <label for="fechaFinReal" class="col-sm-2 text-end control-label col-form-label">Fin de pruebas</label>
               <div class= 'col-md-8'>
                 <div class="input-group">
-                  <input id="finpruebas" name="fecha_lib_r" type="text" class="form-control mydatepicker required form-control @error('fecha_lib_r') is-invalid @enderror" autocomplete="off"
-                    value="{{ $registros->liberacion ? ($registros->liberacion->fecha_lib_r ? date('d-m-20y',strtotime($registros->liberacion->fecha_lib_r)) : '') : old('fecha_lib_r') }}"
+                  <input id="finpruebas" name="fechaFinReal" type="text" class="form-control mydatepicker required form-control @error('fechaFinReal') is-invalid @enderror" autocomplete="off"
+                    value="{{ $registros->testing ? ($registros->testing->fechaFinReal ? date('d-m-20y',strtotime($registros->testing->fechaFinReal)) : '') : old('fechaFinReal') }}"
                     placeholder="DD/MM/AAAA" data-date-format="dd-mm-yyyy">
                   <div class="input-group-append">
                     <span class="input-group-text h-100">
                       <i class="fa fa-calendar"></i>
                     </span>
                   </div>
-                  @error('fecha_lib_r')
+                  @error('fechaFinReal')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                     </span>

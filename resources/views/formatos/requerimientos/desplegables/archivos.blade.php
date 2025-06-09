@@ -15,7 +15,7 @@
           @elseif($registros->estatus->posicion == 7)
             <a>Recuerda Que debes cargar: <strong>Flujo o Prototipo</strong></a>
           @elseif($registros->estatus->posicion == 8 && $registros->levantamiento->fecha_def)
-            <a>Para avanzar debes cargar: <strong>Plan de trabajo</strong></a>
+            <a>Para avanzar debes cargar: <strong>Plan de trabajo desarrollo</strong></a>
           @elseif($registros->estatus->posicion == 11) 
             <a>Recuerda Que debes cargar: <strong>Matriz de pruebas</strong> y <strong>Acta de validacion</strong></a>
           @elseif($registros->estatus->posicion == 12)
@@ -25,8 +25,10 @@
           </form> 
         </div>
         <div class="modal-footer">
-          @if($registros->estatus->posicion == 12 || $registros->estatus->posicion == 8 || $registros->estatus->posicion == 6)
+          @if($registros->estatus->posicion == 12 || $registros->estatus->posicion == 11 || $registros->estatus->posicion == 8 || $registros->estatus->posicion == 6)
             <button type="button" class="btn btn-success waves-effect waves-light text-white" data-bs-dismiss="modal">Hecho</button>
+          @elseif($registros->estatus->posicion == 7)
+            <a type="button" class="btn btn-success waves-effect waves-light" href="{{route('R_Flujo',[$registros->folio, 1] )}}">Enviar a cliente</a>
           @else
             <a id="modal" type="button" class="btn btn-success waves-effect waves-light text-white" href="{{route('Aut',$registros->folio )}}">Autorizar</a>
             <button type="button" class="btn waves-effect" data-bs-dismiss="modal">Cancelar</button>
@@ -206,70 +208,4 @@
       });
     });
   </script>
-  <!--<script>
-    $(document).ready(function () {
-      // Variables iniciales
-      var estatus = {{ $registros->estatus->posicion }};
-      var evidenciaVacia = {{ $registros->def ? 'false' : 'true' }};
-      var aut_def = {{ $registros->fecha_def ? 'false' : 'true' }};
-      var maxFiles = (estatus === 11 || estatus === 7) ? 2 : 1;
-  
-      // Función para inicializar Dropzone con configuraciones estándar
-      function initializeDropzone(selector, paramName) {
-        Dropzone.options[selector] = {
-          headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
-          paramName: paramName, // Parámetro personalizado
-          maxFilesize: 150, // Tamaño máximo en MB
-          maxFiles: maxFiles,
-          addRemoveLinks: true,
-          dictRemoveFile: "Remover",
-          removedfile: function (file) {
-            if (!file.id) {
-              console.error("El archivo no tiene un ID asociado. No se puede eliminar.");
-              return;
-            }
-  
-            // Realizar la solicitud AJAX para eliminar el archivo
-            $.ajax({
-              headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
-              type: 'DELETE',
-              url: `file.borrar.${file.id}`, // Ajusta esta ruta si es necesario
-              success: function (response) {
-                console.log("Archivo eliminado correctamente:", response);
-              },
-              error: function (xhr, status, error) {
-                console.error("Error al eliminar el archivo:", error);
-              }
-            });
-  
-            // Remover el elemento visualmente
-            var _ref;
-            return (_ref = file.previewElement) != null
-              ? _ref.parentNode.removeChild(file.previewElement)
-              : void 0;
-          },
-          init: function () {
-            this.on("success", function (file, response) {
-              // Asocia el ID del archivo devuelto por el backend
-              if (response.id) {
-                file.id = response.id;
-              } else {
-                console.error("No se recibió un ID para el archivo subido.");
-              }
-            });
-          }
-        };
-      }
-  
-      // Inicializar Dropzone para los diferentes casos
-      initializeDropzone('myAwesomeDropzone', 'adjunto');
-      initializeDropzone('General', 'General');
-      initializeDropzone('Complemento', 'Complemento');
-  
-      // Botón para recargar la página
-      $("#reloadButton").click(function () {
-        location.reload();
-      });
-    });
-  </script>-->
   

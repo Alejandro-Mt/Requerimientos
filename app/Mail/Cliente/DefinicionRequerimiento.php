@@ -34,6 +34,8 @@ class DefinicionRequerimiento extends Mailable
             first();
         $this->flujo = archivo::where('folio', $folio)->
             where('url', 'LIKE', '%Flujo%')->
+            orwhere('url', 'LIKE', '%Prototipo%')->
+            orwhere('url', 'LIKE', '%Mockup%')->
             first();
 
     }

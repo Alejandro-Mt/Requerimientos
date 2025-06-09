@@ -96,6 +96,11 @@ class registro extends Model
         return $this->belongsTo(liberacion::class, 'folio', 'folio');
     }
 
+    public function testing()
+    {
+        return $this->belongsTo(Testing::class, 'folio', 'folio');
+    }
+
     public function mesasA()
     {
         return $this->hasMany(mesa::class, 'folio', 'folio')->where('es_alcance', 1)->first();

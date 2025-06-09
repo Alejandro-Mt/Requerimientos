@@ -11,7 +11,9 @@
             <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><i class="ri-tools-fill fs-6"></i></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#chat" role="tab" aria-controls="chat" aria-selected="false"><i class="ri-message-3-line fs-6"></i></a>
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#chatModal" role="button">
+              <i class="ri-message-3-line fs-6"></i>
+            </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><i class="ri-timer-line fs-6"></i></a>
@@ -142,6 +144,8 @@
     </aside>
     
     <div class="chat-windows"></div>
+    
+    @include('gemini.chat')
     <script>
       $(document).ready(function() {
         var theme;
@@ -261,6 +265,17 @@
                 console.error('Ha ocurrido un error');
               }
             });
+          }
+        });
+      });
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const botonChat = document.querySelector('[data-bs-target="#chatModal"]');
+        const panelCustomizer = document.querySelector('.customizer');
+        
+        botonChat.addEventListener('click', function () {
+          if (panelCustomizer && panelCustomizer.classList.contains('show-service-panel')) {
+            panelCustomizer.classList.remove('show-service-panel');
           }
         });
       });

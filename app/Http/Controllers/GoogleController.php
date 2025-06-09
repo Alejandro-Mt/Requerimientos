@@ -7,17 +7,22 @@ use Exception;
 use App\Models\User;
 use App\Models\usr_data;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
   
 class GoogleController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @var \Laravel\Socialite\Two\GoogleProvider $provider
      */
     public function redirectToGoogle()
     {
+         if (!session()->has('url.intended') && !str_contains(url()->previous(), 'login')) {
+            session(['url.intended' => url()->previous()]);
+        }
         return Socialite::driver('google')
         ->scopes([
             'https://www.googleapis.com/auth/spreadsheets', // Alcance para hojas de cálculo
@@ -43,7 +48,7 @@ class GoogleController extends Controller
                 $finduser->save();
                 $auth = User::findOrFail($finduser->id_user);
                 Auth::login($auth);
-                return redirect(route('home'));
+                #return redirect(route('home'));
             }else{
                 $parts = explode(" ", $user->name);
                 $nombre = $parts[0];
@@ -69,11 +74,51 @@ class GoogleController extends Controller
                         ]
                     );
                 Auth::login($newUser);
-                return redirect(route('home'));
+                #return redirect(route('home'));
                 #dd($user->token);
             }
+            return redirect()->intended(route('home'));
         } catch (Exception $e) {
             dd($e->getMessage());
         }
     }
+
+    public function showGeminiForm()
+    {
+        return view('gemini.chat'); // apunta a resources/views/gemini/chat.blade.php
+    }
+
+    public function generateFromGemini(Request $request)
+    {
+        $request->validate([
+            'prompt' => 'required|string',
+            'context' => 'nullable|string',
+        ]);
+
+        $gemini_api_key = config('services.google.api_key');
+        //$gemini_api_key = 'AIzaSyAH9gxYQTJDv5LdPrX6x1FbASIUlC2Ap-Y'; #env('GEMINI_API_KEY');
+
+        $full_prompt = "Eres un asistente del curso. Usa únicamente el siguiente contenido extraído de la wiki para responder.\n\n"
+            . $request->context . "\n\n"
+            . "Pregunta del usuario:\n"
+            . $request->prompt;
+
+        $data = [
+            'contents' => [
+                [
+                    'role' => 'user',
+                    'parts' => [
+                        ['text' => $full_prompt]
+                    ]
+                ]
+            ]
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$gemini_api_key}", $data);
+
+        return response()->json($response->json(), $response->status());
+    }
+
 }

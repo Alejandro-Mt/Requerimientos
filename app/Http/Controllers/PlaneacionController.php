@@ -262,7 +262,7 @@ class PlaneacionController extends Controller
         $notificacionController->stnotify($idSC,$message);
       }
       Mail::to($registro->solicitud->correo)->send(new DefinicionRequerimiento($registro->folio));
-      Mail::to($registro->rpip->email)->send(new Aut_f ($registro->folio, $respuesta));
+      #Mail::to($registro->rpip->email)->send(new Aut_f ($registro->folio, $respuesta));
       return redirect(route('Documentos',Crypt::encrypt($folio)))->with('success', 'Enviado');
     }
     elseif ($registro->solicitud && $respuesta  == 0){

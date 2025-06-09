@@ -80,7 +80,7 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
+    background-color: black;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -98,23 +98,44 @@ img {
 /* Header */
 
 .header {
-    padding: 25px 0;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 570px;
+    width: 100%;
+    max-width: 570px;
+    margin: 0 auto;
     text-align: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background: linear-gradient(
+        to right,
+        rgba(0, 210, 255, 0.2), /* Azul verdoso con 20% opacidad */
+        rgba(106, 13, 173, 0.2)  /* Púrpura con 2s0% opacidad */
+    );
+    backdrop-filter: blur(10px); /* Desenfoque del fondo */
+    box-shadow: 
+        0 0 10px rgba(0, 210, 255, 0.2), /* Sombra azul */
+        0 0 20px rgba(106, 13, 173, 0.2); /* Sombra púrpura */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Borde brillante */
 }
 
-.header a {
-    color: #3d4852;
+/*.header a {
+    color: snow;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
-}
+    display: inline-block;
+    text-align: center;
+}*/
 
 /* Logo */
 
-.logo {
+.logo { 
+    display: block;
+    margin: 0 auto;
+    width: auto;
     height: 75px;
-    max-height: 75px;
-    width: 75px;
+    display: block;
 }
 
 /* Body */
@@ -123,9 +144,9 @@ img {
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
-    background-color: #edf2f7;
-    border-bottom: 1px solid #edf2f7;
-    border-top: 1px solid #edf2f7;
+    background-color: black;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -143,6 +164,8 @@ img {
     margin: 0 auto;
     padding: 0;
     width: 570px;
+    
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Borde brillante */
 }
 
 /* Subcopy */
@@ -167,6 +190,18 @@ img {
     padding: 0;
     text-align: center;
     width: 570px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background: linear-gradient(
+        to right,
+        rgba(0, 210, 255, 0.2), /* Azul verdoso con 20% opacidad */
+        rgba(106, 13, 173, 0.2)  /* Púrpura con 20% opacidad */
+    );
+    backdrop-filter: blur(10px); /* Desenfoque del fondo */
+    box-shadow: 
+        0 0 10px rgba(0, 210, 255, 0.2), /* Sombra azul */
+        0 0 20px rgba(106, 13, 173, 0.2); /* Sombra púrpura */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Borde brillante */
 }
 
 .footer p {
@@ -257,6 +292,24 @@ img {
     border-top: 8px solid #e53e3e;
 }
 
+.button-sp,
+.button-smart {
+    background-color: #21005d;
+    border-bottom: 8px solid #21005d;
+    border-left: 18px solid #21005d;
+    border-right: 18px solid #21005d;
+    border-top: 8px solid #21005d;
+}
+
+.button-pdf,
+.button-archivo {
+    background-color: #5756d6;
+    border-bottom: 8px solid #5756d6;
+    border-left: 18px solid #5756d6;
+    border-right: 18px solid #5756d6;
+    border-top: 8px solid #5756d6;
+}
+
 /* Panels */
 
 .panel {
@@ -265,7 +318,7 @@ img {
 }
 
 .panel-content {
-    background-color: #edf2f7;
+    background-color: black;
     color: #718096;
     padding: 16px;
 }
@@ -287,4 +340,12 @@ img {
 
 .break-all {
     word-break: break-all;
+}
+
+/* Fix de alineación forzada */
+
+.header,
+.inner-body,
+.footer {
+    box-sizing: border-box;
 }

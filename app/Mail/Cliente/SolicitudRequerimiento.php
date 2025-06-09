@@ -12,7 +12,7 @@ class SolicitudRequerimiento extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $datos;
+    public $dato;
 
     /**
      * Create a new message instance.
@@ -21,7 +21,7 @@ class SolicitudRequerimiento extends Mailable
      */
     public function __construct($folio)
     {
-        $this->datos = solicitud::where('folio',$folio)->get();
+        $this->dato = solicitud::where('folio',$folio)->first();
     }
 
     /**

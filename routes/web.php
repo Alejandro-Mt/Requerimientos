@@ -32,6 +32,8 @@ use App\Http\Controllers\ResponsableController;
 use App\Http\Controllers\RondaController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\Solicitantescontroller;
+use App\Http\Controllers\TestingController;
+use App\Models\Testing;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
@@ -163,10 +165,10 @@ Route::post('/formatos.requerimientos.construccion',[ConstruccionController::cla
 
 Route::post('Ajuste.Definision.{folio}',[RedefinisionController::class, 'create'])->name('ReDef');
 ##  metodos para liberacion ##
-Route::get(substr(Crypt::encryptString('pruebas.testing'), 95, 5).'{folio}',[LiberacionController::class, 'index'])->name('PruebasTesting')->middleware('auth');
-Route::post('pruebas.liberacion',[LiberacionController::class, 'create'])->name('GPT');
-Route::get(substr(Crypt::encryptString('/formatos.requerimientos.liberacion'), 45, 5).'{folio}',[LiberacionController::class, 'edit'])->name('Liberacion')->middleware('auth');
-Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'update'])->name('Liberar');
+Route::get(substr(Crypt::encryptString('pruebas.testing'), 95, 5).'{folio}',[TestingController::class, 'index'])->name('PruebasTesting')->middleware('auth');
+Route::post('pruebas.liberacion',[TestingController::class, 'create'])->name('GPT');
+Route::get(substr(Crypt::encryptString('/formatos.requerimientos.liberacion'), 45, 5).'{folio}',[LiberacionController::class, 'index'])->name('Liberacion')->middleware('auth');
+Route::post('/formatos.requerimientos.liberacion',[LiberacionController::class, 'create'])->name('Liberar');
 #    \\      Proceso Requerimiento      //   #
 Route::get(substr(Crypt::encryptString('ronda.registro'), 50, 5).'{folio}', [RondaController::class, 'index'])->name('Ronda')->middleware('auth');
 Route::post('ronda.crear', [RondaController::class, 'create'])->name('CRonda');
@@ -219,3 +221,6 @@ route::get(substr(Crypt::encryptString('preregistro.datos'), 80, 5).'{folio}',[P
 route::get(substr(Crypt::encryptString('requerimiento.nuevo'), 85, 5).'{folio}',[PreregistroController::class, 'edit'])->name('NR');
 route::post('preregistro.rechazo.{folio}',[PreregistroController::class, 'destroy'])->name('RechazoP');
 route::get('cliente.graficos',[PreregistroController::class, 'chart'])->name('Estadistico');
+
+Route::get('gemini', [GoogleController::class, 'showGeminiForm'])->name('Gemini');
+Route::post('gemini/chat', [GoogleController::class, 'generateFromGemini'])->name('GeminiChat');

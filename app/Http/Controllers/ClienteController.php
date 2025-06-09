@@ -9,6 +9,7 @@ use App\Models\Cliente;
 use App\Models\comentario;
 use App\Models\desfase;
 use App\Models\estatu;
+use App\Models\fase;
 use App\Models\levantamiento;
 use App\Models\mesa;
 use App\Models\motivo;
@@ -138,7 +139,8 @@ class ClienteController extends Controller
         $clases = clase::all();
         $cliente = Cliente::all();
         $desfases = desfase::all();
-        $estatus = estatu::orderby('posicion','asc')->get();
+        $estatus = estatu::whereNotIn('titulo', ['Cancelado', 'Rechazado'])->orderBy('posicion', 'asc')->get();
+        $fases  = fase::all();
         #$flujo = archivo::where('folio',Crypt::decrypt($folio))->where('url', 'like', '%Flujo%')->Orwhere('ur', 'like', '%Prototipo%')->count();
         $flujo = archivo::where('folio', Crypt::decrypt($folio))
             ->where(function($query) {
@@ -172,7 +174,7 @@ class ClienteController extends Controller
         $sistema = sistema::all();
         if($reg){$link = planeacion::select('evidencia')->where('folio',Crypt::decrypt($folio))->first();}else{$link = NULL;}
         $rondas = ronda::selectRaw('max(ronda) as ronda, sum(aprobadas) as aprobadas, sum(rechazadas) as rechazadas')->where('folio',Crypt::decrypt( $folio))->first();    
-        return view('cliente.documentacion',compact('archivos','cancelar','clases','cliente','comentarios','desfases','estatus','flujo','folio','formatos','link', 'mesas','pausa','proyectos','registros','retrasos','responsable','rondas','testers','sistema','def_ver'));
+        return view('cliente.documentacion',compact('archivos','cancelar','clases','cliente','comentarios','desfases','estatus','fases','flujo','folio','formatos','link', 'mesas','pausa','proyectos','registros','retrasos','responsable','rondas','testers','sistema','def_ver'));
         #dd(Crypt::decrypt($folio) );
     }
 

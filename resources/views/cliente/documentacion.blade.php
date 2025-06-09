@@ -128,9 +128,9 @@
                             @if(is_null($registros->levantamiento->fechades) || $registros->levantamiento->impacto == 3)
                                 DESARROLLO
                             @elseif($registros->levantamiento->impacto == 2)
-                                DESARROLLO/PIP
+                                DESARROLLO/PM
                             @else
-                                PIP
+                                PM
                             @endif
                             @break
                           @case(7)
@@ -142,7 +142,7 @@
                             TESTING
                             @break
                           @default
-                            PIP
+                            PM
                         @endswitch
                       </strong>
                     </a>
@@ -153,337 +153,180 @@
                 </div>
                 <div id="data">
                   <ul class="feeds ps-0">
-                    @if ($registros->estatus->posicion > 1)
+                    @foreach ($fases as $fase)
                       <div class="feed-item mb-2 py-2 pe-3 ps-4">
                         <div class="border-start border-2 border-danger d-md-flex">
-                          <div class="d-flex align-items-start">
-                            <a class="ms-3 btn btn-light-danger text-danger btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                              <i data-feather="file-text" class="feather-sm"></i>
-                            </a>
-                            <div class="ms-3">
-                              <span class="text-dark font-weight-medium">LEVANTAMIENTO</span>
-                              @foreach ($estatus as $limite)
-                                @if(($limite->posicion < 6) and ($limite->posicion != NULL))
-                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                    <span class="fs-2 text-muted">
-                                      @if($registros->levantamiento && $limite->posicion == 5)
-                                        @if($registros->levantamiento->fechaaut == NULL)
-                                          <a class="text-danger"> Enviado a autorizar a {{$registros->levantamiento->autorizador->getFullnameAttribute()}}</a>
-                                        @else
-                                          <a class="text-success"> Autorizado por {{$registros->levantamiento->autorizador->getFullnameAttribute()}}</a>
-                                          @endif
-                                      @else 
-                                        {{$limite->titulo}}
-                                      @endif
-                                    </span>
-                                    <div class="position-absolute end-0">
+                          @if($registros->estatus->id_fase >= $fase->id_fase)
+                            <div class="d-flex align-items-start">
+                              <a class="ms-3 btn btn-light-{{ $fase->color ?? 'secondary' }} text-{{ $fase->color ?? 'secondary' }} btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
+                                <i data-feather="{{ $fase->icono ?? 'alert-circle' }}" class="feather-sm"></i>
+                              </a>
+                              <div class="ms-3">
+                                <span class="text-dark font-weight-medium">{{$fase->nombre}}</span>
+                                @foreach ($estatus as $limite)
+                                  @if($limite->id_fase == $fase->id_fase && $registros->estatus->posicion >= $limite->posicion)
+                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
                                       <span class="fs-2 text-muted">
-                                        @switch($limite->posicion)
-                                          @case(1)
-                                            @if($registros->solicitud)
-                                              {{date("d/M/y",strtotime($registros->solicitud->created_at))}}
+                                        @if($registros->levantamiento && $limite->posicion == 5)
+                                          @if($registros->levantamiento->fechaaut == NULL)
+                                            <a class="text-danger"> Enviado a autorizar a {{$registros->levantamiento->autorizador->getFullnameAttribute()}}</a>
+                                          @else
+                                            <a class="text-success"> Autorizado por {{$registros->levantamiento->autorizador->getFullnameAttribute()}}</a>
                                             @endif
-                                            @break
-                                          @case(2)
-                                            @if($registros->created_at)
-                                              {{date("d/M/y",strtotime($registros->created_at))}}
-                                            @endif
-                                            @break
-                                          @case(3)
-                                            @if($registros->levantamiento)
-                                              {{date("d/M/y",strtotime($registros->levantamiento->created_at))}}
-                                            @endif
-                                            @break
-                                          @case(4)
-                                            @if($registros->levantamiento)
-                                              {{date("d/M/y",strtotime($registros->levantamiento->created_at))}}
-                                            @endif
-                                            @break
-                                          @case(5)
-                                            @if($registros->levantamiento && $registros->levantamiento->fechaaut)
-                                              <a class="text-success">{{date("d/M/y",strtotime($registros->levantamiento->fechaaut))}}</a>
-                                            @elseif($registros->levantamiento && !$registros->levantamiento->fechaaut)
-                                              <a class="text-danger">{{date("d/M/y",strtotime($registros->levantamiento->updated_at))}}</a>
-                                            @endif
-                                            @break
-                                          @default   
-                                            <!--{ {date("d/M/y",strtotime($registros->correo))}}-->
-                                            @break  
-                                        @endswitch
-                                      </span>
-                                    </div>
-                                  </div>
-                                  @foreach($registros->pausa as $retraso)
-                                    @if($retraso->estatus && $limite->titulo == $retraso->estatus->titulo)
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">
-                                          <a class="text-danger">{{$retraso->desfase->motivo}}</a>
-                                        </span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            <p class="text-danger">Días pospuesto @if($retraso->pausa == 2)
-                                              {{$registros->CalcDias($retraso->created_at, now())}} 
-                                              @else 
-                                              {{$registros->CalcDias($retraso->created_at, $retraso->updated_at)}}
-                                              @endif
-                                            </p>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                @endif
-                              @endforeach
-                              @foreach($registros->pausa as $retrasodesc)
-                                @if(!$retrasodesc->id_estatus)
-                                <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                  <span class="fs-2 text-muted">
-                                    <a class="text-danger">{{'DESCONOCIDO'}}</a>
-                                  </span>
-                                  <div class="position-absolute end-0">
-                                    <span class="fs-2 text-muted">
-                                      <p class="text-danger">Días pospuesto @if($retrasodesc->pausa == 2)
-                                        {{$registros->CalcDias($retrasodesc->created_at, now())}} 
                                         @else 
-                                        {{$registros->CalcDias($retrasodesc->created_at, $retrasodesc->updated_at)}}
+                                          {{$limite->titulo}}
                                         @endif
-                                      </p>
+                                      </span>
+                                      <div class="position-absolute end-0">
+                                        <span class="fs-2 text-muted">
+                                          @switch($limite->posicion)
+                                            @case(1)
+                                              @if($registros->solicitud)
+                                                {{date("d/M/y",strtotime($registros->solicitud->created_at))}}
+                                              @endif
+                                              @break
+                                            @case(2)
+                                              @if($registros->created_at)
+                                                {{date("d/M/y",strtotime($registros->created_at))}}
+                                              @endif
+                                              @break
+                                            @case(3)
+                                              @if($registros->levantamiento)
+                                                {{date("d/M/y",strtotime($registros->levantamiento->created_at))}}
+                                              @endif
+                                              @break
+                                            @case(4)
+                                              @if($registros->levantamiento)
+                                                {{date("d/M/y",strtotime($registros->levantamiento->created_at))}}
+                                              @endif
+                                              @break
+                                            @case(5)
+                                              @if($registros->levantamiento && $registros->levantamiento->fechaaut)
+                                                <a class="text-success">{{date("d/M/y",strtotime($registros->levantamiento->fechaaut))}}</a>
+                                              @elseif($registros->levantamiento && !$registros->levantamiento->fechaaut)
+                                                <a class="text-danger">{{date("d/M/y",strtotime($registros->levantamiento->updated_at))}}</a>
+                                              @endif
+                                              @break
+                                            @case(6)
+                                              @if($registros->defReq)
+                                                {{date("d/M/y",strtotime($registros->levantamiento->fechaaut ?? $registros->defReq->fechaCompReqR))}}
+                                              @endif
+                                              @break
+                                            @case(7)
+                                              @if($registros->plan)
+                                                <!--{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}-->
+                                              @endif
+                                              @break
+                                            @case(8)
+                                              @if($registros->plan)
+                                                {{date("d/M/y",strtotime($registros->plan->fechaCompReqR))}}
+                                              @endif
+                                              @break
+                                            @case(9)
+                                              @if($registros->construccion)
+                                                {{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}
+                                              @endif
+                                              @break
+                                              @case(10)
+                                                @if($registros->liberacion && $registros->liberacion->fecha_lib_r && $limite->posicion == 10)
+                                                  {{date("d/M/y",strtotime($registros->liberacion->fecha_lib_r))}}
+                                                @endif
+                                              @break
+                                              @case(11)
+                                                @if($registros->liberacion && $registros->liberacion->inicio_lib && $limite->posicion == 11)
+                                                  {{date("d/M/y",strtotime($registros->liberacion->inicio_lib))}}
+                                                @endif
+                                              @break
+                                              @case(12)
+                                                @if($registros->implementacion)
+                                                  {{date("d/M/y",strtotime($registros->implementacion->f_implementacion))}}
+                                                @endif
+                                              @break
+                                            @default   
+                                              <!--{ {date("d/M/y",strtotime($registros->correo))}}-->
+                                              @break  
+                                          @endswitch
+                                        </span>
+                                      </div>
+                                    </div>
+                                    @foreach($registros->pausa as $retraso)
+                                      @if($retraso->estatus && $limite->titulo == $retraso->estatus->titulo)
+                                        <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                          <span class="fs-2 text-muted">
+                                            <a class="text-danger">{{$retraso->desfase->motivo}}</a>
+                                          </span>
+                                          <div class="position-absolute end-0">
+                                            <span class="fs-2 text-muted">
+                                              <p class="text-danger">Días pospuesto @if($retraso->pausa == 2)
+                                                {{$registros->CalcDias($retraso->created_at, now())}} 
+                                                @else 
+                                                {{$registros->CalcDias($retraso->created_at, $retraso->updated_at)}}
+                                                @endif
+                                              </p>
+                                            </span>
+                                          </div>
+                                        </div>
+                                      @endif
+                                    @endforeach
+                                  @endif
+                                @endforeach
+                                @foreach($registros->pausa as $retrasodesc)
+                                  @if(!$retrasodesc->id_estatus)
+                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
+                                    <span class="fs-2 text-muted">
+                                      <a class="text-danger">{{'DESCONOCIDO'}}</a>
                                     </span>
-                                  </div>
-                                </div>
-                                @endif
-                              @endforeach
-                            </div>
-                          </div>
-                          <div class="position-absolute end-0">
-                            <a class="text-danger">
-                              <strong>
-                                {{$registros->CalcDias($registros->solicitud->created_at ?? $registros->created_at, $registros->levantamiento->fechaaut ?? $registros->defReq->fechaCompReqR ?? now())}} Días
-                              </strong> / 
-                              {{ min($registros->estatus->posicion, 5) }} de 5
-                            </a>                          
-                          </div>
-                        </div>
-                      </div>
-                    @endif
-                    @if ($registros->estatus->posicion > 6)
-                      <div class="feed-item mb-2 py-2 pe-3 ps-4">
-                        <div class="border-start border-2 border-info d-md-flex">
-                          <div class="d-flex align-items-start">
-                            <a class="ms-3 btn btn-light-info text-info btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                              <i data-feather="settings" class="feather-sm"></i>
-                            </a>
-                            <div class="ms-3">
-                              <span class="text-dark font-weight-medium">CONSTRUCCIÓN</span>
-                              @foreach ($estatus as $limite)
-                                @if(($limite->posicion > 5) and ($limite->posicion < 10) and ($limite->posicion != NULL))
-                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                    <span class="fs-2 text-muted">{{$limite->titulo}}</span>
                                     <div class="position-absolute end-0">
                                       <span class="fs-2 text-muted">
-                                        @switch($limite->posicion)
-                                          @case(6)
-                                            @if($registros->defReq)
-                                              {{date("d/M/y",strtotime($registros->levantamiento->fechaaut ?? $registros->defReq->fechaCompReqR))}}
-                                            @endif
-                                            @break
-                                          @case(7)
-                                            @if($registros->plan)
-                                              <!--{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}-->
-                                            @endif
-                                            @break
-                                          @case(8)
-                                            @if($registros->plan)
-                                              {{date("d/M/y",strtotime($registros->plan->fechaCompReqR))}}
-                                            @endif
-                                            @break
-                                          @case(9)
-                                            @if($registros->construccion)
-                                              {{date("d/M/y",strtotime($registros->construccion->fechaCompReqR))}}
-                                            @endif
-                                            @break
-                                          @default 
-                                        @endswitch
+                                        <p class="text-danger">Días pospuesto @if($retrasodesc->pausa == 2)
+                                          {{$registros->CalcDias($retrasodesc->created_at, now())}} 
+                                          @else 
+                                          {{$registros->CalcDias($retrasodesc->created_at, $retrasodesc->updated_at)}}
+                                          @endif
+                                        </p>
                                       </span>
                                     </div>
-                                  </div>  
-                                  @foreach($registros->pausa as $retraso)
-                                    @if($retraso->estatus && $limite->titulo == $retraso->estatus->titulo)
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">
-                                          <a class="text-danger">{{$retraso->desfase->motivo}}</a>
-                                        </span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            <p class="text-danger">Días pospuesto @if($retraso->pausa == 2)
-                                              {{$registros->CalcDias($retraso->created_at, now())}} 
-                                              @else 
-                                              {{$registros->CalcDias($retraso->created_at, $retraso->updated_at)}}
-                                              @endif
-                                            </p>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                  @if($registros->estatus->posicion == 7 && $limite->posicion == 6 && ($archivos->contains(fn($archivo) => stripos($archivo->url, 'Flujo') !== false || stripos($archivo->url, 'Prototipo') !== false)))
-                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                      <span class="fs-2 text-muted">
-                                        <a class="text-warning">Archivo enviado a desarrollo</a>
-                                      </span>
-                                    </div>
-                                  @elseif($registros->estatus->posicion == 7 && $limite->posicion == 6)
-                                    <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                      <span class="fs-2 text-muted">
-                                        <a class="text-danger">En espera de Flujo o Prototipo</a>
-                                      </span>
-                                    </div>
+                                  </div>
                                   @endif
-                                @endif
-                              @endforeach
+                                @endforeach
+                              </div>
                             </div>
-                          </div>
-                          <div class="position-absolute end-0">
-                            <a class="text-info">
-                              <strong>
-                                {{$registros->CalcDias($registros->levantamiento->fechaaut ?? $registros->defReq->fechaCompReqR, $registros->construccion->fechaCompReqR ?? now())}} Días
-                              </strong> / 
-                              {{ min($registros->estatus->posicion, 3) }} de 3
-                            </a>   
-                          </div>
-                        </div>
-                      </div>
-                    @endif
-                    @if ($registros->estatus->posicion > 9)
-                      <div class="feed-item mb-2 py-2 pe-3 ps-4">
-                        <div class="border-start border-2 border-success d-md-flex">
-                          <div class="d-flex align-items-start">
-                            <a class="ms-3 btn btn-light-success text-success btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                              <i data-feather="check-circle" class="feather-sm"></i>
-                            </a>
-                            <div class="ms-3">
-                              <span class="text-dark font-weight-medium">LIBERACIÓN</span>
-                              @foreach ($estatus as $limite)
-                                @if(($limite->posicion > 9) and ($limite->posicion < 12) and ($limite->posicion != NULL))
-                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                    <span class="fs-2 text-muted">{{$limite->titulo}}</span>
-                                    <div class="position-absolute end-0">
-                                      <span class="fs-2 text-muted">
-                                        @if($registros->liberacion && $registros->liberacion->fecha_lib_r && $limite->posicion == 10)
-                                          {{date("d/M/y",strtotime($registros->liberacion->fecha_lib_r))}}
-                                        @elseif($registros->liberacion && $registros->liberacion->inicio_lib && $limite->posicion == 11)
-                                          {{date("d/M/y",strtotime($registros->liberacion->inicio_lib))}}
-                                        @endif
-                                      </span>
-                                    </div>
-                                  </div>
-                                  @foreach($registros->pausa as $retraso)
-                                    @if($retraso->estatus && $limite->titulo == $retraso->estatus->titulo)
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">
-                                          <a class="text-danger">{{$retraso->desfase->motivo}}</a>
-                                        </span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            <p class="text-danger">Días pospuesto @if($retraso->pausa == 2)
-                                              {{$registros->CalcDias($retraso->created_at, now())}} 
-                                              @else 
-                                              {{$registros->CalcDias($retraso->created_at, $retraso->updated_at)}}
-                                              @endif
-                                            </p>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                  @if(($limite->posicion == 11))
-                                    @if($datosRonda = $registros->liberacion ? $registros->liberacion->obtenerDatosRonda($registros->folio) : '')
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-info">RONDAS</span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-info">{{$datosRonda->ronda}}
-                                          </span>
-                                        </div>
-                                      </div>
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-info">{{'TOTAL DE PRUEBAS'}}</span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-info">
-                                            @if($registros->liberacion)
-                                            {{$datosRonda->aprobadas + $datosRonda->rechazadas}}
-                                            @endif
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endif
-                                @endif
-                              @endforeach
-                            </div>
-                          </div>
-                          <div class="position-absolute end-0">
-                            <a class="text-success"><strong>
-                              {{$registros->CalcDias($registros->construccion->fechaCompReqR,$registros->liberacion->inicio_lib ?? now())}} Días</strong> / @if ($registros->estatus->posicion > 9) 1 @else {{$registros->estatus->posicion - 9}} @endif de 1</a>
-                          </div>
-                        </div>
-                      </div>
-                    @endif
-                    @if ($registros->estatus->posicion > 12)
-                      <div class="feed-item mb-2 py-2 pe-3 ps-4">
-                        <div class="border-start border-2 border-orange d-md-flex">
-                          <div class="d-flex align-items-start">
-                            <a class="ms-3 btn btn-light-warning text-orange btn-circle fs-5 d-flex align-items-center justify-content-center flex-shrink-0">
-                              <i data-feather="users" class="feather-sm"></i>
-                            </a>
-                            <div class="ms-3">
-                              <span class="text-dark font-weight-medium">
-                                IMPLEMENTACIÓN
-                              </span>
-                              @foreach ($estatus as $limite)
-                                @if(($limite->posicion == 12) and ($limite->posicion != NULL))
-                                  <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                    <span class="fs-2 text-muted">{{$limite->titulo}}</span>
-                                    <div class="position-absolute end-0">
-                                      <span class="fs-2 text-muted">
-                                        @if($registros->implementacion)
-                                          {{date("d/M/y",strtotime($registros->implementacion->f_implementacion))}}
-                                        @endif
-                                      </span>
-                                    </div>
-                                  </div>
+                            @php
+                              // Total estatus de la fase actual
+                              $totalPorFase = $estatus->where('id_fase', $fase->id_fase)->count();
+
+                              // Estatus listos en esta fase
+                              $listosPorFase = $registros->estatus->where('id_fase', $fase->id_fase)->count();
+                            @endphp
+                            <div class="position-absolute end-0">
+                              <a class="text-{{ $fase->color ?? 'secondary' }}">
+                                <strong>
                                   
-                                  @foreach($registros->pausa as $retraso)
-                                    @if($retraso->estatus && $limite->titulo == $retraso->estatus->titulo)
-                                      <div class="justify-content ms-2 ps-4 ps-md-0 d-md-flex">
-                                        <span class="fs-2 text-muted">
-                                          <a class="text-danger">{{$retraso->desfase->motivo}}</a>
-                                        </span>
-                                        <div class="position-absolute end-0">
-                                          <span class="fs-2 text-muted">
-                                            <p class="text-danger">Días pospuesto @if($retraso->pausa == 2)
-                                              {{$registros->CalcDias($retraso->created_at, now())}} 
-                                              @else 
-                                              {{$registros->CalcDias($retraso->created_at, $retraso->updated_at)}}
-                                              @endif
-                                            </p>
-                                          </span>
-                                        </div>
-                                      </div>
-                                    @endif
-                                  @endforeach
-                                @endif
-                              @endforeach
+                                  @switch($fase->id_fase)
+                                    @case(2)
+                                      {{$registros->CalcDias($registros->solicitud->created_at ?? $registros->created_at, $registros->levantamiento->fechaaut ?? $registros->defReq->fechaCompReqR ?? now())}} Días <!--solicitud/levantamiento-->
+                                      @break
+                                    @case(3)
+                                      {{$registros->CalcDias($registros->levantamiento->fechaaut ?? $registros->defReq->fechaCompReqR, $registros->construccion->fechaCompReqR ?? now())}} Días<!--construccion-->
+                                      @break
+                                    @case(4)
+                                      {{$registros->CalcDias($registros->construccion->fechaCompReqR,$registros->liberacion->inicio_lib ?? now())}} Días <!--construccion-->
+                                      @break
+                                    @case(5)
+                                      {{$registros->CalcDias($registros->liberacion->inicio_lib, $registros->implementacion->f_implementacion ?? now())}} Días <!--implementacion-->
+                                      @break
+                                    @case(6)
+                                      {{$registros->CalcDias($registros->solicitud->created_at ?? $registros->created_at, $registros->levantamiento->fechaaut ?? $registros->defReq->fechaCompReqR ?? now())}} Días <!--implementado-->
+                                      @break
+                                  @endswitch
+                                </strong> / 
+                                {{ $listosPorFase }} de {{ $totalPorFase }}
+                              </a>                          
                             </div>
-                          </div>
-                          <div class="position-absolute end-0">
-                            <a class="text-orange">
-                              <strong>
-                                {{$registros->CalcDias($registros->liberacion->inicio_lib, $registros->implementacion->f_implementacion ?? now())}} Días</strong> / @if ($registros->estatus->posicion > 10) 1 @else {{$registros->estatus->posicion - 10}} @endif de 1
-                            </a>
-                          </div>
+                          @endif
                         </div>
-                      </div>
-                    @endif
+                      </div>  
+                    @endforeach
                   </ul>
                 </div>
                 @if(Auth::user()->usrdata->id_departamento != 35)
@@ -534,49 +377,44 @@
                               <button id="btn" type="button" class="btn btn-outline-orange" data-bs-toggle="modal" data-bs-target="#Tester">Asignar tester</button> 
                             @endif
                           @endif
-                          @if($registros->levantamiento->impacto == 1)
-                            @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
-                              <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
-                            @endif
-                          @elseif($registros->levantamiento->impacto == 3)
+                          @if($registros->levantamiento->impacto)
                             @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
                               <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
                             @endif
-                          @elseif($registros->levantamiento->impacto == 2)
-                            <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Planeación</a>
                           @elseif($registros->levantamiento->fechades == NULL)
                             @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
-                            <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#impacto">Clase</button> 
+                            <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#impacto">Impacto</button> 
                             @endif
                           @endif
                         @break
                         @case(7)
                           @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
-                            <a data-bs-toggle="modal" data-bs-target="#Auto2" type="button" class="btn btn-outline-purple">Enviar Flujo a desarrollo</a>
+                            <a data-bs-toggle="modal" data-bs-target="#Auto2" type="button" class="btn btn-outline-purple">Adjuntar flujo</a>
                           @endif
-                          @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
+                          {{-- @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
                               @if ($flujo)
                                 <a data-bs-toggle="modal" data-bs-target="#Flujo" type="button" class="btn btn-outline-orange">Autorizar flujo</a>
                               @endif
-                          @endif
+                          @endif --}}
                         @break
                         @case(8)
                           @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7') 
                             @if($registros->levantamiento->fecha_def == null)
                               <a href="{{route('Mesa',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-orange">Mesa de trabajo</a>
-                              @if($registros->levantamiento->impacto == 1)
-                                @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
-                                  <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Cambiar Definición</a>
-                                @endif
-                              @elseif($registros->levantamiento->impacto == 3)
+                              @if($registros->levantamiento->impacto)
                                 @if(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
                                   <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Cambiar Definición</a>
                                 @endif
-                              @elseif($registros->levantamiento->impacto == 2)
-                                <a href="{{route('Planeacion',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Cambiar Definición</a>
                               @endif
                             @else
-                              <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
+                              {{-- @if($registros->levantamiento->fecha_def == null) --}}
+                              {{-- @endif --}}
+                                <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-purple">Plan de trabajo</a>
+                            @endif
+                          @endif
+                          @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
+                            @if($registros->levantamiento->fecha_def)
+                              <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-orange">Matriz de pruebas</a>
                             @endif
                           @endif
                         @break
@@ -585,6 +423,9 @@
                             <button id="btn" type="button" class="btn btn-outline-purple" data-bs-toggle="modal" data-bs-target="#Auto2">Cargar autorización</button> 
                           @elseif(Auth::user()->usrdata->id_departamento == '14' || Auth::user()->usrdata->id_puesto == '7')
                             <a href="{{route('Construccion',Crypt::encrypt($registros->folio))}}" id="" type="button" class="btn btn-outline-purple">Construcción</a>
+                          @endif
+                          @if(Auth::user()->usrdata->id_departamento == '21' || Auth::user()->usrdata->id_puesto == '7')
+                            <a href="{{route('Analisis',Crypt::encrypt($registros->folio))}}" id="btn" type="button" class="btn btn-outline-orange">Matriz de pruebas</a>
                           @endif
                         @break
                         @case(10)

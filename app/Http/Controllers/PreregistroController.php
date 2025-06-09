@@ -89,7 +89,7 @@ class PreregistroController extends Controller
             $notificacionController = new NotificacionController();
             $notificacionController->stnotify($idSC,$message);
         }
-        mail::to($data['email'])->cc( $coordinacion->pluck('email'))->send(new SolicitudRequerimiento($folio));
+        mail::to($data['email'])->send(new SolicitudRequerimiento($folio));//->cc( $coordinacion->pluck('email'))
         if($data['adjunto'] == 'true'){
             return redirect(route('Plus',$folio));
         }

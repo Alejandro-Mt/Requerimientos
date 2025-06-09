@@ -37,7 +37,7 @@ class RecordController extends Controller
         $sistema = sistema::all();
         $vacio = registro:: select('*')->count();
         return view('formatos.requerimientos.new',compact('cliente','datos','proyectos','registros','responsable','sistema','vacio'));
-        dd($proyectos);
+        #dd($proyectos);
     }
 
     protected function create(request $data){
@@ -48,7 +48,7 @@ class RecordController extends Controller
             $update->folior = $folio;
             $update->save();
         }
-        registro::create([
+        $registro = registro::create([
             'folio' => $folio,
             'descripcion' => $data['descripcion'],
             'id_responsable' => $data['id_responsable'],
@@ -67,6 +67,12 @@ class RecordController extends Controller
             $listado->orden = $listado->orden.','.$folio;
             $listado->save();
         }
+        if($data->es_pr){
+            $destino = usr_data::whereIn('id_puesto', [4, 5, 6, 7])->where('id_departamento', '=', 21)->get();
+            foreach($destino as $correo){ 
+                mail::to('alejandro.martinez@it-strategy.mx')->send(new NuevoProyecto($registro,$correo->user->getFullnameAttribute()));
+            }
+        }
         $notificacionSCC = solicitud::where('folio',$data['preregistro'])->first();
         #$notificacionUser = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$notificacionSCC->correo);
         $notificacionUser = Http::get('https://api-seguridad-67vdh6ftzq-uc.a.run.app/api/v1/login/validacionRF/0/' . $notificacionSCC->correo);
@@ -76,7 +82,6 @@ class RecordController extends Controller
         #dd($idSC,$message);
         $notificacionController = new NotificacionController();
         $notificacionController->stnotify($idSC,$message);
-        #dd(($folio));
         return redirect(route('Nuevo'))->with('alert', $folio);
     }
 
@@ -128,7 +133,7 @@ class RecordController extends Controller
             'campo'         => "Se asigna tester",
             'id_estatus'    => $registro->id_estatus,
             ]);
-        #Mail::to($registro->rtest->email)->send(new Tester($folio));
+        Mail::to($registro->rtest->email)->send(new Tester($folio));
         return redirect(route('Documentos',Crypt::encrypt($folio)));
         ####  Notificaciones por ST desactivadas  ###
         /*$notificacionUserC = Http::get('https://api-seguridadv2.tiii.mx/api/v1/login/validacionRF/0/'.$correo->rpip->email);
